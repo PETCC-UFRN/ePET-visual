@@ -3,6 +3,8 @@ import { isAuthenticated } from './services/auth';
 import LoginPage from './pages/Loginpage';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import CriarEvento from './pages/Eventos/CriarEvento';
+import ListarEventos from './pages/Eventos/ListarEventos';
+import Perfil from './pages/Perfil/Home';
 
 const Home = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
@@ -24,10 +26,18 @@ function criarEvento(){
     return <CriarEvento />;
 }
 
+function listarEventos(){
+    return <ListarEventos />;
+}
+
+function perfilComp(){
+    return <Perfil />;
+}
+
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={criarEvento} />
+            <Route exact path="/" component={perfilComp} />
             <Home path="/app" component={() => <h1>Você está logado!</h1>} />
         </Switch>
     </BrowserRouter>

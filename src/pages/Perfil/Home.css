@@ -1,0 +1,43 @@
+*{
+    margin: auto  0;
+    padding: 0;
+}
+
+h1{
+    padding: 30px;
+}
+
+.top{
+    background-color: cadetblue;
+    height: 150px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.blocos{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.bloco{
+    margin: 10px;
+    border: 1px cadetblue solid;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.bloco_title{
+    background-color: cadetblue;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    color: white;
+    padding: 10px;
+}
+
+.noData{
+    color: darkgray;
+    font-size: 15px;
+    text-align: center;
+}

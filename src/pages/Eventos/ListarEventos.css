@@ -1,0 +1,37 @@
+*{
+    margin: auto  0;
+    padding: 0;
+}
+
+h1{
+    padding: 30px;
+}
+
+.top{
+    background-color: cadetblue;
+    height: 150px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.item{
+    padding: 20px;
+    border: 1px silver solid;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.itemTitle {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.itemInfo {
+    color: silver;
+}
+
+.status_{
+    display: inline;
+    color: limegreen;
+}
