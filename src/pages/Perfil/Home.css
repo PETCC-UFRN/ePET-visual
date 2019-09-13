@@ -16,7 +16,7 @@ h1{
 }
 
 .blocos{
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     justify-content: center;
 }
@@ -26,6 +26,8 @@ h1{
     border: 1px cadetblue solid;
     border-radius: 10px;
     width: 30%;
+    height: 40%;
+    flex:1;
 }
 
 .bloco_title{
@@ -40,4 +42,9 @@ h1{
     color: darkgray;
     font-size: 15px;
     text-align: center;
+}
+
+.buttons_more{
+    font-size: 16px;
+    padding: 10px;
 }

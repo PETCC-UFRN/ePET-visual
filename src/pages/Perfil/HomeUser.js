@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-class Perfil extends Component {
+class HomeUser extends Component {
 
     constructor() {
         super();
@@ -60,7 +60,7 @@ class Perfil extends Component {
 
                     <div className="blocos">
                         <div className="bloco">
-                            <h3 className="bloco_title">Meus Eventos</h3>
+                            <h3 className="bloco_title">Eventos</h3>
                             {this.meusEventos ? (
                                 <p>
                                     LISTAR EVENTOS
@@ -83,22 +83,25 @@ class Perfil extends Component {
 
                         <div className="bloco">
                             <h3 className="bloco_title">Mais</h3>
-                            <p>Solicitar monitoria</p>
-                            <p>Meu Perfil</p>
+                            <p className="buttons_more">Solicitar monitoria</p>
+                            <p className="buttons_more">Meu Perfil</p>
+                            {this.user.tipo_usuario === 'petiano' || this.user.tipo_usuario === 'tutor' ? (
+                                <div >
+                                    <p className="buttons_more">Cadastrar Evento</p>
+                                    <p className="buttons_more">Criar Notícia</p>
+                                    <p className="buttons_more">Cadastrar Tutoria</p>
+                                    {this.user.tipo_usuario === 'tutor' ? (
+                                        <div>
+                                            <p className="buttons_more">Cadastrar petiano</p>
+                                        </div>
+                                    ) : (null)}
+                                </div>
+                            ) : (null)}
+
+                            <p className="buttons_more">Sair</p>
+
                         </div>
 
-                    </div>
-                    <div className="blocos">
-                        <div className="bloco">
-                            <h3 className="bloco_title">Eventos</h3>
-                            {this.meusEventos ? (
-                                <p>
-                                    LISTAR EVENTOS
-                                </p>
-                            ) : (
-                                    <p className="noData">Nenhum evento disponível!</p>
-                                )}
-                        </div>
                     </div>
 
 
@@ -108,4 +111,4 @@ class Perfil extends Component {
     }
 }
 
-export default Perfil;
+export default HomeUser;

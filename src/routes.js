@@ -4,7 +4,8 @@ import LoginPage from './pages/Loginpage';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import CriarEvento from './pages/Eventos/CriarEvento';
 import ListarEventos from './pages/Eventos/ListarEventos';
-import Perfil from './pages/Perfil/Home';
+import Perfil from './pages/Perfil/Perfil';
+import HomeUser from './pages/Perfil/HomeUser';
 
 const Home = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
@@ -34,10 +35,14 @@ function perfilComp(){
     return <Perfil />;
 }
 
+function homeComp(){
+    return <HomeUser />
+}
+
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={perfilComp} />
+            <Route exact path="/" component={homeComp} />
             <Home path="/app" component={() => <h1>Você está logado!</h1>} />
         </Switch>
     </BrowserRouter>
