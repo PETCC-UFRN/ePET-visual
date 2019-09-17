@@ -4,6 +4,7 @@ import '../App.css';
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import SignInForm from './EntrarForm';
+import { AuthService } from '../services/auth';
 
 class LoginPage extends Component {
 
@@ -31,9 +32,6 @@ class LoginPage extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
-        console.log("Send submit with the following data: ");
-        console.log(this.state);
     }
 
     render() {

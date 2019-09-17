@@ -7,7 +7,7 @@ import ListarEventos from './pages/Eventos/ListarEventos';
 import Perfil from './pages/Perfil/Perfil';
 import HomeUser from './pages/Perfil/HomeUser';
 
-const Home = ({ component: Component, ...rest }) => (
+const PageAuth = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         isAuthenticated() ? (
             <Component {...props} />
@@ -42,8 +42,11 @@ function homeComp(){
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={homeComp} />
-            <Home path="/app" component={() => <h1>Você está logado!</h1>} />
+            <Route exact path="/" component={Login} />
+            <PageAuth path="/app" component={homeComp} />
+            <PageAuth path="/perfil" component={perfilComp} />
+            <PageAuth exact path="/eventos" component={listarEventos} />
+            <PageAuth exact path="/eventos/criar" component={criarEvento} />
         </Switch>
     </BrowserRouter>
 );

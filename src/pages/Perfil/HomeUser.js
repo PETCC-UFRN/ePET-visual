@@ -84,10 +84,10 @@ class HomeUser extends Component {
                         <div className="bloco">
                             <h3 className="bloco_title">Mais</h3>
                             <p className="buttons_more">Solicitar monitoria</p>
-                            <p className="buttons_more">Meu Perfil</p>
+                            <a href="/perfil"><p className="buttons_more">Meu Perfil</p></a>
                             {this.user.tipo_usuario === 'petiano' || this.user.tipo_usuario === 'tutor' ? (
                                 <div >
-                                    <p className="buttons_more">Cadastrar Evento</p>
+                                    <a href="/eventos/criar"><p className="buttons_more">Cadastrar Evento</p></a>
                                     <p className="buttons_more">Criar Notícia</p>
                                     <p className="buttons_more">Cadastrar Tutoria</p>
                                     {this.user.tipo_usuario === 'tutor' ? (
@@ -98,7 +98,7 @@ class HomeUser extends Component {
                                 </div>
                             ) : (null)}
 
-                            <p className="buttons_more">Sair</p>
+                            <a href="/"><p className="buttons_more">Sair</p></a>
 
                         </div>
 

@@ -1,11 +1,15 @@
 import axios from "axios";
 import { getToken } from './storage.js';
 
-var host = "http://localhost:8080/";
+var host = "http://157.245.142.25:8080";
 
 var api = axios.create({
-    baseURL: host + '/projects',
-    responseType: 'json'
+    baseURL: host + '/api',
+    responseType: 'json',
+    header: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+    }
 })
 
 api.interceptors.response.use(
@@ -17,14 +21,14 @@ api.interceptors.response.use(
     }
 )
 
-api.interceptors.request.use( async config => {
+api.interceptors.request.use(async config => {
     const token = await getToken();
-    if(token ){
+    if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 })
 
-export{
+export {
     api
 };

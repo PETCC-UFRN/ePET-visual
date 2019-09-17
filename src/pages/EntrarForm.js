@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 
 import { BrowserRouter as Link } from 'react-router-dom';
+import { AuthService } from '../services/auth';
 
 class SignInForm extends Component {
 
@@ -27,10 +28,12 @@ class SignInForm extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-
-        console.log("Send submit with the following data: ");
+        let path = "/app";
+        //window.location = path;
+        await AuthService.login(this.state.email, this.state.password);
+        
         console.log(this.state);
     }
 
@@ -54,7 +57,7 @@ class SignInForm extends Component {
 
 
                         <div className="FormField">
-                            <button className="FormField__Button mr-20">Entrar</button>
+                            <a href="/app"><button className="FormField__Button mr-20">Entrar</button></a>
                             <Link to="/" className="FormField__Link">Ainda não possuo conta.</Link>
                         </div>
                     </form>

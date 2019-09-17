@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import "./Perfil.css";
 
-import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
-import DatePicker from "react-datepicker";
+import { BrowserRouter as Router } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faArrowCircleLeft, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import "react-datepicker/dist/react-datepicker.css";
+import userPic from "../../resources/user.png"; 
 
 
 class Perfil extends Component {
@@ -58,8 +58,10 @@ class Perfil extends Component {
                 <div className="screen">
                     <i class="fas fa-arrow-circle-left"></i>
                     <div className="info">
-                        <FontAwesomeIcon icon={faArrowCircleLeft} color="white" size="2x" className="icone_back" />
-
+                        <a href="/app"><FontAwesomeIcon icon={faArrowCircleLeft} color="white" size="2x" className="icone_back" /></a>
+                        <div className="img_div">
+                        <img className="userpic" src={userPic} alt="Perfil" />
+                        </div>
                         <p className="name">{this.user.nome}</p>
                         <p className="email">{this.user.email}</p>
                     </div>

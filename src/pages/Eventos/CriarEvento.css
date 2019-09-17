@@ -17,6 +17,7 @@ h1{
 
 .item{
     margin: 0px 100px;
+    border: 0px;
 }
 
 .item_input{

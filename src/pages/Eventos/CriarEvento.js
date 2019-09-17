@@ -37,6 +37,15 @@ class CriarEvento extends Component {
         });
     }
 
+    async handleSubmit(e) {
+        e.preventDefault();
+        let path = "/app";
+        window.location = path;
+        //await AuthService.login(this.state.email, this.state.password);
+        
+        console.log(this.state);
+    }
+
     render() {
         return (
             <Router>
