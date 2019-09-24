@@ -2,8 +2,23 @@
 
 > My badass Nuxt.js project
 
-## Build Setup
+## How to run
 
+### Instalation
+For NPM:
+``` bash
+$ git clone https://github.com/henriquedavid/ePET-visual
+$ cd ePet-visual
+$ npm run install
+```
+Or, for Yarn:
+``` bash
+$ git clone https://github.com/henriquedavid/ePET-visual
+$ cd ePet-visual
+$ yarn install
+```
+
+### Executation
 ``` bash
 # install dependencies
 $ npm run install
