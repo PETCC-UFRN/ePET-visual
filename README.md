@@ -1,37 +1,64 @@
-# ePET-visual
 
-> My badass Nuxt.js project
+# ePET-frontend  
 
-## How to run
+## Introducao 
 
-### Instalation
-For NPM:
+Neste repositorio esta contida implementacao do front-end da plataforma do PET-CC.
+
+- [Pre-requisitos](#pre-requisitos) - Pre-requisto para executar o projeto.
+- [Como executar](#como-executar) - Reference links.
+
+
+
+## Pre-requisitos
+
+Faz-se necessario os seguintes programas para executar o projeto:
+
+    - NPM ou Yarn
+
+## Paginas disponiveis
+
+Atualmente, esta disponivel as seguintes paginas:
+
+| html: | Descricao: |  
+| ---------- | ------------- |
+| http://localhost:3000/ | Pagina index |
+|http://localhost:3000/admin/ 	| Pagina inicial dentro do sistema |
+|http://localhost:3000/pages/login | Pagina de login |
+| http://localhost:3000/pages/register |Pagina de registro 
+
+
+Alem disso, ha as paginas de erro 404 e 505.
+
+## Como executar
+
+Em seu computador execute os seguintes comandos:
+
 ``` bash
-$ git clone https://github.com/henriquedavid/ePET-visual
-$ cd ePet-visual
-$ npm run install
-```
-Or, for Yarn:
-``` bash
-$ git clone https://github.com/henriquedavid/ePET-visual
-$ cd ePet-visual
-$ yarn install
-```
+$ git clone   
+$ cd ePET-frontend
 
-### Executation
-``` bash
 # install dependencies
-$ npm run install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
+$ npm install # Or yarn install
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+### Desenvolvimento
+
+Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute os seguinte comando:
+
+``` bash
+# serve with hot reloading at localhost:3000
+$ npm run dev # Or yarn dev
+```
+
+Em seguida, abra o navegador e acesse a seguinte endereco [http://localhost:3000](http://localhost:3000)
+
+### Producao
+
+Em estagio de producao, aconselha-se a usar o programa no modo de producao. Diante disso, execute os seguinte comando:
+
+``` bash
+# build for production and launch the server
+$ npm run build
+$ npm start
+```

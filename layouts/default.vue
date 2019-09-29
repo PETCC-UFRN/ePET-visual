@@ -1,20 +1,12 @@
 <template>
-  <div class>
-    <nuxt />
+  <div class="app">
+    <div class="app-body">
+      <main class="main">>
+        <div class="container-fluid">
+          <nuxt />
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  head: {
-    link: [{ rel: "stylesheet", type: "text/css", href: "/css/style.css" }],
-    script: [
-      {
-        src:
-          "https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"
-      },
-      { src: "/js/particles.js" }
-    ]
-  }
-};
-</script>

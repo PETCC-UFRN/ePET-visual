@@ -2,15 +2,7 @@
     <div class="container">
         <About/>
         <h3>Membros</h3>
-        <ul>
-            <li v-for="member in members">
-                <p>{{member.name}}</p>
-                <p>{{member.entrance}}</p>
-                <p>{{member.email}}</p>
-                <p>{{member.areasOfInterest}}</p>
-                <p>{{member.lattes}}</p>
-            </li>
-        </ul>
+        
     </div>
 </template>
 

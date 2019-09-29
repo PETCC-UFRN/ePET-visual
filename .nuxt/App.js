@@ -1,20 +1,31 @@
 import Vue from 'vue'
 import { getMatchedComponentsInstances, promisify, globalHandleError } from './utils'
 import NuxtLoading from './components/nuxt-loading.vue'
-import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 
 import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
 
-import _6f6c098b from '../layouts/default.vue'
-import _606db25a from '../layouts/my-error-layout.vue'
-import _25883082 from '../layouts/simple_user.vue'
+import '../node_modules/flag-icon-css/css/flag-icon.min.css'
 
-const layouts = { "_default": _6f6c098b,"_my-error-layout": _606db25a,"_simple_user": _25883082 }
+import '../node_modules/font-awesome/css/font-awesome.min.css'
+
+import '../node_modules/simple-line-icons/css/simple-line-icons.css'
+
+import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
+
+import '../assets/scss/style.scss'
+
+import _501d71a3 from '../layouts/adminLayout.vue'
+import _77263413 from '../layouts/clean.vue'
+import _6f6c098b from '../layouts/default.vue'
+import _7efe0585 from '../layouts/error-layout.vue'
+import _2d26b655 from '../layouts/menu.js'
+
+const layouts = { "_adminLayout": _501d71a3,"_clean": _77263413,"_default": _6f6c098b,"_error-layout": _7efe0585,"_menu": _2d26b655 }
 
 export default {
-  head: {"title":"ePET-visual","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"My badass Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fstackpath.bootstrapcdn.com\u002Fbootstrap\u002F4.1.3\u002Fcss\u002Fbootstrap.min.css"}],"script":[{"src":"https:\u002F\u002Fcdnjs.cloudflare.com\u002Fajax\u002Flibs\u002Fpopper.js\u002F1.14.6\u002Fumd\u002Fpopper.min.js"},{"src":"https:\u002F\u002Fcode.jquery.com\u002Fjquery-3.3.1.slim.min.js"},{"src":"https:\u002F\u002Fstackpath.bootstrapcdn.com\u002Fbootstrap\u002F4.2.1\u002Fjs\u002Fbootstrap.min.js"}],"style":[]},
+  head: {"title":"Nuxt CoreUI","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Unofficial Nuxt + CoreUI project, free to use boilerplate for every need."}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
   render(h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })
@@ -45,7 +56,7 @@ export default {
       domProps: {
         id: '__nuxt'
       }
-    }, [loadingEl, h(NuxtBuildIndicator), transitionEl])
+    }, [loadingEl, transitionEl])
   },
   data: () => ({
     isOnline: true,
