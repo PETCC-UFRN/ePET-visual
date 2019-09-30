@@ -3,7 +3,7 @@ const changeLoaderOptions = loaders => {
     for (const loader of loaders) {
       if (loader.loader === 'sass-loader') {
         Object.assign(loader.options, {
-          includePaths: ['./assets']
+          // includePaths: ['./assets']
         })
       }
     }
@@ -46,9 +46,9 @@ module.exports = {
     '~/node_modules/flag-icon-css/css/flag-icon.min.css',
     /* Import Font Awesome Icons Set */
     '~/node_modules/font-awesome/css/font-awesome.min.css',
-    /* Import Simple Line Icons Set */
+    // /* Import Simple Line Icons Set */
     '~/node_modules/simple-line-icons/css/simple-line-icons.css',
-    /* Import Bootstrap Vue Styles */
+    // /* Import Bootstrap Vue Styles */
     '~/node_modules/bootstrap-vue/dist/bootstrap-vue.css',
     /* Import Core SCSS */
     { src: '~/assets/scss/style.scss', lang: 'scss' }
@@ -91,6 +91,9 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+    splitChunks: {
+      layouts: true
+    },
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
