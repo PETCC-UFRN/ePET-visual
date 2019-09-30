@@ -16,13 +16,16 @@ import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
 
 import '../assets/scss/style.scss'
 
-import _501d71a3 from '../layouts/adminLayout.vue'
-import _77263413 from '../layouts/clean.vue'
-import _6f6c098b from '../layouts/default.vue'
-import _7efe0585 from '../layouts/error-layout.vue'
-import _2d26b655 from '../layouts/menu.js'
+const _501d71a3 = () => import('../layouts/adminLayout.vue'  /* webpackChunkName: "layouts/adminLayout" */).then(m => m.default || m)
+const _77263413 = () => import('../layouts/clean.vue'  /* webpackChunkName: "layouts/clean" */).then(m => m.default || m)
+const _6f6c098b = () => import('../layouts/default.vue'  /* webpackChunkName: "layouts/default" */).then(m => m.default || m)
+const _7efe0585 = () => import('../layouts/error-layout.vue'  /* webpackChunkName: "layouts/error-layout" */).then(m => m.default || m)
+const _777ba69c = () => import('../layouts/index.vue'  /* webpackChunkName: "layouts/index" */).then(m => m.default || m)
+const _2d26b655 = () => import('../layouts/menu.js'  /* webpackChunkName: "layouts/menu" */).then(m => m.default || m)
 
-const layouts = { "_adminLayout": _501d71a3,"_clean": _77263413,"_default": _6f6c098b,"_error-layout": _7efe0585,"_menu": _2d26b655 }
+const layouts = { "_adminLayout": _501d71a3,"_clean": _77263413,"_default": _6f6c098b,"_error-layout": _7efe0585,"_index": _777ba69c,"_menu": _2d26b655 }
+
+let resolvedLayouts = {}
 
 export default {
   head: {"title":"Nuxt CoreUI","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Unofficial Nuxt + CoreUI project, free to use boilerplate for every need."}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
@@ -153,18 +156,30 @@ export default {
     setLayout(layout) {
       if(layout && typeof layout !== 'string') throw new Error('[nuxt] Avoid using non-string value as layout property.')
 
-      if (!layout || !layouts['_' + layout]) {
-        layout = 'default'
-      }
+      if (!layout || !resolvedLayouts['_' + layout]) layout = 'default'
       this.layoutName = layout
-      this.layout = layouts['_' + layout]
+      let _layout = '_' + layout
+      this.layout = resolvedLayouts[_layout]
       return this.layout
     },
     loadLayout(layout) {
-      if (!layout || !layouts['_' + layout]) {
-        layout = 'default'
+      const undef = !layout
+      const nonexistent = !(layouts['_' + layout] || resolvedLayouts['_' + layout])
+      let _layout = '_' + ((undef || nonexistent) ? 'default' : layout)
+      if (resolvedLayouts[_layout]) {
+        return Promise.resolve(resolvedLayouts[_layout])
       }
-      return Promise.resolve(layouts['_' + layout])
+      return layouts[_layout]()
+        .then((Component) => {
+          resolvedLayouts[_layout] = Component
+          delete layouts[_layout]
+          return resolvedLayouts[_layout]
+        })
+        .catch((e) => {
+          if (this.$nuxt) {
+            return this.$nuxt.error({ statusCode: 500, message: e.message })
+          }
+        })
     }
   },
   components: {

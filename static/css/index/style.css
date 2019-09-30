@@ -1,0 +1,68 @@
+/* BEGIN INDEX 
+Css custom da página inicial do site
+*/
+
+/* Adiciona um valor z-index ao canvas do particle js,
+ valor inferior ao da imagem da logo no index  */
+ #particles-js canvas{
+    position: absolute;
+    width: 100%;
+    height: 400px;
+    z-index: 1;
+}
+
+/* Cria o elemento particle-js e lhe atribui um background */
+#particles-js {
+  /* position: absolute; */
+  height: 400px;
+  background-image: url(http://getwallpapers.com/wallpaper/full/2/2/a/71287.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: cover;
+  margin-right: 0;
+}
+
+/* Modificações para responsividade */
+.container-fluid.navigation {
+	padding-left: 0;
+	padding-right: 0;
+	margin-top: 56px;
+}
+
+/* Modifica z-index da logo no index do sistema
+O index foi modificado para ficar a frente do canvas
+do particles js.
+*/
+#particles-js div img {
+	position: absolute;
+	z-index: 2;
+}
+
+/* Adiciona espaçamento nos cards do index */
+.row.text-center{
+  margin-top: 45px;
+}
+
+h1 {
+	font-size: 2.25em;
+	font-weight: 700;
+	letter-spacing: -1px;
+}
+
+a,
+a:visited {
+	color: #e34234;
+	transition: 0.25s;
+}
+
+.cor{
+  background-color: #89023e;
+}
+
+a:hover,
+a:focus {
+	color: #ba160c;
+}
+
+/* END INDEX */
