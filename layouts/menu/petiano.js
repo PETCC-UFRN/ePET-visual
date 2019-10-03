@@ -20,7 +20,7 @@ export default {
       },
       {
         name: 'Eventos',
-        url: '/petiano/eventos',
+        url: '/eventos',
         icon: 'icon-event'
       },
     ]
