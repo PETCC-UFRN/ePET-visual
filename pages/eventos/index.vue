@@ -1,113 +1,72 @@
 <template>
-    <div></div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <!-- TODO::remover esse style -->
+        <a
+          class="btn btn-sm btn-primary float-right"
+          style="color: white"
+          href="eventos/create"
+        >Adicionar evento</a>
+        <div class="table-responsive" v-if="eventos.length > 0">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row" v-else>Nenhum evento cadastrado</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import CardLine1ChartExample from '~/components/dashboard/CardLine1ChartExample'
-import CardLine2ChartExample from '~/components/dashboard/CardLine2ChartExample'
-import CardLine3ChartExample from '~/components/dashboard/CardLine3ChartExample'
-import CardBarChartExample from '~/components/dashboard/CardBarChartExample'
-import MainChartExample from '~/components/dashboard/MainChartExample'
-import SocialBoxChartExample from '~/components/dashboard/SocialBoxChartExample'
-import CalloutChartExample from '~/components/dashboard/CalloutChartExample'
-import { Callout } from '~/components/'
+import axios from "axios";
+import auth from "../../auth";
 
 export default {
-  name: 'dashboard',
+  name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
   depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
   logado. No momento trabalharei apenas com os petianos. */
-  layout: 'menu/petiano',
-  components: {
-    Callout,
-    CardLine1ChartExample,
-    CardLine2ChartExample,
-    CardLine3ChartExample,
-    CardBarChartExample,
-    MainChartExample,
-    SocialBoxChartExample,
-    CalloutChartExample
-  },
-  data: function () {
+  layout: "menu/petiano",
+  data() {
     return {
-      selected: 'Month',
-      tableItems: [
-        {
-          avatar: { url: 'img/avatars/1.jpg', status: 'success' },
-          user: { name: 'Yiorgos Avraamu', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'USA', flag: 'us' },
-          usage: { value: 50, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Mastercard', icon: 'fa fa-cc-mastercard' },
-          activity: '10 sec ago'
-        },
-        {
-          avatar: { url: 'img/avatars/2.jpg', status: 'danger' },
-          user: { name: 'Avram Tarasios', new: false, registered: 'Jan 1, 2015' },
-          country: { name: 'Brazil', flag: 'br' },
-          usage: { value: 22, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Visa', icon: 'fa fa-cc-visa' },
-          activity: '5 minutes ago'
-        },
-        {
-          avatar: { url: 'img/avatars/3.jpg', status: 'warning' },
-          user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'India', flag: 'in' },
-          usage: { value: 74, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Stripe', icon: 'fa fa-cc-stripe' },
-          activity: '1 hour ago'
-        },
-        {
-          avatar: { url: 'img/avatars/4.jpg', status: '' },
-          user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'France', flag: 'fr' },
-          usage: { value: 98, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'PayPal', icon: 'fa fa-paypal' },
-          activity: 'Last month'
-        },
-        {
-          avatar: { url: 'img/avatars/5.jpg', status: 'success' },
-          user: { name: 'Agapetus Tadeáš', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'Spain', flag: 'es' },
-          usage: { value: 22, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Google Wallet', icon: 'fa fa-google-wallet' },
-          activity: 'Last week'
-        },
-        {
-          avatar: { url: 'img/avatars/6.jpg', status: 'danger' },
-          user: { name: 'Friderik Dávid', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'Poland', flag: 'pl' },
-          usage: { value: 43, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Amex', icon: 'fa fa-cc-amex' },
-          activity: 'Last week'
-        }
-      ],
-      tableFields: {
-        avatar: {
-          label: '<i class="icon-people"></i>',
-          class: 'text-center'
-        },
-        user: {
-          label: 'User'
-        },
-        country: {
-          label: 'Country',
-          class: 'text-center'
-        },
-        usage: {
-          label: 'Usage'
-        },
-        payment: {
-          label: 'Payment method',
-          class: 'text-center'
-        },
-        activity: {
-          label: 'Activity'
-        }
-      }
-    }
+      eventos: []
+    };
   },
-  methods: {
-    
+  mounted() {
+    axios
+      .get("http://epet.imd.ufrn.br/service/api/eventos", auth)
+      .then(data => {
+        vm.eventos = data;
+      });
   }
-}
+};
 </script>
