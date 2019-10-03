@@ -13,7 +13,7 @@
         Somos orientados por um tutor, atualmente o professor Umberto Costa.
         Nosso grupo é composto por 12 bolsistas e até 6 voluntários.
       </p>
-      <a class="btn btn-success btn-lg" href="#" style="color: white">Call to Action &raquo;</a>
+      <a class="btn btn-success btn-lg" href="#" style="color: white">Saber mais &raquo;</a>
     </div>
     <div class="col-md-4 mb-5">
       <h2>Contato</h2>
