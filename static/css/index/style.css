@@ -11,6 +11,14 @@ Css custom da página inicial do site
     z-index: 1;
 }
 
+#__layout{
+  background-color: white;
+}
+
+#navbarDropdownBlog{
+  color: #c48098;
+}
+
 /* Cria o elemento particle-js e lhe atribui um background */
 #particles-js {
   /* position: absolute; */
@@ -27,7 +35,7 @@ Css custom da página inicial do site
 .container-fluid.navigation {
 	padding-left: 0;
 	padding-right: 0;
-	margin-top: 56px;
+	margin-top: 53px;
 }
 
 /* Modifica z-index da logo no index do sistema
