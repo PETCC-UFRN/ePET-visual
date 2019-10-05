@@ -1,40 +1,48 @@
 <template>
   <div class="app">
-    <AppHeader/>
+    <AppHeader />
     <div class="app-body">
-      <Sidebar :navItems="nav"/>
+      <Sidebar :navItems="nav" />
       <main class="main">
-        <breadcrumb :list="list"/>
+        <breadcrumb :list="list" />
         <div class="container-fluid">
-            <nuxt />
+          <nuxt />
         </div>
       </main>
     </div>
-    <AppFooter/>
+    <AppFooter />
   </div>
 </template>
 
 <script>
-import nav from './petiano'
-import { Header as AppHeader, Sidebar, Footer as AppFooter, Breadcrumb } from '~/components/'
+import nav from "./petiano";
+import {
+  Header as AppHeader,
+  Sidebar,
+  Footer as AppFooter,
+  Breadcrumb
+} from "~/components/";
 
 export default {
-  name: 'full',
+  name: "full",
   components: {
     AppHeader,
     Sidebar,
     AppFooter,
     Breadcrumb
   },
-  data () {
+  data() {
     return {
       nav: nav.items
-    }
+    };
   },
   computed: {
-    list () {
-      return this.$route.matched
+    name() {
+      return this.$route.name;
+    },
+    list() {
+      return this.$route.matched;
     }
-  },
-}
+  }
+};
 </script>

@@ -47,8 +47,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import auth from "../../auth";
+import axios from "../../axios";
 
 export default {
   name: "dashboard",

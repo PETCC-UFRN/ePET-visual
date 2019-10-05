@@ -16,6 +16,12 @@ Faz-se necessario os seguintes programas para executar o projeto:
 
     - NPM ou Yarn
 
+Além disso é necessário adicionar as credenciais da API no arquivo axios.js, o arquivo é uma instância do axios.example.js:
+
+```shell
+cp axios.example.js axios.js
+``` 
+
 ## Paginas disponiveis
 
 Atualmente, esta disponivel as seguintes paginas:

@@ -1,5 +1,9 @@
 <template>
   <div class="col-md-12">
+    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
+      {{ this.alert.message }}
+      <!-- <b>&rArr;</b> -->
+    </b-alert>
     <div class="card">
       <div class="card-body">
         <form @submit="submitForm">
@@ -48,8 +52,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import auth from "../../auth";
+import axios from "../../axios";
 
 export default {
   layout: "menu/petiano",
@@ -65,24 +68,29 @@ export default {
         valor: 0,
         d_inscricao_fim: "",
         d_inscricao: "",
-        ativo: true,
+        ativo: true
+      },
+      alert: {
+        message: "",
+        class: ""
       }
     };
   },
   methods: {
     submitForm(e) {
-      let req = axios.create(auth, {withCredentials: true});
-      req
-        .post("http://epet.imd.ufrn.br/service/api/eventos-cadastrar", this.form)
+      axios
+        .post("eventos-cadastrar", this.form)
         .then(res => {
-          console.log(res);
+          this.alert.class = "success";
+          this.alert.message = "Evento cadastrado com sucesso";
+          this.form = Object.entries(this.form).map(item => {
+            return (item = "");
+          });
         })
-        .catch(err => console.log(this.form));
-      req
-      .get("http://epet.imd.ufrn.br/service/api/eventos", auth)
-      .then(data => {
-        console.log(data)
-      });
+        .catch(err => {
+          this.alert.class = "danger";
+          this.alert.message = "Evento NÃO cadastrado. Tente novamente";
+        });
       e.preventDefault();
     }
   }
