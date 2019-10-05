@@ -16,12 +16,14 @@
           :per-page="10"
           :fields="fields"
         >
+          <template v-slot:cell(ativo)="row">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
+              </div>
+          </template>
           <template v-slot:cell(actions)="row">
+            <b-button @click="ativar(row.item.idEvento)" class="btn btn-sm btn-success" v-show="! row.item.ativo">Ativar</b-button>
             <b-button @click="del(row.item.idEvento, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
-            <!-- <b-button
-              size="sm"
-              @click="row.toggleDetails"
-            >{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
           </template>
         </b-table>
         <nav>
@@ -57,9 +59,9 @@ export default {
         { key: "titulo", sortable: true },
         { key: "local", sortable: true },
         { key: "d_inscricao", sortable: true },
-        { key: "valor", sortable: true },
         { key: "qtdVagas", sortable: true },
-        { key: "actions", sortable: true }
+        { key: "ativo", sortable: true },
+        { key: "actions", sortable: true },
       ]
     };
   },
@@ -74,7 +76,16 @@ export default {
         this.eventos.splice(rowId, 1);
         alert('Evento removido com sucesso');
       });
-      // this.eventos = this.eventos.filter((i) => { i.id != id });
+    },
+    ativar(id){
+      axios.post("eventos-ativar/" + id).then(() => {
+        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+        alert('Evento ativado com sucesso');
+        let vm = this;
+        setTimeout(function(){
+          location.reload()
+        }, 1500)
+      });
     }
   }
 };

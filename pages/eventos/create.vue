@@ -68,7 +68,7 @@ export default {
         valor: 0,
         d_inscricao_fim: "",
         d_inscricao: "",
-        ativo: true
+        ativo: false
       },
       alert: {
         message: "",
