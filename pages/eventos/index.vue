@@ -1,48 +1,42 @@
 <template>
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body">
+  <div>
+    <div v-if="eventos.length > 0">
+      <b-card header="Eventos cadastrados">
         <!-- TODO::remover esse style -->
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="eventos/create"
         >Adicionar evento</a>
-        <div class="table-responsive" v-if="eventos.length > 0">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row" v-else>Nenhum evento cadastrado</div>
-      </div>
+        <b-table
+          responsive="sm"
+          :items="eventos"
+          :current-page="currentPage"
+          :bordered="true"
+          :per-page="10"
+          :fields="fields"
+        >
+          <template v-slot:cell(actions)="row">
+            <b-button @click="del(row.item.idEvento, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
+            <!-- <b-button
+              size="sm"
+              @click="row.toggleDetails"
+            >{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
+          </template>
+        </b-table>
+        <nav>
+          <b-pagination
+            :total-rows="eventos.length"
+            :per-page="10"
+            v-model="currentPage"
+            prev-text="Prev"
+            next-text="Next"
+            hide-goto-end-buttons
+          />
+        </nav>
+      </b-card>
     </div>
+    <div class="row" v-else>Nenhum evento cadastrado</div>
   </div>
 </template>
 
@@ -57,15 +51,31 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
-      eventos: []
+      eventos: [],
+      currentPage: 1,
+      fields: [
+        { key: "titulo", sortable: true },
+        { key: "local", sortable: true },
+        { key: "d_inscricao", sortable: true },
+        { key: "valor", sortable: true },
+        { key: "qtdVagas", sortable: true },
+        { key: "actions", sortable: true }
+      ]
     };
   },
   mounted() {
-    axios
-      .get("http://epet.imd.ufrn.br/service/api/eventos", auth)
-      .then(data => {
-        vm.eventos = data;
+    axios.get("eventos").then(res => {
+      this.eventos = res.data.content;
+    });
+  },
+  methods: {
+    del(id, rowId){
+      axios.delete("eventos-remove/" + id).then(() => {
+        this.eventos.splice(rowId, 1);
+        alert('Evento removido com sucesso');
       });
+      // this.eventos = this.eventos.filter((i) => { i.id != id });
+    }
   }
 };
 </script>

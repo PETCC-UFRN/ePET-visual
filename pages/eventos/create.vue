@@ -59,9 +59,9 @@ export default {
   data() {
     return {
       form: {
-        titulo: "teste",
-        descricao: "testando",
-        local: "rua dos testes",
+        titulo: "",
+        descricao: "",
+        local: "",
         qtdCargaHoraria: 0,
         qtdDias: 0,
         qtdVagas: 0,
