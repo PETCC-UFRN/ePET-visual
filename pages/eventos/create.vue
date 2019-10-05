@@ -71,13 +71,18 @@ export default {
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("http://epet.imd.ufrn.br/api/eventos-cadastrar", auth, this.form)
+      let req = axios.create(auth, {withCredentials: true});
+      req
+        .post("http://epet.imd.ufrn.br/service/api/eventos-cadastrar", this.form)
         .then(res => {
           console.log(res);
         })
         .catch(err => console.log(this.form));
-
+      req
+      .get("http://epet.imd.ufrn.br/service/api/eventos", auth)
+      .then(data => {
+        console.log(data)
+      });
       e.preventDefault();
     }
   }
