@@ -1,5 +1,5 @@
 # auth config
-auth.js
+axios.js
 
 # custom folders
 .nuxt
