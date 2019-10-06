@@ -75,6 +75,19 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://127.0.0.1:8080/api'
+  },
+
+  auth:{
+    strategies:{
+      local:{
+        endpoints:{
+          login: { url:'login', method: 'post', propertyName: 'data'},
+          user: {url: 'admin', method: 'get', propertyName:'data'},
+          logout: false
+        }
+      }
+    }
   },
 
   /*
