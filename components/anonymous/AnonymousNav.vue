@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-orange fixed-top">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
       <div class="container">
         <a class="navbar-brand" href="#">PET CC</a>
         <button
