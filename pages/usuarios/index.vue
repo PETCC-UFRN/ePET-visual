@@ -121,7 +121,10 @@ export default {
         });
     },
     async removerPetiano(user){
-      await axios.delete(`http://localhost:8080/api/petianos-remove/${user}`).then(res => {
+      await axios.delete(`http://localhost:8080/api/petianos-remove/${user}`,
+      {
+        auth: {username: "h@email.com", password: "password"}
+      }).then(res => {
         console.log("Removido");
         this.getPetianos();
       });
