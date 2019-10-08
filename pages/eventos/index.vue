@@ -23,6 +23,7 @@
           </template>
           <template v-slot:cell(actions)="row">
             <b-button @click="ativar(row.item.idEvento)" class="btn btn-sm btn-success" v-show="! row.item.ativo">Ativar</b-button>
+            <b-button :href="'/eventos/edit/' + row.item.idEvento" class="btn btn-sm btn-warning" style="color:white">Editar</b-button>
             <b-button @click="del(row.item.idEvento, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
           </template>
         </b-table>
