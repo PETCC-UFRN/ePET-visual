@@ -31,7 +31,7 @@
                 <div>
                   <h2>Cadastrar</h2>
                   <p>Faça o cadastro para participar dos eventos realizados pelo PET-CC.</p>
-                  <b-button variant="primary" class="active mt-3">Clique aqui para se cadastrar!</b-button>
+                  <b-button variant="primary" class="active mt-3" @click="goToRegister()">Clique aqui para se cadastrar!</b-button>
                 </div>
               </b-card-body>
             </b-card>
@@ -59,6 +59,9 @@ export default {
   },
 
   methods:{
+    goToRegister(){
+      this.$router.push('/register');
+    },
     async login(){
       try{
         await this.$auth.loginWith('local', {

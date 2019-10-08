@@ -11,21 +11,28 @@
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-user"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" class="form-control" placeholder="Nome">
+                <input type="text" class="form-control" placeholder="Nome" v-model="usuario.nome">
               </b-input-group>
 
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>@</b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="text" class="form-control" placeholder="Email" v-model="usuario.email">
+              </b-input-group>
+
+              <b-input-group class="mb-3">
+                <b-input-group-prepend>
+                  <b-input-group-text>CPF</b-input-group-text>
+                </b-input-group-prepend>
+                <input type="text" class="form-control" placeholder="Ex.: 000.000.000-00" v-model="usuario.cpf">
               </b-input-group>
 
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-lock"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <input type="password" class="form-control" placeholder="Senha">
+                <input type="password" class="form-control" placeholder="Senha" v-model="usuario.senha">
               </b-input-group>
 
               <b-input-group class="mb-4">
@@ -35,18 +42,8 @@
                 <input type="password" class="form-control" placeholder="Repetir senha">
               </b-input-group>
 
-              <b-button variant="success" block>Criar conta</b-button>
+              <b-button variant="success" @click="register()" block>Criar conta</b-button>
             </b-card-body>
-            <b-card-footer class="p-4">
-              <b-row>
-                <b-col cols="6">
-                  <b-button block class="btn btn-facebook"><span>facebook</span></b-button>
-                </b-col>
-                <b-col cols="6">
-                  <b-button block class="btn btn-twitter" type="button"><span>twitter</span></b-button>
-                </b-col>
-              </b-row>
-            </b-card-footer>
           </b-card>
         </b-col>
       </b-row>
@@ -55,36 +52,41 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'Register',
   layout: 'clean',
 
-  data(){
+  data:function (){
     return {
-      nome:'',
-      email: '',
-      senha: '',
-      cpf: '',
+      usuario:{
+        nome:"",
+        email: "",
+        senha: "",
+        cpf: ""
+      },
       error: null
-    }
+    };
   },
 
   methods: {
     async register(){
       try{
-        await this.$axios.post('usuarios-cadastrar',{
-          email: this.email,
-          senha: this.senha,
+
+        await axios.post('http://localhost:8080/api/usuarios-cadastrar/',{
+          email: this.usuario.email,
+          senha: this.usuario.senha,
+          cpf: this.usuario.cpf,
+          nome: this.usuario.nome
+        }).then(res => {
+          console.log("FOI!")
+          this.usuario.email = "";
+          this.usuario.senha = "";
+          this.usuario.cpf = "";
+          this.usuario.nome = "";
         })
 
-        await this.$auth.loginWith('local', {
-          data:{
-            email: this.email,
-            senha: this.senha
-          },
-        })
-
-        this.$router.push('/')
+        this.$router.push('/usuarios');
       } catch(e){
         this.error = e.response.data.message
       }
