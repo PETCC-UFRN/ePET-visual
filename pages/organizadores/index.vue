@@ -1,12 +1,16 @@
 <template>
   <div>
-    <a
-      class="btn btn-sm btn-primary float-right"
-      style="color: white"
-      href="organizadores/create"
-    >Adicionar Organizador</a>
     <div v-if="eventos.length > 0">
-      <b-card header="Organizadores cadastrados">
+      <b-card>
+        <b-card-header>
+          Organizadores Cadastrados
+          <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="organizadores/create"
+            >Adicionar Organizador</a>
+        </b-card-header>
+        <b-card-body>
         <!-- TODO::remover esse style -->
         <!--<a
           class="btn btn-sm btn-primary float-right"
@@ -41,9 +45,16 @@
             hide-goto-end-buttons
           />
         </nav>
+        </b-card-body>
       </b-card>
     </div>
-    <div class="row" v-else>Nenhum Organizador cadastrado</div>
+    <div v-else>Nenhum Organizador cadastrado
+      <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="organizadores/create"
+            >Adicionar Organizador</a>
+    </div>
   </div>
 </template>
 
