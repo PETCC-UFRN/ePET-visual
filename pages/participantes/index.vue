@@ -1,13 +1,7 @@
 <template>
   <div>
-    <!-- <a
-      class="btn btn-sm btn-primary float-right"
-      style="color: white"
-      href="participantes/create"
-    >Adicionar Participante</a> -->
     <div v-if="eventos.length > 0">
-      
-      <b-card >
+      <b-card header="Participantes cadastrados">
         <b-button class="btn btn-sm btn-primary col-12"
           href="participantes/create" variant="primary">Adicionar Participante</b-button>
         <!-- TODO::remover esse style -->
@@ -52,7 +46,6 @@
 
 <script>
 import axios from "../../axios";
-
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
