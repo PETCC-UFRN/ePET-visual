@@ -7,7 +7,7 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="tutoria/create"
-        >Adicionar Tutor</a>
+        >Adicionar Tutoria</a>
         <b-table
           responsive="sm"
           :items="tutorias"
@@ -55,8 +55,9 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "petiano.pessoa.nome", sortable: true },
-        { key: "disciplina.nome", sortable: true },
+        { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
+        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
+        { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
         { key: "actions", sortable: true },
       ]
     };
@@ -69,7 +70,7 @@ export default {
   methods: {
     del(id, rowId){
       console.log(id);
-      axios.delete("tutoria-remove/" + id).then(() => {
+      axios.delete("tutoria-        /" + id).then(() => {
         this.tutorias.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });
