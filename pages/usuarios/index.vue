@@ -95,17 +95,37 @@ export default {
     ...mapGetters(["loggedInUser"])
   },
   mounted() {
-    this.getUsuarios();
     this.getPetianos();
+    this.getUsuarios();
+    
   },
   methods: {
+    async atualizarTabelas(){
+      this.getPetianos();
+      this.getUsuarios();
+    },
     async getUsuarios() {
       await axios
         .get("http://localhost:8080/api/pessoas", {
           auth: { username: "h@email.com", password: "password" }
         })
         .then(res => {
-          this.tableItems = res.data.content;
+          let data = res.data.content;
+          let filtro = data.filter((pessoa) => {
+            let flag = true;
+            let e = null;
+            for(e of this.tableItemsPetianos){
+              console.log(e);
+              if(e.pessoa.idPessoa === pessoa.idPessoa){
+                flag = false;
+              }
+            }
+
+            return flag;
+          })
+          
+          this.tableItems = filtro;
+
           console.log(this.tableItems)
         })
         .catch(er => console.log(er));
@@ -117,7 +137,6 @@ export default {
         })
         .then(res => {
           this.tableItemsPetianos = res.data.content;
-          console.log(res.data.content);
         });
     },
     async removerPetiano(user){
@@ -126,7 +145,7 @@ export default {
         auth: {username: "h@email.com", password: "password"}
       }).then(res => {
         console.log("Removido");
-        this.getPetianos();
+        this.atualizarTabelas()
       });
     },
     async tornarPetiano(user) {
@@ -141,7 +160,7 @@ export default {
         )
         .then(res => {
           console.log("FOI!");
-          this.getPetianos();
+          this.atualizarTabelas()
         });
     }
   }
