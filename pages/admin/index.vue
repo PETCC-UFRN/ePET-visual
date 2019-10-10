@@ -533,7 +533,7 @@
         </b-card>
       </b-col>
     </b-row>
-  </div>
+   </div>
 </template>
 
 <script>
