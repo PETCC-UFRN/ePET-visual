@@ -19,15 +19,45 @@ export default {
         icon: 'icon-home'
       },
       {
-        name: 'Eventos',
+        name: 'Gerenciar Eventos',
         url: '/eventos',
         icon: 'icon-event'
       },
       {
-        name: 'Perfil',
-        url: '/perfil',
-        icon: 'icon-account'
+        name: 'Gerenciar Organizadores',
+        url: '/organizadores',
+        icon: 'icon-event'
       },
+      {
+        name: 'Gerenciar Participantes',
+        url: '/participantes',
+        icon: 'icon-event',
+      },
+      {
+        name: 'Gerenciar Pessoas',
+        url: '/pessoa',
+        icon: 'icon-event'
+      },
+      {
+        name: 'Gerenciar Usuarios',
+        url: '/usuarios',
+        icon: 'icon-event'
+      },
+      {
+        name: 'Gerenciar Perfil',
+        url: '/perfil',
+        icon: 'icon-event'
+      },
+      {
+        name: 'Gerenciar disciplinas',
+        url: '/disciplina',
+        icon: 'icon-event'
+      },
+      {
+        name: 'Gerenciar Tutoria',
+        url: '/tutoria',
+        icon: 'icon-event'
+      }
       
     ]
   }

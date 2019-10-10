@@ -324,8 +324,8 @@ export default {
     },
     async getNoticias() {
       await axios
-        .get("http://localhost:8080/api/noticia", {
-          auth: { username: "h@email.com", password: "password" }
+        .get("http://epet.imd.ufrn.br/service/api/noticia", {
+          auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {
           let result = res.data.content;

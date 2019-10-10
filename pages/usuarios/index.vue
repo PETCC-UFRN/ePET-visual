@@ -74,7 +74,7 @@ import axios from "axios";
 export default {
   //middleware: 'auth',
   name: "admin",
-  layout: "adminLayout",
+  layout: "menu/petiano",
   components: {},
   data: function() {
     return {
@@ -106,8 +106,8 @@ export default {
     },
     async getUsuarios() {
       await axios
-        .get("http://localhost:8080/api/pessoas", {
-          auth: { username: "h@email.com", password: "password" }
+        .get("http://epet.imd.ufrn.br/service/api/pessoas", {
+          auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {
           let data = res.data.content;
@@ -132,17 +132,17 @@ export default {
     },
     async getPetianos() {
       await axios
-        .get("http://localhost:8080/api/petianos-atuais", {
-          auth: { username: "h@email.com", password: "password" }
+        .get("http://epet.imd.ufrn.br/service/api/petianos-atuais", {
+          auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {
           this.tableItemsPetianos = res.data.content;
         });
     },
     async removerPetiano(user){
-      await axios.delete(`http://localhost:8080/api/petianos-remove/${user}`,
+      await axios.delete(`http://epet.imd.ufrn.br/service/api/petianos-remove/${user}`,
       {
-        auth: {username: "h@email.com", password: "password"}
+        auth: {username: "teste@gmail.com", password: "123456789"}
       }).then(res => {
         console.log("Removido");
         this.atualizarTabelas()
@@ -152,10 +152,10 @@ export default {
 
       await axios
         .post(
-          `http://localhost:8080/api/petianos-cadastro/${user}`,
+          `http://epet.imd.ufrn.br/api/petianos-cadastro/${user}`,
           {data: {}},
           {
-            auth: { username: "h@email.com", password: "password" }
+            auth: { username: "teste@gmail.com", password: "123456789" }
           }
         )
         .then(res => {
