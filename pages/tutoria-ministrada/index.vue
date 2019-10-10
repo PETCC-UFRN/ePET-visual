@@ -3,11 +3,6 @@
     <div v-if="tutorias.length > 0">
       <b-card header="Tutores cadastrados">
         <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="tutoria/create"
-        >Adicionar Tutoria</a>
         <b-table
           responsive="sm"
           :items="tutorias"
@@ -22,7 +17,7 @@
               </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
+            <b-button @click="sol(row.item.idTutoria, row.index)" class="btn btn-sm btn-success">Solicitar Tutoria</b-button>
           </template>
         </b-table>
         <nav>
@@ -53,6 +48,7 @@ export default {
   data() {
     return {
       tutorias: [],
+      currentPessoa:[],
       currentPage: 1,
       fields: [
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
@@ -65,14 +61,26 @@ export default {
   mounted() {
     axios.get("tutorias").then(res => {
       this.tutorias = res.data.content;
+      
+    });
+    axios.get("pessoas-usuario").then(res => {
+      this.currentPessoa = res.data;
+      /*if(res.data.tipo_usuario.nome != "petiano" && res.data.tipo_usuario.nome != "tutor")
+      {
+        this.$router.push("/");
+      }*/
     });
   },
   methods: {
-    del(id, rowId){
-      console.log(id);
-      axios.delete("tutoria-remove/" + id).then(() => {
-        this.tutorias.splice(rowId, 1);
-        alert('Tutoria removido com sucesso');
+    sol(id, rowId){
+      console.log("tutorias-ministradas/"+id +"/"+this.currentPessoa.idPessoa+"/");
+      axios.post("tutorias-ministradas-cadastro/"+this.currentPessoa.idPessoa+"/"+id +"/").then(() => {
+        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+        alert('Tutoria solicitada com sucesso');
+        let vm = this;
+        setTimeout(function(){
+          location.reload()
+        }, 1500)
       });
     }
   }

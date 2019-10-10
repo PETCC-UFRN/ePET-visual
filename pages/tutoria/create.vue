@@ -54,6 +54,7 @@ export default {
     return {
       disciplinas: [],
       currentPessoa:[],
+      currentPetiano:[],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true },
@@ -68,13 +69,18 @@ export default {
     });
     axios.get("pessoas-usuario").then(res => {
       this.currentPessoa = res.data;
-      console.log(res.data.tipo_usuario.nome);
       if(res.data.tipo_usuario.nome != "petiano" && res.data.tipo_usuario.nome != "tutor")
       {
         this.$router.push("/");
       }
-      
-    });
+    }).finally( () =>{
+      axios.get("petianos-pessoa/"+this.currentPessoa.idPessoa).then(res2 => {
+        this.currentPetiano = res2.data;
+        console.log(this.currentPetiano);
+      });
+      }
+    );
+    console.log("petianos-pessoa/");
   },
   methods: {
     cadastrar(id){
@@ -86,8 +92,8 @@ export default {
                     "codigo":codigo}
         }
       )*/
-      console.log("tutoria-cadastro/" + this.currentPessoa.idPessoa +"/"+id+"/");
-      axios.post("tutoria-cadastro/" + this.currentPessoa.idPessoa +"/"+id+"/").then(() => {
+      console.log("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/");
+      axios.post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/").then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
         alert('Tutoria cadastrada com sucesso');
         let vm = this;
