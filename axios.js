@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: "http://epet.imd.ufrn.br/service/api",
+    baseURL: "http://localhost:8080/api",
     auth: {
-        username: 'teste@gmail.com',
-        password: '123456789'
+        username: '',
+        password: ''
     }
 })

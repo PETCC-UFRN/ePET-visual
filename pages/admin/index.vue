@@ -548,7 +548,7 @@ import { Callout } from '~/components/'
 
 export default {
   name: 'dashboard',
-  layout: 'adminLayout',
+  layout: 'menu/petiano',
   components: {
     Callout,
     CardLine1ChartExample,

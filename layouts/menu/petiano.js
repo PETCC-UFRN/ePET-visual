@@ -23,6 +23,12 @@ export default {
         url: '/eventos',
         icon: 'icon-event'
       },
+      {
+        name: 'Perfil',
+        url: '/perfil',
+        icon: 'icon-account'
+      },
+      
     ]
   }
   
