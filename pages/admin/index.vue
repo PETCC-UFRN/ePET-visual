@@ -249,7 +249,7 @@
         </b-card>
       </b-col>
     </b-row>
-  </div>
+   </div>
 </template>
 
 <script>
@@ -265,9 +265,8 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
-  //middleware: 'auth',
-  name: "dashboard",
-  layout: "adminLayout",
+  name: 'dashboard',
+  layout: 'menu/petiano',
   components: {
     Callout,
     CardLine1ChartExample,
