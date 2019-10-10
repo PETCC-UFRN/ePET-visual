@@ -1,18 +1,17 @@
 <template>
   <div>
-    <a
-      class="btn btn-sm btn-primary float-right"
-      style="color: white"
-      href="participantes/create"
-    >Adicionar Participante</a>
     <div v-if="eventos.length > 0">
-      <b-card header="Participantes cadastrados">
-        <!-- TODO::remover esse style -->
-        <!--<a
+      <b-card>
+        <b-card-header>
+          Participantes cadastrados
+        <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="participantes/create"
-        >Adicionar evento</a>-->
+        >Adicionar Participante</a>
+        </b-card-header>
+        <!-- TODO::remover esse style -->
+        <b-card-body>
         <b-table
           responsive="sm"
           :items="eventos"
@@ -41,15 +40,21 @@
             hide-goto-end-buttons
           />
         </nav>
+        </b-card-body>
       </b-card>
     </div>
-    <div class="row" v-else>Nenhum Participante cadastrado</div>
+    <div v-else>Nenhum Participante cadastrado
+      <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="organizadores/create"
+            >Adicionar Organizador</a>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "../../axios";
-
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
