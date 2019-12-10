@@ -11,6 +11,7 @@
                 <Activity v-for="index in 3" :key="index"/>
             </div>
         </div>
+        <Footer />
         <nuxt/>
     </div>
 </template>
@@ -20,6 +21,7 @@
     import Particles from "../components/anonymous/Particles";
     import About from "../components/anonymous/About";
     import Activity from "../components/anonymous/Activity";
+    import Footer from "../components/anonymous/Footer";
 
     export default {
         layout: 'index',
@@ -27,7 +29,8 @@
             AnonymousNav,
             Particles,
             About,
-            Activity
+            Activity,
+            Footer,
         }
     };
 </script>
