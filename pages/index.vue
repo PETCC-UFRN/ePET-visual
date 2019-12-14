@@ -1,14 +1,14 @@
 <template>
     <div>
-        <AnonymousNav/>
-        <Particles/>
+        <Comum/>
         <div class="atividades container">
             <About/>
-            <div class="row text-center">
-                <Activity v-for="index in 3" :key="index"/>
-            </div>
-            <div class="row text-center">
-                <Activity v-for="index in 3" :key="index"/>
+            <div>
+                <h2>Destaques</h2>
+                <hr>
+                <div class="row text-center">
+                    <Activity v-for="index in 3" :key="index"/>
+                </div>
             </div>
         </div>
         <Footer />
@@ -17,8 +17,7 @@
 </template>
 
 <script>
-    import AnonymousNav from "../components/anonymous/AnonymousNav";
-    import Particles from "../components/anonymous/Particles";
+    import Comum from "../components/Comum";
     import About from "../components/anonymous/About";
     import Activity from "../components/anonymous/Activity";
     import Footer from "../components/anonymous/Footer";
@@ -26,8 +25,7 @@
     export default {
         layout: 'index',
         components: {
-            AnonymousNav,
-            Particles,
+            Comum,
             About,
             Activity,
             Footer,
