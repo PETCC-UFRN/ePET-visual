@@ -7,7 +7,7 @@
             <b-card no-body class="p-4">
               <b-card-body>
                 <h1>Login</h1>
-                <p class="text-muted">Entrar na sua conta</p>
+                <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
                   <input type="text" class="form-control" placeholder="E-mail">
@@ -18,7 +18,7 @@
                 </b-input-group>
                 <b-row>
                   <b-col cols="6">
-                    <b-button variant="primary" class="px-4" @click="login()">Login</b-button>
+                    <b-button variant="success" class="px-4" @click="login()">Login</b-button>
                   </b-col>
                   <b-col cols="6" class="text-right">
                     <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>
@@ -26,12 +26,12 @@
                 </b-row>
               </b-card-body>
             </b-card>
-            <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
+            <b-card no-body class="text-white  py-5 d-md-down-none k" style="width:44%">
               <b-card-body class="text-center">
                 <div>
                   <h2>Cadastrar</h2>
                   <p>Faça o cadastro para participar dos eventos realizados pelo PET-CC.</p>
-                  <b-button variant="primary" class="active mt-3" @click="goToRegister()">Clique aqui para se cadastrar!</b-button>
+                  <b-button variant="success" class="active mt-3" @click="goToRegister()">Clique aqui para se cadastrar!</b-button>
                 </div>
               </b-card-body>
             </b-card>
@@ -57,7 +57,11 @@ export default {
       error: null
     }
   },
-
+  head () {
+    return {
+      title: "Login - PET-CC UFRN"
+    }
+  },
   methods:{
     goToRegister(){
       this.$router.push('/register');
@@ -81,3 +85,9 @@ export default {
 
 
 </script>
+
+<style scoped>
+.k {
+  background: #89023e;
+}
+</style>

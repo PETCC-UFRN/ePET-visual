@@ -15,6 +15,10 @@ Css custom da página inicial do site
   background-color: white;
 }
 
+.atividades{
+  font-family: 'Arial';
+}
+
 #navbarDropdownBlog{
   color: #c48098;
 }

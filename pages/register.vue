@@ -6,12 +6,12 @@
           <b-card no-body class="mx-4">
             <b-card-body class="p-4">
               <h1>Cadastrar</h1>
-              <p class="text-muted">Criar conta</p>
+              <p class="text-muted">Preencha os campos abaixo para criação da conta.</p>
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-user"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" class="form-control" placeholder="Nome" v-model="usuario.nome">
+                <input type="text" class="form-control" placeholder="Nome completo" v-model="usuario.nome">
               </b-input-group>
 
               <b-input-group class="mb-3">
@@ -67,6 +67,11 @@ export default {
       },
       error: null
     };
+  },
+  head () {
+    return {
+      title: "Registrar - PET-CC UFRN"
+    }
   },
 
   methods: {
