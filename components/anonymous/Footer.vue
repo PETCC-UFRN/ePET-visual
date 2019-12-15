@@ -10,7 +10,7 @@
     </div>
     <div class="d-flex flex-column sticky-footer-wrapper">
         <footer>
-            <span>&copy; {{ year }} PET-CC UFRN - Template por <a href="http://coreui.io">CoreUI</a></span>
+            <span>&copy; {{ year }} PET-CC</span>
         </footer>
     </div>
   </div>
