@@ -6,7 +6,7 @@
 <script>
 export default {
     head: {
-        title: 'PET-CC',
+        title: 'PET-CC UFRN',
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },

@@ -13,8 +13,4 @@
   </div>
 </template>
 
-<style>
-.h-100 {
-}
-</style>
 
