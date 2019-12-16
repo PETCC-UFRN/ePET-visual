@@ -1,13 +1,15 @@
 <template>
   <div>
     <div v-if="eventos.length > 0">
-      <b-card header="Eventos cadastrados">
-        <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="eventos/create"
-        >Adicionar evento</a>
+      <b-card>
+        <template v-slot:header>
+          Eventos cadastrados
+          <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="eventos/create"
+          >Adicionar evento</a>
+        </template>
         <b-table
           responsive="sm"
           :items="eventos"
@@ -18,13 +20,24 @@
         >
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
+            </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="ativar(row.item.idEvento)" class="btn btn-sm btn-success" v-show="! row.item.ativo">Ativar</b-button>
-            <b-button :href="'/eventos/edit/' + row.item.idEvento" class="btn btn-sm btn-warning" style="color:white">Editar</b-button>
-            <b-button @click="del(row.item.idEvento, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
+            <b-button
+              @click="ativar(row.item.idEvento)"
+              class="btn btn-sm btn-success"
+              v-show="! row.item.ativo"
+            >Ativar</b-button>
+            <b-button
+              :href="'/eventos/edit/' + row.item.idEvento"
+              class="btn btn-sm btn-warning"
+              style="color:white"
+            >Editar</b-button>
+            <b-button
+              @click="del(row.item.idEvento, row.index)"
+              class="btn btn-sm btn-danger"
+            >Deletar</b-button>
           </template>
         </b-table>
         <nav>
@@ -62,7 +75,7 @@ export default {
         { key: "d_inscricao", sortable: true },
         { key: "qtdVagas", sortable: true },
         { key: "ativo", sortable: true },
-        { key: "actions", sortable: true },
+        { key: "actions", sortable: true }
       ]
     };
   },
@@ -72,20 +85,20 @@ export default {
     });
   },
   methods: {
-    del(id, rowId){
+    del(id, rowId) {
       axios.delete("eventos-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
-        alert('Evento removido com sucesso');
+        alert("Evento removido com sucesso");
       });
     },
-    ativar(id){
+    ativar(id) {
       axios.post("eventos-ativar/" + id).then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert('Evento ativado com sucesso');
+        alert("Evento ativado com sucesso");
         let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
       });
     }
   }

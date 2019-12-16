@@ -2,58 +2,50 @@
   <div>
     <div v-if="eventos.length > 0">
       <b-card>
-        <b-card-header>
+        <template v-slot:header>
           Organizadores Cadastrados
           <a
             class="btn btn-sm btn-primary float-right"
             style="color: white"
             href="organizadores/create"
-            >Adicionar Organizador</a>
-        </b-card-header>
+          >Adicionar Organizador</a>
+        </template>
         <b-card-body>
-        <!-- TODO::remover esse style -->
-        <!--<a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="participantes/create"
-        >Adicionar evento</a>-->
-        <b-table
-          responsive="sm"
-          :items="eventos"
-          :current-page="currentPage"
-          :bordered="true"
-          :per-page="10"
-          :fields="fields"
-        >
-          <!--<template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
-          </template>-->
-          <template v-slot:cell(actions)="row">
-            <!--<b-button @click="confirmar(row.item.idParticipantes)" class="btn btn-sm btn-success" v-show="! row.item.ativo">Confirmar</b-button>-->
-            <b-button @click="del(row.item.idOrganizadores, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
-          </template>
-        </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="eventos.length"
+          <b-table
+            responsive="sm"
+            :items="eventos"
+            :current-page="currentPage"
+            :bordered="true"
             :per-page="10"
-            v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
-            hide-goto-end-buttons
-          />
-        </nav>
+            :fields="fields"
+          >
+            <template v-slot:cell(actions)="row">
+              <b-button
+                @click="del(row.item.idOrganizadores, row.index)"
+                class="btn btn-sm btn-danger"
+              >Deletar</b-button>
+            </template>
+          </b-table>
+          <nav>
+            <b-pagination
+              :total-rows="eventos.length"
+              :per-page="10"
+              v-model="currentPage"
+              prev-text="Prev"
+              next-text="Next"
+              hide-goto-end-buttons
+            />
+          </nav>
         </b-card-body>
       </b-card>
     </div>
-    <div v-else>Nenhum Organizador cadastrado
+    <div v-else>
+      Nenhum Organizador cadastrado
       <a
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            href="organizadores/create"
-            >Adicionar Organizador</a>
+        class="btn btn-sm btn-primary float-right"
+        style="color: white"
+        href="organizadores/create"
+      >Adicionar Organizador</a>
     </div>
   </div>
 </template>
@@ -74,10 +66,7 @@ export default {
       fields: [
         { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
         { key: "evento.titulo", label: "Nome do evento", sortable: true },
-        /*{ key: "confirmado", sortable: true },
-        { key: "espera", sortable: true },
-        //{ key: "ativo", sortable: true },*/
-        { key: "actions", sortable: true },
+        { key: "actions", sortable: true }
       ]
     };
   },
@@ -87,23 +76,12 @@ export default {
     });
   },
   methods: {
-    del(id, rowId){
-      //console.log(id);
+    del(id, rowId) {
       axios.delete("organizadores-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
-        alert('Participante removido com sucesso');
+        alert("Participante removido com sucesso");
       });
-    },
-    /*confirmar(id){
-      axios.post("participantes-confirmar/" + id).then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert('Participante ativado com sucesso');
-        let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
-      });
-    }*/
+    }
   }
 };
 </script>
