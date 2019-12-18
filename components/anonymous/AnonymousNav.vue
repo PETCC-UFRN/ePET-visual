@@ -17,10 +17,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Eventos</a>
+              <a class="nav-link" href="/evento">Eventos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Notícias</a>
+              <a class="nav-link" href="/noticia">Notícias</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -50,7 +50,6 @@
 
 .m{
   font-weight: bold;
-  font-family: 'Economica-Regular';
   font-size: 24px;
   
 }
