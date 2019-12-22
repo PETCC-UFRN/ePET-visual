@@ -3,17 +3,14 @@
     <div class="col-md-8 mb-5">
       <h2>SOBRE O PET-CC</h2>
       <hr>
-      <p>
-        O Programa de Educação Tutorial é um projeto nacional, organizado através
-        de cursos de graduação das Instituições de Ensino Superior do Brasil.
-        Nosso grupo é do curso de Ciência da Computação (CC) da Universidade
-        Federal do Rio grande do Norte (UFRN).
+      <p style="text-indent:25px">
+        O Programa de Educação Tutorial (<b>PET</b>) é um projeto nacional, organizado através
+        de cursos de graduação das Instituições de Ensino Superior do Brasil. Diante disso, 
+        nosso grupo está relacionado ao curso de Ciência da Computação (<b>CC</b>) da universidade
+        federal do Rio grande do Norte (<b>UFRN</b>). Além disso, assim como cada PET, somos orientados por um tutor, 
+        atualmente o professor Umberto Costa e nosso grupo é composto por <i>12</i> bolsistas e até <i>6</i> voluntários.
       </p>
-      <p>
-        Somos orientados por um tutor, atualmente o professor Umberto Costa.
-        Nosso grupo é composto por 12 bolsistas e até 6 voluntários.
-      </p>
-      <a class="btn btn-success btn-lg" href="#" style="color: white">Saber mais &raquo;</a>
+      <a class="btn btn-success btn-lg" href="/sobre" style="color: white">Saber mais &raquo;</a>
     </div>
     <div class="col-md-4 mb-5">
       <h2>Contato</h2>
@@ -28,9 +25,13 @@
         <abbr title="Phone">Telefone:</abbr>
         (84) 3333-3333
         <br>
-        <abbr title="Email">Endereço:</abbr>
+        <abbr title="Email">Email:</abbr>
         <a href="mailto:#">petcc@dimap.ufrn.br</a>
+        <br>
+        <abbr title="Facebook">Facebook:</abbr> PET Ciência da Computação UFRN
       </address>
+      
     </div>
   </div>
 </template>
+
