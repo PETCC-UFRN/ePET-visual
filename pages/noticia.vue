@@ -7,7 +7,7 @@
             <div class="col-8 mx-auto" v-if="noticias.length > 0">
                 <div v-for="noticia in noticias" :key="noticia.id">
                     
-                    <b-card  :title="noticia.titulo" :subtitle="noticia.inicio_exibicao">
+                    <b-card  :header="noticia.titulo" :subtitle="noticia.inicio_exibicao">
                         <b-card-text>
                             <p>{{noticia.corpo}}</p>
                             {{noticia.inicio_exibicao}}

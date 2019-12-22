@@ -22,6 +22,9 @@
             <li class="nav-item">
               <a class="nav-link" href="/noticia">Notícias</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/validarCertificado">Validar certificado</a>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"

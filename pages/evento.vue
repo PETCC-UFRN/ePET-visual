@@ -12,15 +12,16 @@
                       :title="evento.titulo" 
                       sub-title="Para que seja possível realizar a inscrição, é necessário estar logado."
                       title-tag="h3">
-                          <b-card-text text-tag="h4">
+                          <b-card-text text-tag="h5">
                               ￼<p><b>Descrição:</b> {{evento.descricao}}.</p>
                               <p><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
                               <p><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
                               <p><b>Local:</b> {{evento.local}}.</p>
                               <p><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
                               <p><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
-
-                              <b-button href="#" variant="primary">Inscrever-me</b-button>
+                              <div>
+                                 <b-button block href="#" variant="primary">Inscrever-me</b-button>
+                              </div>
                           </b-card-text>
                       </b-card>
                     </div>
