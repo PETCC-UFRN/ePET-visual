@@ -7,9 +7,8 @@
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarToggle">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <b-navbar-nav class="d-md-down-none">
-    </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
+      <HeaderDropdown/>
     </b-navbar-nav>
   </header>
 </template>

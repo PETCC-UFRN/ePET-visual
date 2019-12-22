@@ -25,7 +25,7 @@ export default {
     },
     {
       name: 'RH',
-      url: '',
+      url: 'rh',
       icon: 'icon-people',
       children: [
         {
@@ -51,19 +51,14 @@ export default {
       ]
     },
     {
-      name: 'Perfil',
-      url: '/perfil',
-      icon: 'icon-event'
-    },
-    {
       name: 'Disciplinas',
       url: '/disciplina',
-      icon: 'icon-event'
+      icon: 'icon-book-open'
     },
     {
       name: 'Tutoria',
       url: '/tutoria',
-      icon: 'icon-event'
+      icon: 'icon-notebook'
     }
   ]
 }
