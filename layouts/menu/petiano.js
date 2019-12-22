@@ -30,22 +30,22 @@ export default {
       children: [
         {
           name: 'Organizadores',
-          url: '/organizadores',
+          url: 'organizadores',
           icon: 'icon-user'
         },
         {
           name: 'Participantes',
-          url: '/participantes',
+          url: 'participantes',
           icon: 'icon-user-female',
         },
         {
           name: 'Pessoas',
-          url: '/pessoa',
+          url: 'pessoa',
           icon: 'icon-user'
         },
         {
           name: 'Usuarios',
-          url: '/usuarios',
+          url: 'usuarios',
           icon: 'icon-user-female'
         },
       ]

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from "../../axios";
+import axios from "~/axios";
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
