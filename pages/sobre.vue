@@ -27,7 +27,12 @@
                                     img-src="https://placekitten.com/300/300" 
                                     img-alt="Card image" img-left class="mb-3">
                                     <b-card-text text-tag="h5">
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso}}</p>
+                                        <div v-if="petianoAtual.data_ingresso[6] >= 6">
+                                            <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
+                                        </div>
+                                        <div v-else>
+                                            <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
+                                        </div>
                                         <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
                                         <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
                                         <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
@@ -54,7 +59,12 @@
                                     img-src="https://placekitten.com/300/300" 
                                     img-alt="Card image" img-left class="mb-3">
                                     <b-card-text text-tag="h5">
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso}}</p>
+                                        <div v-if="petianoAtual.data_ingresso[6] >= 6">
+                                            <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
+                                        </div>
+                                        <div v-else>
+                                            <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
+                                        </div>
                                         <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
                                         <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
                                         <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
@@ -74,21 +84,25 @@
                 <div class="divBottom col-8 mx-auto">
                     <h2 class="titulo">Membros egressos</h2>
                     <div v-if="petianosAntigos.length > 0" class="col-lg-16">
-                        <div v-for="petianoAtual in petianosAtuais" :key="petianoAtual.id">
-                            <div v-for="petianoAntigo in petianosAntigos" :key="petianoAntigo.id">
-                                <b-card 
-                                    :title="petianoAtual.pessoa.nome" 
-                                    title-tag="h2" 
-                                    img-src="https://placekitten.com/300/300" 
-                                    img-alt="Card image" img-left class="mb-3">
-                                    <b-card-text text-tag="h5">
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso}}</p>
-                                        <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
-                                        <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
-                                        <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
-                                    </b-card-text>
-                                </b-card>
-                            </div>
+                        <div v-for="petianoAntigo in petianosAntigos" :key="petianoAntigo.id">
+                            <b-card 
+                                :title="petianoAtual.pessoa.nome" 
+                                title-tag="h2" 
+                                img-src="https://placekitten.com/300/300" 
+                                img-alt="Card image" img-left class="mb-3">
+                                <b-card-text text-tag="h5">
+                                    <div v-if="petianoAntigo.data_ingresso[6] >= 6">
+                                        <p><b>Ingresso:</b> {{petianoAntigo.data_ingresso.slice(0,4)}}.2</p>
+                                    </div>
+                                    <div v-else>
+                                        <p><b>Ingresso:</b> {{petianoAntigo.data_ingresso.slice(0,4)}}.1</p>
+                                    </div>
+                                    
+                                    <p><b>Site pessoal:</b> {{petianoAntigo.site_pessoal}}.</p>
+                                    <p><b>Área de interesse:</b> {{petianoAntigo.area_interesse}}.</p>
+                                    <p><b>Lattes:</b> <a>{{petianoAntigo.lattes}}</a></p>        
+                                </b-card-text>
+                            </b-card>
                         </div>        
                     </div>
                     <div v-else> 
