@@ -4,11 +4,13 @@
         <div class="atividades container">
             <About/>
             <div>
-                <h2>Destaques</h2>
+                <h2>Recentes</h2>
                 <hr>
-                <div class="row text-center">
-                    <Activity v-for="index in 3" :key="index"/>
-                </div>
+                <Activity/>
+                
+
+
+
             </div>
         </div>
         <Footer />
@@ -29,6 +31,20 @@ export default {
         About,
         Activity,
         Footer,
+    }, 
+    data() {
+      return {
+        slide: 0,
+        sliding: null
+      }
+    },
+    methods: {
+      onSlideStart(slide) {
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      }
     }
 };
 </script>
