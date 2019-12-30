@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
+    <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
       <div class="container">
         <a class="navbar-brand m" href="/">PET-CC UFRN</a>
         <button
@@ -50,7 +50,6 @@
 
 <style scoped>
 
-
 .m{
   font-weight: bold;
   font-size: 24px;
@@ -58,3 +57,26 @@
 }
 
 </style>
+
+<script>
+export default {
+  mounted() {
+      this.$nextTick(function(){
+        window.addEventListener("scroll", function(){
+          var navbar = document.getElementById("nav");
+          var nav_classes = navbar.classList;
+          if(document.documentElement.scrollTop >= 50) {
+            if (nav_classes.contains("shrink") === false) {
+              nav_classes.toggle("shrink");
+            }
+          }
+          else {
+            if (nav_classes.contains("shrink") === true) {
+              nav_classes.toggle("shrink");
+            }
+          }
+        })
+      })
+    },
+}
+</script>
