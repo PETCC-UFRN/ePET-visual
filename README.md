@@ -1,13 +1,12 @@
 
 # ePET-frontend  
 
-## Introducao 
+## Introdução 
 
 Neste repositorio esta contida implementacao do front-end da plataforma do PET-CC.
 
 - [Pre-requisitos](#pre-requisitos) - Pre-requisto para executar o projeto.
 - [Como executar](#como-executar) - Reference links.
-
 
 
 ## Pre-requisitos
@@ -21,20 +20,6 @@ Além disso é necessário adicionar as credenciais da API no arquivo axios.js, 
 ```shell
 cp axios.example.js axios.js
 ``` 
-
-## Paginas disponiveis
-
-Atualmente, esta disponivel as seguintes paginas:
-
-| html: | Descricao: |  
-| ---------- | ------------- |
-| http://localhost:3000/ | Pagina index |
-|http://localhost:3000/admin/ 	| Pagina inicial dentro do sistema |
-|http://localhost:3000/pages/login | Pagina de login |
-| http://localhost:3000/pages/register |Pagina de registro 
-
-
-Alem disso, ha as paginas de erro 404 e 505.
 
 ## Como executar
 
