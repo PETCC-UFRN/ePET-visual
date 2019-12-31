@@ -1,22 +1,32 @@
 <template>
-  <div class="col-md-4" v-if="noticias.length > 0">
+  <div class="col-md-12" v-if="noticias.length > 0">
     <div v-for="noticia in noticias.slice(0,3)" :key="noticia.id">
-  
-      <div class="card h-100">
-        <div class="card-body">
-          <h4 class="card-title">Boas vindas</h4>
-          
-          {{dia}}
-          
-          <p
-            class="card-text"
-          >A cada matrícula o PET-CC realiza eventos para receber os novos alunos do BTI.</p>
-        </div>
-        <div class="card-footer">
-          <a href="#" class="btn btn-success" style="color:white">Saber mais</a>
-        </div>
-      </div>
-    </div>
+      <b-card-group deck>
+        <b-card title="Title" header-tag="header">
+          <template v-slot:header>
+            <h6 class="mb-0">Evento</h6>
+          </template>
+          <b-card-text>Header and footers using slots.</b-card-text>
+          <b-button href="#" variant="primary">Go somewhere</b-button>
+        </b-card>
+
+        <b-card title="Title" header-tag="header">
+          <template v-slot:header>
+            <h6 class="mb-0">Notícia</h6>
+          </template>
+          <b-card-text>Header and footers using slots.</b-card-text>
+          <b-button href="#" variant="primary">Go somewhere</b-button>
+        </b-card>
+
+        <b-card title="Title" header-tag="header">
+          <template v-slot:header>
+            <h6 class="mb-0">Evento</h6>
+          </template>
+          <b-card-text>Header and footers using slots.</b-card-text>
+          <b-button href="#" variant="primary">Go somewhere</b-button>
+        </b-card>
+      </b-card-group>
+    </div>  
   </div>
   <div v-else > 
       <h3>Não há nenhuma notícia cadastrada.</h3>
