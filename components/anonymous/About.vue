@@ -16,22 +16,31 @@
       <h2>Contato</h2>
       <hr>
       <address>
-        <strong>Departamento Informática e Matemática Aplicada - UFRN</strong>
-        <br>Lagoa Nova
-        <br>Natal, RN
-        <br>
-      </address>
-      <address>
         <abbr title="Phone">Telefone:</abbr>
-        (84) 3333-3333
+        +55 84 3333-3333
         <br>
         <abbr title="Email">Email:</abbr>
         <a href="mailto:#">petcc@dimap.ufrn.br</a>
         <br>
-        <abbr title="Facebook">Facebook:</abbr> PET Ciência da Computação UFRN
+        <br>
       </address>
-      
+      <h3> Redes Sociais</h3>
+      <a href="https://github.com/PETCC-UFRN" target="_blank"><i class="fab fa-github-square" style="font-size:36px;padding-right:5px;color:black;"></i></a>
+      <a href="https://www.facebook.com/petccufrn/" target="_blank"><i class="fab fa-facebook" style="font-size:36px;padding-right:5px;color:black;"></i></a>
+      <a href="https://www.instagram.com/petccufrn/" target="_blank"><i class="fab fa-instagram" style="font-size:36px;padding-right:5px;color:black;"></i></a>
+      <a href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i class="fab fa-youtube" style="font-size:36px;color:black;"></i></a>
     </div>
   </div>
 </template>
+
+
+<script>
+export default {
+  mounted() {
+    let fontawesome = document.createElement('script')
+    fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
+    document.head.appendChild(fontawesome)
+  }
+}
+</script>
 
