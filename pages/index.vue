@@ -4,13 +4,7 @@
         <div class="atividades container">
             <About/>
             <div>
-                <h2>Recentes</h2>
-                <hr>
                 <Activity/>
-                
-
-
-
             </div>
         </div>
         <Footer />
@@ -31,20 +25,6 @@ export default {
         About,
         Activity,
         Footer,
-    }, 
-    data() {
-      return {
-        slide: 0,
-        sliding: null
-      }
-    },
-    methods: {
-      onSlideStart(slide) {
-        this.sliding = true
-      },
-      onSlideEnd(slide) {
-        this.sliding = false
-      }
     }
 };
 </script>
