@@ -39,7 +39,11 @@
                 <a class="dropdown-item" href="/register">Registrar</a>
               </div>
             </li>
-
+             <li class="nav-item dropdown">
+    <a href="https://www.facebook.com/petccufrn/" target="_blank"><i class="fab fa-facebook" style="font-size:30px;padding-right:10px;padding-left:10px;color:white;"></i></a>
+          <a href="https://www.instagram.com/petccufrn/" target="_blank"><i class="fab fa-instagram" style="font-size:30px;padding-right:10px;color:white;"></i></a>
+          <a href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i class="fab fa-youtube" style="font-size:30px;color:white;"></i></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -49,18 +53,19 @@
 
 
 <style scoped>
-
 .m{
   font-weight: bold;
-  font-size: 24px;
-  
+  font-size: 24px; 
 }
-
 </style>
 
 <script>
 export default {
   mounted() {
+      let fontawesome = document.createElement('script')
+      fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
+      document.head.appendChild(fontawesome)
+
       this.$nextTick(function(){
         window.addEventListener("scroll", function(){
           var navbar = document.getElementById("nav");
