@@ -16,23 +16,29 @@
                 <h2 class="titulo">Tutor</h2>
                 <div v-if="petianosAtuais.length > 0" class="col-lg-16">
                     <div v-for="petianoAtual in petianosAtuais" :key="petianoAtual.id">
-                        <div v-if="petianoAtual.pessoa.tipo_usuario.nome === 'tutor'">
-                            <b-card 
-                                :title="petianoAtual.pessoa.nome" 
-                                title-tag="h2" 
-                                img-src="https://placekitten.com/300/300" 
-                                img-alt="Card image" img-left class="mb-3">
-                                <b-card-text text-tag="h5">
-                                    <div v-if="petianoAtual.data_ingresso[6] >= 6">
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
-                                    </div>
-                                    <div v-else>
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
-                                    </div>
-                                    <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
-                                    <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
-                                    <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
-                                </b-card-text>
+                        <div v-if="petianoAtual.pessoa.tipo_usuario.nome === 'tutor'" class="space">
+                            
+                            <b-card no-body class="overflow-hidden" style="max-width: 540px;">
+                                <b-row no-gutters>
+                                    <b-col md="6">
+                                        <b-card-img src="https://placekitten.com/300/300" class="rounded-0"></b-card-img>
+                                    </b-col>
+                                    <b-col md="6">
+                                        <b-card-body title-tag="h2"  :title="petianoAtual.pessoa.nome" >
+                                        <b-card-text text-tag="h5">
+                                            <div v-if="petianoAtual.data_ingresso[6] >= 6">
+                                                <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
+                                            </div>
+                                            <div v-else>
+                                                <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
+                                            </div>
+                                            <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
+                                            <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
+                                            <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
+                                        </b-card-text>
+                                        </b-card-body>
+                                    </b-col>
+                                    </b-row>
                             </b-card>
                         </div>
                     </div>        
@@ -48,24 +54,30 @@
                 <h2 class="titulo">Membros</h2>
                 <div v-if="petianosAtuais.length > 0" class="col-lg-16">
                     <div v-for="petianoAtual in petianosAtuais" :key="petianoAtual.id">
-                        <div v-if="petianoAtual.pessoa.tipo_usuario.nome !== 'tutor'">
+                        <div v-if="petianoAtual.pessoa.tipo_usuario.nome !== 'tutor'" class="space">
                             {{temPetiano = true}}
-                            <b-card 
-                                :title="petianoAtual.pessoa.nome" 
-                                title-tag="h2" 
-                                img-src="https://placekitten.com/300/300" 
-                                img-alt="Card image" img-left class="mb-3">
-                                <b-card-text text-tag="h5">
-                                    <div v-if="petianoAtual.data_ingresso[6] >= 6">
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
-                                    </div>
-                                    <div v-else>
-                                        <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
-                                    </div>
-                                    <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
-                                    <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
-                                    <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
-                                </b-card-text>
+                            
+                             <b-card no-body class="overflow-hidden" style="max-width: 540px;">
+                                <b-row no-gutters>
+                                    <b-col md="6">
+                                        <b-card-img src="https://placekitten.com/300/300" class="rounded-0"></b-card-img>
+                                    </b-col>
+                                    <b-col md="6">
+                                        <b-card-body title-tag="h2"  :title="petianoAtual.pessoa.nome" >
+                                            <b-card-text text-tag="h5">
+                                                <div v-if="petianoAtual.data_ingresso[6] >= 6">
+                                                    <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.2</p>
+                                                </div>
+                                                <div v-else>
+                                                    <p><b>Ingresso:</b> {{petianoAtual.data_ingresso.slice(0,4)}}.1</p>
+                                                </div>
+                                                <p><b>Site pessoal:</b> {{petianoAtual.site_pessoal}}.</p>
+                                                <p><b>Área de interesse:</b> {{petianoAtual.area_interesse}}.</p>
+                                                <p><b>Lattes:</b> <a>{{petianoAtual.lattes}}</a></p>        
+                                            </b-card-text>
+                                        </b-card-body>
+                                    </b-col>
+                                    </b-row>
                             </b-card>
                         </div>
                     </div>        
@@ -87,16 +99,22 @@
                 <h2 class="titulo">Membros egressos</h2>
                 <div v-if="petianosAntigos.length > 0" class="col-lg-16">
                     <div v-for="petianoAntigo in petianosAntigos" :key="petianoAntigo.id">
-                        <b-card 
-                            :title="petianoAntigo.pessoa.nome" 
-                            title-tag="h2" 
-                            img-src="https://placekitten.com/300/300" 
-                            img-alt="Card image" img-left class="mb-3">
-                            <b-card-text text-tag="h5">
-                                <p><b>Site pessoal:</b> {{petianoAntigo.site_pessoal}}.</p>
-                                <p><b>Área de interesse:</b> {{petianoAntigo.area_interesse}}.</p>
-                                <p><b>Lattes:</b> <a>{{petianoAntigo.lattes}}</a></p>        
-                            </b-card-text>
+
+                        <b-card no-body class="overflow-hidden" style="max-width: 540px;">
+                            <b-row no-gutters>
+                                <b-col md="6">
+                                    <b-card-img src="https://placekitten.com/300/300" class="rounded-0"></b-card-img>
+                                </b-col>
+                                <b-col md="6">
+                                    <b-card-body title-tag="h2"  :title="petianoAntigo.pessoa.nome" >
+                                        <b-card-text text-tag="h5">
+                                            <p><b>Site pessoal:</b> {{petianoAntigo.site_pessoal}}.</p>
+                                            <p><b>Área de interesse:</b> {{petianoAntigo.area_interesse}}.</p>
+                                            <p><b>Lattes:</b> <a>{{petianoAntigo.lattes}}</a></p>        
+                                        </b-card-text>
+                                    </b-card-body>
+                                </b-col>
+                            </b-row>
                         </b-card>
                     </div>        
                 </div>
