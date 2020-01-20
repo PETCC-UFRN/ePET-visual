@@ -17,7 +17,8 @@
         <template v-slot:img>
           <b-card-group deck>
             <div v-for="evento in eventos" :key="evento.id">
-              <div v-if="evento.ativo == true">
+              <div v-if="evento.ativo === true && countEventos < 3">
+                <div> {{countEventos+=1}}</div>
                 <b-card 
                   :title=evento.titulo 
                   border-variant="info" 
@@ -27,7 +28,8 @@
                   <template v-slot:header>
                     <h6 class="mb-0">Evento</h6>
                   </template>
-                  <b-card-text>{{evento.descricao}}</b-card-text>
+                  <b-card-text>{{evento.descricao}}  
+                </b-card-text>
                 </b-card> 
               </div>
             </div>
@@ -48,6 +50,7 @@ export default {
       noticias: [],
       eventos: [], 
       dia: new Date().getDate(),
+      countEventos:0,
       slide: 0,
       sliding: null
     }
