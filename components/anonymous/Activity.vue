@@ -1,5 +1,5 @@
 <template>
-  <div v-if="noticias.length > 6">
+  <div v-if="filterNoticias.length >= 6">
     <br>
     <h2 style="text-align:center;">Destaques</h2>
     <br>
@@ -16,23 +16,40 @@
       <b-carousel-slide>
         <template v-slot:img>
           <b-card-group deck>
-            <div v-for="noticia in noticias" :key="noticia.id">
-              <div v-if="new Date(ano,mes,dia) >= new Date(noticia.inicio_exibicao) &&
-                          new Date(ano,mes,dia) <= new Date(noticia.limite_exibicao) && countEventos < 3">
-                <div> {{countEventos+=1}}</div>
-                <b-card 
-                  :title=noticia.titulo 
-                  border-variant="info" 
-                  header="Info" 
-                  align="center"  
-                >
-                  <template v-slot:header>
-                    <h6 class="mb-0">Notícia</h6>
-                  </template>
-                  <b-card-text>{{evento.corpo}}  
-                </b-card-text>
-                </b-card> 
-              </div>
+            <div v-for="noticia in firstColumn" :key="noticia.id">
+              <b-card 
+                :title=noticia.titulo 
+                border-variant="info" 
+                header="Info" 
+                align="center"  
+              >
+                <template v-slot:header>
+                  <h6 class="mb-0">Notícia</h6>
+                </template>
+                <b-card-text>{{noticia.descricao}}  
+              </b-card-text>
+              </b-card> 
+            </div>
+          </b-card-group>
+        </template>
+      </b-carousel-slide>
+     
+      <b-carousel-slide>
+        <template v-slot:img>
+          <b-card-group deck>
+            <div v-for="noticia in secondColumn" :key="noticia.id">
+              <b-card 
+                :title=noticia.titulo 
+                border-variant="info" 
+                header="Info" 
+                align="center"  
+              >
+                <template v-slot:header>
+                  <h6 class="mb-0">Notícia</h6>
+                </template>
+                <b-card-text>{{noticia.descricao}}  
+              </b-card-text>
+              </b-card> 
             </div>
           </b-card-group>
         </template>
@@ -49,9 +66,12 @@ export default {
   data() {
     return {
       noticias: [],
-      eventos: [], 
+      noticiasPrimeiraColuna: [],
+      noticiasSegundaColuna:[],
       dia: new Date().getDate(),
-      countEventos:0,
+      mes: new Date().getMonth(),
+      ano: new Date().getFullYear(),
+
       slide: 0,
       sliding: null
     }
@@ -71,6 +91,26 @@ export default {
   },
   mounted() {
     this.getNoticias();    
-  }  
+  },
+  computed: {
+    filterNoticias() {
+      return this.noticias.filter(noticia => new Date(this.ano,this.mes,this.dia) >= new Date(noticia.inicio_exibicao) &&
+            new Date(this.ano, this.mes, this.dia) <= new Date(noticia.limite_exibicao)) 
+    },    
+    
+    firstColumn() {
+      let noticiasFiltradas = this.filterNoticias() 
+      if (noticiasFiltradas.length >= 6) {
+        return noticiasPrimeiraColuna = noticiasFiltradas.slice(0,4)
+      }
+    },
+  
+    secondColumn() {
+      let noticiasFiltradas = this.filterNoticias() 
+      if (noticiasFiltradas.length >= 6) {
+        return noticiasSegundaColuna = noticiasFiltradas.slice(4,7) 
+      }
+    }      
+  } 
 }
 </script>
