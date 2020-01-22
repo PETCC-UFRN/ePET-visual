@@ -1,5 +1,5 @@
 <template>
-  <div v-if="noticias.length > 0 || eventos.length > 0">
+  <div v-if="noticias.length > 6">
     <br>
     <h2 style="text-align:center;">Destaques</h2>
     <br>
@@ -16,19 +16,20 @@
       <b-carousel-slide>
         <template v-slot:img>
           <b-card-group deck>
-            <div v-for="evento in eventos" :key="evento.id">
-              <div v-if="evento.ativo === true && countEventos < 3">
+            <div v-for="noticia in noticias" :key="noticia.id">
+              <div v-if="new Date(ano,mes,dia) >= new Date(noticia.inicio_exibicao) &&
+                          new Date(ano,mes,dia) <= new Date(noticia.limite_exibicao) && countEventos < 3">
                 <div> {{countEventos+=1}}</div>
                 <b-card 
-                  :title=evento.titulo 
+                  :title=noticia.titulo 
                   border-variant="info" 
                   header="Info" 
                   align="center"  
                 >
                   <template v-slot:header>
-                    <h6 class="mb-0">Evento</h6>
+                    <h6 class="mb-0">Notícia</h6>
                   </template>
-                  <b-card-text>{{evento.descricao}}  
+                  <b-card-text>{{evento.corpo}}  
                 </b-card-text>
                 </b-card> 
               </div>
@@ -62,11 +63,6 @@ export default {
     onSlideEnd(slide) {
       this.sliding = false
     },
-    async getEventos() {
-      axios.get("eventos").then(res => {
-        this.eventos = res.data.content;
-      });
-    },
     async getNoticias() {
       axios.get("noticia").then(res => {
         this.noticias = res.data.content;
@@ -74,7 +70,6 @@ export default {
     }
   },
   mounted() {
-    this.getEventos();
     this.getNoticias();    
   }  
 }
