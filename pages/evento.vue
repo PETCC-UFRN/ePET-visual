@@ -3,10 +3,10 @@
         <Comum/>  
         <div class="container">
           <br>
-          <h2 class="titulo">Eventos</h2>
-          <div v-if="eventos.length > 0" class="col-9 mx-auto">
-              <div v-for="evento in eventos" :key="evento.id">
-                  <div v-if="evento.ativo == true" class="space">
+          <h2 class="titulo texto">Eventos</h2>
+          <div v-if="filterEventos.length > 0" class="col-9 mx-auto">
+              <div v-for="evento in filterEventos" :key="evento.id">
+                  <div class="space">
                     <b-card no-body class="overflow-hidden">
                       <b-row no-gutters>
                         <b-col md="6">
@@ -18,6 +18,7 @@
                           <b-card-body title-tag="h2" :title="evento.titulo"></b-card-body>
                           <b-card-text text-tag="h5" class="regular-text">
                               ￼<p><b>Descrição:</b> {{evento.descricao}}.</p>
+                              <br>
                               <p><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
                               <p><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
                               <p><b>Local:</b> {{evento.local}}.</p>
@@ -39,7 +40,7 @@
             </div>
             <div v-else>
               <br>  
-              <h3> Nenhum evento cadastrado!</h3> 
+              <h3 class="texto"> Nenhum evento cadastrado!</h3> 
               <br>
             </div>
 
@@ -69,6 +70,11 @@ export default {
     axios.get("eventos").then(res => {
       this.eventos = res.data.content;
     });
+  },
+  computed: {
+    filterEventos() {
+      return this.eventos.filter(evento => evento.ativo == true) 
+    }   
   }
 }
 </script>
@@ -76,29 +82,29 @@ export default {
 
 <style>
 .btn{
-margin-top: 20px;
-margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 .titulo {
-margin-top: 20px;
-margin-bottom: 10px;
-font-weight: bold;
-text-align: center;
-font-size: 36px;
-box-sizing: border-box;
-margin: .67em 0;
-
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 36px;
+  box-sizing: border-box;
+  margin: .67em 0;
 }
 
+.texto {
+  text-align: center;
+}
 
 .space {
-margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .regular-text {
-margin-top: -15px;
+  margin-top: -15px;
 }
-
 
 p {
   margin: 0px 0px 0px;
