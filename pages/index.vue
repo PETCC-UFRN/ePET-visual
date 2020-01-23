@@ -1,14 +1,10 @@
 <template>
     <div>
-        <AnonymousNav/>
-        <Particles/>
+        <Comum/>
         <div class="atividades container">
             <About/>
-            <div class="row text-center">
-                <Activity v-for="index in 3" :key="index"/>
-            </div>
-            <div class="row text-center">
-                <Activity v-for="index in 3" :key="index"/>
+            <div>
+                <Activity/>
             </div>
         </div>
         <Footer />
@@ -17,28 +13,29 @@
 </template>
 
 <script>
-    import AnonymousNav from "../components/anonymous/AnonymousNav";
-    import Particles from "../components/anonymous/Particles";
-    import About from "../components/anonymous/About";
-    import Activity from "../components/anonymous/Activity";
-    import Footer from "../components/anonymous/Footer";
-    export default {
-        layout: 'index',
-        components: {
-            AnonymousNav,
-            Particles,
-            About,
-            Activity,
-            Footer,
-        }
-    };
+import Comum from "../components/Comum";
+import About from "../components/anonymous/About";
+import Activity from "../components/anonymous/Activity";
+import Footer from "../components/anonymous/Footer";
+
+export default {
+    layout: 'index',
+    components: {
+        Comum,
+        About,
+        Activity,
+        Footer,
+    }
+};
 </script>
+
 <style scoped>
 /* Footer */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 section {
     padding: 60px 0;
 }
+
 section .section-title {
     text-align: center;
     color: #89023e;
@@ -100,6 +97,7 @@ section .section-title {
 #footer ul.quick-links li:hover a i {
     font-weight: 700;
 }
+
 @media (max-width:767px){
 	#footer h5 {
     padding-left: 0;
@@ -108,4 +106,5 @@ section .section-title {
     margin-bottom: 10px;
 }
 }
+
 </style>

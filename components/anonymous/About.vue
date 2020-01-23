@@ -1,7 +1,7 @@
 <template>
   <div class="row" style="margin-top: 45px">
     <div class="col-md-8 mb-5">
-      <h2>SOBRE O PET-CC</h2>
+      <h2>Sobre o PET-CC</h2>
       <hr>
       <p style="text-indent:25px">
         O Programa de Educação Tutorial (<b>PET</b>) é um projeto nacional, organizado através
@@ -16,22 +16,17 @@
       <h2>Contato</h2>
       <hr>
       <address>
-        <strong>Departamento Informática e Matemática Aplicada - UFRN</strong>
-        <br>Lagoa Nova
-        <br>Natal, RN
-        <br>
-      </address>
-      <address>
         <abbr title="Phone">Telefone:</abbr>
-        (84) 3333-3333
+        +55 84 3333-3333
+        <br>
+        <abbr title="Address">Endereço físico:</abbr>         
+        Departamento de Informática e Matemática Aplicada (DIMAp) - UFRN
         <br>
         <abbr title="Email">Email:</abbr>
         <a href="mailto:#">petcc@dimap.ufrn.br</a>
-        <br>
-        <abbr title="Facebook">Facebook:</abbr> PET Ciência da Computação UFRN
       </address>
-      
     </div>
   </div>
 </template>
+
 
