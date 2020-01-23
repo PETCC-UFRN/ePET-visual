@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div v-if="eventos.length > 0">
-      <b-card>
-        <template v-slot:header>
-          Eventos cadastrados
-          <a
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            href="eventos/create"
-          >Adicionar evento</a>
-        </template>
+    <b-card>
+      <template v-slot:header>
+        Eventos cadastrados
+        <a
+          class="btn btn-sm btn-primary float-right"
+          style="color: white"
+          href="eventos/create"
+        >Adicionar evento</a>
+      </template>
+      <div v-if="eventos.length > 0">
         <b-table
           responsive="sm"
           :items="eventos"
@@ -50,14 +50,14 @@
             hide-goto-end-buttons
           />
         </nav>
-      </b-card>
-    </div>
-    <div class="row" v-else>Nenhum evento cadastrado</div>
+      </div>
+      <div v-else>Nenhum evento cadastrado</div>
+    </b-card>
   </div>
 </template>
 
 <script>
-import axios from "../../axios";
+import axios from "~/axios";
 
 export default {
   name: "dashboard",

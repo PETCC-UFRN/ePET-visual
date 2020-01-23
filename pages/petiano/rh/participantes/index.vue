@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-if="eventos.length > 0">
-      <b-card>
-        <template v-slot:header>
-          Organizadores Cadastrados
-          <a
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            href="organizadores/create"
-          >Adicionar Organizador</a>
-        </template>
-        <b-card-body>
+    <b-card>
+      <template v-slot:header>
+        Participantes cadastrados
+        <a
+          class="btn btn-sm btn-primary float-right"
+          style="color: white"
+          href="participantes/create"
+        >Adicionar Participante</a>
+      </template>
+      <b-card-body>
+        <div v-if="eventos.length > 0">
           <b-table
             responsive="sm"
             :items="eventos"
@@ -21,7 +21,12 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button
-                @click="del(row.item.idOrganizadores, row.index)"
+                @click="confirmar(row.item.idParticipantes)"
+                class="btn btn-sm btn-success"
+                v-show="! row.item.ativo"
+              >Confirmar</b-button>
+              <b-button
+                @click="del(row.item.idParticipantes, row.index)"
                 class="btn btn-sm btn-danger"
               >Deletar</b-button>
             </template>
@@ -36,23 +41,15 @@
               hide-goto-end-buttons
             />
           </nav>
-        </b-card-body>
-      </b-card>
-    </div>
-    <div v-else>
-      Nenhum Organizador cadastrado
-      <a
-        class="btn btn-sm btn-primary float-right"
-        style="color: white"
-        href="organizadores/create"
-      >Adicionar Organizador</a>
-    </div>
+        </div>
+        <div v-else>Nenhum Participante cadastrado</div>
+      </b-card-body>
+    </b-card>
   </div>
 </template>
 
 <script>
 import axios from "~/axios";
-
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
@@ -66,20 +63,34 @@ export default {
       fields: [
         { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
         { key: "evento.titulo", label: "Nome do evento", sortable: true },
+        { key: "confirmado", sortable: true },
+        { key: "espera", sortable: true },
+        //{ key: "ativo", sortable: true },
         { key: "actions", sortable: true }
       ]
     };
   },
   mounted() {
-    axios.get("organizadores").then(res => {
+    axios.get("participantes").then(res => {
       this.eventos = res.data.content;
     });
   },
   methods: {
     del(id, rowId) {
-      axios.delete("organizadores-remove/" + id).then(() => {
+      console.log(id);
+      axios.delete("participantes-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
         alert("Participante removido com sucesso");
+      });
+    },
+    confirmar(id) {
+      axios.post("participantes-confirmar/" + id).then(() => {
+        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+        alert("Participante ativado com sucesso");
+        let vm = this;
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
       });
     }
   }

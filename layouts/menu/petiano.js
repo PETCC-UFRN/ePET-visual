@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/',
+      url: '#',
     },
     {
       title: true,
@@ -20,7 +20,7 @@ export default {
     },
     {
       name: 'Eventos',
-      url: '/eventos',
+      url: '/petiano/eventos',
       icon: 'icon-event'
     },
     {
@@ -30,34 +30,34 @@ export default {
       children: [
         {
           name: 'Organizadores',
-          url: 'organizadores',
+          url: '/petiano/rh/organizadores',
           icon: 'icon-user'
         },
         {
           name: 'Participantes',
-          url: 'participantes',
+          url: '/petiano/rh/participantes',
           icon: 'icon-user-female',
         },
         {
           name: 'Pessoas',
-          url: 'pessoa',
+          url: '/petiano/rh/pessoa',
           icon: 'icon-user'
         },
         {
           name: 'Usuarios',
-          url: 'usuarios',
+          url: '/petiano/rh/usuarios',
           icon: 'icon-user-female'
         },
       ]
     },
     {
       name: 'Disciplinas',
-      url: '/disciplina',
+      url: '/petiano/disciplina',
       icon: 'icon-book-open'
     },
     {
       name: 'Tutoria',
-      url: '/tutoria',
+      url: '/petiano/tutoria',
       icon: 'icon-notebook'
     }
   ]

@@ -6,7 +6,7 @@
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
-          href="../disciplina/create"
+          href="disciplina/create"
         >Adicionar Disciplina</a>
         <b-table
           responsive="sm"
@@ -17,7 +17,7 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-primary">Virar tutor</b-button>
+            <b-button @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" class="btn btn-sm btn-warning">Editar</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from "../../axios";
+import axios from "~/axios";
 
 export default {
   name: "dashboard",
@@ -53,8 +53,6 @@ export default {
   data() {
     return {
       disciplinas: [],
-      currentPessoa:[],
-      currentPetiano:[],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true },
@@ -67,40 +65,17 @@ export default {
     axios.get("disciplinas").then(res => {
       this.disciplinas = res.data;
     });
-    axios.get("pessoas-usuario").then(res => {
-      this.currentPessoa = res.data;
-      if(res.data.tipo_usuario.nome != "petiano" && res.data.tipo_usuario.nome != "tutor")
-      {
-        this.$router.push("/");
-      }
-    }).finally( () =>{
-      axios.get("petianos-pessoa/"+this.currentPessoa.idPessoa).then(res2 => {
-        this.currentPetiano = res2.data;
-        console.log(this.currentPetiano);
-      });
-      }
-    );
-    console.log("petianos-pessoa/");
   },
   methods: {
-    cadastrar(id){
-      /*this.$router.push(
+    editar(id, nome, codigo){
+      this.$router.push(
         {
           path: 'edit/',
           query  : {"id": id,
                     "nome": nome,
                     "codigo":codigo}
         }
-      )*/
-      console.log("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/");
-      axios.post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/").then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert('Tutoria cadastrada com sucesso');
-        let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
-      });
+      )
     }
   }
   /*methods: {
