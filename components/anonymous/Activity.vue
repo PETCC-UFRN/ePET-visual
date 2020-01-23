@@ -17,17 +17,18 @@
         <template v-slot:img>
           <b-card-group deck>
               <b-card 
-                :title=noticia.titulo 
                 border-variant="info" 
                 header="Info" 
                 align="center"  
                 v-for="noticia in firstColumn" :key="noticia.id"
               >
                 <template v-slot:header>
-                  <h6 class="mb-0">Notícia</h6>
+                  <h4 class="mb-0">{{noticia.titulo}}</h4>
                 </template>
-                <b-card-text>{{noticia.descricao}}  
+                <b-card-body>
+                <b-card-text> <h6 class="mb-0">{{noticia.corpo}}</h6>
               </b-card-text>
+              </b-card-body>
               </b-card> 
           </b-card-group>
         </template>
@@ -37,17 +38,19 @@
         <template v-slot:img>
           <b-card-group deck>
               <b-card 
-                :title=noticia.titulo 
                 border-variant="info" 
                 header="Info" 
                 align="center"  
                 v-for="noticia in secondColumn" :key="noticia.id"
               >
                 <template v-slot:header>
-                  <h6 class="mb-0">Notícia</h6>
+                  <h4 class="mb-0">{{noticia.titulo}}</h4>
                 </template>
-                <b-card-text>{{noticia.descricao}}  
-              </b-card-text>
+
+                <b-card-body>
+                <b-card-text><h6 class="mb-0">{{noticia.corpo}}</h6>  
+                </b-card-text>
+                </b-card-body>
               </b-card> 
           </b-card-group>
         </template>
