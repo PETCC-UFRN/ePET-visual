@@ -1,5 +1,5 @@
 <template>
-  <div v-if="filterNoticias.length >= 6">
+  <div v-if="filterNoticias.length >= 5">
     <br>
     <h2 style="text-align:center;">Destaques</h2>
     <br>
@@ -16,12 +16,12 @@
       <b-carousel-slide>
         <template v-slot:img>
           <b-card-group deck>
-            <div v-for="noticia in firstColumn" :key="noticia.id">
               <b-card 
                 :title=noticia.titulo 
                 border-variant="info" 
                 header="Info" 
                 align="center"  
+                v-for="noticia in firstColumn" :key="noticia.id"
               >
                 <template v-slot:header>
                   <h6 class="mb-0">Notícia</h6>
@@ -29,7 +29,6 @@
                 <b-card-text>{{noticia.descricao}}  
               </b-card-text>
               </b-card> 
-            </div>
           </b-card-group>
         </template>
       </b-carousel-slide>
@@ -37,12 +36,12 @@
       <b-carousel-slide>
         <template v-slot:img>
           <b-card-group deck>
-            <div v-for="noticia in secondColumn" :key="noticia.id">
               <b-card 
                 :title=noticia.titulo 
                 border-variant="info" 
                 header="Info" 
                 align="center"  
+                v-for="noticia in secondColumn" :key="noticia.id"
               >
                 <template v-slot:header>
                   <h6 class="mb-0">Notícia</h6>
@@ -50,7 +49,6 @@
                 <b-card-text>{{noticia.descricao}}  
               </b-card-text>
               </b-card> 
-            </div>
           </b-card-group>
         </template>
       </b-carousel-slide>
@@ -99,17 +97,17 @@ export default {
     },    
     
     firstColumn() {
-      let noticiasFiltradas = this.filterNoticias() 
-      if (noticiasFiltradas.length >= 6) {
-        return noticiasPrimeiraColuna = noticiasFiltradas.slice(0,4)
+      if ( this.filterNoticias.length >= 5) {
+        return this.filterNoticias.slice(0,3)
       }
+      return this.filterNoticias
     },
   
     secondColumn() {
-      let noticiasFiltradas = this.filterNoticias() 
-      if (noticiasFiltradas.length >= 6) {
-        return noticiasSegundaColuna = noticiasFiltradas.slice(4,7) 
+      if (this.filterNoticias.length >= 5) {
+        return this.filterNoticias.slice(3,6) 
       }
+      return this.filterNoticias
     }      
   } 
 }
