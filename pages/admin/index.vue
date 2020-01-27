@@ -259,8 +259,8 @@ import CardLine3ChartExample from "~/components/dashboard/CardLine3ChartExample"
 import CardBarChartExample from "~/components/dashboard/CardBarChartExample";
 import MainChartExample from "~/components/dashboard/MainChartExample";
 import SocialBoxChartExample from "~/components/dashboard/SocialBoxChartExample";
-import CalloutChartExample from "~/components/dashboard/CalloutChartExample";
-import { Callout } from "~/components/";
+// import CalloutChartExample from "~/components/dashboard/CalloutChartExample";
+// import { Callout } from "~/components/";
 import { mapGetters } from "vuex";
 import axios from "axios";
 
@@ -268,14 +268,14 @@ export default {
   name: 'dashboard',
   layout: 'menu/petiano',
   components: {
-    Callout,
+    // Callout,
     CardLine1ChartExample,
     CardLine2ChartExample,
     CardLine3ChartExample,
     CardBarChartExample,
     MainChartExample,
     SocialBoxChartExample,
-    CalloutChartExample
+    // CalloutChartExample
   },
   data: function() {
     return {

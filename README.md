@@ -53,3 +53,7 @@ Em estagio de producao, aconselha-se a usar o programa no modo de producao. Dian
 $ npm run build
 $ npm start
 ```
+
+### Observação
+
+No momento o login ainda não foi desenvolvido, por isso existe o arquivo user.js com um usuário fantásia. No futuro os dados desse usuário serão recuperados do usuário que está logado.
