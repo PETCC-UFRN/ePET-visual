@@ -1,13 +1,15 @@
 <template>
   <div>
     <div v-if="pessoas.length > 0">
-      <b-card header="pessoas cadastrados">
-        <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="pessoas/create"
-        >Adicionar pessoa</a>
+      <b-card>
+        <template v-slot:header>
+          Pessoas cadastradas
+          <!-- <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="pessoas/create"
+          >Adicionar Pessoa</a>-->
+        </template>
         <b-table
           responsive="sm"
           :items="pessoas"
@@ -18,12 +20,19 @@
         >
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
+            </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="ativar(row.item.idpessoa)" class="btn btn-sm btn-success" v-show="! row.item.ativo">Ativar</b-button>
-            <b-button @click="del(row.item.idpessoa, row.index)" class="btn btn-sm btn-danger">Deletar</b-button>
+            <b-button
+              @click="ativar(row.item.idpessoa)"
+              class="btn btn-sm btn-success"
+              v-show="! row.item.ativo"
+            >Ativar</b-button>
+            <b-button
+              @click="del(row.item.idpessoa, row.index)"
+              class="btn btn-sm btn-danger"
+            >Deletar</b-button>
           </template>
         </b-table>
         <nav>
@@ -43,7 +52,7 @@
 </template>
 
 <script>
-import axios from "../../axios";
+import axios from "~/axios";
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
@@ -56,7 +65,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: true },
+        { key: "cpf", sortable: true }
       ]
     };
   },
@@ -66,14 +75,14 @@ export default {
     });
   },
   methods: {
-    cadastrar(id){
+    cadastrar(id) {
       axios.post("pessoas-cadastrar/" + id).then(() => {
         // para não ter que atualizar os pessoas em tempo real forçarei a página a atualizar
-        alert('pessoa ativado com sucesso');
+        alert("pessoa ativada com sucesso");
         let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
       });
     }
   }

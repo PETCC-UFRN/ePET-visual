@@ -47,9 +47,6 @@ import axios from "../../axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/petiano",
   data() {
     return {
@@ -58,25 +55,20 @@ export default {
     };
   },
   async mounted() {
-    await axios.get("pessoas/3").then(res => {
-      this.pessoa = res.data;
-      console.log(this.pessoa);
-    });
+    // await axios.get("pessoas/3").then(res => {
+    //   this.pessoa = res.data;
+    // });
 
-    if (this.pessoa) {
-      await axios.get("petianos-atuais").then(res => {
-        let res_ = res.data.content;
-        console.log(res_);
-        let filtro = res_.filter(petiano => {
-          return petiano.pessoa.idPessoa === this.pessoa. idPessoa;
-        });
+    // if (this.pessoa) {
+    //   await axios.get("petianos-atuais").then(res => {
+    //     let res_ = res.data.content;
+    //     let filtro = res_.filter(petiano => {
+    //       return petiano.pessoa.idPessoa === this.pessoa. idPessoa;
+    //     });
 
-        console.log("FILTRO ==============");
-        console.log(filtro);
-
-        this.petiano = filtro[1];
-      });
-    }
+    //     this.petiano = filtro[1];
+    //   });
+    // }
   },
   methods: {
     del(id, rowId) {

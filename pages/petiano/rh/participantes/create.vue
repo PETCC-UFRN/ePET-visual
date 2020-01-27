@@ -8,13 +8,21 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Codigo</label>
-            <input type="text" class="form-control" v-model="form.codigo" />
+            <label for="exampleFormControlInput1">pessoa</label>
+            <input type="number" class="form-control" v-model="form.pessoa" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Nome</label>
-            <input type="text" class="form-control" v-model="form.nome" />
+            <label for="exampleFormControlInput1">evento</label>
+            <input type="number" class="form-control" v-model="form.evento" />
           </div>
+          <!--<div class="form-group">
+            <label for="exampleFormControlInput1">confirmado</label>
+            <input type="bool" class="form-control" v-model="form.confirmado" />
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">espera</label>
+            <input type="bool" class="form-control" v-model="form.espera" />
+          </div>-->
           <div class="form-group">
             <button type="submit">Enviar</button>
           </div>
@@ -24,16 +32,15 @@
   </div>
 </template>
 <script>
-import axios from "../../axios";
+import axios from "~/axios";
 
 export default {
   layout: "menu/petiano",
   data() {
     return {
       form: {
-        idDisciplina: this.$route.query.id,
-        codigo: this.$route.query.codigo,
-        nome: this.$route.query.nome
+        pessoa: 0,
+        evento: 0
       },
       alert: {
         message: "",
@@ -44,25 +51,19 @@ export default {
   methods: {
     submitForm(e) {
       axios
-        .post("disciplinas", this.form)
+        .post("participantes-cadastrar/" + this.form.evento + "/" + this.form.pessoa)
         .then(res => {
           this.alert.class = "success";
-          this.alert.message = "Disciplina editada com sucesso";
+          this.alert.message = "Participante cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
-          this.$router.push(
-            {
-              path: '../',
-            }
-          )
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "";
+          this.alert.message = "Participante NÃO cadastrado. Tente novamente";
         });
       e.preventDefault();
-      console.log("AAAA");
     }
   }
 };

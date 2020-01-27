@@ -29,8 +29,17 @@
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-vue": "^4.0.0",
+<<<<<<< HEAD
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^1.11.0",
+    "sass-loader": "^6.0.6",
+    "webpack": "^4.41.4",
+    "webpack-dev-server": "^3.10.1"
+=======
     "node-sass": "^4.13.1",
     "nodemon": "^1.11.0",
     "sass-loader": "^6.0.6"
+>>>>>>> c51a22288619a365684b442a7924dcbf4fd827c7
   }
 }
