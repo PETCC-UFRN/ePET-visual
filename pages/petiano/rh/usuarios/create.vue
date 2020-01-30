@@ -5,16 +5,16 @@
         <b-col md="12">
           <b-card header="Criar Usuário">
             <b-form>
-              <b-form-group label="E-mail">
+              <b-form-group label="E-mail:">
                 <b-form-input type="email" required placeholder="Insira o título" v-model="usuario.email"></b-form-input>
               </b-form-group>
-              <b-form-group label="Senha">
+              <b-form-group label="Senha:">
                 <b-form-input required type="password" placeholder="Insira o título" v-model="usuario.senha"></b-form-input>
               </b-form-group>
-              <b-form-group label="Nome">
+              <b-form-group label="Nome:">
                 <b-form-input required placeholder="Insira o nome" v-model="usuario.nome"></b-form-input>
               </b-form-group>
-              <b-form-group label="CPF">
+              <b-form-group label="CPF:">
                 <b-form-input required  class="form-control cpf-mask" placeholder="Ex.: 00000000000" v-model="usuario.cpf"></b-form-input>
               </b-form-group>
 

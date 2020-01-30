@@ -8,15 +8,16 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Codigo</label>
-            <input type="text" class="form-control" v-model="form.codigo" />
+            <label for="exampleFormControlInput1">Código:</label>
+            <input type="text" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Nome</label>
-            <input type="text" class="form-control" v-model="form.nome" />
+            <label for="exampleFormControlInput1">Nome:</label>
+            <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
           </div>
           <div class="form-group">
-            <button type="submit">Enviar</button>
+            <b-button type="submit" variant="primary">Enviar</b-button>
+            <b-button type="reset" variant="danger">Limpar campos</b-button>
           </div>
         </form>
       </div>
@@ -56,6 +57,12 @@ export default {
           this.alert.message = "Disciplina NÃO cadastrada. Tente novamente";
         });
       e.preventDefault();
+    },
+    onReset(evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.nome = ""
+      this.form.codigo = ""
     }
   }
 };

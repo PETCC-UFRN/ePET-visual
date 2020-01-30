@@ -73,15 +73,15 @@ export default {
         });
       e.preventDefault();
     },
-     onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.titulo = ""
-        this.form.corpo = ""
-        this.form.inicio_exibicao = ""
-        this.form.fim_exibicao = "",
-        this.form.ativo= false
-      }
+    onReset(evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.titulo = ""
+      this.form.corpo = ""
+      this.form.inicio_exibicao = ""
+      this.form.fim_exibicao = "",
+      this.form.ativo= false
+    }
   }
 };
 </script>

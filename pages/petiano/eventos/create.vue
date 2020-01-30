@@ -8,43 +8,44 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Titulo</label>
-            <input type="text" class="form-control" v-model="form.titulo" />
+            <label for="exampleFormControlInput1">Título:</label>
+            <input type="text" class="form-control" placeholder="Digite o título" v-model="form.titulo" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Descrição</label>
-            <input type="text" class="form-control" v-model="form.descricao" />
+            <label for="exampleFormControlInput1">Descrição:</label>
+            <input type="text" class="form-control" placeholder="Digite a descrição" v-model="form.descricao" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Local</label>
-            <input type="text" class="form-control" v-model="form.local" />
+            <label for="exampleFormControlInput1">Local:</label>
+            <input type="text" class="form-control" placeholder="Digite o local" v-model="form.local" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Carga Horaria</label>
-            <input type="number" class="form-control" v-model="form.qtdCargaHoraria" />
+            <label for="exampleFormControlInput1">Carga horária: (em horas)</label>
+            <input type="number" class="form-control"  v-model="form.qtdCargaHoraria" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Dias</label>
-            <input type="number" class="form-control" v-model="form.qtdDias" />
+            <label for="exampleFormControlInput1">Quantidade de dias:</label>
+            <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdDias" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Vagas</label>
-            <input type="number" class="form-control" v-model="form.qtdVagas" />
+            <label for="exampleFormControlInput1">Quantidade de vagas:</label>
+            <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdVagas" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Valor</label>
+            <label for="exampleFormControlInput1">Valor da inscrição:</label>
             <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.valor" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Data Inscrição</label>
+            <label for="exampleFormControlInput1">Data de início de inscrições:</label>
             <input type="date" class="form-control" v-model="form.d_inscricao" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Data Final das Inscrição</label>
+            <label for="exampleFormControlInput1">Data de fim de inscrições:</label>
             <input type="date" class="form-control" v-model="form.d_inscricao_fim" />
           </div>
           <div class="form-group">
-            <button type="submit">Enviar</button>
+            <b-button type="submit" variant="primary">Enviar</b-button>
+            <b-button type="reset" variant="danger">Limpar campos</b-button>
           </div>
         </form>
       </div>
@@ -92,6 +93,20 @@ export default {
           this.alert.message = "Evento NÃO cadastrado. Tente novamente";
         });
       e.preventDefault();
+    },
+    onReset(evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.titulo = ""
+      this.form.descricao = ""
+      this.form.local = ""
+      this.form.qtdCargaHoraria = 0
+      this.form.qtdDias = 0
+      this.form.qtdVagas = 0
+      this.form.valor = 0
+      this.form.d_inscricao = "mm/dd/yyyy"
+      this.form.d_inscricao_fim = "mm/dd/yyyy"
+      this.form.ativo= false
     }
   }
 };

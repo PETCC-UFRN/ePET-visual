@@ -8,11 +8,11 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">pessoa</label>
+            <label for="exampleFormControlInput1">ID Pessoa:</label>
             <input type="number" class="form-control" v-model="form.pessoa" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">evento</label>
+            <label for="exampleFormControlInput1">ID Evento:</label>
             <input type="number" class="form-control" v-model="form.evento" />
           </div>
           <!--<div class="form-group">
@@ -24,7 +24,8 @@
             <input type="bool" class="form-control" v-model="form.espera" />
           </div>-->
           <div class="form-group">
-            <button type="submit">Enviar</button>
+            <b-button type="submit" variant="primary">Enviar</b-button>
+            <b-button type="reset" variant="danger">Limpar campos</b-button>
           </div>
         </form>
       </div>
@@ -64,6 +65,12 @@ export default {
           this.alert.message = "Organizador NÃO cadastrado. Tente novamente";
         });
       e.preventDefault();
+    },
+    onReset(evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.pessoa = 0
+      this.form.evento = 0
     }
   }
 };

@@ -41,8 +41,8 @@
             :total-rows="noticias.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Página anterior"
-            next-text="Próxima página"
+            prev-text="Anterior"
+            next-text="Próximo"
             hide-goto-end-buttons
           />
         </nav>

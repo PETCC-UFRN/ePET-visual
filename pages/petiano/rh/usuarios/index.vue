@@ -78,7 +78,7 @@
         </b-col>
       </b-row>
     </div>
-    <div class="row" v-else>Nenhum usuário cadastrado.</div>
+    <div class="row" v-else><h5>Nenhum usuário cadastrado</h5></div>
   </div>
 </template>
 

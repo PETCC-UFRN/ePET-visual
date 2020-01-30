@@ -29,9 +29,9 @@
             <template v-slot:cell(actions)="row">
               <b-button
                 :href="'/petiano/noticia/edit/' + row.item.idNoticia"
-                class="btn btn-sm btn-primary"
+                class="btn btn-sm btn-info"
                 style="color:white"
-              >Ver</b-button>
+              >Visualizar</b-button>
             </template>
           </b-table>
           <nav>
@@ -39,8 +39,8 @@
               :total-rows="resNoticias.length"
               :per-page="10"
               v-model="currentPage"
-              prev-text="Página Anterior"
-              next-text="Próxima Página"
+              prev-text="Anterior"
+              next-text="Próximo"
               hide-goto-end-buttons
             />
           </nav>
