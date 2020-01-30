@@ -8,23 +8,24 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Titulo</label>
-            <input type="text" class="form-control" v-model="form.titulo" />
+            <label for="exampleFormControlInput1">Título:</label>
+            <input type="text" placeholder="Digite o título"  class="form-control" v-model="form.titulo" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Descrição</label>
-            <input type="text" class="form-control" v-model="form.corpo" />
+            <label for="exampleFormControlInput1">Descrição:</label>
+            <input type="text"  placeholder="Digite a descrição"  class="form-control" v-model="form.corpo" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Inicio exibição</label>
+            <label for="exampleFormControlInput1">Inicio exibição:</label>
             <input type="date" class="form-control" v-model="form.inicio_exibicao" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Fim exibição</label>
+            <label for="exampleFormControlInput1">Fim exibição:</label>
             <input type="date" class="form-control" v-model="form.fim_exibicao" />
           </div>
           <div class="form-group">
-            <button type="submit">Enviar</button>
+            <b-button type="submit" variant="primary">Enviar</b-button>
+            <b-button type="reset" variant="danger">Limpar campos</b-button>
           </div>
         </form>
       </div>
@@ -71,7 +72,16 @@ export default {
           this.alert.message = "Notícia NÃO cadastrado. Tente novamente";
         });
       e.preventDefault();
-    }
+    },
+     onReset(evt) {
+        evt.preventDefault()
+        // Reset our form values
+        this.form.titulo = ""
+        this.form.corpo = ""
+        this.form.inicio_exibicao = ""
+        this.form.fim_exibicao = "",
+        this.form.ativo= false
+      }
   }
 };
 </script>

@@ -13,7 +13,7 @@ export default {
             }
         },
         {
-            name: 'Inicio',
+            name: 'Início',
             url: '/petiano', // TODO::Modificar depois para a página inicial do petiano
             icon: 'icon-home'
         },
@@ -42,14 +42,14 @@ export default {
                     icon: 'icon-user'
                 },
                 {
-                    name: 'Usuarios',
+                    name: 'Usuários',
                     url: '/petiano/rh/usuarios',
                     icon: 'icon-user-female'
                 },
             ]
         },
         {
-            name: 'Noticias',
+            name: 'Notícias',
             url: '/petiano/noticia',
             icon: 'icon-envelope-open'
         },

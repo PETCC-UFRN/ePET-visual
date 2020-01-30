@@ -2,12 +2,12 @@
   <div>
     <b-card>
       <template v-slot:header>
-        Organizadores Cadastrados
+        <h3>Organizadores Cadastrados</h3>
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="organizadores/create"
-        >Adicionar Organizador</a>
+        >Adicionar organizador</a>
       </template>
 
       <b-card-body>
@@ -24,7 +24,7 @@
               <b-button
                 @click="del(row.item.idOrganizadores, row.index)"
                 class="btn btn-sm btn-danger"
-              >Deletar</b-button>
+              >Remover</b-button>
             </template>
           </b-table>
           <nav>
@@ -32,13 +32,13 @@
               :total-rows="eventos.length"
               :per-page="10"
               v-model="currentPage"
-              prev-text="Prev"
-              next-text="Next"
+              prev-text="Página anterior"
+              next-text="Próxima página"
               hide-goto-end-buttons
             />
           </nav>
         </div>
-        <div v-else> Nenhum organizador cadastrado </div>
+        <div v-else> Nenhum organizador cadastrado</div>
       </b-card-body>
     </b-card>
   </div>
@@ -60,7 +60,7 @@ export default {
       fields: [
         { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
         { key: "evento.titulo", label: "Nome do evento", sortable: true },
-        { key: "actions", sortable: true }
+        { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
@@ -79,3 +79,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

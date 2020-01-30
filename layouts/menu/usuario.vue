@@ -36,6 +36,11 @@ export default {
       nav: nav.items
     };
   },
+  head () {
+    return {
+      title: 'PET-CC - Usuário'
+    }
+  },
   computed: {
     name() {
       return this.$route.name;

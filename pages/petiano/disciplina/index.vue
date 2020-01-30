@@ -1,13 +1,19 @@
 <template>
   <div>
     <div v-if="disciplinas.length > 0">
-      <b-card header="Disciplinas cadastradas">
+      <b-card>
+
+        <template v-slot:header>
+          <h3>Disciplinas cadastradas</h3>
+            <a
+              class="btn btn-sm btn-primary float-right"
+              style="color: white"
+              href="disciplina/create"
+            >Adicionar Disciplina</a>
+        </template>
+
         <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="disciplina/create"
-        >Adicionar Disciplina</a>
+
         <b-table
           responsive="sm"
           :items="disciplinas"
@@ -30,14 +36,14 @@
             :total-rows="disciplinas.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Página anterior "
+            next-text="Próxima página"
             hide-goto-end-buttons
           />
         </nav>
       </b-card>
     </div>
-    <div class="row" v-else>Nenhuma Disciplina cadastrada</div>
+    <div class="row" v-else>Nenhuma disciplina cadastrada</div>
   </div>
 </template>
 
@@ -55,9 +61,9 @@ export default {
       disciplinas: [],
       currentPage: 1,
       fields: [
-        { key: "codigo", sortable: true },
+        { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true },
-        { key: "actions", sortable: true },
+        { key: "actions", sortable: true, label: "Ações disponíveis" },
       ]
     };
   },
@@ -98,3 +104,10 @@ export default {
   }*/
 };
 </script>
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

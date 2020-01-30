@@ -2,7 +2,7 @@
   <div>
     <b-card>
       <template v-slot:header>
-        Eventos cadastrados
+        <h3>Eventos cadastrados</h3>
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
@@ -45,8 +45,8 @@
             :total-rows="eventos.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Página anterior"
+            next-text="Próxima página"
             hide-goto-end-buttons
           />
         </nav>
@@ -70,12 +70,12 @@ export default {
       eventos: [],
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true },
+        { key: "titulo", sortable: true, label: "Título"  },
         { key: "local", sortable: true },
-        { key: "d_inscricao", sortable: true },
-        { key: "qtdVagas", sortable: true },
-        { key: "ativo", sortable: true },
-        { key: "actions", sortable: true }
+        { key: "d_inscricao", sortable: true, label: "Dia de inscrição"  },
+        { key: "qtdVagas", sortable: true, label: "Quantidade de vagas" },
+        { key: "ativo", sortable: true, label: "Ativo"  },
+        { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
@@ -104,3 +104,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

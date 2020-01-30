@@ -36,6 +36,11 @@ export default {
       nav: nav.items
     };
   },
+  head () {
+    return {
+      title: 'PET-CC - Petiano'
+    }
+  },
   computed: {
     name() {
       return this.$route.name;

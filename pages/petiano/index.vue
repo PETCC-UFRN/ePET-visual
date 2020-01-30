@@ -10,10 +10,13 @@
     </div>
     <div class="row" v-else>
       <div class="col-md-6">
-        <span class="lead">Bem vindo</span>
+        <span class="lead"><h1>Bem vindo!</h1></span>
       </div>
       <div class="col-md-6">
-        <b-card header="Noticias">
+        <b-card >
+          <template v-slot:header>
+            <h4 class="mb-0">Notícias</h4>
+          </template>
           <b-table
             responsive="sm"
             hover
@@ -36,8 +39,8 @@
               :total-rows="resNoticias.length"
               :per-page="10"
               v-model="currentPage"
-              prev-text="Prev"
-              next-text="Next"
+              prev-text="Página Anterior"
+              next-text="Próxima Página"
               hide-goto-end-buttons
             />
           </nav>
@@ -60,9 +63,9 @@ export default {
       noticias: {}, // requisicao de noticias
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true },
+        { key: "titulo", sortable: true, label: "Título" },
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
-        { key: "actions"},
+        { key: "actions", label: "Ações disponíveis"},
       ]
     };
   },

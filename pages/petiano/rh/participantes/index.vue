@@ -2,7 +2,7 @@
   <div>
     <b-card>
       <template v-slot:header>
-        Participantes cadastrados
+        <h3> Participantes cadastrados </h3>
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
@@ -36,13 +36,13 @@
               :total-rows="eventos.length"
               :per-page="10"
               v-model="currentPage"
-              prev-text="Prev"
-              next-text="Next"
+              prev-text="Página anterior"
+              next-text="Próxima página"
               hide-goto-end-buttons
             />
           </nav>
         </div>
-        <div v-else>Nenhum Participante cadastrado</div>
+        <div v-else>Nenhum participante cadastrado</div>
       </b-card-body>
     </b-card>
   </div>
@@ -66,7 +66,7 @@ export default {
         { key: "confirmado", sortable: true },
         { key: "espera", sortable: true },
         //{ key: "ativo", sortable: true },
-        { key: "actions", sortable: true }
+        { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
@@ -96,3 +96,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

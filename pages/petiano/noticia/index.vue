@@ -2,7 +2,8 @@
   <div>
     <b-card>
       <template v-slot:header>
-        Noticias cadastradas
+        <h3>Notícias cadastradas</h3>
+        
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
@@ -40,8 +41,8 @@
             :total-rows="noticias.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Página anterior"
+            next-text="Próxima página"
             hide-goto-end-buttons
           />
         </nav>
@@ -62,9 +63,9 @@ export default {
       noticias: [],
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true },
+        { key: "titulo", sortable: true, label: "Título" },
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
-        { key: "actions"},
+        { key: "actions", label: "Ações disponíveis"},
       ],
     };
   },
@@ -83,3 +84,11 @@ export default {
   }
 };
 </script>
+
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>
