@@ -69,7 +69,7 @@ export default {
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Notícia NÃO cadastrado. Tente novamente";
+          this.alert.message = "Erro no cadastramento da notícia. Por favor, tente novamente.";
         });
       e.preventDefault();
     },

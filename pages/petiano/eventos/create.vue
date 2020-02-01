@@ -90,7 +90,7 @@ export default {
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Evento NÃO cadastrado. Tente novamente";
+          this.alert.message = "Erro no cadastramento do evento. Por favor, tente novamente";
         });
       e.preventDefault();
     },
