@@ -14,18 +14,21 @@
                 <input type="text" class="form-control" placeholder="Nome completo" v-model="usuario.nome">
               </b-input-group>
 
+            <div :class="[isEmailValid()]">
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>@</b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" class="form-control" placeholder="Email" v-model="usuario.email">
+                <input type="email" class="form-control" placeholder="Email" v-model="usuario.email">
               </b-input-group>
-
+            </div>
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>CPF</b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" class="form-control" placeholder="Ex.: 000.000.000-00" v-model="usuario.cpf">
+                <!-- <input type="text" class="form-control" placeholder="Ex.: 000.000.000-00" v-model="usuario.cpf"> -->
+                <the-mask :mask="['###.###.###-##']" class="form-control" placeholder="Ex.: 000.000.000-00" v-model="usuario.cpf" />
+
               </b-input-group>
 
               <b-input-group class="mb-3">
@@ -53,9 +56,12 @@
 
 <script>
 import axios from 'axios';
+import {TheMask} from 'vue-the-mask'
+
 export default {
   name: 'Register',
   layout: 'clean',
+  components: {TheMask},
 
   data:function (){
     return {
@@ -65,7 +71,8 @@ export default {
         senha: "",
         cpf: ""
       },
-      error: null
+      error: null,
+      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
     };
   },
   head () {
@@ -75,10 +82,13 @@ export default {
   },
 
   methods: {
+    isEmailValid: function() {
+      return (this.usuario.email == "")? "" : (this.reg.test(this.usuario.email)) ? 'has-success' : 'has-error';
+    },
     async register(){
       try{
-
-        await axios.post('http://localhost:8080/api/usuarios-cadastrar/',{
+        
+        await axios.post('http://epet.imd.ufrn.br/service/api/usuarios-cadastrar/',{
           email: this.usuario.email,
           senha: this.usuario.senha,
           cpf: this.usuario.cpf,
@@ -93,6 +103,8 @@ export default {
 
         this.$router.push('/usuarios');
       } catch(e){
+        this.alert.class = "danger";
+        this.alert.message = "Erro no cadastramento da notícia. Por favor, tente novamente.";
         this.error = e.response.data.message
       }
     }
