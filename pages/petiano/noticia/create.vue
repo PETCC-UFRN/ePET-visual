@@ -24,8 +24,8 @@
             <input type="date" class="form-control" v-model="form.limite_exibicao" />
           </div>
           <div class="form-group">
-            <b-button type="submit" variant="primary">Enviar</b-button>
-            <b-button type="reset" variant="danger">Limpar campos</b-button>
+            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
+            <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>
           </div>
         </form>
       </div>

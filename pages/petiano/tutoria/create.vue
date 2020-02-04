@@ -10,7 +10,7 @@
             class="btn btn-sm btn-primary float-right"
             style="color: white"
             href="../disciplina/create"
-          >Adicionar Disciplina</a>
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Disciplina</a>
           
         </template>
       
@@ -24,7 +24,7 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning">Tornar tutor</b-button>
+            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning"><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"

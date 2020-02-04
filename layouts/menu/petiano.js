@@ -1,8 +1,5 @@
 export default {
-    items: [{
-            name: 'Dashboard',
-            url: '#',
-        },
+    items: [
         {
             title: true,
             name: 'Menu de navegação',

@@ -29,9 +29,10 @@
             <template v-slot:cell(actions)="row">
               <b-button
                 :href="'/petiano/noticia/edit/' + row.item.idNoticia"
-                class="btn btn-sm btn-info"
+                class="btn btn-sm btn-warning"
                 style="color:white"
-              >Visualizar</b-button>
+              ><i class="fa fa-eye" aria-hidden="true"></i>
+ Visualizar</b-button>
             </template>
           </b-table>
           <nav>

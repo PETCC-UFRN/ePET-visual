@@ -56,12 +56,12 @@
                   class="btn btn-sm btn-danger"
                   @click="tornarPetiano(row.item.idPessoa)"
                   v-if="row.item.petiano"
-                >Remover petiano</b-button>
+                ><i class="fa fa-trash-o fa-fw"></i>Remover petiano</b-button>
                 <b-button
                   class="btn btn-sm btn-warning" 
                   @click="tornarPetiano(row.item.idPessoa)" 
                   v-else
-                >Tornar petiano</b-button>
+                ><i class="fa fa-check" aria-hidden="true"></i> Tornar petiano</b-button>
               </template>
             </b-table>
             <nav>

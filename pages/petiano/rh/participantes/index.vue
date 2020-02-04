@@ -7,7 +7,8 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="participantes/create"
-        >Adicionar participante</a>
+        ><i class="fa fa-plus" aria-hidden="true"></i>
+  Adicionar participante</a>
       </template>
       <b-card-body>
         <div v-if="eventos.length > 0">
@@ -19,16 +20,29 @@
             :per-page="10"
             :fields="fields"
           >
+            <template v-slot:cell(confirmado)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.confirmado" disabled />
+              </div>
+            </template>
+            <template v-slot:cell(espera)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.espera" disabled />
+              </div>
+            </template>
+
+
             <template v-slot:cell(actions)="row">
               <b-button
                 @click="confirmar(row.item.idParticipantes)"
                 class="btn btn-sm btn-success"
                 v-show="! row.item.ativo"
-              >Confirmar</b-button>
+              ><i class="fa fa-check" aria-hidden="true"></i>
+ Confirmar</b-button>
               <b-button
                 @click="del(row.item.idParticipantes, row.index)"
                 class="btn btn-sm btn-danger"
-              >Deletar</b-button>
+              ><i class="fa fa-trash-o fa-fw"></i> Deletar</b-button>
             </template>
           </b-table>
           <nav>

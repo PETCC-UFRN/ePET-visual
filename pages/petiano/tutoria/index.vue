@@ -8,7 +8,7 @@
             class="btn btn-sm btn-primary float-right"
             style="color: white"
             href="tutoria/create"
-          >Adicionar Tutoria</a>
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</a>
         </template>
         <!-- TODO::remover esse style -->
         <b-table
@@ -25,7 +25,7 @@
               </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger">Remover</b-button>
+            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
