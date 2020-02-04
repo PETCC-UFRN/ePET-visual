@@ -9,7 +9,7 @@
               class="btn btn-sm btn-primary float-right"
               style="color: white"
               href="disciplina/create"
-            >Adicionar Disciplina</a>
+            >Adicionar disciplina</a>
         </template>
 
         <!-- TODO::remover esse style -->

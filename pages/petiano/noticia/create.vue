@@ -21,7 +21,7 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Fim exibição:</label>
-            <input type="date" class="form-control" v-model="form.fim_exibicao" />
+            <input type="date" class="form-control" v-model="form.limite_exibicao" />
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary">Enviar</b-button>
@@ -32,6 +32,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "~/axios";
 import {user} from "~/user";
@@ -44,7 +45,7 @@ export default {
         titulo: "",
         corpo: "",
         inicio_exibicao: "",
-        fim_exibicao: "",
+        limite_exibicao: "",
         ativo: false
       },
       alert: {
@@ -75,11 +76,11 @@ export default {
     },
     onReset(evt) {
       evt.preventDefault()
-      // Reset our form values
+
       this.form.titulo = ""
       this.form.corpo = ""
       this.form.inicio_exibicao = ""
-      this.form.fim_exibicao = "",
+      this.form.limite_exibicao = "",
       this.form.ativo= false
     }
   }

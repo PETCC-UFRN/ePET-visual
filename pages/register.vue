@@ -14,14 +14,13 @@
                 <input type="text" class="form-control" placeholder="Nome completo" v-model="usuario.nome">
               </b-input-group>
 
-            <div :class="[isEmailValid()]">
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>@</b-input-group-text>
                 </b-input-group-prepend>
                 <input type="email" class="form-control" placeholder="Email" v-model="usuario.email">
               </b-input-group>
-            </div>
+
               <b-input-group class="mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>CPF</b-input-group-text>
@@ -45,7 +44,7 @@
                 <input type="password" class="form-control" placeholder="Repetir senha">
               </b-input-group>
 
-              <b-button variant="success" @click="register()" block>Criar conta</b-button>
+              <b-button class="btn btn-success" @click="register()" block>Criar conta</b-button>
             </b-card-body>
           </b-card>
         </b-col>
@@ -57,6 +56,8 @@
 <script>
 import axios from 'axios';
 import {TheMask} from 'vue-the-mask'
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+
 
 export default {
   name: 'Register',
@@ -71,9 +72,18 @@ export default {
         senha: "",
         cpf: ""
       },
-      error: null,
-      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+      error: null
     };
+  },
+
+  validations: {
+    usuario: {
+      nome: { required },
+      email: { required, email },
+      cpf: { required },
+      senha: { required, minLength: minLength(6) },
+      confirmPassword: { required, sameAsPassword: sameAs('senha') }
+    }
   },
   head () {
     return {
@@ -82,9 +92,6 @@ export default {
   },
 
   methods: {
-    isEmailValid: function() {
-      return (this.usuario.email == "")? "" : (this.reg.test(this.usuario.email)) ? 'has-success' : 'has-error';
-    },
     async register(){
       try{
         

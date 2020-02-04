@@ -21,7 +21,7 @@
               :per-page="10"
             >
               <template v-slot:cell(actions)="row">
-                <b-button class="btn btn-sm btn-danger"  @click="removerPetiano(row.item.idPetiano)">Remover Petiano</b-button>
+                <b-button class="btn btn-sm btn-danger"  @click="removerPetiano(row.item.idPetiano)">Remover petiano</b-button>
               </template>
             </b-table>
             <nav>
@@ -56,12 +56,12 @@
                   class="btn btn-sm btn-danger"
                   @click="tornarPetiano(row.item.idPessoa)"
                   v-if="row.item.petiano"
-                >Remover Petiano</b-button>
+                >Remover petiano</b-button>
                 <b-button
-                  class="btn btn-sm btn-success" 
+                  class="btn btn-sm btn-warning" 
                   @click="tornarPetiano(row.item.idPessoa)" 
                   v-else
-                >Tornar Petiano</b-button>
+                >Tornar petiano</b-button>
               </template>
             </b-table>
             <nav>

@@ -7,7 +7,7 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="participantes/create"
-        >Adicionar Participante</a>
+        >Adicionar participante</a>
       </template>
       <b-card-body>
         <div v-if="eventos.length > 0">

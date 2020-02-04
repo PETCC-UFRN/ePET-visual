@@ -55,14 +55,14 @@ export default {
         .post("organizadores-cadastrar/" + this.form.evento + "/" + this.form.pessoa)
         .then(res => {
           this.alert.class = "success";
-          this.alert.message = "Organizador cadastrado com sucesso";
+          this.alert.message = "Organizador cadastrado com sucesso.";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Organizador NÃO cadastrado. Tente novamente";
+          this.alert.message = "Organizador não cadastrado. Por favor, tente novamente";
         });
       e.preventDefault();
     },
