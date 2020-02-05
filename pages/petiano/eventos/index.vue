@@ -30,11 +30,10 @@
               class="btn btn-sm btn-success"
               v-show="! row.item.ativo"
             ><i class="fa fa-check" aria-hidden="true"></i>
- Ativar</b-button>
+              Ativar</b-button>
             <b-button
               :href="'/eventos/edit/' + row.item.idEvento"
               class="btn btn-sm btn-warning"
-              style="color:white"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button
               @click="del(row.item.idEvento, row.index)"

@@ -8,7 +8,7 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Titulo</label>
+            <label for="exampleFormControlInput1">Título</label>
             <input type="text" class="form-control" v-model="form.titulo" />
           </div>
           <div class="form-group">
@@ -20,7 +20,7 @@
             <input type="text" class="form-control" v-model="form.local" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Carga Horaria</label>
+            <label for="exampleFormControlInput1">Carga Horária</label>
             <input type="number" class="form-control" v-model="form.qtdCargaHoraria" />
           </div>
           <div class="form-group">

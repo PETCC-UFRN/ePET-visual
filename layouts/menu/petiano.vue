@@ -38,7 +38,7 @@ export default {
   },
   head () {
     return {
-      title: 'PET-CC - Petiano'
+      title: 'PET-CC UFRN - Petiano'
     }
   },
   computed: {

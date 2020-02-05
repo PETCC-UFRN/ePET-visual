@@ -28,7 +28,6 @@
             <b-button
               :href="'/petiano/noticia/edit/' + row.item.idNoticia"
               class="btn btn-sm btn-warning"
-              style="color:white"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button
               @click="del(row.item.idNoticia, row.index)"
