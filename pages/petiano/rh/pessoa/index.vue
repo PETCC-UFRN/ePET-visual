@@ -28,11 +28,11 @@
               @click="ativar(row.item.idpessoa)"
               class="btn btn-sm btn-success"
               v-show="! row.item.ativo"
-            >Ativar</b-button>
+            ><i class="fa fa-check" aria-hidden="true"></i> Ativar</b-button>
             <b-button
               @click="del(row.item.idpessoa, row.index)"
               class="btn btn-sm btn-danger"
-            >Deletar</b-button>
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>

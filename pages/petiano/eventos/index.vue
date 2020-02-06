@@ -7,7 +7,8 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="eventos/create"
-        >Adicionar evento</a>
+        ><i class="fa fa-plus" aria-hidden="true"></i>
+ Adicionar evento</a>
       </template>
       <div v-if="eventos.length > 0">
         <b-table
@@ -28,16 +29,16 @@
               @click="ativar(row.item.idEvento)"
               class="btn btn-sm btn-success"
               v-show="! row.item.ativo"
-            >Ativar</b-button>
+            ><i class="fa fa-check" aria-hidden="true"></i>
+              Ativar</b-button>
             <b-button
-              :href="'/eventos/edit/' + row.item.idEvento"
+              :href="'/petiano/eventos/edit/' + row.item.idEvento"
               class="btn btn-sm btn-warning"
-              style="color:white"
-            >Editar</b-button>
+            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button
               @click="del(row.item.idEvento, row.index)"
               class="btn btn-sm btn-danger"
-            >Deletar</b-button>
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>

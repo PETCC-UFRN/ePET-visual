@@ -3,22 +3,29 @@
     <div>
       <b-row>
         <b-col md="12">
-          <b-card header="Criar Usuário">
+          <b-card >
+            <template v-slot:header>
+              <strong>Usuário</strong> <small>Formulário de criação</small>
+            </template> 
             <b-form>
               <b-form-group label="E-mail:">
-                <b-form-input type="email" required placeholder="Insira o título" v-model="usuario.email"></b-form-input>
+                <b-form-input type="email" required placeholder="Insira o email" v-model="usuario.email"></b-form-input>
               </b-form-group>
               <b-form-group label="Senha:">
-                <b-form-input required type="password" placeholder="Insira o título" v-model="usuario.senha"></b-form-input>
+                <b-form-input required type="password" placeholder="Insira a senha" v-model="usuario.senha"></b-form-input>
               </b-form-group>
               <b-form-group label="Nome:">
                 <b-form-input required placeholder="Insira o nome" v-model="usuario.nome"></b-form-input>
               </b-form-group>
               <b-form-group label="CPF:">
-                <b-form-input required  class="form-control cpf-mask" placeholder="Ex.: 00000000000" v-model="usuario.cpf"></b-form-input>
+                <the-mask :mask="['###.###.###-##']"  class="form-control" placeholder="Ex.: 000.000.000-00" v-model="usuario.cpf" />
               </b-form-group>
 
-              <b-button @click="criarUsuario()" variant="primary">Cadastrar</b-button>
+              <div class="form-group">
+                <b-button @click="criarUsuario()" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
+                <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>
+              </div>  
+
             </b-form>
           </b-card>
         </b-col>
@@ -30,12 +37,13 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "axios";
+import {TheMask} from 'vue-the-mask'
+
 
 export default {
-  //middleware: 'auth',
-  name: "admin",
-  layout: "adminLayout",
-  components: {},
+  layout: "menu/petiano",
+  components: {TheMask},
+
   data: function() {
     return {
       usuario: {
@@ -63,7 +71,16 @@ export default {
           { auth: { username: "h@email.com", password: "password" } }
         )
         .then(res => console.log(res));
+    },
+    onReset(evt) {
+      evt.preventDefault()
+      // Reset our form values
       
+      this.usuario.email = ""
+      this.usuario.senha = ""
+      this.usuario.nome = ""
+      this.usuario.cpf = ""
+          
     }
   }
 };

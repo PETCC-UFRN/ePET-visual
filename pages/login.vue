@@ -10,15 +10,15 @@
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                  <input type="text" class="form-control" placeholder="E-mail">
+                  <input required type="text" v-model="email" class="form-control" placeholder="E-mail">
                 </b-input-group>
                 <b-input-group class="mb-4">
                   <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
-                  <input type="password" class="form-control" placeholder="Senha">
+                  <input required type="password" v-model="senha" class="form-control" placeholder="Senha">
                 </b-input-group>
                 <b-row>
                   <b-col cols="6">
-                    <b-button variant="success" class="px-4" @click="login()">Login</b-button>
+                    <b-button variant="success" class="px-4" @click="login()"> <i class="fa fa-user"></i> Login</b-button>
                   </b-col>
                   <b-col cols="6" class="text-right">
                     <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>

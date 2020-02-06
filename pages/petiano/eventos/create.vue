@@ -5,6 +5,9 @@
       <!-- <b>&rArr;</b> -->
     </b-alert>
     <div class="card">
+      <div class="card-header">
+        <strong>Evento</strong> <small>Formulário de criação</small>
+      </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
@@ -13,7 +16,13 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Descrição:</label>
-            <input type="text" class="form-control" placeholder="Digite a descrição" v-model="form.descricao" />
+            <b-form-textarea
+            id="textarea"
+            v-model="form.descricao"
+            placeholder="Digite a descrição"
+            rows="3"
+            max-rows="6"
+            ></b-form-textarea>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Local:</label>
@@ -44,8 +53,8 @@
             <input type="date" class="form-control" v-model="form.d_inscricao_fim" />
           </div>
           <div class="form-group">
-            <b-button type="submit" variant="primary">Enviar</b-button>
-            <b-button type="reset" variant="danger">Limpar campos</b-button>
+            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
+            <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>
           </div>
         </form>
       </div>
@@ -90,7 +99,7 @@ export default {
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Evento NÃO cadastrado. Tente novamente";
+          this.alert.message = "Erro no cadastramento do evento. Por favor, tente novamente";
         });
       e.preventDefault();
     },

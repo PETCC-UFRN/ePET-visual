@@ -7,7 +7,8 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="organizadores/create"
-        >Adicionar organizador</a>
+        ><i class="fa fa-plus" aria-hidden="true"></i>
+ Adicionar organizador</a>
       </template>
 
       <b-card-body>
@@ -24,7 +25,7 @@
               <b-button
                 @click="del(row.item.idOrganizadores, row.index)"
                 class="btn btn-sm btn-danger"
-              >Remover</b-button>
+              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
             </template>
           </b-table>
           <nav>

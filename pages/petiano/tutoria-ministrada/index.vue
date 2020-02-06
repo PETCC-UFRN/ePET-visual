@@ -17,7 +17,8 @@
               </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="sol(row.item.idTutoria, row.index)" class="btn btn-sm btn-success">Solicitar Tutoria</b-button>
+            <b-button @click="sol(row.item.idTutoria, row.index)" class="btn btn-sm btn-success"><i class="fa fa-users" aria-hidden="true"></i>
+ Solicitar Tutoria</b-button>
           </template>
         </b-table>
         <nav>

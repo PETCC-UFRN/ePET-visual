@@ -6,10 +6,14 @@
           <h2 class="titulo texto">Notícias</h2>
           <div class="col-8 mx-auto" v-if="filterNoticias.length > 0">
               <div v-for="noticia in filterNoticias" :key="noticia.id">
-                <b-card  :header="noticia.titulo">
-                    <b-card-text>
-                        <p>{{noticia.corpo}}</p>
-                    </b-card-text>
+                
+                <b-card  header-tag="header" >
+                  <template v-slot:header>
+                    <h4>{{noticia.titulo}}</h4>
+                  </template>
+                  <b-card-text>
+                    <p>{{noticia.corpo}}</p>
+                  </b-card-text>
                 </b-card>
               </div>    
           </div>

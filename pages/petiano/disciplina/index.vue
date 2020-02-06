@@ -9,7 +9,7 @@
               class="btn btn-sm btn-primary float-right"
               style="color: white"
               href="disciplina/create"
-            >Adicionar Disciplina</a>
+            ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</a>
         </template>
 
         <!-- TODO::remover esse style -->
@@ -23,7 +23,10 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" class="btn btn-sm btn-warning">Editar</b-button>
+            <b-button 
+              @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" 
+              class="btn btn-sm btn-warning">
+              <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"

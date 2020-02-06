@@ -8,7 +8,7 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="/petiano/noticia/create"
-        >Adicionar notícia</a>
+        ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia</a>
       </template>
       <div v-if="noticias.length > 0">
         <b-table
@@ -28,12 +28,11 @@
             <b-button
               :href="'/petiano/noticia/edit/' + row.item.idNoticia"
               class="btn btn-sm btn-warning"
-              style="color:white"
-            >Editar</b-button>
+            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button
               @click="del(row.item.idNoticia, row.index)"
               class="btn btn-sm btn-danger"
-            >Deletar</b-button>
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>

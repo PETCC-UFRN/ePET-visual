@@ -5,6 +5,9 @@
       <!-- <b>&rArr;</b> -->
     </b-alert>
     <div class="card">
+      <div class="card-header">
+        <strong>Notícia</strong> <small>Formulário de criação</small>
+      </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
@@ -13,7 +16,13 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Descrição:</label>
-            <input type="text"  placeholder="Digite a descrição"  class="form-control" v-model="form.corpo" />
+            <b-form-textarea
+            id="textarea"
+            v-model="form.corpo"
+            placeholder="Digite a descrição"
+            rows="3"
+            max-rows="6"
+            ></b-form-textarea>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Inicio exibição:</label>
@@ -21,17 +30,18 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Fim exibição:</label>
-            <input type="date" class="form-control" v-model="form.fim_exibicao" />
+            <input type="date" class="form-control" v-model="form.limite_exibicao" />
           </div>
           <div class="form-group">
-            <b-button type="submit" variant="primary">Enviar</b-button>
-            <b-button type="reset" variant="danger">Limpar campos</b-button>
+            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
+            <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import axios from "~/axios";
 import {user} from "~/user";
@@ -44,7 +54,7 @@ export default {
         titulo: "",
         corpo: "",
         inicio_exibicao: "",
-        fim_exibicao: "",
+        limite_exibicao: "",
         ativo: false
       },
       alert: {
@@ -69,17 +79,17 @@ export default {
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Notícia NÃO cadastrado. Tente novamente";
+          this.alert.message = "Erro no cadastramento da notícia. Por favor, tente novamente.";
         });
       e.preventDefault();
     },
     onReset(evt) {
       evt.preventDefault()
-      // Reset our form values
+
       this.form.titulo = ""
       this.form.corpo = ""
       this.form.inicio_exibicao = ""
-      this.form.fim_exibicao = "",
+      this.form.limite_exibicao = "",
       this.form.ativo= false
     }
   }
