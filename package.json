@@ -11,35 +11,32 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.0.0",
-    "@nuxtjs/style-resources": "^0.1.1",
-    "bootstrap-vue": "^2.0.0-rc.1",
-    "chart.js": "^2.7.1",
-    "cross-env": "^5.2.0",
-    "express": "^4.16.3",
-    "flag-icon-css": "^2.9.0",
+    "@nuxtjs/axios": "^5.9.3",
+    "@nuxtjs/style-resources": "^1.0.0",
+    "babel-loader": "^8.0.6",
+    "bootstrap-vue": "^2.3.0",
+    "chart.js": "^2.9.3",
+    "cross-env": "^7.0.0",
+    "express": "^4.17.1",
+    "flag-icon-css": "^3.4.5",
     "font-awesome": "^4.7.0",
     "nuxt": "^2.11.0",
     "simple-line-icons": "^2.4.1",
-    "vue-chartjs": "^3.1.1"
+    "vue-chartjs": "^3.5.0",
+    "vue-the-mask": "^0.11.1",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
-    "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.0.0",
-<<<<<<< HEAD
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.13.1",
-    "nodemon": "^1.11.0",
-    "sass-loader": "^6.0.6",
-    "webpack": "^4.41.4",
+    "nodemon": "^2.0.2",
+    "sass-loader": "^8.0.2",
+    "webpack": "^4.41.5",
     "webpack-dev-server": "^3.10.1"
-=======
-    "node-sass": "^4.13.1",
-    "nodemon": "^1.11.0",
-    "sass-loader": "^6.0.6"
->>>>>>> c51a22288619a365684b442a7924dcbf4fd827c7
   }
 }

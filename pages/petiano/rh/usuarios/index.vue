@@ -3,19 +3,24 @@
     <div v-if="tableItems.length > 0">
       <b-row>
         <b-col md="12">
-          <b-card header="Petianos">
+          <b-card >
+            <template v-slot:header>
+              <h5>Petianos</h5>
+            </template>
+
             <b-table
-              class="mb-0 table-outline"
+              class="mb-0 "
+              hover
+              head-variant="dark"
               responsive="sm"
               :current-page="currentPage"
-              hover
               :items="tableItemsPetianos"
               :fields="tableFieldsPetianos"
               :per-page="10"
-              head-variant="light"
             >
               <template v-slot:cell(actions)="row">
-                <b-button @click="removerPetiano(row.item.idPetiano)">Remover Petiano</b-button>
+                <b-button class="btn btn-sm btn-danger"  
+                @click="removerPetiano(row.item.idPetiano)"><i class="fa fa-trash-o fa-fw"></i> Remover petiano</b-button>
               </template>
             </b-table>
             <nav>
@@ -29,24 +34,33 @@
               />
             </nav>
           </b-card>
-          <b-card header="Usuários">
+          <b-card >
+            <template v-slot:header>
+              <h5>Usuários</h5>
+            </template>
+
             <b-table
-              class="mb-0 table-outline"
+              class="mb-0"
               responsive="sm"
               :current-page="currentPage"
               hover
               :items="tableItems"
               :fields="tableFields"
               :per-page="10"
-              head-variant="light"
+              head-variant="dark"
             >
               <template v-slot:cell(actions)="row">
                 
                 <b-button
+                  class="btn btn-sm btn-danger"
                   @click="tornarPetiano(row.item.idPessoa)"
                   v-if="row.item.petiano"
-                >Remover Petiano</b-button>
-                <b-button @click="tornarPetiano(row.item.idPessoa)" v-else>Tornar Petiano</b-button>
+                ><i class="fa fa-trash-o fa-fw"></i>Remover petiano</b-button>
+                <b-button
+                  class="btn btn-sm btn-warning" 
+                  @click="tornarPetiano(row.item.idPessoa)" 
+                  v-else
+                ><i class="fa fa-check" aria-hidden="true"></i> Tornar petiano</b-button>
               </template>
             </b-table>
             <nav>
@@ -63,7 +77,7 @@
         </b-col>
       </b-row>
     </div>
-    <div class="row" v-else>Nenhum usuário cadastrado.</div>
+    <div class="row" v-else><h5>Nenhum usuário cadastrado</h5></div>
   </div>
 </template>
 
@@ -83,11 +97,11 @@ export default {
       tableItems: [],
       tableFieldsPetianos: [
         {key : "pessoa.nome", label: "Nome"},
-        {key: "actions", label: "Ações"}
+        {key: "actions", label: "Ações disponíveis"}
       ],
       tableFields: [
         { key: "cpf", label: "CPF" },
-        { key: "actions", label: "Ações" }
+        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },
@@ -166,3 +180,5 @@ export default {
   }
 };
 </script>
+
+

@@ -135,7 +135,7 @@ import Comum from "../components/Comum";
 
 import axios from "../axios";
 import BottomBar from "../components/anonymous/BottomBar";
-import About from "../components/anonymous/About";
+// import About from "../components/anonymous/About";
 
 
 export default {
@@ -143,7 +143,7 @@ export default {
     components: {
         Comum,
         BottomBar,
-        About
+        // About
     },
     data() {
         return {

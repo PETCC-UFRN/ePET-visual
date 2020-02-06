@@ -5,20 +5,10 @@
         <b-col md="6">
           <div class="clearfix">
             <h1 class="float-left display-3 mr-4">404</h1>
-            <h4 class="pt-3">Oops! You're lost.</h4>
-            <p class="text-muted">The page you are looking for was not found.</p>
+            <h4 class="pt-3">Oops! Você está perdido.</h4>
+            <p class="text-muted">A página que está procurando não foi encontrada.</p>
           </div>
-          <b-input-group>
-            <b-input-group-prepend>
-              <b-input-group-text>
-                <i class="fa fa-search"></i>
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <input id="prependedInput" class="form-control" size="16" type="text" placeholder="What are you looking for?">
-            <b-input-group-append>
-              <b-button variant="info">Search</b-button>
-            </b-input-group-append>
-          </b-input-group>
+          <b-button block href="/" variant="info"><i class="fa fa-home" aria-hidden="true"></i> Página inicial</b-button>
         </b-col>
       </b-row>
     </div>
@@ -27,7 +17,9 @@
 
 <script>
 export default {
-  
+   head: {
+      title: 'PET-CC UFRN'
+   }
 }
 </script>
 

@@ -1,13 +1,19 @@
 <template>
   <div>
     <div v-if="disciplinas.length > 0">
-      <b-card header="Disciplinas cadastradas">
+      <b-card>
+
+        <template v-slot:header>
+          <h3>Disciplinas cadastradas</h3>
+            <a
+              class="btn btn-sm btn-primary float-right"
+              style="color: white"
+              href="disciplina/create"
+            ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</a>
+        </template>
+
         <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="disciplina/create"
-        >Adicionar Disciplina</a>
+
         <b-table
           responsive="sm"
           :items="disciplinas"
@@ -17,7 +23,10 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" class="btn btn-sm btn-warning">Editar</b-button>
+            <b-button 
+              @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" 
+              class="btn btn-sm btn-warning">
+              <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"
@@ -30,14 +39,14 @@
             :total-rows="disciplinas.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Anterior "
+            next-text="Próximo"
             hide-goto-end-buttons
           />
         </nav>
       </b-card>
     </div>
-    <div class="row" v-else>Nenhuma Disciplina cadastrada</div>
+    <div class="row" v-else>Nenhuma disciplina cadastrada</div>
   </div>
 </template>
 
@@ -55,9 +64,9 @@ export default {
       disciplinas: [],
       currentPage: 1,
       fields: [
-        { key: "codigo", sortable: true },
+        { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true },
-        { key: "actions", sortable: true },
+        { key: "actions", sortable: true, label: "Ações disponíveis" },
       ]
     };
   },
@@ -98,3 +107,10 @@ export default {
   }*/
 };
 </script>
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

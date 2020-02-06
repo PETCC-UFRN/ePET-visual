@@ -3,7 +3,7 @@
     <div v-if="pessoas.length > 0">
       <b-card>
         <template v-slot:header>
-          Pessoas cadastradas
+          <h3>Pessoas cadastradas</h3>
           <!-- <a
             class="btn btn-sm btn-primary float-right"
             style="color: white"
@@ -28,11 +28,11 @@
               @click="ativar(row.item.idpessoa)"
               class="btn btn-sm btn-success"
               v-show="! row.item.ativo"
-            >Ativar</b-button>
+            ><i class="fa fa-check" aria-hidden="true"></i> Ativar</b-button>
             <b-button
               @click="del(row.item.idpessoa, row.index)"
               class="btn btn-sm btn-danger"
-            >Deletar</b-button>
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
@@ -40,8 +40,8 @@
             :total-rows="pessoas.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Anterior"
+            next-text="Próximo"
             hide-goto-end-buttons
           />
         </nav>
@@ -65,7 +65,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: true }
+        { key: "cpf", sortable: true,label: "CPF" }
       ]
     };
   },
@@ -88,3 +88,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

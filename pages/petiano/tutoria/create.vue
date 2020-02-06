@@ -1,13 +1,20 @@
 <template>
   <div>
     <div v-if="disciplinas.length > 0">
-      <b-card header="Disciplinas cadastradas">
+      <b-card>
         <!-- TODO::remover esse style -->
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="../disciplina/create"
-        >Adicionar Disciplina</a>
+        <template v-slot:header>
+          <h3>Disciplinas cadastradas</h3>
+          
+          <a
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            href="../disciplina/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Disciplina</a>
+          
+        </template>
+      
+        
         <b-table
           responsive="sm"
           :items="disciplinas"
@@ -17,7 +24,7 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-primary">Virar tutor</b-button>
+            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning"><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"
@@ -30,8 +37,8 @@
             :total-rows="disciplinas.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Anterior"
+            next-text="Próximo"
             hide-goto-end-buttons
           />
         </nav>
@@ -57,9 +64,9 @@ export default {
       currentPetiano:[],
       currentPage: 1,
       fields: [
-        { key: "codigo", sortable: true },
-        { key: "nome", sortable: true },
-        { key: "actions", sortable: true },
+        { key: "codigo", sortable: true, label: "Código" },
+        { key: "nome", sortable: true, label: "Nome" },
+        { key: "actions", sortable: true, label: "Ações disponíveis" },
       ]
     };
   },
@@ -123,3 +130,11 @@ export default {
   }*/
 };
 </script>
+
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

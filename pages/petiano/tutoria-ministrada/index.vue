@@ -17,7 +17,8 @@
               </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="sol(row.item.idTutoria, row.index)" class="btn btn-sm btn-success">Solicitar Tutoria</b-button>
+            <b-button @click="sol(row.item.idTutoria, row.index)" class="btn btn-sm btn-success"><i class="fa fa-users" aria-hidden="true"></i>
+ Solicitar Tutoria</b-button>
           </template>
         </b-table>
         <nav>
@@ -25,8 +26,8 @@
             :total-rows="tutorias.length"
             :per-page="10"
             v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
+            prev-text="Anterior"
+            next-text="Próximo"
             hide-goto-end-buttons
           />
         </nav>
@@ -51,10 +52,10 @@ export default {
       currentPessoa:[],
       currentPage: 1,
       fields: [
-        { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
-        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
-        { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
-        { key: "actions", sortable: true },
+        { key: "disciplina.nome", label:"Nome da disciplina", sortable: true },
+        { key: "disciplina.codigo", label:"Código da disciplina", sortable: true },
+        { key: "petiano.pessoa.nome", label:"Nome do petiano", sortable: true },
+        { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
   },

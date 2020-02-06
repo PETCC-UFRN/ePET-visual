@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import nav from "./petiano";
+import nav from "./usuario";
 import {
   Header as AppHeader,
   Sidebar,
@@ -38,7 +38,7 @@ export default {
   },
   head () {
     return {
-      title: 'PET-CC UFRN - Petiano'
+      title: 'PET-CC - Usuário'
     }
   },
   computed: {
