@@ -4,7 +4,6 @@
       <b-row>
         <b-col md="12">
           <b-card >
-
             <template v-slot:header>
               <h5>Petianos</h5>
             </template>
@@ -15,13 +14,13 @@
               head-variant="dark"
               responsive="sm"
               :current-page="currentPage"
-              :bordered="false"
               :items="tableItemsPetianos"
               :fields="tableFieldsPetianos"
               :per-page="10"
             >
               <template v-slot:cell(actions)="row">
-                <b-button class="btn btn-sm btn-danger"  @click="removerPetiano(row.item.idPetiano)">Remover petiano</b-button>
+                <b-button class="btn btn-sm btn-danger"  
+                @click="removerPetiano(row.item.idPetiano)"><i class="fa fa-trash-o fa-fw"></i> Remover petiano</b-button>
               </template>
             </b-table>
             <nav>

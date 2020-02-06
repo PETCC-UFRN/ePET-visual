@@ -5,6 +5,9 @@
       <!-- <b>&rArr;</b> -->
     </b-alert>
     <div class="card">
+      <div class="card-header">
+        <strong>Organizadores</strong> <small>Formulário de criação</small>
+      </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">

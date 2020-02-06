@@ -32,7 +32,7 @@
             ><i class="fa fa-check" aria-hidden="true"></i>
               Ativar</b-button>
             <b-button
-              :href="'/eventos/edit/' + row.item.idEvento"
+              :href="'/petiano/eventos/edit/' + row.item.idEvento"
               class="btn btn-sm btn-warning"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button

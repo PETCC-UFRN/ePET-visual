@@ -5,6 +5,9 @@
       <!-- <b>&rArr;</b> -->
     </b-alert>
     <div class="card">
+      <div class="card-header">
+        <strong>Evento</strong> <small>Formulário de criação</small>
+      </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
@@ -13,7 +16,13 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Descrição:</label>
-            <input type="text" class="form-control" placeholder="Digite a descrição" v-model="form.descricao" />
+            <b-form-textarea
+            id="textarea"
+            v-model="form.descricao"
+            placeholder="Digite a descrição"
+            rows="3"
+            max-rows="6"
+            ></b-form-textarea>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Local:</label>

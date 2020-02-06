@@ -26,9 +26,8 @@
             <template v-slot:cell(actions)="row">
               <b-button
                 :href="'/usuario/noticia/' + row.item.idNoticia"
-                class="btn btn-sm btn-primary"
-                style="color:white"
-              >Ver</b-button>
+                class="btn btn-sm btn-warning"
+              ><i class="fa fa-eye" aria-hidden="true"></i>Visualizar</b-button>
             </template>
           </b-table>
           <nav>
@@ -36,8 +35,8 @@
               :total-rows="resNoticias.length"
               :per-page="10"
               v-model="currentPage"
-              prev-text="Prev"
-              next-text="Next"
+              prev-text="Anterior"
+              next-text="Próximo"
               hide-goto-end-buttons
             />
           </nav>
@@ -60,9 +59,9 @@ export default {
       noticias: {}, // requisicao de noticias
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true },
+        { key: "titulo", sortable: true, label: "Título" },
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
-        { key: "actions"},
+        { key: "actions", label: "Ações disponíveis"},
       ]
     };
   },
