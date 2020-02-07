@@ -3,7 +3,7 @@
 
 ## Introdução 
 
-Neste repositório está contida a implementação do frontend da plataforma do PET-CC.
+Neste repositório está contida a implementação do frontend da plataforma do PET-CC UFRN, Programa de Educação Tutorial da Universidade do Rio Grande do Norte.
 
 - [Pré-requisitos](#pré-requisitos) - Requisitos para executar o projeto.
 - [Como executar](#como-executar) - Instruções sobre como executar o projeto.
@@ -44,7 +44,7 @@ $ npm install # Or yarn install
 
 ### Desenvolvimento
 
-Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute os seguintes comando:
+Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute o seguinte comando:
 
 ``` bash
 # serve with hot reloading at localhost:3000
