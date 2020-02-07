@@ -3,19 +3,28 @@
 
 ## Introdução 
 
-Neste repositorio esta contida implementacao do front-end da plataforma do PET-CC.
+Neste repositório está contida a implementação do frontend da plataforma do PET-CC.
 
-- [Pre-requisitos](#pre-requisitos) - Pre-requisto para executar o projeto.
-- [Como executar](#como-executar) - Reference links.
+- [Pré-requisitos](#pré-requisitos) - Requisitos para executar o projeto.
+- [Como executar](#como-executar) - Instruções sobre como executar o projeto.
 
 
-## Pre-requisitos
+## Pré-requisitos :eyes:
 
-Faz-se necessario os seguintes programas para executar o projeto:
+Faz-se necessário os seguintes programas para executar o projeto com suas respectivas versões recomendadas:
 
-    - NPM ou Yarn
 
-Além disso é necessário adicionar as credenciais da API no arquivo axios.js, o arquivo é uma instância do axios.example.js:
+| Nome: | Versão:  |    
+| :---------- | :------------- |
+|`NPM` 	| 3.5.2 |  
+|`Vue CLI` 	| 3.11.0 |  
+|`Node` 	| 8.10.0 |  
+
+
+
+    Pode-se utilizar o Yarn ao invés do NPM. Diante disso, recomenda-se o uso a partir da versão `1.21.1`.
+### Observação :warning:
+Além disso, é necessário adicionar as credenciais da API no arquivo axios.js, o arquivo é uma instância do axios.example.js:
 
 ```shell
 cp axios.example.js axios.js
@@ -35,18 +44,18 @@ $ npm install # Or yarn install
 
 ### Desenvolvimento
 
-Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute os seguinte comando:
+Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute os seguintes comando:
 
 ``` bash
 # serve with hot reloading at localhost:3000
 $ npm run dev # Or yarn dev
 ```
 
-Em seguida, abra o navegador e acesse a seguinte endereco [http://localhost:3000](http://localhost:3000)
+Em seguida, abra o navegador e acesse o seguinte endereço [http://localhost:3000](http://localhost:3000).
 
-### Producao
+### Produção
 
-Em estagio de producao, aconselha-se a usar o programa no modo de producao. Diante disso, execute os seguinte comando:
+Em estágio de produção, aconselha-se a usar o programa no modo de produção. Diante disso, execute os seguintes comandos:
 
 ``` bash
 # build for production and launch the server
@@ -54,6 +63,6 @@ $ npm run build
 $ npm start
 ```
 
-### Observação
+### Observação :construction:
 
 No momento o login ainda não foi desenvolvido, por isso existe o arquivo user.js com um usuário fantásia. No futuro os dados desse usuário serão recuperados do usuário que está logado.
