@@ -17,13 +17,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/evento">Eventos</a>
+              <a class="nav-link" href="/eventos">Eventos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/noticia">Notícias</a>
+              <a class="nav-link" href="/noticias">Notícias</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/validarCertificado">Validar certificado</a>
+              <a class="nav-link" href="/validacao">Validar certificado</a>
             </li>
             <li class="nav-item dropdown">
               <a
