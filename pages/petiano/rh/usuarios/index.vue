@@ -5,28 +5,29 @@
         <b-col md="12">
           <b-card >
             <template v-slot:header>
-              <h5>Petianos</h5>
+              <h4>Petianos</h4>
             </template>
 
-       <b-input-group  class="mb-3" >
-          <!-- Always bind the id to the input so that it can be focused when needed -->
-          <b-form-input
-            v-model="keyword"
-            placeholder="Busca"            
-            type="text"
-          ></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-        </b-input-group-text>
-        </b-input-group>
+            <b-input-group  class="mb-3" >
+                <!-- Always bind the id to the input so that it can be focused when needed -->
+                <b-form-input
+                  v-model="keywordPetiano"
+                  placeholder="Busca"            
+                  type="text"
+                ></b-form-input>
+                <b-input-group-text slot="append">
+                  <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+              </b-input-group-text>
+              </b-input-group>
+
 
             <b-table
               class="mb-3"
-              hover
-              head-variant="dark"
+              outlined
+              striped hover 
               responsive="sm"
               :current-page="currentPage"
-              :items="tableItemsPetianos"
+              :items="itemsPetianos"
               :fields="tableFieldsPetianos"
               :per-page="10"
             >
@@ -37,7 +38,7 @@
             </b-table>
             <nav>
               <b-pagination
-                :total-rows="tableItemsPetianos.length"
+                :total-rows="itemsPetianos.length"
                 :per-page="10"
                 v-model="currentPage"
                 prev-text="Anterior"
@@ -48,57 +49,57 @@
           </b-card>
           <b-card >
             <template v-slot:header>
-              <h4><i class="fas fa-users"></i> Usuários</h4>
+              <h4>Usuários</h4>
             </template>
 
-       <b-input-group  class="mb-3" >
-          <!-- Always bind the id to the input so that it can be focused when needed -->
-          <b-form-input
-            v-model="keyword"
-            placeholder="Busca"            
-            type="text"
-          ></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-        </b-input-group-text>
-        </b-input-group>
+              <b-input-group  class="mb-3" >
+                  <!-- Always bind the id to the input so that it can be focused when needed -->
+                  <b-form-input
+                    v-model="keyword"
+                    placeholder="Busca"            
+                    type="text"
+                  ></b-form-input>
+                  <b-input-group-text slot="append">
+                    <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+                </b-input-group-text>
+                </b-input-group>
 
 
-            <b-table
-              class="mb-3"
-              responsive="sm"
-              :current-page="currentPage"
-              :items="tableItems"
-              :fields="tableFields"
-              striped hover 
-              :per-page="10"
-              outlined
-            >
-              <template v-slot:cell(actions)="row">
-                
-                <b-button
-                  class="btn btn-sm btn-danger"
-                  @click="tornarPetiano(row.item.idPessoa)"
-                  v-if="row.item.petiano"
-                ><i class="fa fa-trash-o fa-fw"></i>Remover petiano</b-button>
-                <b-button
-                  class="btn btn-sm btn-warning" 
-                  @click="tornarPetiano(row.item.idPessoa)" 
-                  v-else
-                ><i class="fa fa-check" aria-hidden="true"></i> Tornar petiano</b-button>
-              </template>
-            </b-table>
-            <nav>
-              <b-pagination
-                :total-rows="tableItems.length"
+              <b-table
+                class="mb-3"
+                responsive="sm"
+                :current-page="currentPage"
+                :items="itemsUsuarios"
+                :fields="tableFields"
+                striped hover 
                 :per-page="10"
-                v-model="currentPage"
-                prev-text="Anterior"
-                next-text="Próximo"
-                hide-goto-end-buttons
-              />
-            </nav>
-          </b-card>
+                outlined
+              >
+                <template v-slot:cell(actions)="row">
+                  
+                  <b-button
+                    class="btn btn-sm btn-danger"
+                    @click="tornarPetiano(row.item.idPessoa)"
+                    v-if="row.item.petiano"
+                  ><i class="fa fa-trash-o fa-fw"></i>Remover petiano</b-button>
+                  <b-button
+                    class="btn btn-sm btn-warning" 
+                    @click="tornarPetiano(row.item.idPessoa)" 
+                    v-else
+                  ><i class="fa fa-check" aria-hidden="true"></i> Tornar petiano</b-button>
+                </template>
+              </b-table>
+              <nav>
+                <b-pagination
+                  :total-rows="itemsUsuarios.length"
+                  :per-page="10"
+                  v-model="currentPage"
+                  prev-text="Anterior"
+                  next-text="Próximo"
+                  hide-goto-end-buttons
+                />
+              </nav>
+            </b-card>
         </b-col>
       </b-row>
     </div>
@@ -131,6 +132,8 @@ export default {
   components: {},
   data: function() {
     return {
+      keywordPetiano: '',
+      keyword: '',
       currentPage: 1,
       tableItemsPetianos: [],
       tableItems: [],
@@ -146,7 +149,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loggedInUser"])
+    ...mapGetters(["loggedInUser"]),
+    
+    itemsUsuarios () {
+      return this.keyword
+          ? this.tableItems.filter(item => item.nome.includes(this.keyword) || item.cpf.includes(this.keyword))
+          : this.tableItems
+    },
+    
+    itemsPetianos () {
+      return this.keywordPetiano
+          ? this.tableItemsPetianos.filter(item => item.pessoa.nome.includes(this.keyword))
+          : this.tableItemsPetianos
+    }
   },
   mounted() {
     this.getPetianos();

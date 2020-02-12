@@ -14,7 +14,7 @@
 
         <!-- TODO::remover esse style -->
           
-       <b-input-group  class="mt-3 mb-3" >
+       <b-input-group  class="mt-1 mb-3" >
           <!-- Always bind the id to the input so that it can be focused when needed -->
           <b-form-input
             v-model="keyword"
@@ -36,14 +36,14 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button 
+              :href="'/petiano/disciplina/edit/' + row.item.idDisciplina"
               @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" 
               class="btn btn-sm btn-warning">
               <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-            <!--<a
-              class="btn btn-sm btn-primary"
-              style="color: white"
-              href='disciplina/edit/${row.item.id_disciplina}'
-            >Editar {{row.item.id_disciplina}}</a>-->
+            <b-button
+              @click="del(row.item.idDisciplina, row.index)"
+              class="btn btn-sm btn-danger"
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>

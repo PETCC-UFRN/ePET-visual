@@ -64,6 +64,7 @@ export default {
           this.alert.message = "Participante cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
+          this.$router.push({ path : '/petiano/rh/participantes/' });
           });
         })
         .catch(err => {

@@ -17,6 +17,12 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sobre">Sobre</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/eventos">Eventos</a>
             </li>
             <li class="nav-item">

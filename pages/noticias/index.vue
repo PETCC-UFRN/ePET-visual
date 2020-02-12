@@ -3,8 +3,24 @@
       <Comum/>  
       <div class="container">
           <br>
-          <h2 class="titulo texto">Notícias</h2>
-          <div class="col-8 mx-auto" v-if="filterNoticias.length > 0">
+          <h1 class="titulo mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h1>
+          <hr>
+          <b-card-group columns>
+            <div v-for="noticia in noticias" :key="noticia.id">
+              <b-card> 
+                <b-card-text class="small text-muted"> 10 FEVEVEIRO 2020 </b-card-text>
+                <hr>
+                <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
+                <b-card-text>
+                  This card has supporting text below as a natural lead-in to additional content.
+                </b-card-text>
+                <b-card-text class="small text-muted">                   
+                   <em>Publicado por Daniel</em></b-card-text>
+              </b-card>
+            </div>
+          </b-card-group>
+
+          <!-- <div class="col-8 mx-auto" v-if="filterNoticias.length > 0">
               <div v-for="noticia in filterNoticias" :key="noticia.id">
                 
                 <b-card  header-tag="header" >
@@ -23,16 +39,16 @@
             <br>
           </div>
           <div>
-        </div>
+        </div> -->
       </div>
     <BottomBar/>
   </div>
 </template>
 
 <script>
-import Comum from "../components/Comum";
-import axios from "../axios";
-import BottomBar from "../components/anonymous/BottomBar";
+import Comum from "~/components/Comum";
+import axios from "~/axios";
+import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
     layout: 'index',
@@ -43,23 +59,14 @@ export default {
     data() {
       return {
         noticias: [],
-        dia: new Date().getDate(),
-        mes: new Date().getMonth(),
-        ano: new Date().getFullYear()
     };
   },
   mounted() {
     axios.get("noticia").then(res => {
       this.noticias = res.data.content;
     });
-  },
-  computed: {
-    filterNoticias() {
-      return this.noticias.filter(noticia => new Date(this.ano,this.mes,this.dia) >= new Date(noticia.inicio_exibicao) &&
-            new Date(this.ano, this.mes, this.dia) <= new Date(noticia.limite_exibicao)) 
-    }   
   }
-  
+
 }
 </script>
 
@@ -67,17 +74,17 @@ export default {
 <style>
 
 .titulo {
-  margin-top: 20px;
-  margin-bottom: 10px;
   font-weight: bold;
-  font-size: 36px;
-  box-sizing: border-box;
-  margin: .67em 0;
-
+  font-size: 40px;
 }
 
-.texto {
+h1 {
   text-align: center;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 </style>

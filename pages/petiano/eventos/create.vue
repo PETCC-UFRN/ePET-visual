@@ -98,6 +98,7 @@ export default {
           this.alert.message = "Evento cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
+          this.$router.push({ path : '/petiano/eventos/' });
           });
         })
         .catch(err => {

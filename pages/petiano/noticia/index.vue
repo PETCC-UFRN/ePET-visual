@@ -11,7 +11,7 @@
       </template>
       <div v-if="noticias.length > 0">
 
-       <b-input-group  class="mt-3 mb-3" >
+       <b-input-group  class="mt-1 mb-3" >
           <!-- Always bind the id to the input so that it can be focused when needed -->
           <b-form-input
             v-model="keyword"

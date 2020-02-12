@@ -61,6 +61,7 @@ export default {
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
+          this.$router.push({ path : '/petiano/disciplina/' });
         })
         .catch(err => {
           this.alert.class = "danger";
