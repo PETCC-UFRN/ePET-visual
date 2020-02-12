@@ -8,8 +8,20 @@
               <h5>Petianos</h5>
             </template>
 
+       <b-input-group  class="mb-3" >
+          <!-- Always bind the id to the input so that it can be focused when needed -->
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca"            
+            type="text"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+        </b-input-group-text>
+        </b-input-group>
+
             <b-table
-              class="mb-0 "
+              class="mb-3"
               hover
               head-variant="dark"
               responsive="sm"
@@ -36,18 +48,31 @@
           </b-card>
           <b-card >
             <template v-slot:header>
-              <h5>Usuários</h5>
+              <h4><i class="fas fa-users"></i> Usuários</h4>
             </template>
 
+       <b-input-group  class="mb-3" >
+          <!-- Always bind the id to the input so that it can be focused when needed -->
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca"            
+            type="text"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+        </b-input-group-text>
+        </b-input-group>
+
+
             <b-table
-              class="mb-0"
+              class="mb-3"
               responsive="sm"
               :current-page="currentPage"
-              hover
               :items="tableItems"
               :fields="tableFields"
+              striped hover 
               :per-page="10"
-              head-variant="dark"
+              outlined
             >
               <template v-slot:cell(actions)="row">
                 
@@ -77,7 +102,21 @@
         </b-col>
       </b-row>
     </div>
-    <div class="row" v-else><h5>Nenhum usuário cadastrado</h5></div>
+    <div class="row" v-else>
+        <b-card
+    no-body
+    style="max-width: 20rem;"
+    img-src="https://img.r7.com/images/2014/04/11/6wao8iijic_687qho1a4h_file.jpg"
+    img-alt="Image"
+    img-top
+  >
+    <template v-slot:header>
+      <h6 class="mb-0">Nenhum usuário cadastrado...</h6>
+    </template>
+  </b-card>
+      
+      
+      </div>
   </div>
 </template>
 
@@ -100,7 +139,8 @@ export default {
         {key: "actions", label: "Ações disponíveis"}
       ],
       tableFields: [
-        { key: "cpf", label: "CPF" },
+        { key: "nome"},
+        { key: "cpf", label: "CPF" , formatter: (value) => { if (value != null) return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9, 11)}` }},
         { key: "actions", label: "Ações disponíveis" }
       ]
     };
@@ -120,7 +160,7 @@ export default {
     },
     async getUsuarios() {
       await axios
-        .get("http://epet.imd.ufrn.br/service/api/pessoas", {
+        .get("https://epet.imd.ufrn.br:8443/api/pessoas", {
           auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {

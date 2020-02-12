@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="pessoas.length > 0">
+    <div  v-if="pessoas.length > 0">
       <b-card>
         <template v-slot:header>
           <h3>Pessoas cadastradas</h3>
@@ -10,9 +10,22 @@
             href="pessoas/create"
           >Adicionar Pessoa</a>-->
         </template>
+  
+       <b-input-group  class="mt-3 mb-3" >
+          <!-- Always bind the id to the input so that it can be focused when needed -->
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca"            
+            type="text"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+        </b-input-group-text>
+        </b-input-group>
+
         <b-table
           responsive="sm"
-          :items="pessoas"
+          :items="items"
           :current-page="currentPage"
           :bordered="true"
           :per-page="10"
@@ -37,7 +50,7 @@
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="pessoas.length"
+            :total-rows="items.length"
             :per-page="10"
             v-model="currentPage"
             prev-text="Anterior"
@@ -61,6 +74,7 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
+      keyword: '',
       pessoas: [],
       currentPage: 1,
       fields: [
@@ -68,6 +82,13 @@ export default {
         { key: "cpf", sortable: true,label: "CPF" }
       ]
     };
+  },
+  computed: {
+    items () {
+      return this.keyword
+          ? this.pessoas.filter(item => item.cpf.includes(this.keyword) || item.nome.includes(this.keyword))
+          : this.pessoas
+    }
   },
   mounted() {
     axios.get("pessoas").then(res => {

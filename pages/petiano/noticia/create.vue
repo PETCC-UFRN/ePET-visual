@@ -6,7 +6,10 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>Notícia</strong> <small>Formulário de criação</small>
+        <strong><i class="fa fa-edit"></i> Notícia</strong> <small>Formulário de criação</small>
+        <div class="card-actions">
+          <a href="/petiano/noticia/" class="btn btn-close"><i class="icon-close"></i></a>
+        </div>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
@@ -24,6 +27,19 @@
             max-rows="6"
             ></b-form-textarea>
           </div>
+          
+          <div class="form-group">
+            <label >Imagem:</label>      
+            <b-form-file
+              v-model="foto"
+              placeholder="Faça upload da imagem..."
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+          </div>
+
+
+
+
           <div class="form-group">
             <label for="exampleFormControlInput1">Inicio exibição:</label>
             <input type="date" class="form-control" v-model="form.inicio_exibicao" />
@@ -55,7 +71,8 @@ export default {
         corpo: "",
         inicio_exibicao: "",
         limite_exibicao: "",
-        ativo: false
+        ativo: false,
+        foto:""
       },
       alert: {
         message: "",

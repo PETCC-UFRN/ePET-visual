@@ -3,7 +3,6 @@
     <b-card>
       <template v-slot:header>
         <h3>Notícias cadastradas</h3>
-        
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
@@ -11,9 +10,22 @@
         ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia</a>
       </template>
       <div v-if="noticias.length > 0">
+
+       <b-input-group  class="mt-3 mb-3" >
+          <!-- Always bind the id to the input so that it can be focused when needed -->
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca"            
+            type="text"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+        </b-input-group-text>
+        </b-input-group>
+
         <b-table
           responsive="sm"
-          :items="noticias"
+          :items="items"
           :current-page="currentPage"
           :bordered="true"
           :per-page="10"
@@ -26,6 +38,11 @@
           </template>
           <template v-slot:cell(actions)="row">
             <b-button
+                :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
+                class="btn btn-sm btn-primary"
+              ><i class="fa fa-eye" aria-hidden="true"></i>
+ Visualizar</b-button>
+            <b-button
               :href="'/petiano/noticia/edit/' + row.item.idNoticia"
               class="btn btn-sm btn-warning"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
@@ -37,7 +54,7 @@
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="noticias.length"
+            :total-rows="items.length"
             :per-page="10"
             v-model="currentPage"
             prev-text="Anterior"
@@ -46,7 +63,7 @@
           />
         </nav>
       </div>
-      <div v-else>Nenhuma noticia cadastrada</div>
+      <div v-else>Nenhuma notícia cadastrada</div>
     </b-card>
   </div>
 </template>
@@ -59,14 +76,24 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
+      keyword: '',
       noticias: [],
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
+        { key: "inicio_exibicao", sortable: true, label: "Início de exibição" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} }, 
+        { key: "limite_exibicao", sortable: true, label: "Início de exibição" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} }, 
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
         { key: "actions", label: "Ações disponíveis"},
       ],
     };
+  },
+  computed: {
+    items () {
+      return this.keyword
+          ? this.noticias.filter(item => item.titulo.includes(this.keyword) || item.petiano.pessoa.nome.includes(this.keyword))
+          : this.noticias
+    }
   },
   mounted() {
     axios.get("noticia").then(res => {

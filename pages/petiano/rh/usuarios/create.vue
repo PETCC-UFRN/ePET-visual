@@ -5,7 +5,10 @@
         <b-col md="12">
           <b-card >
             <template v-slot:header>
-              <strong>Usuário</strong> <small>Formulário de criação</small>
+              <strong><i class="fa fa-edit"></i> Usuário</strong> <small>Formulário de criação</small>
+              <div class="card-actions">
+                <a href="/petiano/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
+              </div>
             </template> 
             <b-form>
               <b-form-group label="E-mail:">
