@@ -7,16 +7,15 @@
           <hr>
           <b-card-group columns class="cards">
             <div v-for="noticia in noticias" :key="noticia.id">
-              <b-card> 
-                <b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}} {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}} </b-card-text>
-                <hr>
-                <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
-                <b-card-text>
-                  This card has supporting text below as a natural lead-in to additional content.
-                </b-card-text>
-                <b-card-text class="small text-muted">                   
-                   <em>Publicado por  {{noticia.petiano.pessoa.nome}} </em></b-card-text>
-              </b-card>
+				<a :href="'/noticias/' + noticia.idNoticia">
+					<b-card>
+						<b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}} {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}} </b-card-text>
+						<hr>
+						<b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
+						<b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
+						<b-card-text class="small text-muted">  <em>Publicado por  {{noticia.petiano.pessoa.nome}} </em></b-card-text>
+					</b-card>
+				</a>
             </div>
           </b-card-group>
       </div>
@@ -70,13 +69,10 @@ export default {
 
 <style>
 
-.titulo {
-  font-weight: bold;
-  font-size: 40px;
-}
-
 h1 {
   text-align: center;
+  font-weight: bold;
+  font-size: 40px;
 }
 
 .cards {
@@ -85,6 +81,10 @@ h1 {
 hr {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+a {
+  color: inherit;
 }
 
 </style>

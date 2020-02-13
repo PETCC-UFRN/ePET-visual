@@ -2,15 +2,18 @@
   <div>
     <Comum/>  
     <div class="container">
-     <b-card :title="form.titulo" header-tag="header"  footer-tag="footer">
-      <template v-slot:header>
-        <strong>Notícia</strong> <small>Completa</small>
-      </template>
-      <b-card-text>{{form.corpo}}</b-card-text>
-      <template v-slot:footer>
-        <em><small>Publicado por {{form.petiano.pessoa.nome}}</small></em>
-      </template>
-    </b-card>
+     	<br>
+        <h1 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h1>
+        <hr>
+		<div class="col-md-8 mb-5">
+			<b-img class="mt-3 mb-3" v-bind="mainProps" src="https://hongkong.imd.ufrn.br/filemanagerportal/source/2020/Palestra_Wedson.png" fluid alt="Responsive image"></b-img>
+			<p class="mt-3 mb-1"> {{mes}}</p>
+			<h2>{{noticia.titulo}}</h2>
+			<p class="mt-3 mb-3">{{noticia.corpo}}</p>
+		</div>
+		<div class="col-md-4 mb-5">
+		<h2>Outras notícias</h2>
+		</div>
     </div>
     <BottomBar/>
   </div>
@@ -27,27 +30,73 @@ export default {
         Comum,
         BottomBar
     },
-  data() {
-    return {
-      form: {
-        titulo: "",
-        corpo: "",
-        petiano: {
-          pessoa: {
-            nome:""
-          }
-        }
-      },
-      alert: {
-        message: "",
-        class: ""
-      }
-    };
+  	data() {
+		return {
+			noticia: {
+				titulo: "",
+				corpo: "",
+				petiano: {
+					pessoa: {
+						nome:""
+					}
+				}},
+			mainProps: { width: 825, height: 523},
+			mesNomes: [
+				"JANEIRO", 
+				"FEVEREIRO", 
+				"MARÇO", 
+				"ABRIL", 
+				"MAIO",
+				"JUNHO",
+				"JULHO", 
+				"AGOSTO", 
+				"SETEMBRO", 
+				"OUTUBRO", 
+				"NOVEMBRO",
+				"DEZEMBRO"
+			]
+    	}
   },
   mounted(){
     axios.get('noticia/'+ this.$route.params.id).then((res) => {
-        this.form = res.data;
+        this.noticia = res.data;
     });
+  },
+  computed: {
+    mes() {
+      if (this.noticia.inicio_exibicao != null) {
+		return "" + this.noticia.inicio_exibicao.substring(8,10) + " " + 
+		this.mesNomes[parseInt(this.noticia.inicio_exibicao.substring(5,7) , 10)] + " "+ 
+		this.noticia.inicio_exibicao.substring(0,4);
+	
+	  }
+	  return "";
+    }
   }
 };
 </script>
+
+
+<style>
+
+h1 {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+p {
+  font-size: 19px;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+</style>
+
+ 

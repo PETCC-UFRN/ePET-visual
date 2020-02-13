@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import Comum from "../components/Comum";
-import axios from "../axios";
-import BottomBar from "../components/anonymous/BottomBar";
+import Comum from "~/components/Comum";
+import axios from "~/axios";
+import BottomBar from "~/components/anonymous/BottomBar";
 
 
 export default {
