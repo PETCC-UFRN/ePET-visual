@@ -7,8 +7,8 @@
             <hr>
             <div class="mt-5 mb-5 ml-5 mr-5">
                 <b-row>
-                    <b-col cols="5">
-                        <b-img class="img-avatar" fluid src="https://cdn0.iconfinder.com/data/icons/professional-avatar-5/48/Gamer_male_avatar_men_character_professions-512.png" ></b-img>
+                    <b-col cols="4">
+                        <b-img rounded alt="Rounded image" v-bind="mainProps" fluid src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4" ></b-img>
                     </b-col>
                     <b-col>
                         <b-row>
@@ -53,7 +53,7 @@ export default {
     },
     data() {
         return {
-            temPetiano: false,
+            mainProps: { width: 250, height: 250 },
             petianosAtuais: [],
             petianosAntigos:[]
     };

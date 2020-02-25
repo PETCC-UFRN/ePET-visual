@@ -20,9 +20,6 @@
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sobre">Sobre</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="/eventos">Eventos</a>
             </li>
             <li class="nav-item">
@@ -44,15 +41,6 @@
                 <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
                 <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Registrar</a>
               </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="https://www.facebook.com/petccufrn/" target="_blank"><i class="fab fa-facebook"></i></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="https://www.instagram.com/petccufrn/" target="_blank"><i class="fab fa-instagram" ></i></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i class="fab fa-youtube" ></i></a>
             </li>
           </ul>
         </div>
