@@ -6,7 +6,7 @@
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
-          href="eventos/create"
+          href="eventos-cadastrados/create"
         ><i class="fa fa-plus" aria-hidden="true"></i>
  Adicionar evento</a>
       </template>
@@ -45,7 +45,7 @@
             ><i class="fa fa-check" aria-hidden="true"></i>
               Ativar</b-button>
             <b-button
-              :href="'/petiano/eventos/edit/' + row.item.idEvento"
+              :href="'/petiano/eventos/eventos-cadastrados/edit/' + row.item.idEvento"
               class="btn btn-sm btn-warning"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button

@@ -5,7 +5,7 @@
      	<br>
         <h1 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h1>
         <hr>
-		<b-row>
+		<b-row class="mb-5">
 			<b-col cols="9">
 				<b-img class="mt-3 mb-3" v-bind="mainProps" src="https://hongkong.imd.ufrn.br/filemanagerportal/source/2020/Palestra_Wedson.png" fluid alt="Responsive image"></b-img>
 				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
@@ -55,7 +55,12 @@ export default {
     components: {
         Comum,
         BottomBar
-    },
+	},
+	head () {
+		return {
+			title: 'PET-CC UFRN - Notícias'
+		}
+	},
   	data() {
 		return {
       		noticias:[

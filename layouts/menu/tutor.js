@@ -11,7 +11,7 @@ export default {
         },
         {
             name: 'Início',
-            url: '/petiano', // TODO::Modificar depois para a página inicial do petiano
+            url: '/tutor', // TODO::Modificar depois para a página inicial do tutor
             icon: 'icon-home'
         },
         {
@@ -20,43 +20,43 @@ export default {
             children: [
                 {
                     name: 'Eventos cadastrados',
-                    url: '/petiano/eventos/eventos-cadastrados',
+                    url: '/tutor/eventos/eventos-cadastrados',
                     icon: 'icon-event'
                 },{
                     name: 'Organizadores',
-                    url: '/petiano/eventos/organizadores',
+                    url: '/tutor/eventos/organizadores',
                     icon: 'icon-user'
                 },
                 {
                     name: 'Participantes',
-                    url: '/petiano/eventos/participantes',
+                    url: '/tutor/eventos/participantes',
                     icon: 'icon-user-female',
                 }
             ]
         },
         {
             name: 'Notícias',
-            url: '/petiano/noticia',
+            url: '/tutor/noticia',
             icon: 'icon-envelope-open'
         },
         {
             name: 'Tutoria',
-            url: '/petiano/tutoria',
+            url: '/tutor/tutoria',
             icon: 'icon-notebook'
         },
         {
             name: 'Disciplinas',
-            url: '/petiano/disciplina',
+            url: '/tutor/disciplina',
             icon: 'icon-book-open'
         },
         {
             name: 'Dados cadastrais',
-            url: '/petiano/dados-cadastrais',
+            url: '/tutor/dados-cadastrais',
             icon: 'icon-user'
         },
         {
             name: 'Perfis',
-            url: '/petiano/perfis',
+            url: '/tutor/perfis',
             icon: 'icon-user-female'
         }
     ]

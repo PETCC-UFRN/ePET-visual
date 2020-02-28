@@ -12,7 +12,7 @@
             </p>
             <hr>
             <h2 class="mt-3 mb-5"><i class="fas fa-user"></i> Tutor</h2>
-            <div class="mt-5 mb-3 ml-5 mr-5" v-if="tutor.lenght == 0">
+            <div class="mt-5 mb-3 ml-5 mr-5" v-if="tutor.lenght != 0">
                 <a href="#">
                   <b-row class="mx-auto" align-h="center">
                     <b-img rounded alt="Rounded image" v-bind="mainPropsTutor" fluid src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRL9fGJTj0nE9u8thAYVEDkUVkq_5bFpk5okSZSmVhuwYNooxk7" ></b-img> 
@@ -44,14 +44,16 @@
             </div>
             <hr>
             <h2 class="mt-3 mb-5"><i class="fas fa-users"></i> Membros eméritos</h2>
-            <div class="mt-5 mb-5 ml-5 mr-5" v-if="membrosEmeritos.lenght == 0">
+            <div class="mt-5 mb-5 ml-5 mr-5" v-if="membrosEmeritos.lenght != 0">
                 <b-row class="mx-auto" align-h="center">
-                  <div v-for="i in 18" :key="i.id">
+                  <div v-for="membro in membrosEmeritos" :key="membro.id">
                     <b-col class="mt-2 mb-2 ml-2 mr-2">
-                      <a href="#"><b-img rounded alt="Rounded image" v-bind="mainProps" fluid src="https://avatars3.githubusercontent.com/u/17532418?s=460&v=4" ></b-img> </a>
-                      <b-row class="mt-1" align-h="center">
-                        <h3>Breno</h3>
-                      </b-row>
+                      	<a :href="'/sobre/' + membro.idPetiano">
+						  	<b-img rounded id="image" alt="Rounded image" v-bind="mainProps" fluid src="https://avatars3.githubusercontent.com/u/17532418?s=460&v=4"></b-img> 
+                      		<b-row class="mt-1" align-h="center">
+								<h3>{{membro.pessoa.nome}}</h3>
+							</b-row>
+						</a>
                     </b-col> 
                   </div>
                 </b-row>
@@ -115,7 +117,9 @@ export default {
 
 
 <style scoped>
- a { color: #000000; }
+a { 
+	color: #000000; 
+}
 
 i.fab {
   font-size:50px;
@@ -123,9 +127,8 @@ i.fab {
   align-content: center;
 }
 
-.imagem {
-  align: center;
-
+#image {
+  box-shadow: 0 0 5px #cccccc;
 }
 
 h1 {
@@ -141,7 +144,7 @@ h2 {
 }
 
 h3 {
-  font-size: 32px;
+  font-size: 28px;
   text-align: left;
 }
 

@@ -46,6 +46,11 @@ export default {
         Comum,
         BottomBar
     },
+	head () {
+		return {
+			title: 'PET-CC UFRN - Eventos'
+		}
+	},
     data() {
       return {
 		eventos: [],

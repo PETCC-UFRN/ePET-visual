@@ -67,6 +67,11 @@ export default {
         Comum,
         BottomBar
     },
+	head () {
+		return {
+			title: 'PET-CC UFRN - Eventos'
+		}
+	},
   	data() {
 		return {
             eventos: [
@@ -82,7 +87,7 @@ export default {
 					qtdVagas: 0,
 					qtdCargaHoraria: 0,
 					qtdDias: 0,
-					valor: 0
+					valor: 0.0																																																																																																					
                 },
                 {
 					idEvento: 0,
@@ -96,7 +101,7 @@ export default {
 					qtdVagas: 0,
 					qtdCargaHoraria: 0,
 					qtdDias: 0,
-					valor: 0
+					valor: 0.0
                 }
             ],
             evento: {

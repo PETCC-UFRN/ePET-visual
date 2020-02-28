@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import nav from "./petiano";
+import nav from "./tutor";
 import {
   Header as AppHeader,
   Sidebar,

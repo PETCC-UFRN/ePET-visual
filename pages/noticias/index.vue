@@ -40,6 +40,11 @@ export default {
         Comum,
         BottomBar
     },
+	head () {
+		return {
+			title: 'PET-CC UFRN - Notícias'
+		}
+	},
     data() {
       return {
         noticias: [],
