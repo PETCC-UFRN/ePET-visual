@@ -2,7 +2,56 @@
   <div>
     <div class="d-flex flex-column sticky-footer-wrapper">
         <footer>
-            <span>&copy; {{ year }} PET-CC UFRN - Template por <a href="http://coreui.io">CoreUI</a></span>
+            <b-row>
+              <b-col >
+              </b-col>
+              <b-col>
+                  <h4 class="mt-3">Institucional</h4>             
+                  <a href="/sobre">Sobre o PET-CC</a> 
+                  <br> 
+                  <a href="/desenvolvedores">Desenvolvedores</a> 
+
+                  <div>
+                    
+                    
+                  <h4 class="mt-3">Localização</h4>             
+                  Departamento de Informática e Matemática Aplicada (DIMAp) - UFRN
+                  </div>
+
+
+
+              </b-col>
+              <b-col>
+                <b-row>
+                  <div class="ml-3">
+                    <h4 class="mt-3">Explorer</h4>             
+                    <a href="/eventos">Eventos</a>
+                    <br> 
+                    <a  href="/noticias">Notícias</a>
+                    <br> 
+                    <a href="/validacao">Validar certificado</a>
+                  </div>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <h4 class="mt-3">Redes Sociais</h4>             
+                    <div >
+                      <a class="mr-1" href="https://www.facebook.com/petccufrn/" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                      <a class="mr-1" href="https://www.instagram.com/petccufrn/" target="_blank"><i class="fab fa-instagram" ></i></a>
+                      <a class="mr-1" href="https://github.com/PETCC-UFRN" target="_blank"><i class="fab fa-github"></i></a>
+                      <a href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i class="fab fa-youtube"></i></a>
+
+                    </div>
+                  
+                  </b-col>
+  
+                </b-row>
+              </b-col>
+              <b-col >
+              </b-col>
+            </b-row>
+            <hr>
+            <div style="text-align: center;" class="mb-3"> {{ year }} &copy; PET-CC UFRN - Template por <a href="http://coreui.io">CoreUI</a></div>
         </footer>
     </div>
   </div>
@@ -18,18 +67,36 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 
 .flex-fill {
    flex:1 1 auto;
 }
 footer{
-    line-height: 40px;
-    height: 40px;
     background-color: #89023e;
 }
-footer span{
-    margin-left: 15px;
+
+i{
+  font-size:24px;
+}
+a {
+  color: white;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+footer hr {
+  height: 1px;
+  color: white;
+  background-color: white;
+  border: none;
+
+}
+
+footer div{
     color: white;
 }
 </style>

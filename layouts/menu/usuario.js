@@ -1,9 +1,5 @@
 export default {
     items: [{
-            name: 'Dashboard',
-            url: '#',
-        },
-        {
             title: true,
             name: 'Menu de navegação',
             class: '',

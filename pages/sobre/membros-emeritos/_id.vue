@@ -3,7 +3,7 @@
         <Comum/>  
         <div class="container">
             <br>
-            <h1 class="mt-3"><i class="fas fa-users"></i> Membros ativos</h1>
+            <h1 class="mt-3"><i class="fas fa-users"></i> Membros eméritos</h1>
             <hr>
             <div class="mt-5 mb-5 ml-5 mr-5">
                 <b-row>
@@ -54,20 +54,13 @@ export default {
     data() {
         return {
             mainProps: { width: 250, height: 250 },
-            petianosAtuais: [],
             petianosAntigos:[]
     };
   },
   mounted() {
     this.getPetianosAntigos();
-    this.getPetianosAtuais();
   },
   methods: {
-      async getPetianosAtuais() {
-        axios.get("petianos-atuais").then(res => {
-            this.petianosAtuais = res.data.content;
-            });
-      },
       async getPetianosAntigos() {
         axios.get("petianos-antigos").then(res => {
             this.petianosAntigos = res.data.content;

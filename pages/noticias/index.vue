@@ -5,19 +5,25 @@
           <br>
           <h1 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h1>
           <hr>
-          <b-card-group columns class="cards">
-            <div v-for="noticia in noticias" :key="noticia.id">
-              <a :href="'/noticias/' + noticia.idNoticia">
-                <b-card>
-                  <b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}} {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}} </b-card-text>
-                  <hr>
-                  <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
-                  <b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
-                  <b-card-text class="small text-muted">  <em>Publicado por  {{noticia.petiano.pessoa.nome}} </em></b-card-text>
-                </b-card>
-              </a>
-            </div>
-          </b-card-group>
+          <div v-if="noticias.length > 0">
+            <b-card-group columns class="cards">
+              <div v-for="noticia in noticias" :key="noticia.id">
+                <a :href="'/noticias/' + noticia.idNoticia">
+                  <b-card>
+                    <b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}} {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}} </b-card-text>
+                    <hr>
+                    <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
+                    <b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
+                    <b-card-text class="small text-muted">  <em>Publicado por  {{noticia.petiano.pessoa.nome}} </em></b-card-text>
+                  </b-card>
+                </a>
+              </div>
+            </b-card-group>
+          </div>
+          <div v-else>
+            <h2>Não existe notícia cadastrada.</h2>
+            <br>
+          </div>
       </div>
     <BottomBar/>
   </div>
@@ -34,6 +40,11 @@ export default {
         Comum,
         BottomBar
     },
+	head () {
+		return {
+			title: 'PET-CC UFRN - Notícias'
+		}
+	},
     data() {
       return {
         noticias: [],
@@ -67,7 +78,9 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+
+ a { color: #000000; }
 
 h1 {
   text-align: center;

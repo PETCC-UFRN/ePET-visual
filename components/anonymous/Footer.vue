@@ -8,25 +8,26 @@
         allowfullscreen
       ></iframe>
     </div>
-    <div class="d-flex flex-column sticky-footer-wrapper">
-        <footer>
-            <span>&copy; {{ year }} PET-CC UFRN - Template por <a href="http://coreui.io">CoreUI</a></span>
-        </footer>
-    </div>
+    <BottomBar/>
   </div>
 </template>
+
 <script>
+import BottomBar from "~/components/anonymous/BottomBar";
 export default {
   name: 'c-footer',
   data(){
     return {
       year: new Date().getFullYear()
     }
+  }, 
+  components :{
+    BottomBar
   }
 }
 </script>
 
-<style>
+<style scoped>
 .map-container {
   overflow: hidden;
   padding-bottom: 250px;
