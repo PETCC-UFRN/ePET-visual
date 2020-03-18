@@ -58,7 +58,6 @@ import axios from 'axios';
 import {TheMask} from 'vue-the-mask'
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 
-
 export default {
   name: 'Register',
   layout: 'clean',

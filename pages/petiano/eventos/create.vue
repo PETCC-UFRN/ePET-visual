@@ -6,7 +6,10 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>Evento</strong> <small>Formulário de criação</small>
+        <strong><i class="fa fa-edit"></i> Evento</strong> <small>Formulário de criação</small>
+        <div class="card-actions">
+          <a href="/petiano/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
+        </div>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
@@ -95,6 +98,8 @@ export default {
           this.alert.message = "Evento cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
+          this.$router.push({ path : '/petiano/eventos/' });
+          
           });
         })
         .catch(err => {

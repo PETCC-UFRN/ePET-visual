@@ -1,5 +1,16 @@
 <template>
   <div>
+    <b-card
+      v-if="loaded"
+      header="Notícia"
+      header-tag="header"
+      :footer="'Adicionado por: ' + noticia.petiano.pessoa.nome"
+      :title="noticia.corpo"
+    >
+      <b-card-text>
+        <span v-html="noticia.corpo"></span>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
@@ -8,9 +19,16 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/usuario",
+  data() {
+    return { noticia: [], loaded: false };
+  },
+  mounted() {
+    axios.get("noticia/" + this.$route.params.id).then(res => {
+      this.noticia = res.data;
+      this.loaded = true;
+      console.log(this.noticia.petiano.pessoa.nome);
+    });
+  }
 };
 </script>

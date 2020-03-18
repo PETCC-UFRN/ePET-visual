@@ -6,13 +6,16 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>Disciplina</strong> <small>Formulário de criação</small>
+        <strong><i class="fa fa-edit"></i> Disciplina</strong> <small>Formulário de criação</small>
+        <div class="card-actions">
+          <a href="/petiano/disciplina/" class="btn btn-close"><i class="icon-close"></i></a>
+        </div>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1">Código:</label>
-            <input type="text" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
+            <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Nome:</label>
@@ -27,11 +30,15 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "~/axios";
+import {TheMask} from 'vue-the-mask'
 
 export default {
   layout: "menu/petiano",
+  components: {TheMask},
+  
   data() {
     return {
       form: {
@@ -54,6 +61,7 @@ export default {
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
+          this.$router.push({ path : '/petiano/disciplina/' });
         })
         .catch(err => {
           this.alert.class = "danger";

@@ -30,7 +30,7 @@
               <b-card-body class="text-center">
                 <div>
                   <h2>Cadastrar</h2>
-                  <p>Faça o cadastro para participar dos eventos realizados pelo PET-CC.</p>
+                  <p>Faça o cadastro para participar dos eventos realizados pelo PET-CC UFRN.</p>
                   <b-button variant="success" class="active mt-3" @click="goToRegister()">Clique aqui para se cadastrar!</b-button>
                 </div>
               </b-card-body>

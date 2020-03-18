@@ -17,13 +17,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/evento">Eventos</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/noticia">Notícias</a>
+              <a class="nav-link" href="/sobre">Sobre</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/validarCertificado">Validar certificado</a>
+              <a class="nav-link" href="/eventos">Eventos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/noticias">Notícias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/validacao">Validar certificado</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -35,8 +41,8 @@
                 aria-expanded="false"
               >Área do usuário</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/login">Login</a>
-                <a class="dropdown-item" href="/register">Registrar</a>
+                <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Registrar</a>
               </div>
             </li>
             <li class="nav-item dropdown">

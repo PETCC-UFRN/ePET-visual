@@ -8,15 +8,27 @@
             <a
               class="btn btn-sm btn-primary float-right"
               style="color: white"
-              href="disciplina/create"
+              href="/petiano/disciplina/create"
             ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</a>
         </template>
 
         <!-- TODO::remover esse style -->
+          
+       <b-input-group  class="mt-1 mb-3" >
+          <!-- Always bind the id to the input so that it can be focused when needed -->
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca"            
+            type="text"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+        </b-input-group-text>
+        </b-input-group>
 
         <b-table
           responsive="sm"
-          :items="disciplinas"
+          :items="items"
           :current-page="currentPage"
           :bordered="true"
           :per-page="10"
@@ -24,19 +36,19 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button 
+              :href="'/petiano/disciplina/edit/' + row.item.idDisciplina"
               @click="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" 
               class="btn btn-sm btn-warning">
               <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-            <!--<a
-              class="btn btn-sm btn-primary"
-              style="color: white"
-              href='disciplina/edit/${row.item.id_disciplina}'
-            >Editar {{row.item.id_disciplina}}</a>-->
+            <b-button
+              @click="del(row.item.idDisciplina, row.index)"
+              class="btn btn-sm btn-danger"
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="disciplinas.length"
+            :total-rows="items.length"
             :per-page="10"
             v-model="currentPage"
             prev-text="Anterior "
@@ -61,6 +73,7 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
+      keyword: '',
       disciplinas: [],
       currentPage: 1,
       fields: [
@@ -69,6 +82,13 @@ export default {
         { key: "actions", sortable: true, label: "Ações disponíveis" },
       ]
     };
+  },
+  computed: {
+    items () {
+      return this.keyword
+          ? this.disciplinas.filter(item => item.codigo.includes(this.keyword) || item.nome.includes(this.keyword))
+          : this.disciplinas
+    }
   },
   mounted() {
     axios.get("disciplinas").then(res => {

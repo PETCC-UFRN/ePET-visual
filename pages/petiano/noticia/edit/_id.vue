@@ -6,7 +6,7 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>Notícia</strong> <small>Formulário de edição</small>
+        <strong><i class="fa fa-edit"></i> Notícia</strong> <small>Formulário de edição</small>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
@@ -77,10 +77,15 @@ export default {
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Evento editado com sucesso";
+          this.$router.push(
+            {
+              path: '../',
+            }
+          )
         })
         .catch(err => {
           this.alert.class = "danger";
-          this.alert.message = "Evento NÃO editado. Tente novamente";
+          this.alert.message = "Evento não editado. Tente novamente.";
         });
       e.preventDefault();
     }

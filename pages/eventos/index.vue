@@ -3,8 +3,29 @@
         <Comum/>  
         <div class="container">
           <br>
-          <h2 class="titulo texto">Eventos</h2>
-          <div v-if="filterEventos.length > 0" class="col-9 mx-auto">
+          <h1 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h1>
+          <hr>
+          <b-card-group columns class="cards">
+                <div v-for="evento in eventos" :key="evento.id">
+                  <a :href="'/eventos/' + evento.idEvento">
+                    <b-card>
+                      <b-card-title><h3>{{evento.titulo}} </h3></b-card-title>
+                      <hr>
+                      <b-card-text class="small text-muted">  <em>Postado em 15-10-2018 </em></b-card-text>
+                      <b-card-text>
+						  	<p  class="mt-0 mb-0"><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
+							<p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
+							<p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}.</p>
+							<p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
+							<p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
+						</b-card-text>
+                    </b-card>
+                  </a>
+                </div>
+              </b-card-group>
+
+
+          <!-- <div v-if="filterEventos.length > 0" class="col-9 mx-auto">
               <div v-for="evento in filterEventos" :key="evento.id">
                   <div class="space">
                     <b-card no-body class="overflow-hidden">
@@ -42,7 +63,7 @@
               <br>  
               <h3 class="texto"> Nenhum evento cadastrado!</h3> 
               <br>
-            </div>
+            </div> -->
 
         </div>
         <BottomBar/>
@@ -50,9 +71,9 @@
 </template>
 
 <script>
-import Comum from "../components/Comum";
-import axios from "../axios";
-import BottomBar from "../components/anonymous/BottomBar";
+import Comum from "~/components/Comum";
+import axios from "~/axios";
+import BottomBar from "~/components/anonymous/BottomBar";
 
 
 export default {
@@ -62,9 +83,22 @@ export default {
         BottomBar
     },
     data() {
-    return {
-      eventos: []
-    };
+      return {
+		eventos: [],
+        mesNomes: [
+          "JANEIRO", 
+          "FEVEREIRO", 
+          "MARÇO", 
+          "ABRIL", 
+          "MAIO",
+          "JUNHO",
+          "JULHO", 
+          "AGOSTO", 
+          "SETEMBRO", 
+          "OUTUBRO", 
+          "NOVEMBRO",
+          "DEZEMBRO"]
+      };
   },
   mounted() {
     axios.get("eventos").then(res => {
@@ -74,40 +108,49 @@ export default {
   computed: {
     filterEventos() {
       return this.eventos.filter(evento => evento.ativo == true) 
-    }   
+	},
+	
+    // mes() {
+    //   if (this.noticia.inicio_exibicao != null) {
+	// 	return "" + this.noticia.inicio_exibicao.substring(8,10) + " " + 
+	// 	this.mesNomes[parseInt(this.noticia.inicio_exibicao.substring(5,7) , 10)] + " "+ 
+	// 	this.noticia.inicio_exibicao.substring(0,4);
+	
+	//   }
+	//   return "";
+    // }   
   }
 }
 </script>
 
 
 <style>
-.btn{
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-.titulo {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 36px;
-  box-sizing: border-box;
-  margin: .67em 0;
-}
 
-.texto {
+h1 {
+  font-weight: bold;
+  font-size: 40px;
   text-align: center;
 }
-
-.space {
-  margin-bottom: 40px;
+em{
+  font-size: 16px;
 }
-
-.regular-text {
-  margin-top: -15px;
+h3 {
+  font-size: 25px;
 }
-
 p {
-  margin: 0px 0px 0px;
+  font-size: 19px;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.cards {
+  margin-bottom: 20px;
+}
+a {
+  color: inherit;
 }
 </style>
 

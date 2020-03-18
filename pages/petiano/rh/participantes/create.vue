@@ -5,9 +5,11 @@
       <!-- <b>&rArr;</b> -->
     </b-alert>
     <div class="card">
-
       <div class="card-header">
-        <strong>Participantes</strong> <small>Formulário de criação</small>
+        <strong><i class="fa fa-edit"></i> Participantes</strong> <small>Formulário de criação</small>
+        <div class="card-actions">
+          <a href="/petiano/participantes/" class="btn btn-close"><i class="icon-close"></i></a>
+        </div>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
@@ -62,6 +64,7 @@ export default {
           this.alert.message = "Participante cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
+          this.$router.push({ path : '/petiano/rh/participantes/' });
           });
         })
         .catch(err => {

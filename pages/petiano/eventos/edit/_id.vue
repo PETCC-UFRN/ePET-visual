@@ -6,7 +6,7 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>Evento</strong> <small>Formulário de edição</small>
+        <strong><i class="fa fa-edit"></i> Evento</strong> <small>Formulário de edição</small>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
