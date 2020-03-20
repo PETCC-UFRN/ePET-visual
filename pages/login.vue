@@ -44,7 +44,9 @@
 
 <script>
 
-import axios from 'axios';
+import axios from '~/axios';
+
+const Cookie = process.client ? require('js-cookie') : undefined;
 
 export default {
   name: 'Login',
@@ -66,19 +68,15 @@ export default {
     goToRegister(){
       this.$router.push('/register');
     },
-    async login(){
-      try{
-        await this.$auth.loginWith('local', {
-          data: {
-            email: this.email,
-            senha: this.senha
-          }
-        })
-
-        this.$router.push('/admin')
-      } catch(e){
-        this.error= e.response.data.message
-      }
+    login(){
+      axios.post('sign-in', {
+        email: this.email,
+        senha: this.senha,
+      }).then(auth => {
+        console.log(auth);
+        Cookie.set('auth', auth) 
+        this.$store.commit('setAuth', auth)
+      })
     }
   }
 }
