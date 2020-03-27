@@ -23,5 +23,5 @@ export const actions = {
             }
         }
         commit('setAuth', auth)
-    }
+    },
 }
