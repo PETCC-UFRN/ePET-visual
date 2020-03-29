@@ -2,7 +2,7 @@
   "name": "epet-frontend",
   "version": "1.0.0",
   "description": "Implementacao do front-end da plataforma do PET",
-  "author": "Italo, Samuel e Henrique",
+  "author": "Italo, Samuel, Henrique e Jhonattan",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
@@ -25,6 +25,7 @@
     "js-cookie": "^2.2.1",
     "nuxt": "^2.11.0",
     "simple-line-icons": "^2.4.1",
+    "sweetalert2": "^9.10.7",
     "vue-chartjs": "^3.5.0",
     "vue-recaptcha": "^1.3.0",
     "vue-the-mask": "^0.11.1",
