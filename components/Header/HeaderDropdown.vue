@@ -16,15 +16,17 @@
 </template>
 
 <script>
-import cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 export default {
   name: "header-dropdown",
   methods: {
     logout() {
-      cookies.set('auth', null);
+      Cookies.set('auth', null);
+      //Cookies.remove('auth');
       this.$store.commit('setAuth', null);
-      this.$router.push('/');
+      //this.$router.push('/');
+      document.location.href = '/';
     }
   }
 };

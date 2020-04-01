@@ -120,6 +120,7 @@ export default {
         .then(auth => {
           Cookies.set("auth", auth.data);
           this.$store.commit("setAuth", auth.data);
+          
         })
         .then(() => {
           axios
@@ -127,15 +128,18 @@ export default {
             .then(res => {
               console.log(Cookies.get('auth'));
               this.perfis = res.data;
+              console.log('aqui2');
             })
             .then((res) => {
               console.log(Cookies.get('auth'));
               this.showModal();
             });
+            console.log('aqui2');
         });
     },
 
     showModal() {
+      //this.$router.go();
       this.$refs["perfis"].show();
     },
 

@@ -26,7 +26,7 @@
               <a class="nav-link" href="/noticias">Notícias</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/validacao">Validar certificado</a>
+              <a class="nav-link" href="/validacao">Validar declaração</a>
             </li>
             <li class="nav-item dropdown">
               <a
