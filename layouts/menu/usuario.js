@@ -18,5 +18,10 @@ export default {
             url: '/usuario/noticia',
             icon: 'icon-envelope-open'
         },
+        {
+            name: 'Perfil',
+            url: '/usuario/perfil',
+            icon: 'icon-user'
+        },
     ]
 }

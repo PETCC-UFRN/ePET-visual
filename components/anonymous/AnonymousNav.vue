@@ -53,9 +53,9 @@
                 aria-expanded="false"
               >Perfis</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Tutor</a>
-                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Petiano</a>
-                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Usuário</a>
+                <a class="dropdown-item" href="/tutor"><i class="fas fa-user-plus"></i> Tutor</a>
+                <a class="dropdown-item" href="/petiano"><i class="fas fa-user-plus"></i> Petiano</a>
+                <a class="dropdown-item" href="/usuario/perfil"><i class="fas fa-user-plus"></i> Usuário</a>
               </div>
             </li>
             <!-- Só pra teste -->
