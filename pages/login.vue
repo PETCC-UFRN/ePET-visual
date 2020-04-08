@@ -88,8 +88,8 @@ export default {
 
   data() {
     return {
-      email: "teste@gmail.com",
-      senha: "123456789",
+      email: "",
+      senha: "",
       error: null,
       perfis: [],
       mapPerfil: {

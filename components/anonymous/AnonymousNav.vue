@@ -2,7 +2,7 @@
   <div>
     <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
       <div class="container">
-        <a class="navbar-brand m" href="/">PET-CC UFRN</a>
+        <nuxt-link class="navbar-brand m" to="/">PET-CC UFRN</nuxt-link>
         <button
           class="navbar-toggler navbar-toggler-right"
           type="button"
@@ -17,16 +17,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
+              <nuxt-link class="nav-link" to="/">Home</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/eventos">Eventos</a>
+              <nuxt-link class="nav-link" to="/eventos">Eventos</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/noticias">Notícias</a>
+              <nuxt-link class="nav-link" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/validacao">Validar certificado</a>
+              <nuxt-link class="nav-link" to="/validacao">Validar certificado</nuxt-link>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -38,8 +38,8 @@
                 aria-expanded="false"
               >Área do usuário</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Registrar</a>
+                <nuxt-link class="dropdown-item" to="/login"><i class="fas fa-sign-in-alt"></i> Login</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/register"><i class="fas fa-user-plus"></i> Registrar</nuxt-link>
               </div>
             </li>
           </ul>
