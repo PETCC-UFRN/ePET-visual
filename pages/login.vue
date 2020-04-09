@@ -81,6 +81,7 @@
 <script>
 import axios from "~/axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default {
   name: "Login",
@@ -88,9 +89,9 @@ export default {
 
   data() {
     return {
-      email: "teste@gmail.com",
-      senha: "123456789",
-      error: null,
+      email: "",
+      senha: "",
+      errors: [],
       perfis: [],
       mapPerfil: {
         tutor: "tutor",
@@ -125,12 +126,21 @@ export default {
           axios
             .get("tipo-usuario")
             .then(res => {
-              console.log(Cookies.get('auth'));
               this.perfis = res.data;
             })
             .then((res) => {
-              console.log(Cookies.get('auth'));
-              this.showModal();
+              if(this.perfis.length == 1){
+                console.log('hue');
+                this.$router.push(this.mapPerfil[this.perfis[0].nome])
+              }else{
+                this.showModal();
+              }
+            });
+        }).catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.message
             });
         });
     },
