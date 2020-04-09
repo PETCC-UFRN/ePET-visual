@@ -27,9 +27,9 @@
             max-rows="6"
             ></b-form-textarea>
           </div>
-          
+
           <div class="form-group">
-            <label >Imagem:</label>      
+            <label >Imagem:</label>
             <b-form-file
               v-model="foto"
               placeholder="Faça upload da imagem..."
@@ -60,7 +60,6 @@
 
 <script>
 import axios from "~/axios";
-import {user} from "~/user";
 
 export default {
   layout: "menu/petiano",
@@ -80,13 +79,10 @@ export default {
       }
     };
   },
-  mounted(){
-      console.log(user);
-  },
   methods: {
     submitForm(e) {
       axios
-        .post("noticia-cadastro/" + user.idPessoa, this.form)
+        .post("noticia-cadastro/" + this.$store.state.auth.id, this.form)
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Notícia cadastrada com sucesso";

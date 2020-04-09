@@ -16,7 +16,7 @@
                   </b-input-group-prepend>
                   <input
                     required
-                    type="text"
+                    type="email"
                     v-model="email"
                     class="form-control"
                     placeholder="E-mail"
@@ -36,6 +36,11 @@
                     placeholder="Senha"
                   />
                 </b-input-group>
+                <b-alert show variant='danger' v-if="errors.length !== 0">
+                  <ul>
+                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+                  </ul>
+                </b-alert>
                 <b-row>
                   <b-col cols="6">
                     <b-button variant="success" class="px-4" @click="login()">
@@ -65,22 +70,13 @@
         </b-col>
       </b-row>
     </div>
-    <b-modal ref="perfis" hide-footer title="Selecione um perfil">
-      <b-button
-        class="mt-2"
-        variant="primary"
-        block
-        @click="$router.push(mapPerfil[perfil.nome])"
-        v-for="perfil in perfis"
-        :key="perfil.id"
-      >{{ perfil.nome.toUpperCase() }}</b-button>
-    </b-modal>
   </div>
 </template>
 
 <script>
 import axios from "~/axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default {
   name: "Login",
@@ -90,8 +86,8 @@ export default {
     return {
       email: "",
       senha: "",
-      error: null,
-      perfis: [],
+      perfil: {},
+      errors: [],
       mapPerfil: {
         tutor: "tutor",
         petiano: "petiano",
@@ -110,29 +106,73 @@ export default {
     goToRegister() {
       this.$router.push("/register");
     },
+    validEmail: function (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    async checkForm() {
+      this.errors = [];
 
-    login() {
-      axios
-        .post("sign-in/", {
-          email: this.email,
-          senha: this.senha
-        })
-        .then(auth => {
-          Cookies.set("auth", auth.data);
-          this.$store.commit("setAuth", auth.data);
-        })
-        .then(() => {
-          axios
-            .get("tipo-usuario")
-            .then(res => {
-              console.log(Cookies.get('auth'));
-              this.perfis = res.data;
+      if (!this.email) {
+        this.errors.push('O email é obrigatório.');
+      }else if (!this.validEmail(this.email)) {
+        this.errors.push('Utilize um e-mail válido.');
+      }
+
+      if (!this.senha) {
+        this.errors.push('A senha é obrigatória.');
+      }
+
+      if (this.errors.length === 0) {
+        return true;
+      }
+
+      return false;
+    },
+    async login() {
+      let next = true;
+
+      next = await this.checkForm();
+
+      if(next){
+        try {
+          await axios
+            .post("sign-in/", {
+              email: this.email,
+              senha: this.senha
             })
-            .then((res) => {
-              console.log(Cookies.get('auth'));
-              this.showModal();
+            .then(auth => {
+              // guarda token
+              Cookies.set("auth", auth.data);
             });
-        });
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.message
+          });
+          next = false;
+        }
+      }
+
+      if (next) {
+        await axios
+          .get("pessoas-usuario")
+          .then(res => {
+            this.perfil = res.data;
+            this.$store.commit("setAuth", this.perfil.tipo_usuario);
+          })
+          .then(res => {
+            this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
+          })
+          .catch(err => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.message
+            });
+          });
+      }
     },
 
     showModal() {
