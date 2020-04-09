@@ -2,7 +2,7 @@
   "name": "epet-frontend",
   "version": "1.0.0",
   "description": "Implementacao do front-end da plataforma do PET",
-  "author": "Italo, Samuel e Henrique",
+  "author": "Italo, Samuel, Henrique e Jhonattan",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",

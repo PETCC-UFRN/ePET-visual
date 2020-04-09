@@ -3,9 +3,9 @@
         <Comum/>
         <div class="atividades container">
             <About/>
-            <div>
+            <!-- <div>
                 <Activity/>
-            </div>
+            </div> -->
         </div>
         <Footer />
         <nuxt/>
@@ -15,7 +15,7 @@
 <script>
 import Comum from "../components/Comum";
 import About from "../components/anonymous/About";
-import Activity from "../components/anonymous/Activity";
+// import Activity from "../components/anonymous/Activity";
 import Footer from "../components/anonymous/Footer";
 
 export default {
@@ -23,7 +23,7 @@ export default {
     components: {
         Comum,
         About,
-        Activity,
+        // Activity,
         Footer,
     }
 };

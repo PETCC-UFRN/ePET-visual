@@ -8,7 +8,7 @@
 			<div v-if="eventos.length > 0">
 				<b-card-group columns class="cards">
 				<div v-for="evento in eventos" :key="evento.id">
-					<a :href="'/eventos/' + evento.idEvento">
+					<nuxt-link :to="'/eventos/' + evento.idEvento">
 						<b-card>
 							<b-card-title><h3>{{evento.titulo}} </h3></b-card-title>
 							<hr>
@@ -21,7 +21,7 @@
 							<p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
 							</b-card-text>
 						</b-card>
-					</a>
+					</nuxt-link>
 				</div>
 				</b-card-group>
           	</div>
@@ -36,7 +36,7 @@
 
 <script>
 import Comum from "~/components/Comum";
-import axios from "~/axios";
+import axios from "axios";
 import BottomBar from "~/components/anonymous/BottomBar";
 
 
@@ -70,8 +70,8 @@ export default {
       };
   },
   mounted() {
-    axios.get("eventos").then(res => {
-      this.eventos = res.data.content;
+    axios.get("https://epet.imd.ufrn.br:8443/api/eventos-abertos").then(res => {
+      this.eventos = res.data;
     });
   },
   computed: {
@@ -85,7 +85,10 @@ export default {
 
 <style scoped>
 
-a { color: #000000; }
+a { 
+	color: #000000;
+	text-decoration: none;
+ }
 
 h1 {
   font-weight: bold;
@@ -114,5 +117,3 @@ a {
   color: inherit;
 }
 </style>
-
- 
