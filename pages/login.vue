@@ -131,9 +131,9 @@ export default {
     },
     async login() {
       let next = true;
-      console.log('hue');
+
       next = await this.checkForm();
-      console.log(next);
+
       if(next){
         try {
           await axios
@@ -142,8 +142,8 @@ export default {
               senha: this.senha
             })
             .then(auth => {
+              // guarda token
               Cookies.set("auth", auth.data);
-              this.$store.commit("setAuth", auth.data);
             });
         } catch (err) {
           Swal.fire({
@@ -160,6 +160,7 @@ export default {
           .get("pessoas-usuario")
           .then(res => {
             this.perfil = res.data;
+            this.$store.commit("setAuth", this.perfil.tipo_usuario);
           })
           .then(res => {
             this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
