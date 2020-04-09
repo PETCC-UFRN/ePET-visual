@@ -1,17 +1,21 @@
 <template>
   <div>
     <b-card>
-      Adicionar componentes em breve
+      <Perfil />
     </b-card>
   </div>
 </template>
 
 <script>
 import axios from "~/axios";
+import Perfil from "~/components/Perfil";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+  components:{
+    Perfil
+  }
   /*data() {
     return {
       noticias: [],

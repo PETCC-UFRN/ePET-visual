@@ -1,12 +1,8 @@
+
 <template>
   <header class="app-header navbar">
-    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" @click="mobileSidebarToggle">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <b-link class="navbar-brand" to="#"></b-link>
-    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarToggle">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    Pet-CC
+    
     <b-navbar-nav class="ml-auto">
       <HeaderDropdown/>
     </b-navbar-nav>
@@ -14,7 +10,7 @@
 </template>
 
 <script>
-  import HeaderDropdown from './HeaderDropdown.vue'
+  import HeaderDropdown from './HeaderDropdown.vue';
 
   export default {
     name: 'c-header',

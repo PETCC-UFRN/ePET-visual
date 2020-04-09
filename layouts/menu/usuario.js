@@ -14,14 +14,14 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Notícias',
-            url: '/usuario/noticia',
-            icon: 'icon-envelope-open'
-        },
-        {
             name: 'Perfil',
             url: '/usuario/perfil',
             icon: 'icon-user'
+        },
+        {
+            name: 'Notícias',
+            url: '/usuario/noticia',
+            icon: 'icon-envelope-open'
         },
     ]
 }
