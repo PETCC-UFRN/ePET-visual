@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="disciplinas.length > 0">
       <b-card>
-
         <template v-slot:header>
           <h3>Disciplinas cadastradas</h3>
             <a
@@ -12,9 +10,8 @@
             ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</a>
         </template>
 
-        <!-- TODO::remover esse style -->
-          
-       <b-input-group  class="mt-1 mb-3" >
+      <div v-if="disciplinas.length > 0">      
+        <b-input-group  class="mt-1 mb-3" >
           <!-- Always bind the id to the input so that it can be focused when needed -->
           <b-form-input
             v-model="keyword"
@@ -56,9 +53,9 @@
             hide-goto-end-buttons
           />
         </nav>
+      </div>
+      <div v-else>Nenhuma disciplina cadastrada</div>
       </b-card>
-    </div>
-    <div class="row" v-else>Nenhuma disciplina cadastrada</div>
   </div>
 </template>
 

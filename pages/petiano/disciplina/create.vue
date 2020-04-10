@@ -42,7 +42,9 @@ export default {
   data() {
     return {
       form: {
+        ativo: true,
         codigo: "",
+        idDisciplina: 0,
         nome: ""
       },
       alert: {
