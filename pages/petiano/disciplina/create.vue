@@ -8,11 +8,11 @@
       <div class="card-header">
         <strong><i class="fa fa-edit"></i> Disciplina</strong> <small>Formulário de criação</small>
         <div class="card-actions">
-          <a href="/petiano/disciplina/" class="btn btn-close"><i class="icon-close"></i></a>
+          <nuxt-link to="/petiano/disciplina/" class="btn btn-close"><i class="icon-close"></i></nuxt-link>
         </div>
       </div>
       <div class="card-body">
-        <form @submit="submitForm">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1">Código:</label>
             <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
@@ -33,7 +33,7 @@
 
 <script>
 import axios from "~/axios";
-import {TheMask} from 'vue-the-mask'
+import {TheMask} from 'vue-the-mask';
 
 export default {
   layout: "menu/petiano",
@@ -42,9 +42,9 @@ export default {
   data() {
     return {
       form: {
-        ativo: true,
+        // ativo: true,
         codigo: "",
-        idDisciplina: 0,
+        // idDisciplina: 0,
         nome: ""
       },
       alert: {
@@ -55,6 +55,7 @@ export default {
   },
   methods: {
     submitForm(e) {
+      e.preventDefault();
       axios
         .post("disciplinas", this.form)
         .then(res => {
@@ -69,7 +70,7 @@ export default {
           this.alert.class = "danger";
           this.alert.message = "Disciplina NÃO cadastrada. Tente novamente";
         });
-      e.preventDefault();
+      
     },
     onReset(evt) {
       evt.preventDefault()
