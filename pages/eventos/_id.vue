@@ -140,7 +140,7 @@ export default {
 			this.evento = res.data;
 		});
 		axios.get("eventos").then(res => {
-		this.eventos = res.data.content;
+		this.eventos = res.data;
 		});
 	},
 	computed: {

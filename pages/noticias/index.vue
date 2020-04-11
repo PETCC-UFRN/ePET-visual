@@ -8,7 +8,7 @@
           <div v-if="noticias.length > 0">
             <b-card-group columns class="cards">
               <div v-for="noticia in noticias" :key="noticia.id">
-                <a :href="'/noticias/' + noticia.idNoticia">
+                <nuxt-link :to="'/noticias/' + noticia.idNoticia">
                   <b-card>
                     <b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}} {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}} </b-card-text>
                     <hr>
@@ -16,7 +16,7 @@
                     <b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
                     <b-card-text class="small text-muted">  <em>Publicado por  {{noticia.petiano.pessoa.nome}} </em></b-card-text>
                   </b-card>
-                </a>
+                </nuxt-link>
               </div>
             </b-card-group>
           </div>
@@ -31,7 +31,7 @@
 
 <script>
 import Comum from "~/components/Comum";
-import axios from "~/axios";
+import axios from "axios";
 import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
@@ -64,7 +64,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("noticia").then(res => {
+    axios.get("https://epet.imd.ufrn.br:8443/api/noticia").then(res => {
       this.noticias = res.data.content;
     });
   },
@@ -80,7 +80,10 @@ export default {
 
 <style scoped>
 
- a { color: #000000; }
+a {
+  text-decoration: none;
+  color: #000000; 
+}
 
 h1 {
   text-align: center;

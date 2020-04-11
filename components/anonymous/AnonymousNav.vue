@@ -26,7 +26,7 @@
               <a class="nav-link" href="/noticias">Notícias</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/validacao">Validar declaração</a>
+              <a class="nav-link" href="/validacao">Validar certificado</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -41,24 +41,7 @@
                 <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
                 <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Registrar</a>
               </div>
-              <!-- Só pr teste -->
             </li>
-                        <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownBlog"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >Perfis</a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/tutor"><i class="fas fa-user-plus"></i> Tutor</a>
-                <a class="dropdown-item" href="/petiano"><i class="fas fa-user-plus"></i> Petiano</a>
-                <a class="dropdown-item" href="/usuario/perfil"><i class="fas fa-user-plus"></i> Usuário</a>
-              </div>
-            </li>
-            <!-- Só pra teste -->
           </ul>
         </div>
       </div>
@@ -82,7 +65,6 @@ export default {
       let fontawesome = document.createElement('script')
       fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
       document.head.appendChild(fontawesome)
-
       this.$nextTick(function(){
         window.addEventListener("scroll", function(){
           var navbar = document.getElementById("nav");
