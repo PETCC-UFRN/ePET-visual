@@ -1,26 +1,32 @@
 <template>
-<div class="mb-2">
-    <b-card>
-        <div class="parent">
-            <b-avatar src="https://images.pexels.com/photos/69954/lemur-madagascar-monkey-animal-world-69954.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-             size="10em" variant="info" href=#>
-            </b-avatar>
-            <h4 float:left class="mr-auto child inline-block-child">Lêmure Computeiro</h4>
-            <b-badge class='child inline-block-child'>Usúario</b-badge>
+  <div>
+    <div align="center" class="mb-2">
+      <b-avatar src="~/assets/users/LemureUsuario.jpeg"
+        size="10em" variant="info" href=# class="align-text-top">
+      </b-avatar> 
+      <b-badge class='child inline-block-child'>Usúario</b-badge>   
+    </div>
 
-        </div>
+    <b-card class="backDark">
+      
+      <h1 align="center" class="textWhite"><strong>Lêmure Usuário</strong></h1>
+
+      <hr class="my-4">
+
+      <div class="textWhite">
+        <h5><strong>Email: </strong>lemore@gmail.com</h5>
+        <h5><strong>Data de nascimento: </strong>05/03/1996</h5>
+        <h5><strong>CPF: </strong> 001.290.312-19</h5>
+        <h5><strong>Login:</strong> @lemurec</h5>
+        <h5><strong>Senha:</strong> ********</h5>
+      </div>
+
+      <div align="center" class="mt-5">
+        <b-button class="float-left" variant="outline-primary" href="#">Editar perfil</b-button>
+        <b-button class="float-right" variant="outline-danger" href="#">Excluir conta</b-button>
+      </div>
     </b-card>
-
-    <b-card>
-        <h6><strong>Email: </strong>lemore@gmail.com</h6>
-        <h6><strong>Data de nascimento: </strong>05/03/1996</h6>
-        <h6><strong>Lattes: </strong>  http://lattes.cnpq.br/fake56143</h6>
-        <h6><strong>Git:</strong> github.com/lemurec</h6>
-        <h6><strong>Senha:</strong> ********</h6>
-        
-
-    </b-card>
-</div>
+  </div>
 </template>
 
 <script>
@@ -53,6 +59,14 @@ export default {
 .inline-block-child {
    margin-left: 0.5em;
   display: inline-block;
+}
+
+.backDark{
+  background-color:#24333b;
+}
+
+.textWhite{
+  color: white;
 }
 
 </style>
