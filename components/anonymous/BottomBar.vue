@@ -7,9 +7,9 @@
               </b-col>
               <b-col>
                   <h4 class="mt-3">Institucional</h4>             
-                  <a href="/sobre">Sobre o PET-CC</a> 
+                  <nuxt-link to="/sobre">Sobre o PET-CC</nuxt-link> 
                   <br> 
-                  <a href="/desenvolvedores">Desenvolvedores</a> 
+                  <nuxt-link to="/desenvolvedores">Desenvolvedores</nuxt-link> 
 
                   <div>
                     
@@ -25,11 +25,11 @@
                 <b-row>
                   <div class="ml-3">
                     <h4 class="mt-3">Explorer</h4>             
-                    <a href="/eventos">Eventos</a>
+                    <nuxt-link to="/eventos">Eventos</nuxt-link>
                     <br> 
-                    <a  href="/noticias">Notícias</a>
+                    <nuxt-link to="/noticias">Notícias</nuxt-link>
                     <br> 
-                    <a href="/validacao">Validar certificado</a>
+                    <nuxt-link to="/validacao">Validar certificado</nuxt-link>
                   </div>
                 </b-row>
                 <b-row>
