@@ -30,8 +30,12 @@
 <script>
 import axios from "~/axios";
 
+import {TheMask} from 'vue-the-mask';
+
 export default {
   layout: "menu/petiano",
+    components: {TheMask},
+
   data() {
     return {
       form: {
