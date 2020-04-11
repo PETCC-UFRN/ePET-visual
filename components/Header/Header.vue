@@ -1,7 +1,7 @@
 
 <template>
-  <header class="app-header navbar">
-    Pet-CC
+  <header class="app-header navbar" style="background-color:#89023e;">
+      <a class="ml-2" href="/">PET-CC UFRN</a> <!-- Mudar para a logo -->
     
     <b-navbar-nav class="ml-auto">
       <HeaderDropdown/>

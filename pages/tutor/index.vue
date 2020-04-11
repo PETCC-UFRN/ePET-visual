@@ -28,7 +28,7 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button
-                :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
+                :href="'/tutor/noticia/visualize/' + row.item.idNoticia"
                 class="btn btn-sm btn-warning"
               ><i class="fa fa-eye" aria-hidden="true"></i>
  Visualizar</b-button>
@@ -56,7 +56,7 @@ import style from "~/assets/css/loading.css";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data: function() {
     return {
       isLoading: true,
@@ -64,7 +64,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
+        { key: "tutor.pessoa.nome", sortable: true, label: "Publicado por" },
         { key: "actions", label: "Ações disponíveis"},
       ]
     };

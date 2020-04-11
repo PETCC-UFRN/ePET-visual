@@ -1,17 +1,23 @@
 <template>
-  <b-nav-item-dropdown right no-caret>
+  <b-nav-item-dropdown right no-caret >
     <template slot="button-content">
       <img src="~static/img/avatars/10.png" class="img-avatar" />
     </template>
-    <b-dropdown-header tag="div" class="text-center">
-      <strong>Perfil</strong>
+    
+    <b-dropdown-header tag="div" variant="primary">
+      <div style="color: white;" class="text-center">
+        <strong>Perfil</strong>
+      </div>
     </b-dropdown-header>
-    <b-dropdown-item to="/perfil">
-      <i class="fa fa-user"></i>Editar
+
+    <b-dropdown-item to="/#">
+      <i class="fa fa-edit"></i>Editar perfil
     </b-dropdown-item>
+
     <b-dropdown-item @click="logout">
-      <i class="fa fa-lock"></i> Logout
+      <i class="fa fa-sign-out"></i>Logout
     </b-dropdown-item>
+    
   </b-nav-item-dropdown>
 </template>
 
@@ -32,3 +38,8 @@ export default {
 };
 </script>
 
+  <style>
+   .navbar-dark .navbar-nav .nav-link{
+      color:black!important
+    }
+ </style>

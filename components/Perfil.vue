@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="backDark">
     <div align="center" class="mb-2">
       <b-avatar src="~/assets/users/LemureUsuario.jpeg"
         size="10em" variant="info" href=# class="align-text-top">
@@ -7,23 +7,25 @@
       <b-badge class='child inline-block-child'>Usúario</b-badge>   
     </div>
 
-    <b-card class="backDark">
+    <b-card>
       
-      <h1 align="center" class="textWhite"><strong>Lêmure Usuário</strong></h1>
+      <h1 align="center" class="textDark"><strong>Lêmure Usuário</strong></h1>
 
       <hr class="my-4">
 
-      <div class="textWhite">
+      <div class="textDark float-left mr-5">
         <h5><strong>Email: </strong>lemore@gmail.com</h5>
-        <h5><strong>Data de nascimento: </strong>05/03/1996</h5>
-        <h5><strong>CPF: </strong> 001.290.312-19</h5>
         <h5><strong>Login:</strong> @lemurec</h5>
         <h5><strong>Senha:</strong> ********</h5>
+      </div>
+      <div class="textDark float-rigth">
+        <h5><strong>Data de nascimento: </strong>05/03/1996</h5>
+        <h5><strong>CPF: </strong> 001.290.312-19</h5>
       </div>
 
       <div align="center" class="mt-5">
         <b-button class="float-left" variant="outline-primary" href="#">Editar perfil</b-button>
-        <b-button class="float-right" variant="outline-danger" href="#">Excluir conta</b-button>
+        <b-button class="float-right" variant="danger" href="#">Excluir conta</b-button>
       </div>
     </b-card>
   </div>
@@ -65,8 +67,8 @@ export default {
   background-color:#24333b;
 }
 
-.textWhite{
-  color: white;
+.textDark{
+  color: #24333b;
 }
 
 </style>
