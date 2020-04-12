@@ -28,7 +28,7 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button
-                :href="'/tutor/noticia/visualize/' + row.item.idNoticia"
+                :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
                 class="btn btn-sm btn-warning"
               ><i class="fa fa-eye" aria-hidden="true"></i>
  Visualizar</b-button>
@@ -53,10 +53,9 @@
 <script>
 import axios from "~/axios";
 import style from "~/assets/css/loading.css";
-
 export default {
   name: "dashboard",
-  layout: "menu/tutor",
+  layout: "menu/petiano",
   data: function() {
     return {
       isLoading: true,
@@ -64,7 +63,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        { key: "tutor.pessoa.nome", sortable: true, label: "Publicado por" },
+        { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
         { key: "actions", label: "Ações disponíveis"},
       ]
     };
@@ -72,6 +71,8 @@ export default {
   mounted() {
     axios.get("noticia").then(res => {
       this.noticias = res.data.content;
+      this.isLoading = false;
+    }).catch(err => {
       this.isLoading = false;
     });
   },

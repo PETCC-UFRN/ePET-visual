@@ -36,7 +36,7 @@
                     placeholder="Senha"
                   />
                 </b-input-group>
-                <b-alert show variant='danger' v-if="errors.length !== 0">
+                <b-alert show variant="danger" v-if="errors.length !== 0">
                   <ul>
                     <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                   </ul>
@@ -77,11 +77,9 @@
 import axios from "~/axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-
 export default {
   name: "Login",
   layout: "clean",
-
   data() {
     return {
       email: "",
@@ -92,78 +90,80 @@ export default {
         tutor: "tutor",
         petiano: "petiano",
         comum: "usuario"
-      }
+      },
+      cookie: Cookies.get('auth'),
+      next: true
     };
   },
-
   head() {
     return {
       title: "Login - PET-CC UFRN"
     };
   },
-
+  watch: {
+    cookie: function(val){
+      console.log('watch', val);
+      if(next && val !== null){
+        this.getProfile();
+      }
+    }
+  },
   methods: {
     goToRegister() {
       this.$router.push("/register");
     },
-    validEmail: function (email) {
+    validEmail: function(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     },
     async checkForm() {
       this.errors = [];
-
       if (!this.email) {
-        this.errors.push('O email é obrigatório.');
-      }else if (!this.validEmail(this.email)) {
-        this.errors.push('Utilize um e-mail válido.');
+        this.errors.push("O email é obrigatório.");
+      } else if (!this.validEmail(this.email)) {
+        this.errors.push("Utilize um e-mail válido.");
       }
-
       if (!this.senha) {
-        this.errors.push('A senha é obrigatória.');
+        this.errors.push("A senha é obrigatória.");
       }
-
       if (this.errors.length === 0) {
         return true;
       }
-
-
       return false;
     },
     async login() {
-      let next = true;
-
-      next = await this.checkForm();
-
-      if(next){
+      this.next = await this.checkForm();
+      if (this.next) {
         try {
           await axios
             .post("sign-in/", {
               email: this.email,
               senha: this.senha
-
             })
             .then(auth => {
               // guarda token
               Cookies.set("auth", auth.data);
             });
-
         } catch (err) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: err.message
           });
-          next = false;
+          this.next = false;
         }
       }
-
-      if (next) {
-        await axios
-          .get("pessoas-usuario")
+      if (this.next && Cookies.get('auth') !== null) {
+        console.log('login', Cookies.get('auth'));
+        await this.getProfile();
+      }
+    },
+    getProfile(){
+       axios
+          .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
           .then(res => {
             this.perfil = res.data;
-            this.$store.commit("setAuth", this.perfil.tipo_usuario);
+            this.$store.commit("setProfile", this.perfil.tipo_usuario);
           })
           .then(res => {
             this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
@@ -175,18 +175,13 @@ export default {
               text: err.message
             });
           });
-      }
     },
-
     showModal() {
-      //this.$router.go();
       this.$refs["perfis"].show();
     },
-
     hideModal() {
       this.$refs["perfis"].hide();
     },
-
     toggleModal() {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden
