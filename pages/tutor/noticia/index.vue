@@ -73,7 +73,7 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       keyword: '',
