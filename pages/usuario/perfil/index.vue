@@ -3,6 +3,7 @@
     <b-card>
       <Perfil  :photoPath="photoPath" :nome="nome" :status="status" :perfilInfo="perfilInfo" />
     </b-card>
+    <b-button class="float-left" variant="primary" href="#" @click="printInfo">Testar</b-button>
   </div>
 </template>
 
@@ -28,8 +29,29 @@ export default {
             '<div class="textDark float-rigth">' +
             '<h5><strong>Data de nascimento: </strong>05/03/1996</h5>' +
             '<h5><strong>CPF: </strong> 001.290.312-19</h5>' + 
-            '</div>'
+            '</div>',
+      teste: [],
     }
+  },
+
+  mounted(){
+    //axios.get("pessoas-usuario").then(res => {
+    //  console.log(res.data.content);
+    //});
+  },
+
+  methods: {
+    printInfo(){
+     var strr = [];
+        axios.get("pessoas-usuario")
+       .then(function(response){
+               strr.push(response.data);
+        })
+        .catch(function(error){
+               console.log(error);
+           });
+        console.log(strr);
+}
   }
 };
 </script>
