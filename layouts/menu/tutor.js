@@ -15,6 +15,12 @@ export default {
             icon: 'icon-home'
         },
         {
+            name: 'Perfil',
+            url: '/tutor/perfil',
+            icon: 'icon-user'
+        },
+
+        {
             name: 'Eventos',
             icon: 'icon-event',
             children: [
@@ -50,13 +56,8 @@ export default {
             icon: 'icon-book-open'
         },
         {
-            name: 'Dados cadastrais',
-            url: '/tutor/dados-cadastrais',
-            icon: 'icon-user'
-        },
-        {
-            name: 'Perfis',
-            url: '/tutor/perfis',
+            name: 'Participantes',
+            url: '/tutor/participantes',
             icon: 'icon-user-female'
         }
     ]

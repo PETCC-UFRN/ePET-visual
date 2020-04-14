@@ -15,6 +15,11 @@ export default {
             icon: 'icon-home'
         },
         {
+            name: 'Perfil',
+            url: '/petiano/perfil',
+            icon: 'icon-user'
+        },
+        {
             name: 'Eventos',
             icon: 'icon-event',
             children: [
@@ -50,13 +55,8 @@ export default {
             icon: 'icon-book-open'
         },
         {
-            name: 'Dados cadastrais',
-            url: '/petiano/dados-cadastrais',
-            icon: 'icon-user'
-        },
-        {
-            name: 'Perfis',
-            url: '/petiano/perfis',
+            name: 'Participantes',
+            url: '/petiano/participantes',
             icon: 'icon-user-female'
         }
     ]

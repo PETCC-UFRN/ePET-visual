@@ -38,7 +38,7 @@ export default {
   },
   head () {
     return {
-      title: 'PET-CC - Usuário'
+      title: 'PET-CC UFRN- Usuário'
     }
   },
   computed: {
