@@ -56,7 +56,7 @@ import style from "~/assets/css/loading.css";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data: function() {
     return {
       isLoading: true,

@@ -68,7 +68,7 @@
 import axios from "~/axios";
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       form: {
