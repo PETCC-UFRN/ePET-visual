@@ -64,8 +64,8 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
+        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return  new Intl.DateTimeFormat('pt-BR').format(new Date(value)) } },
+        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value)) } },
         { key: "qtdVagas", sortable: true, label: "Quantidade de vagas" },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
