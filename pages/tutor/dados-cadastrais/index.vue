@@ -71,7 +71,7 @@ export default {
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
   depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
   logado. No momento trabalharei apenas com os petianos. */
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       keyword: '',

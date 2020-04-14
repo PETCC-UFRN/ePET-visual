@@ -45,7 +45,7 @@
 import axios from "~/axios";
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   validate ({ params }) {
     // Id da rota deve ser um número
     return /^\d+$/.test(params.id)
