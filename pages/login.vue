@@ -93,7 +93,7 @@ export default {
         petiano: "petiano",
         comum: "usuario"
       },
-      cookie: Cookies.get('auth'),
+      cookie: null,
       next: true
     };
   },
@@ -106,11 +106,14 @@ export default {
 
   watch: {
     cookie: function(val){
-      console.log('watch', val);
       if(next && val !== null){
         this.getProfile();
       }
     }
+  },
+
+  mounted(){
+    Cookies.get('auth', null);
   },
 
   methods: {
@@ -158,14 +161,13 @@ export default {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.message
+            text: err.response.status === 403 ? 'Email ou senha não encontrados': 'Aconteceu algum problema com seu login, tente novamente mais tarde!'
           });
           this.next = false;
         }
       }
 
       if (this.next && Cookies.get('auth') !== null) {
-        console.log('login', Cookies.get('auth'));
         await this.getProfile();
       }
     },
@@ -181,10 +183,12 @@ export default {
             this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
           })
           .catch(err => {
+            console.log(err);
+            console.log(err.response);
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: err.message
+              text: err.response.message
             });
           });
     },

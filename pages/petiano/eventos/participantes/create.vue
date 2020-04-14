@@ -14,12 +14,16 @@
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">ID Pessoa:</label>
-            <input type="number" class="form-control" v-model="form.pessoa" />
+            <label for="exampleFormControlInput1">Pessoa:</label>
+            <select class="form-control" v-model="form.pessoa">
+		<option v-for="participante in pessoas" :key="participante.idPessoa" :value="participante.idPessoa">{{ participante.nome }}</option>
+	    </select>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">ID Evento:</label>
-            <input type="number" class="form-control" v-model="form.evento" />
+            <label for="exampleFormControlInput1">Evento:</label>
+            <select class="form-control" v-model="form.evento">
+		<option v-for="evento in eventos" :key="evento.idEvento" :value="evento.idEvento">{{ evento.titulo }}</option>
+	    </select>
           </div>
           <!--<div class="form-group">
             <label for="exampleFormControlInput1">confirmado</label>
@@ -52,8 +56,19 @@ export default {
       alert: {
         message: "",
         class: ""
-      }
+      },
+      pessoas: {},
+      eventos: {}
     };
+  },
+  mounted(){
+     axios.get('pessoas').then(res => {
+	this.pessoas = res.data.content;
+     });
+
+     axios.get('eventos-abertos').then(res => {
+	this.eventos = res.data;	
+     });
   },
   methods: {
     submitForm(e) {

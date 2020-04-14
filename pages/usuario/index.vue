@@ -69,6 +69,10 @@ export default {
     axios.get("noticia").then(res => {
       this.noticias = res.data.content;
       this.isLoading = false;
+    }).catch(err => {
+      if(err.response.status){
+        this.isLoading = false;
+      }
     });
   },
   computed: {
