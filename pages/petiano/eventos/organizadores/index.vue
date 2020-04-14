@@ -10,7 +10,6 @@
         ><i class="fa fa-plus" aria-hidden="true"></i>
  Adicionar organizador</a>
       </template>
-
       <b-card-body>
         <div v-if="eventos.length > 0">
 
@@ -34,11 +33,29 @@
             :per-page="10"
             :fields="fields"
           >
+           <template v-slot:cell(confirmado)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.confirmado" disabled />
+              </div>
+            </template>
+            <template v-slot:cell(espera)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.espera" disabled />
+              </div>
+            </template>
+
+
             <template v-slot:cell(actions)="row">
+              <b-button
+                @click="confirmar(row.item.idOrganizadores)"
+                class="btn btn-sm btn-success"
+                v-show="! row.item.ativo"
+              ><i class="fa fa-check" aria-hidden="true"></i>
+ Confirmar</b-button>
               <b-button
                 @click="del(row.item.idOrganizadores, row.index)"
                 class="btn btn-sm btn-danger"
-              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+              ><i class="fa fa-trash-o fa-fw"></i> Deletar</b-button>
             </template>
           </b-table>
           <nav>
@@ -52,7 +69,7 @@
             />
           </nav>
         </div>
-        <div v-else> Nenhum organizador cadastrado</div>
+        <div v-else>Nenhum organizador cadastrado</div>
       </b-card-body>
     </b-card>
   </div>
@@ -75,6 +92,8 @@ export default {
       fields: [
         { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
         { key: "evento.titulo", label: "Nome do evento", sortable: true },
+        { key: "actions", sortable: true, label: "Ações disponíveis" },
+        //{ key: "ativo", sortable: true },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
@@ -93,9 +112,20 @@ export default {
   },
   methods: {
     del(id, rowId) {
+      console.log(id);
       axios.delete("organizadores-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
-        alert("Participante removido com sucesso");
+        alert("Organizador removido com sucesso");
+      });
+    },
+    confirmar(id) {
+      axios.post("organizadores-confirmar/" + id).then(() => {
+        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+        alert("Organizador ativado com sucesso");
+        let vm = this;
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
       });
     }
   }
