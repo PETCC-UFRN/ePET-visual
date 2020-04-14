@@ -4,7 +4,6 @@
       <Perfil  :photoPath="photoPath" :nome="nome" :status="status" :email="email" 
                 :cpf="cpf" :nascimento="nascimento"/>
     </b-card>
-    <b-button class="float-left" variant="primary" href="#">Testar</b-button>
   </div>
 </template>
 
