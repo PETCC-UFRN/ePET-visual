@@ -11,18 +11,16 @@
       <h1 align="center" class="textDark"><strong>{{ nome }}</strong></h1>
 
       <hr class="my-4">
-    <p v-html="perfilInfo"></p>
+    <!--<p v-html="perfilInfo"></p>-->
       
-    <!--
       <div class="textDark float-left mr-5">
-        <h5><strong>Email: </strong>lemore@gmail.com</h5>
+        <h5><strong>Email: </strong>{{ email }}</h5>
         <h5><strong>Senha:</strong> ********</h5>
       </div>
       <div class="textDark float-rigth">
-        <h5><strong>Data de nascimento: </strong>05/03/1996</h5>
-        <h5><strong>CPF: </strong> 001.290.312-19</h5>
+        <h5><strong>Data de nascimento: </strong>{{ nascimento }}</h5>
+        <h5><strong>CPF: </strong> {{ cpf }}</h5>
       </div>
-      -->
 
       <div align="center" class="mt-5">
         <b-button class="float-left" variant="outline-primary" href="#">Editar perfil</b-button>
@@ -35,7 +33,7 @@
 <script>
 import Swal from "sweetalert2";
 export default {
-  props:['photoPath','nome', 'status', 'perfilInfo'],
+  props:['photoPath','nome', 'status', 'email', 'cpf', 'nascimento'],
 
   methods: {
     async deleteAccount(){

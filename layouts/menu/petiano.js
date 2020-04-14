@@ -55,11 +55,6 @@ export default {
             icon: 'icon-book-open'
         },
         {
-            name: 'Dados cadastrais',
-            url: '/petiano/dados-cadastrais',
-            icon: 'icon-user'
-        },
-        {
             name: 'Participantes',
             url: '/petiano/participantes',
             icon: 'icon-user-female'
