@@ -37,9 +37,3 @@ export default {
   }
 };
 </script>
-
-  <style>
-   .navbar-dark .navbar-nav .nav-link{
-      color:black!important
-    }
- </style>
