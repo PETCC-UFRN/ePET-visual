@@ -65,7 +65,6 @@ export default {
       let fontawesome = document.createElement('script')
       fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
       document.head.appendChild(fontawesome)
-
       this.$nextTick(function(){
         window.addEventListener("scroll", function(){
           var navbar = document.getElementById("nav");

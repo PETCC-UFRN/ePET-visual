@@ -77,11 +77,9 @@
 import axios from "~/axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-
 export default {
   name: "Login",
   layout: "clean",
-
   data() {
     return {
       email: "",
@@ -97,13 +95,11 @@ export default {
       next: true
     };
   },
-
   head() {
     return {
       title: "Login - PET-CC UFRN"
     };
   },
-
   watch: {
     cookie: function(val){
       console.log('watch', val);
@@ -112,7 +108,6 @@ export default {
       }
     }
   },
-
   methods: {
     goToRegister() {
       this.$router.push("/register");
@@ -123,26 +118,21 @@ export default {
     },
     async checkForm() {
       this.errors = [];
-
       if (!this.email) {
         this.errors.push("O email é obrigatório.");
       } else if (!this.validEmail(this.email)) {
         this.errors.push("Utilize um e-mail válido.");
       }
-
       if (!this.senha) {
         this.errors.push("A senha é obrigatória.");
       }
-
       if (this.errors.length === 0) {
         return true;
       }
-
       return false;
     },
     async login() {
       this.next = await this.checkForm();
-
       if (this.next) {
         try {
           await axios
@@ -163,13 +153,11 @@ export default {
           this.next = false;
         }
       }
-
       if (this.next && Cookies.get('auth') !== null) {
         console.log('login', Cookies.get('auth'));
         await this.getProfile();
       }
     },
-
     getProfile(){
        axios
           .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
@@ -188,15 +176,12 @@ export default {
             });
           });
     },
-
     showModal() {
       this.$refs["perfis"].show();
     },
-
     hideModal() {
       this.$refs["perfis"].hide();
     },
-
     toggleModal() {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden

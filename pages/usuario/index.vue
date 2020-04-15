@@ -10,10 +10,13 @@
     </div>
     <div class="row" v-else>
       <div class="col-md-6">
-        <span class="lead">Bem vindo</span>
+        <span class="lead"><h1>Bem vindo!</h1></span>
       </div>
       <div class="col-md-6">
-        <b-card header="Noticias">
+        <b-card >
+          <template v-slot:header>
+            <h4 class="mb-0">Notícias</h4>
+          </template>
           <b-table
             responsive="sm"
             hover
@@ -25,9 +28,10 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button
-                :href="'/usuario/noticia/' + row.item.idNoticia"
+                :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
                 class="btn btn-sm btn-warning"
-              ><i class="fa fa-eye" aria-hidden="true"></i>Visualizar</b-button>
+              ><i class="fa fa-eye" aria-hidden="true"></i>
+ Visualizar</b-button>
             </template>
           </b-table>
           <nav>
@@ -79,4 +83,5 @@ export default {
     }
   }
 };
+
 </script>
