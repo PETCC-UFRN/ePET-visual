@@ -45,9 +45,20 @@ export default {
             icon: 'icon-envelope-open'
         },
         {
-            name: 'Tutoria',
-            url: '/petiano/tutoria',
-            icon: 'icon-notebook'
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Quadro de tutoria',
+                    url: '/petiano/tutorias/quadro-de-tutoria',
+                    icon: 'icon-docs'
+                },
+                {
+                    name: 'Tutorias ministradas',
+                    url: '/petiano/tutorias/tutorias-ministradas',
+                    icon: 'icon-check'
+                }
+            ]
         },
         {
             name: 'Disciplinas',

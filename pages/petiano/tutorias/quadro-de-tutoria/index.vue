@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div v-if="tutorias.length > 0">
-      <b-card>
+    <b-card>
         <template v-slot:header>
-          <h3>Tutores cadastrados</h3>
-          <a
+          <h3>Quadro de tutorias</h3>
+          <nuxt-link
             class="btn btn-sm btn-primary float-right"
             style="color: white"
-            href="tutoria/create"
-          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</a>
+            to="tutoria/quadro-de-tutoria/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
+
+      <div v-if="tutorias.length > 0">
         <b-table
           responsive="sm"
           :items="tutorias"
@@ -38,9 +39,10 @@
             hide-goto-end-buttons
           />
         </nav>
-      </b-card>
-    </div>
-    <div class="row" v-else>Nenhuma Tutorias cadastrado</div>
+
+      </div>
+      <div v-else>Nenhuma tutoria cadastrada</div>
+    </b-card>
   </div>
 </template>
 
@@ -49,10 +51,7 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       tutorias: [],

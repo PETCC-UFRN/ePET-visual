@@ -46,9 +46,20 @@ export default {
             icon: 'icon-envelope-open'
         },
         {
-            name: 'Tutoria',
-            url: '/tutor/tutoria',
-            icon: 'icon-notebook'
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Quadro de tutoria',
+                    url: '/tutor/tutorias/quadro-de-tutoria',
+                    icon: 'icon-docs'
+                },
+                {
+                    name: 'Tutorias ministradas',
+                    url: '/tutor/tutorias/tutorias-ministradas',
+                    icon: 'icon-check'
+                }
+            ]
         },
         {
             name: 'Disciplinas',

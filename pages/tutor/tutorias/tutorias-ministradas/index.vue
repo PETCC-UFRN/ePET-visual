@@ -1,19 +1,15 @@
 <template>
   <div>
-    <div v-if="tutorias.length > 0">
-      <b-card>
+    <b-card>
         <template v-slot:header>
-          <h3>Tutores cadastrados</h3>
-          <a
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            href="tutoria/create"
-          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</a>
+          <h3>Tutorias ministradas</h3>
         </template>
         <!-- TODO::remover esse style -->
+
+      <div v-if="tutorias_ministradas.length > 0">
         <b-table
           responsive="sm"
-          :items="tutorias"
+          :items="tutorias_ministradas"
           :current-page="currentPage"
           :bordered="true"
           :per-page="10"
@@ -30,7 +26,7 @@
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="tutorias.length"
+            :total-rows="tutorias_ministradas.length"
             :per-page="10"
             v-model="currentPage"
             prev-text="Anterior"
@@ -38,9 +34,10 @@
             hide-goto-end-buttons
           />
         </nav>
-      </b-card>
-    </div>
-    <div class="row" v-else>Nenhuma Tutorias cadastrado</div>
+
+      </div>
+      <div v-else>Nenhuma tutoria ministrada</div>
+    </b-card>
   </div>
 </template>
 
@@ -49,13 +46,10 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/tutor",
   data() {
     return {
-      tutorias: [],
+      tutorias_ministradas: [],
       currentPage: 1,
       fields: [
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
@@ -66,15 +60,15 @@ export default {
     };
   },
   mounted() {
-    axios.get("tutorias").then(res => {
-      this.tutorias = res.data.content;
+    axios.get("tutorias-ministradas").then(res => {
+      this.tutorias_ministradas = res.data.content;
     });
   },
   methods: {
     del(id, rowId){
       console.log(id);
       axios.delete("tutoria-remove/" + id).then(() => {
-        this.tutorias.splice(rowId, 1);
+        this.tutorias_ministradas.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });
     }

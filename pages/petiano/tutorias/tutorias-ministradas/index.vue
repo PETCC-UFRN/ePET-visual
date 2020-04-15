@@ -1,0 +1,85 @@
+<template>
+  <div>
+    <b-card>
+        <template v-slot:header>
+          <h3>Tutorias ministradas</h3>
+        </template>
+        <!-- TODO::remover esse style -->
+
+      <div v-if="tutorias_ministradas.length > 0">
+        <b-table
+          responsive="sm"
+          :items="tutorias_ministradas"
+          :current-page="currentPage"
+          :bordered="true"
+          :per-page="10"
+          :fields="fields"
+        >
+          <template v-slot:cell(ativo)="row">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
+              </div>
+          </template>
+          <template v-slot:cell(actions)="row">
+            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+          </template>
+        </b-table>
+        <nav>
+          <b-pagination
+            :total-rows="tutorias_ministradas.length"
+            :per-page="10"
+            v-model="currentPage"
+            prev-text="Anterior"
+            next-text="Próximo"
+            hide-goto-end-buttons
+          />
+        </nav>
+
+      </div>
+      <div v-else>Nenhuma tutoria ministrada</div>
+    </b-card>
+  </div>
+</template>
+
+<script>
+import axios from "~/axios";
+
+export default {
+  name: "dashboard",
+  layout: "menu/petiano",
+  data() {
+    return {
+      tutorias_ministradas: [],
+      currentPage: 1,
+      fields: [
+        { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
+        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
+        { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "actions", sortable: true, label:"Ações disponíveis" },
+      ]
+    };
+  },
+  mounted() {
+    axios.get("tutorias-ministradas").then(res => {
+      this.tutorias_ministradas = res.data.content;
+    });
+  },
+  methods: {
+    del(id, rowId){
+      console.log(id);
+      axios.delete("tutoria-remove/" + id).then(() => {
+        this.tutorias_ministradas.splice(rowId, 1);
+        alert('Tutoria removido com sucesso');
+      });
+    }
+  }
+};
+</script>
+
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>
