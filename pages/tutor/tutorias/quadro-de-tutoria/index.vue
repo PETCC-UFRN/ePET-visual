@@ -6,7 +6,7 @@
           <nuxt-link
             class="btn btn-sm btn-primary float-right"
             style="color: white"
-            to="tutoria/quadro-de-tutoria/create"
+            to="quadro-de-tutoria/create"
           ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
