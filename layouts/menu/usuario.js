@@ -41,7 +41,7 @@ export default {
             children: [
                 {
                     name: 'Quadro de tutoria',
-                    url: '/#',
+                    url: '/usuario/tutoria/quadro-de-tutoria',
                     icon: 'icon-docs'
                 },
                 {
