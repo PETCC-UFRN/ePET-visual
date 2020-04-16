@@ -1,7 +1,7 @@
 <template>
   <div class="backDark">
     <div align="center" class="mb-2">
-      <b-avatar :src="photoPath" size="10em" variant="info" href=# class="align-text-top">
+      <b-avatar :src="fotoPath" size="10em" variant="info" href=# class="align-text-top">
       </b-avatar> 
       <b-badge class='child inline-block-child'>{{ status }}</b-badge>   
     </div>
@@ -13,27 +13,35 @@
       <hr class="my-4">
     <!--<p v-html="perfilInfo"></p>-->
       
-      <div class="textDark float-left mr-5">
-        <h5><strong>Email: </strong>{{ email }}</h5>
-        <h5><strong>Senha:</strong> ********</h5>
-      </div>
-      <div class="textDark float-rigth">
-        <h5><strong>Data de nascimento: </strong>{{ nascimento }}</h5>
-        <h5><strong>CPF: </strong> {{ cpf }}</h5>
-      </div>
+      <div class="row">
+        <div class="textDark mr-5" >
+          <h5><strong>CPF: </strong> {{ cpf }}</h5>
+          <h5><strong>Email: </strong>{{ email }}</h5>
+          <h5><strong>Senha:</strong> ********</h5>
+        </div>
 
-      <div align="center" class="mt-5">
-        <b-button class="float-left" variant="outline-primary" href="#">Editar perfil</b-button>
+        <div class="textDark" v-if="petianoTutorInfo">
+          <h5><strong>Áreas de interesse: </strong> {{ areaInteresse }}</h5>
+          <h5><strong>Data de ingresso: </strong>{{ dataIngresso }}</h5>
+          <h5><strong>Lattes: </strong> {{ lattes }}</h5>
+          <h5><strong>Site pessoal: </strong> <a style="color: #24333b;" :href="'//'+ sitePessoal" target="_blank">{{ sitePessoal }}</a></h5>
+        </div>
+      </div>
+      
+      
+
+    </b-card>
+      <div align="center">
+        <b-button class="float-left" variant="outline-primary" :href="editProfile">Editar perfil</b-button>
         <b-button class="float-right" variant="danger" @click="deleteAccount">Excluir conta</b-button>
       </div>
-    </b-card>
   </div>
 </template>
 
 <script>
 import Swal from "sweetalert2";
 export default {
-  props:['photoPath','nome', 'status', 'email', 'cpf', 'nascimento'],
+  props:['fotoPath','nome', 'status', 'email', 'cpf', 'editProfile', 'areaInteresse', 'dataIngresso', 'lattes', 'sitePessoal', 'petianoTutorInfo'],
 
   methods: {
     async deleteAccount(){

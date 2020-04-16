@@ -1,10 +1,12 @@
 <template>
   <div>
     <b-card>
-      <Perfil  :photoPath="photoPath" :nome="nome" :status="status" :email="email" 
-                :cpf="cpf" :nascimento="nascimento"/>
+      <Perfil  :fotoPath="fotoPath" :nome="nome" :status="status" :email="email" 
+                :cpf="cpf" :editProfile="editProfile" :petianoTutorInfo="true"
+                :areaInteresse="areaInteresse" :dataIngresso="dataIngresso"
+                :lattes="lattes" :sitePessoal="sitePessoal"/>
     </b-card>
-    <b-button class="float-left" variant="primary" href="#">Testar</b-button>
+    <!--<b-button class="float-left" variant="primary" href="#">Testar</b-button>-->
   </div>
 </template>
 
@@ -22,12 +24,17 @@ export default {
   data(){
     return {
       dataPerfil: {},
-      photoPath: require('~/assets/users/LemurePet.jpg'),
+      dataPerfilPetiano: {},
+      fotoPath: require('~/assets/users/LemurePet.jpg'),
+      editProfile: '/petiano/perfil/create',
       nome: '',
       status: '',
       email: '',
       cpf: '',
-      nascimento: ''
+      areaInteresse: '',
+      dataIngresso: '',
+      lattes: '',
+      sitePessoal: ''
     }
   },
 
@@ -37,19 +44,29 @@ export default {
 
   methods: {
     
-    getInfo(){
+    async getInfo(){
       axios
       .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
       .then(res => {
         this.dataPerfil = res.data;
-        this.photoPath = require('~/assets/users/LemurePet.jpg');
+        this.fotoPath = require('~/assets/users/LemurePet.jpg');
         this.nome = this.dataPerfil.nome;
         this.status = this.userType(this.dataPerfil.tipo_usuario.nome);
-        this.email = 'email';
+        this.email = this.dataPerfil.usuario.email;
         this.cpf = this.dataPerfil.cpf;
-        this.nascimento = 'nascimento';
         //console.log(this.dataPerfil);
+        axios
+        .get("petianos-pessoa/" + this.dataPerfil.idPessoa, {headers: {'Authorization': `${Cookies.get("auth")}`}})
+        .then(res => {
+          this.dataPerfilPetiano = res.data;
+          this.areaInteresse = this.dataPerfilPetiano.area_interesse;
+          this.dataIngresso = this.dataPerfilPetiano.data_ingresso;
+          this.lattes = this.dataPerfilPetiano.lattes;
+          this.sitePessoal =this.dataPerfilPetiano.site_pessoal.replace("https://", "").replace("http://", "");
+          //console.log(this.dataPerfilPetiano);
+        })
       })
+      
     },
 
     userType(type){
