@@ -3,11 +3,6 @@
     <b-card>
         <template v-slot:header>
           <h3>Quadro de tutorias</h3>
-          <nuxt-link
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            to="quadro-de-tutoria/create"
-          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
 
@@ -60,6 +55,7 @@ export default {
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
         { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "ativo", label:"Ativo", sortable: true },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };

@@ -70,7 +70,7 @@ export default {
   },
   mounted() {
     axios.get("disciplinas").then(res => {
-      this.disciplinas = res.data;
+      this.disciplinas = res.data.content;
     });
     axios.get("pessoas-usuario").then(res => {
       this.currentPessoa = res.data;

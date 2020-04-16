@@ -6,7 +6,7 @@
           <nuxt-link
             class="btn btn-sm btn-primary float-right"
             style="color: white"
-            to="tutorias/quadro-de-tutoria/create"
+            to="quadro-de-tutoria/create"
           ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
@@ -51,7 +51,7 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  layout: "menu/tutor",
+  layout: "menu/petiano",
   data() {
     return {
       tutorias: [],
@@ -60,6 +60,7 @@ export default {
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
         { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "ativo", label:"Ativo", sortable: true },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };

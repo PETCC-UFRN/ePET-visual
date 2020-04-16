@@ -63,7 +63,7 @@ export default {
         },
         {
             name: 'Disciplinas',
-            url: '/tutor/disciplina',
+            url: '/tutor/disciplinas',
             icon: 'icon-book-open'
         },
         {

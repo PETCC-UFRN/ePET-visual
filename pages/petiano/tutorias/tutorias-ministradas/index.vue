@@ -3,8 +3,12 @@
     <b-card>
         <template v-slot:header>
           <h3>Tutorias ministradas</h3>
+          <nuxt-link
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            to="tutorias-ministradas/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria ministrada</nuxt-link>
         </template>
-        <!-- TODO::remover esse style -->
 
       <div v-if="tutorias_ministradas.length > 0">
         <b-table
