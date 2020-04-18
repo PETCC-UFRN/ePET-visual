@@ -20,7 +20,12 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button
+                :href="'/petiano/tutorias/tutorias-ministradas/' + row.item.idTutoria_ministrada"
+                class="btn btn-sm btn-primary"
+              ><i class="fa fa-eye" aria-hidden="true"></i>Visualizar</b-button>
+            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"
+              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
