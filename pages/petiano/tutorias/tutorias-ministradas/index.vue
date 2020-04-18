@@ -19,11 +19,6 @@
           :per-page="10"
           :fields="fields"
         >
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
-          </template>
           <template v-slot:cell(actions)="row">
             <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
@@ -56,9 +51,9 @@ export default {
       tutorias_ministradas: [],
       currentPage: 1,
       fields: [
-        { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
-        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
-        { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "tutoria.disciplina.nome", label:"Nome da Disciplina", sortable: true },
+        { key: "tutoria.disciplina.codigo", label:"Código da Disciplina", sortable: true },
+        { key: "tutoria.petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
