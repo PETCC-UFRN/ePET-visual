@@ -21,7 +21,8 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click.prevent="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button @click.prevent="del(row.item.idTutoria, row.index)" 
+            class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
@@ -66,7 +67,6 @@ export default {
   },
   methods: {
     del(id, rowId){
-      console.log(id);
       axios.delete("tutoria-remove/" + id).then(() => {
         this.tutorias.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
