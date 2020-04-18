@@ -7,7 +7,7 @@
             <nuxt-link
               class="btn btn-sm btn-primary float-right"
               style="color: white"
-              to="/tutor/disciplina/create"
+              to="/petiano/disciplina/create"
             ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</nuxt-link>
         </template>
 
@@ -35,19 +35,15 @@
           >
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
+              <input
+              @click.prevent="desativarAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
+              
+               type="checkbox" class="form-check-input" :checked="row.item.ativo" />
             </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button
-              @click.prevent="desAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
-              class="btn btn-sm btn-success"
-              v-show="! row.item.ativo"
-            ><i class="fa fa-check" aria-hidden="true"></i>
-              Ativar</b-button>
             <b-button 
-                :href="'/tutor/disciplina/edit/' + row.item.idDisciplina"
-                @click.prevent="editar(row.item.idDisciplina, row.item.nome, row.item.codigo)" 
+                @click.prevent="editar(row.item.idDisciplina, row.item.nome, row.item.codigo, row.item.ativo)" 
                 class="btn btn-sm btn-warning">
                 <i class="fa fa-pencil fa-fw"></i> Editar</b-button>    
             </template>
@@ -73,9 +69,6 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/tutor",
   data() {
     return {
@@ -103,16 +96,19 @@ export default {
     });
   },
   methods: {
-    editar(id, nome, codigo){
+    editar(id, nome, codigo, ativo){
       this.$router.push({
-          path: 'edit/',
+                
+          path: '/petiano/disciplina/edit/',
           query  : {"id": id,
                     "nome": nome,
-                    "codigo":codigo}
+                    "codigo":codigo,
+                    "ativo":ativo}
         })
     },
-    desAtivar(ativo, id, nome, codigo) {
-      axios.post("disciplinas", {
+    desativarAtivar(ativo, id, nome, codigo) {
+      this.$nextTick(() => {
+        axios.post("disciplinas", {
         "ativo": !ativo,
         "idDisciplina": id,
         "nome": nome,
@@ -123,6 +119,7 @@ export default {
         setTimeout(function() {
           location.reload();
         }, 1500);
+      });
       });
     }
   }

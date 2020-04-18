@@ -41,7 +41,8 @@ export default {
       form: {
         idDisciplina: this.$route.query.id,
         codigo: this.$route.query.codigo,
-        nome: this.$route.query.nome
+        nome: this.$route.query.nome,
+        ativo: this.$route.query.ativo
       },
       alert: {
         message: "",
