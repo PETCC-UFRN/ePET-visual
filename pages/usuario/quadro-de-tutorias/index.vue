@@ -29,8 +29,8 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button
-                :href="'/usuario/tutorias/tutorias-cadastrados/' + row.item.idEvento"
-                class="btn btn-sm btn-warning"
+                :href="'/usuario/quadro-de-tutorias/' + row.item.idTutoria"
+                variant="outline-warning"
               ><i class="fa fa-eye" aria-hidden="true"></i>
               Visualizar</b-button>
           </template>

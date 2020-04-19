@@ -3,8 +3,12 @@
     <b-card>
         <template v-slot:header>
           <h3>Tutorias ministradas</h3>
+          <nuxt-link
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            to="tutorias-ministradas/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria ministrada</nuxt-link>
         </template>
-        <!-- TODO::remover esse style -->
 
       <div v-if="tutorias_ministradas.length > 0">
         <b-table
@@ -15,13 +19,14 @@
           :per-page="10"
           :fields="fields"
         >
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
-          </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button
+                :href="'/petiano/tutorias/tutorias-ministradas/' + row.item.idTutoria_ministrada"
+                variant="outline-warning"
+              ><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</b-button>
+            <b-button @click="del(row.item.idTutoria, row.index)" 
+              variant="outline-danger"
+              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
@@ -52,9 +57,9 @@ export default {
       tutorias_ministradas: [],
       currentPage: 1,
       fields: [
-        { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
-        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
-        { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "tutoria.disciplina.nome", label:"Nome da Disciplina", sortable: true },
+        { key: "tutoria.disciplina.codigo", label:"Código da Disciplina", sortable: true },
+        { key: "tutoria.petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
