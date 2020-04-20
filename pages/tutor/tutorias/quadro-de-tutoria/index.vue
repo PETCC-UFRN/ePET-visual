@@ -3,6 +3,11 @@
     <b-card>
         <template v-slot:header>
           <h3>Quadro de tutorias</h3>
+          <nuxt-link
+            class="btn btn-sm btn-primary float-right"
+            style="color: white"
+            to="quadro-de-tutoria/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
 
@@ -15,13 +20,15 @@
           :per-page="10"
           :fields="fields"
         >
+
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
+            </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button @click.prevent="del(row.item.idTutoria, row.index)" 
+            class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
@@ -55,7 +62,7 @@ export default {
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
         { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
-        { key: "ativo", label:"Ativo", sortable: true },
+        { key: "ativo", sortable: true, label:"Ativo" },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
@@ -67,8 +74,7 @@ export default {
   },
   methods: {
     del(id, rowId){
-      console.log(id);
-      axios.delete("tutoria-remove/" + id).then(() => {
+      axios.delete("tutoria-remove/" + id, {}).then(() => {
         this.tutorias.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });

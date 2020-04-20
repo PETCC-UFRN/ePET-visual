@@ -20,15 +20,10 @@
           :per-page="10"
           :fields="fields"
         >
-
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
-            </div>
-          </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click.prevent="del(row.item.idTutoria, row.index)" 
-            class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button @click.prevent="cadastro(row.item.idTutoria)" 
+            variant="outline-success"
+            ><i class="fa fa-check-square"></i> Tutoria realizada</b-button>
           </template>
         </b-table>
         <nav>
@@ -53,7 +48,7 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       tutorias: [],
@@ -62,7 +57,6 @@ export default {
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
         { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
-        { key: "ativo", sortable: true, label:"Ativo" },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
@@ -73,11 +67,11 @@ export default {
     });
   },
   methods: {
-    del(id, rowId){
-      axios.delete("tutoria-remove/" + id, {}).then(() => {
-        this.tutorias.splice(rowId, 1);
-        alert('Tutoria removido com sucesso');
-      });
+    cadastro(id_tutoria){
+      this.$router.push({
+        path: '/petiano/tutorias/tutorias-ministradas/create/pessoa/',
+        query  : {"id_tutoria": id_tutoria}
+      })
     }
   }
 };
