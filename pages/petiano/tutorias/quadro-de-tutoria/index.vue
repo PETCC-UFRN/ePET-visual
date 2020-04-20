@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div v-if="tutorias.length > 0">
-      <b-card>
+    <b-card>
         <template v-slot:header>
-          <h3>Tutores cadastrados</h3>
-          <a
+          <h3>Quadro de tutorias</h3>
+          <nuxt-link
             class="btn btn-sm btn-primary float-right"
             style="color: white"
-            href="tutoria/create"
-          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</a>
+            to="quadro-de-tutoria/create"
+          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria</nuxt-link>
         </template>
         <!-- TODO::remover esse style -->
+
+      <div v-if="tutorias.length > 0">
         <b-table
           responsive="sm"
           :items="tutorias"
@@ -19,13 +20,15 @@
           :per-page="10"
           :fields="fields"
         >
+
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled>
-              </div>
+              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
+            </div>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button @click="del(row.item.idTutoria, row.index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button @click.prevent="del(row.item.idTutoria, row.index)" 
+            class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
@@ -38,9 +41,10 @@
             hide-goto-end-buttons
           />
         </nav>
-      </b-card>
-    </div>
-    <div class="row" v-else>Nenhuma Tutorias cadastrado</div>
+
+      </div>
+      <div v-else>Nenhuma tutoria cadastrada</div>
+    </b-card>
   </div>
 </template>
 
@@ -49,9 +53,6 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/petiano",
   data() {
     return {
@@ -61,6 +62,7 @@ export default {
         { key: "disciplina.nome", label:"Nome da Disciplina", sortable: true },
         { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Nome do Petiano", sortable: true },
+        { key: "ativo", sortable: true, label:"Ativo" },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
@@ -72,8 +74,7 @@ export default {
   },
   methods: {
     del(id, rowId){
-      console.log(id);
-      axios.delete("tutoria-remove/" + id).then(() => {
+      axios.delete("tutoria-remove/" + id, {}).then(() => {
         this.tutorias.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });
