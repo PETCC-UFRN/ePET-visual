@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div  v-if="pessoas.length > 0">
+    <div>
+      
+    </div>
+    <div v-if="pessoas.length > 0">
       <b-card>
         <template v-slot:header>
           <h3>Pessoas cadastradas</h3>
@@ -58,9 +61,10 @@
             hide-goto-end-buttons
           />
         </nav>
+
+        </div>
+        <div v-else>Nenhum pessoa cadastrado</div>
       </b-card>
-    </div>
-    <div class="row" v-else>Nenhum pessoa cadastrado</div>
   </div>
 </template>
 

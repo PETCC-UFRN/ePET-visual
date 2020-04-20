@@ -73,7 +73,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 .parent {
   padding: 2rem;
