@@ -11,38 +11,76 @@
     <div v-else>
       <div class="row">
         <div class="col-md-6">
-          <b-card
-            header-tag="header"
-            footer-tag="footer">
-            <div slot="header">
-              <b-row>
-                <b-col>
-                  <h3><i class="fa fa-align-justify"></i>  Próximos eventos</h3>
-                </b-col>
-              </b-row>
-            </div>
-            <div role="tablist" v-for="evento in eventos" :key="evento.idEvento">
-              <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-btn block href="#" v-b-toggle="'accordion' + evento.idEvento" variant="primary">{{evento.titulo}}</b-btn>
-                </b-card-header>
-                <b-collapse :id="'accordion' + evento.idEvento" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p class="card-text">
-                      <strong>Descrição: </strong>{{evento.descricao}}
-                    </p>
-                    <div class="card-text">
-                      <p  class="mt-0 mb-0"><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
-                      <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
-                      <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}.</p>
-                      <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
-                      <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
-                    </div>
-                  </b-card-body>
-                </b-collapse>
+          <div class="row">
+            <div class="col-md-12">
+              <b-card
+                header-tag="header"
+                footer-tag="footer">
+                <div slot="header">
+                  <b-row>
+                    <b-col>
+                      <h3><i class="fa fa-align-justify"></i>  Próximos eventos</h3>
+                    </b-col>
+                  </b-row>
+                </div>
+                <div role="tablist" v-for="evento in eventos" :key="evento.idEvento">
+                  <b-card no-body class="mb-1">
+                    <b-card-header header-tag="header" class="p-1" role="tab">
+                      <b-btn block href="#" v-b-toggle="'accordion' + evento.idEvento" variant="primary">{{evento.titulo}}</b-btn>
+                    </b-card-header>
+                    <b-collapse :id="'accordion' + evento.idEvento" accordion="my-accordion" role="tabpanel">
+                      <b-card-body>
+                        <p class="card-text">
+                          <strong>Descrição: </strong>{{evento.descricao}}
+                        </p>
+                        <div class="card-text">
+                          <p  class="mt-0 mb-0"><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
+                          <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
+                          <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}.</p>
+                          <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
+                          <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
+                        </div>
+                      </b-card-body>
+                    </b-collapse>
+                  </b-card>
+                </div>
               </b-card>
             </div>
-          </b-card>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <b-card
+              header-tag="header"
+              footer-tag="footer">
+              <div slot="header">
+                <b-row>
+                  <b-col>
+                    <h3><i class="fa fa-group fa-lg mt-4"></i> Petianos atuais</h3> 
+                  </b-col>
+                </b-row>
+              </div>
+                <b-table
+                  :items="petianosAtuais"
+                  :current-page="currentPage"
+                  hover="hover"  
+                  responsive="sm-6"
+                  :per-page="10"
+                  :fields="fields"
+                >
+                </b-table>
+                <nav>
+                  <b-pagination
+                    :total-rows="petianosAtuais.length"
+                    :per-page="10"
+                    v-model="currentPage"
+                    prev-text="Anterior"
+                    next-text="Próximo"
+                    hide-goto-end-buttons
+                  />
+                </nav>
+              </b-card>
+            </div>
+          </div>
         </div>
         <div class="col-md-6">
           <b-card
@@ -90,11 +128,11 @@ export default {
       isLoading: true,
       noticias: [], // requisicao de noticias
       eventos: [],
+      petianosAtuais: [],
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true, label: "Título" },
-        { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
-        { key: "actions", label: "Ações disponíveis"},
+        { key: "pessoa.nome", sortable: true, label: "Nome" },  
+        { key: "pessoa.usuario.email", sortable: true, label: "Email" },
       ]
     };
   },
@@ -106,6 +144,10 @@ export default {
 
     axios.get("eventos-abertos").then(res => {
       this.eventos = res.data;
+    });
+
+    axios.get("petianos-atuais").then(res => {
+      this.petianosAtuais = res.data.content;
     });
   },
   computed: {
