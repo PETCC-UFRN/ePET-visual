@@ -64,14 +64,14 @@
                   :current-page="currentPage"
                   hover="hover"  
                   responsive="sm-6"
-                  :per-page="10"
+                  :per-page="2"
                   :fields="fields"
                 >
                 </b-table>
                 <nav>
                   <b-pagination
                     :total-rows="petianosAtuais.length"
-                    :per-page="10"
+                    :per-page="2"
                     v-model="currentPage"
                     prev-text="Anterior"
                     next-text="Próximo"
