@@ -91,7 +91,7 @@ export default {
         petiano: "petiano",
         comum: "usuario"
       },
-      cookie: Cookies.get('auth'),
+      cookie: null,
       next: true
     };
   },
@@ -101,13 +101,17 @@ export default {
     };
   },
   watch: {
-    cookie: function(val){
-      console.log('watch', val);
-      if(next && val !== null){
+    cookie: function(val) {
+      if (next && val !== null) {
         this.getProfile();
       }
     }
   },
+
+  mounted() {
+    Cookies.get("auth", null);
+  },
+
   methods: {
     goToRegister() {
       this.$router.push("/register");
@@ -148,33 +152,39 @@ export default {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.message
+            text:
+              err.response.status === 403
+                ? "Email ou senha não encontrados"
+                : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
           });
           this.next = false;
         }
       }
-      if (this.next && Cookies.get('auth') !== null) {
-        console.log('login', Cookies.get('auth'));
+      if (this.next && Cookies.get("auth") !== null) {
         await this.getProfile();
       }
     },
-    getProfile(){
-       axios
-          .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
-          .then(res => {
-            this.perfil = res.data;
-            this.$store.commit("setProfile", this.perfil.tipo_usuario);
-          })
-          .then(res => {
-            this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
-          })
-          .catch(err => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: err.message
-            });
+    getProfile() {
+      axios
+        .get("pessoas-usuario", {
+          headers: { Authorization: `${Cookies.get("auth")}` }
+        })
+        .then(res => {
+          this.perfil = res.data;
+          this.$store.commit("setProfile", this.perfil.tipo_usuario);
+        })
+        .then(res => {
+          this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
+        })
+        .catch(err => {
+          console.log(err);
+          console.log(err.response);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.message
           });
+        });
     },
     showModal() {
       this.$refs["perfis"].show();
