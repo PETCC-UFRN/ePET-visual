@@ -68,7 +68,7 @@ export default {
         },
         {
             name: 'Pessoas cadastradas',
-            url: '/petiano/pessoas-cadastradas',
+            url: '/tutor/pessoas-cadastradas',
             icon: 'icon-people'
         }
     ]
