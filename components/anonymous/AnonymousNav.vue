@@ -38,8 +38,8 @@
                 aria-expanded="false"
               >Área do usuário</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-                <a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Registrar</a>
+                <a class="dropdown-item" href="/login"><i class="icon-login"></i> Login</a>
+                <a class="dropdown-item" href="/register"><i class="icon-user-follow"></i> Registrar</a>
               </div>
             </li>
           </ul>

@@ -9,6 +9,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     
+    <b-navbar-nav class="d-md-down-none">
+      <b-nav-item class="px-3">Dashboard</b-nav-item>
+    </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
       <HeaderDropdown/>
     </b-navbar-nav>
