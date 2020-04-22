@@ -5,7 +5,7 @@
         <h3>Quadro de tutorias</h3>
       </template>
 
-      <div v-if="tutorias.length > 0">
+      <div v-if="filterTutorias.length > 0">
           
        <b-input-group  class="mt-3 mb-3" >
           <!-- Always bind the id to the input so that it can be focused when needed -->
@@ -29,8 +29,8 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button
-                :href="'/usuario/tutorias/tutorias-cadastrados/' + row.item.idEvento"
-                class="btn btn-sm btn-warning"
+                :href="'/usuario/quadro-de-tutorias/' + row.item.idTutoria"
+                variant="outline-warning"
               ><i class="fa fa-eye" aria-hidden="true"></i>
               Visualizar</b-button>
           </template>
@@ -46,7 +46,7 @@
           />
         </nav>
       </div>
-      <div v-else>Nenhum tutoria cadastrada</div>
+      <div v-else>Nenhum tutoria cadastrada ou ativa</div>
     </b-card>
   </div>
 </template>
@@ -63,10 +63,9 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true, label: "Título"  },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value)) }},
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value)) }},
-        { key: "qtdVagas", sortable: true, label: "Quantidade de vagas" },
+        { key: "disciplina.nome", sortable: true, label: "Nome da disciplina" },
+        { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "petiano.pessoa.nome", sortable: true, label: "Nome do petiano" },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
@@ -75,13 +74,16 @@ export default {
   computed: {
     items () {
       return this.keyword
-          ? this.tutorias.filter(item => item.titulo.includes(this.keyword) || item.local.includes(this.keyword))
-          : this.tutorias
-    }
+          ? this.filterTutorias.filter(item => item.titulo.includes(this.keyword) || item.local.includes(this.keyword))
+          : this.filterTutorias
+    },
+    filterTutorias() {
+      return this.tutorias.filter(tutoria => tutoria.ativo == true) 
+	  }
   },
   mounted() {
     axios.get("tutorias").then(res => {
-      this.tutorias = res.data;
+      this.tutorias = res.data.content;
     });
   }
 };

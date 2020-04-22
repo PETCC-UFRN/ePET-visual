@@ -3,12 +3,7 @@
     <div  v-if="pessoas.length > 0">
       <b-card>
         <template v-slot:header>
-          <h3>Pessoas cadastradas</h3>
-          <!-- <a
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            href="pessoas/create"
-          >Adicionar Pessoa</a>-->
+          <h3>Usuários cadastrados</h3>
         </template>
   
        <b-input-group  class="mt-1 mb-3" >
@@ -31,21 +26,10 @@
           :per-page="10"
           :fields="fields"
         >
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
-            </div>
-          </template>
           <template v-slot:cell(actions)="row">
-            <b-button
-              @click="ativar(row.item.idpessoa)"
-              class="btn btn-sm btn-success"
-              v-show="! row.item.ativo"
-            ><i class="fa fa-check" aria-hidden="true"></i> Ativar</b-button>
-            <b-button
-              @click="del(row.item.idpessoa, row.index)"
-              class="btn btn-sm btn-danger"
-            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button @click.prevent="cadastrar(row.item.idPessoa)" 
+            variant="outline-success"
+            ><i class="fa fa-check-square"></i> Usuário tutorado</b-button>
           </template>
         </b-table>
         <nav>
@@ -60,7 +44,7 @@
         </nav>
       </b-card>
     </div>
-    <div class="row" v-else>Nenhum pessoa cadastrado</div>
+    <div class="row" v-else>Nenhum pessoa cadastrada</div>
   </div>
 </template>
 
@@ -68,18 +52,17 @@
 import axios from "~/axios";
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/petiano",
   data() {
     return {
+      id_tutoria: this.$route.query.id_tutoria,
       keyword: '',
       pessoas: [],
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: true,label: "CPF" }
+        { key: "cpf", sortable: true,label: "CPF" },
+        { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
   },
@@ -97,13 +80,17 @@ export default {
   },
   methods: {
     cadastrar(id) {
-      axios.post("pessoas-cadastrar/" + id).then(() => {
+      axios.get("tutorias-ministradas-cadastro/" + id + "/" + this.id_tutoria ).then(() => {
         // para não ter que atualizar os pessoas em tempo real forçarei a página a atualizar
-        alert("pessoa ativada com sucesso");
+        alert("Tutoria ministrada cadastrada");
         let vm = this;
         setTimeout(function() {
           location.reload();
         }, 1500);
+      }).then(() => {
+
+        this.$router.push({
+          path: '/petiano/tutorias/tutorias-ministradas/'});
       });
     }
   }

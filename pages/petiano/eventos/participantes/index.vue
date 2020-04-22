@@ -2,7 +2,7 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3> Participantes cadastrados </h3>
+        <h3>Participantes cadastrados </h3>
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
