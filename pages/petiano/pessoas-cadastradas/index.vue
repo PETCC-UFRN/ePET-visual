@@ -28,7 +28,7 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button 
-                @click.prevent="editar(row.item.idPessoa, row.item.nome, row.item.cpf, row.item.tipo_usuario)" 
+                @click.prevent="editar(row.item.cpf)" 
                 class="btn btn-sm btn-warning">
                 <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
           </template>
@@ -76,17 +76,14 @@ export default {
   },
   mounted() {
     axios.get("pessoas").then(res => {
-      this.pessoas = res.data.content;
+      this.pessoas = res.data.content.filter(pessoa => pessoa.tipo_usuario.nome == 'comum');
     });
   },
   methods: {
-    editar(idPessoa, nome, cpf, tipo_usuario){
+    editar(cpf){
       this.$router.push({
-          path: 'edit/',
-          query  : {"idPessoa": idPessoa,
-                    "nome": nome,
-                    "cpf": cpf,
-                    "tipo_usuario":tipo_usuario}
+          path: '/petiano/pessoas-cadastradas/edit/',
+          query  : {"cpf": cpf}
         })
     }
   }
