@@ -48,9 +48,9 @@
       <div v-else>Nenhuma pessoa cadastrada</div>
     </b-card>
 
-    <b-modal ref="modal" title="Informações adicionais">
+    <b-modal ref="modal" title="Informações adicionais" hide-footer>
       <b-form-datepicker id="data-ingresso" v-model="modal.data_ingresso" type="date" required></b-form-datepicker>
-      <b-button variant="primary" @click="createPetiano()">OK</b-button>
+      <b-button variant="primary" @click="createPetiano()" class="float-right">OK</b-button>
     </b-modal>
   </div>
 </template>
@@ -91,6 +91,7 @@ export default {
     };
   },
   mounted() {
+    console.log(Cookies.get('auth'));
     axios.get("pessoas").then(res => {
       this.pessoas = res.data.content;
     });
@@ -101,41 +102,47 @@ export default {
   },
   methods: {
     async changePermission(row, event) {
-      console.log(row);
       let id_usuario = row.item.usuario.idUsuario;
       let id_tipo = event.target.value;
       await axios
-        .post("pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario, {
-          pessoa: this.pessoas.filter(
-            item => (item.idPessoa = row.item.idPessoa)
-          )
-        })
+        .post(
+          "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
+          this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
+        )
         .then(res => {
-          console.log(res);
+          if (id_tipo == 2) {
+            this.$set(this.modal, "item", row.item);
+            this.showModal();
+          }
         })
         .catch(err => {
           console.log(err);
         });
-
-      if (row.item.tipo_usuario.nome === "petiano") {
-        Vue.set(modal, "item", row.item);
-        this.showModal();
-      }
     },
     showModal() {
+      console.log("abre modal");
       this.$refs["modal"].show();
     },
     hideModal() {
       this.$refs["modal"].hide();
     },
     createPetiano() {
+      let pessoaSelected = this.pessoas.filter(
+              item => item.idPessoa === this.modal.item.idPessoa
+            )[0];
+      pessoaSelected['data_ingresso'] = this.modal.data_ingresso;
+
       axios
-        .post("petianos-cadastro", {
-          data_ingresso: this.modal.data_ingresso,
-          pessoa: this.item.idPessoa
+        .post(
+          "petianos-cadastro/" + this.modal.item.idPessoa,
+          pessoaSelected
+        )
+        .then(res => {
+          this.hideModal();
         })
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .catch(err => {
+          alert('Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!');
+        });
     }
   }
 };
