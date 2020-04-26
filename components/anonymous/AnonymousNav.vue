@@ -54,8 +54,12 @@
   font-weight: bold;
   font-size: 24px; 
 }
-i{
-  font-size:24px;
+.icon-user-follow {
+  font-size:17px;
+}
+
+.icon-login {
+  font-size:15px;
 }
 </style>
 

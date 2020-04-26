@@ -10,7 +10,9 @@
     </button>
     
     <b-navbar-nav class="d-md-down-none">
-      <b-nav-item class="px-3">Dashboard</b-nav-item>
+      <template v-for="item in headerItems" >
+        <b-nav-item v-bind:key="item" :href="item.url" class="px-3"><i :class="item.icon"></i> {{item.name}}</b-nav-item>
+      </template>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
       <HeaderDropdown/>
@@ -25,6 +27,13 @@
     name: 'c-header',
     components: {
       HeaderDropdown
+    },
+    props:{
+      headerItems: {
+        tipe: Array,
+        required: true,
+        default: () => []
+      },
     },
     methods: {
       sidebarToggle (e) {
@@ -46,3 +55,10 @@
     }
   }
 </script>
+
+
+<style scoped>
+i {
+  font-size:13px;
+}
+</style>
