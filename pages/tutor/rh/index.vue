@@ -48,9 +48,30 @@
       <div v-else>Nenhuma pessoa cadastrada</div>
     </b-card>
 
-    <b-modal ref="modal" title="Informações adicionais" hide-footer>
-      <b-form-datepicker id="data-ingresso" v-model="modal.data_ingresso" type="date" required></b-form-datepicker>
-      <b-button variant="primary" @click="createPetiano()" class="float-right">OK</b-button>
+    <b-modal ref="modal-create" title="Informações adicionais" hide-footer no-close-on-backdrop>
+      <label for="data-ingresso">Data ingresso</label>
+      <b-form-datepicker
+        id="data-ingresso"
+        v-model="modal.data_ingresso"
+        type="date"
+        required
+        locale="pt-br"
+        label-no-date-selected="Nenhuma data selecionada"
+      ></b-form-datepicker>
+      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="float-right">OK</b-button>
+    </b-modal>
+
+    <b-modal ref="modal-update" title="Informações adicionais" hide-footer no-close-on-backdrop>
+      <label for="data-egresso">Data egresso</label>
+      <b-form-datepicker
+        id="data-egresso"
+        v-model="modal.data_egresso"
+        type="date"
+        required
+        locale="pt-br"
+        label-no-date-selected="Nenhuma data selecionada"
+      ></b-form-datepicker>
+      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="float-right">OK</b-button>
     </b-modal>
   </div>
 </template>
@@ -108,40 +129,48 @@ export default {
         .post(
           "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
           this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
-        )
+        ) 
         .then(res => {
-          if (id_tipo == 2) {
+          if (id_tipo == 2) { // se tipo petiano
             this.$set(this.modal, "item", row.item);
-            this.showModal();
+            this.showModal('modal-create');
+          } else if(id_tipo != 2) {
+            this.$set(this.modal, "item", row.item);
+            this.showModal('modal-update');
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    showModal() {
+    showModal(name) {
       console.log("abre modal");
-      this.$refs["modal"].show();
+      this.$refs[name].show();
     },
-    hideModal() {
-      this.$refs["modal"].hide();
+    hideModal(name) {
+      this.$refs[name].hide();
     },
-    createPetiano() {
+    createOrUpdatePetiano(type) {
       let pessoaSelected = this.pessoas.filter(
-              item => item.idPessoa === this.modal.item.idPessoa
-            )[0];
-      pessoaSelected['data_ingresso'] = this.modal.data_ingresso;
+        item => item.idPessoa === this.modal.item.idPessoa
+      )[0];
+      if(type === 'create'){
+        pessoaSelected["data_ingresso"] = this.modal.data_ingresso;
+        pessoaSelected["data_egresso"]  = null;
+      }else{
+        pessoaSelected["data_egresso"]  = this.modal.data_egresso;
+      }
 
       axios
-        .post(
-          "petianos-cadastro/" + this.modal.item.idPessoa,
-          pessoaSelected
-        )
+        .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
         .then(res => {
-          this.hideModal();
+          this.hideModal('modal-create');
+          this.hideModal('modal-update');
         })
         .catch(err => {
-          alert('Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!');
+          alert(
+            "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!"
+          );
         });
     }
   }
