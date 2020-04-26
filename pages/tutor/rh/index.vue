@@ -5,22 +5,24 @@
         <h3>Pessoas cadastradas</h3>
       </template>
       <div v-if="pessoas.length > 0">
-        <!-- <b-input-group  class="mt-3 mb-3" >
-          <b-form-input
-            placeholder="Busca"            
-            type="text"
-          ></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-        </b-input-group-text>-->
-        <!-- </b-input-group> -->
+        <b-input-group class="mt-3 mb-3">
+          <b-form-input placeholder="Busca" type="text" v-model="keyword"></b-form-input>
+          <b-input-group-append>
+            <b-button variant="success" @click="search">
+              <i class="fa fa-search"></i>
+            </b-button>
+            <b-button variant="outline-danger" @click="getPessoas">
+              <i class="fa fa-remove"></i>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
 
         <b-table
           responsive="sm"
           :items="pessoas"
           :current-page="currentPage"
           :bordered="true"
-          :per-page="10"
+          :per-page="20"
           :fields="fields"
         >
           <template v-slot:cell(tipo_usuario)="row">
@@ -34,16 +36,16 @@
             </select>
           </template>
         </b-table>
-        <!-- <nav>
+        <nav>
           <b-pagination
-            :total-rows="items.length"
-            :per-page="10"
+            :total-rows="numPages"
+            :per-page="20"
             v-model="currentPage"
             prev-text="Anterior"
             next-text="Próximo"
             hide-goto-end-buttons
           />
-        </nav>-->
+        </nav>
       </div>
       <div v-else>Nenhuma pessoa cadastrada</div>
     </b-card>
@@ -108,18 +110,25 @@ export default {
           }
         }
       ],
-      modal: {}
+      modal: {},
+      keyword: "",
+      numPages: 1,
     };
   },
   mounted() {
-    console.log(Cookies.get('auth'));
-    axios.get("pessoas").then(res => {
-      this.pessoas = res.data.content;
-    });
+    this.getPessoas();
 
     axios.get("tipo-usuario").then(res => {
       this.tipos_usuario = res.data;
     });
+  },
+  watch: {
+    currentPage: function(val){
+      axios.get("pessoas?page=" + val).then(res => {
+        this.pessoas = res.data.content;
+        this.pageable = res.data.totalPages;
+      });
+    }
   },
   methods: {
     async changePermission(row, event) {
@@ -129,14 +138,15 @@ export default {
         .post(
           "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
           this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
-        ) 
+        )
         .then(res => {
-          if (id_tipo == 2) { // se tipo petiano
+          if (id_tipo == 2) {
+            // se tipo petiano
             this.$set(this.modal, "item", row.item);
-            this.showModal('modal-create');
-          } else if(id_tipo != 2) {
+            this.showModal("modal-create");
+          } else if (id_tipo != 2) {
             this.$set(this.modal, "item", row.item);
-            this.showModal('modal-update');
+            this.showModal("modal-update");
           }
         })
         .catch(err => {
@@ -154,24 +164,36 @@ export default {
       let pessoaSelected = this.pessoas.filter(
         item => item.idPessoa === this.modal.item.idPessoa
       )[0];
-      if(type === 'create'){
+      if (type === "create") {
         pessoaSelected["data_ingresso"] = this.modal.data_ingresso;
-        pessoaSelected["data_egresso"]  = null;
-      }else{
-        pessoaSelected["data_egresso"]  = this.modal.data_egresso;
+        pessoaSelected["data_egresso"] = null;
+      } else {
+        pessoaSelected["data_egresso"] = this.modal.data_egresso;
       }
 
       axios
         .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
         .then(res => {
-          this.hideModal('modal-create');
-          this.hideModal('modal-update');
+          this.hideModal("modal-create");
+          this.hideModal("modal-update");
         })
         .catch(err => {
           alert(
             "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!"
           );
         });
+    },
+    search() {
+      axios.get("pesquisar-pessoa/" + this.keyword).then(res => {
+        this.pessoas = res.data.content;
+      });
+    },
+    getPessoas(){
+      axios.get("pessoas").then(res => {
+        this.pessoas = res.data.content;
+        this.pageable = res.data.totalPages;
+
+      });
     }
   }
 };
