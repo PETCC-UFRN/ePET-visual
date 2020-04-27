@@ -67,9 +67,9 @@ export default {
             icon: 'icon-book-open'
         },
         {
-            name: 'Participantes',
-            url: '/tutor/participantes',
-            icon: 'icon-user-female'
+            name: 'Pessoas cadastradas',
+            url: '/tutor/pessoas-cadastradas',
+            icon: 'icon-people'
         }
     ]
 }

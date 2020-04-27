@@ -4,10 +4,8 @@
       <img src="~static/img/avatars/10.png" class="img-avatar" />
     </template>
     
-    <b-dropdown-header tag="div" variant="primary">
-      <div style="color: white;" class="text-center">
-        <strong>Perfil</strong>
-      </div>
+    <b-dropdown-header tag="div"  class="text-center">
+      <strong>Perfil</strong>
     </b-dropdown-header>
 
     <b-dropdown-item to="/#">
