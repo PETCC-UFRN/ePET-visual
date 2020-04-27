@@ -8,7 +8,7 @@
       <div class="card-header">
         <strong><i class="fa fa-edit"></i> Notícia</strong> <small>Formulário de criação</small>
         <div class="card-actions">
-          <a href="/petiano/noticia/" class="btn btn-close"><i class="icon-close"></i></a>
+          <a href="/tutor/noticia/" class="btn btn-close"><i class="icon-close"></i></a>
         </div>
       </div>
       <div class="card-body">
@@ -89,7 +89,7 @@ export default {
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
-          this.$router.push({ path : '/petiano/noticia/' });
+          this.$router.push({ path : '/tutor/noticia/' });
 
         })
         .catch(err => {

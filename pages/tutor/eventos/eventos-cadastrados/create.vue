@@ -8,7 +8,7 @@
       <div class="card-header">
         <strong><i class="fa fa-edit"></i> Evento</strong> <small>Formulário de criação</small>
         <div class="card-actions">
-          <a href="/petiano/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
+          <a href="/tutor/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
         </div>
       </div>
       <div class="card-body">
@@ -98,7 +98,7 @@ export default {
           this.alert.message = "Evento cadastrado com sucesso";
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
-          this.$router.push({ path : '/petiano/eventos/' });
+          this.$router.push({ path : '/tutor/eventos/' });
           
           });
         })

@@ -6,7 +6,7 @@
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
-          href="eventos/create"
+          href="/tutor/eventos/eventos-cadastrados/create"
         ><i class="fa fa-plus" aria-hidden="true"></i>
  Adicionar evento</a>
       </template>
@@ -45,7 +45,7 @@
             ><i class="fa fa-check" aria-hidden="true"></i>
               Ativar</b-button>
             <b-button
-              :href="'/petiano/eventos/edit/' + row.item.idEvento"
+              :href="'/tutor/eventos/edit/' + row.item.idEvento"
               class="btn btn-sm btn-warning"
             ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
             <b-button
@@ -75,9 +75,6 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/tutor",
   data() {
     return {

@@ -90,7 +90,7 @@ export default {
       }).then(() => {
 
         this.$router.push({
-          path: '/petiano/tutorias/tutorias-ministradas/'});
+          path: '/tutor/tutorias/tutorias-ministradas/'});
       });
     }
   }
