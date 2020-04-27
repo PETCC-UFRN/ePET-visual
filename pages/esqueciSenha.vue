@@ -7,13 +7,13 @@
             <b-card-body class="p-4">
               <b-img center class="mb-4" fluid src="~/static/img/logo.svg"></b-img>
               <h1>Esqueci a senha</h1>
-              <p class="text-muted">Digite o endereço de e-mail da sua conta de usuário e enviaremos email contendo um link de redefinição de senha.</p>
+              <p class="text-muted">Digite o endereço de e-mail da sua conta de usuário e enviaremos um email contendo um link de redefinição de senha.</p>
               
               <b-input-group class="mt-4 mb-3">
                 <b-input-group-prepend>
                   <b-input-group-text>@</b-input-group-text>
                 </b-input-group-prepend>
-                <input type="email" class="form-control" placeholder="Email" v-model="usuario.email">
+                <input type="email" class="form-control" placeholder="Digite o email" v-model="usuario.email">
               </b-input-group>
 
               <b-button variant="success" @click.prevent="register()" block> <i class="fa fa-envelope mr-2"></i> Enviar email de redefinição de senha</b-button>
@@ -50,9 +50,8 @@ export default {
     async register(){
       try{
         
-        await axios.post('forgot/',{
-            email: this.usuario.email
-          }).then(res => {
+        await axios.setHeader('email', this.usuario.email).post('forgot/')
+          .then(res => {
             this.usuario.email = "";
 
             Swal.fire({
