@@ -62,7 +62,7 @@ export default {
         },
         {
             name: 'Disciplinas',
-            url: '/petiano/disciplina',
+            url: '/petiano/disciplinas',
             icon: 'icon-book-open'
         },
         {
