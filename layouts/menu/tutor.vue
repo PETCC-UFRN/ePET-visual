@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <AppHeader />
+    <AppHeader :headerItems="head"/>
     <div class="app-body">
       <Sidebar :navItems="nav" />
       <main class="main">
@@ -16,6 +16,8 @@
 
 <script>
 import nav from "./tutor";
+import head from "./tutorHeader";
+
 import {
   Header as AppHeader,
   Sidebar,
@@ -33,7 +35,8 @@ export default {
   },
   data() {
     return {
-      nav: nav.items
+      nav: nav.items,
+      head: head.items
     };
   },
   head () {

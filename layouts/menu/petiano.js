@@ -62,13 +62,13 @@ export default {
         },
         {
             name: 'Disciplinas',
-            url: '/petiano/disciplina',
+            url: '/petiano/disciplinas',
             icon: 'icon-book-open'
         },
         {
-            name: 'Participantes',
-            url: '/petiano/participantes',
-            icon: 'icon-user-female'
+            name: 'Pessoas cadastradas',
+            url: '/petiano/pessoas-cadastradas',
+            icon: 'icon-people'
         }
     ]
 }

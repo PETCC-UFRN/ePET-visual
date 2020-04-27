@@ -9,6 +9,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     
+    <b-navbar-nav class="d-md-down-none">
+      <template v-for="item in headerItems" >
+        <b-nav-item v-bind:key="item.id" :href="item.url" class="px-3"><i :class="item.icon"></i> {{item.name}}</b-nav-item>
+      </template>
+    </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
       <HeaderDropdown/>
     </b-navbar-nav>
@@ -22,6 +27,13 @@
     name: 'c-header',
     components: {
       HeaderDropdown
+    },
+    props:{
+      headerItems: {
+        tipe: Array,
+        required: true,
+        default: () => []
+      },
     },
     methods: {
       sidebarToggle (e) {
@@ -43,3 +55,10 @@
     }
   }
 </script>
+
+
+<style scoped>
+i {
+  font-size:13px;
+}
+</style>
