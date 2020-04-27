@@ -31,7 +31,7 @@ h1, h4, p {
 }
 
 .bbutton {
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 
 </style>

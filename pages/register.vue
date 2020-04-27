@@ -4,11 +4,9 @@
       <b-row class="justify-content-center">
         <b-col md="6" sm="8">
           <b-card no-body class="mx-4">
-            <template v-slot:header>
-              <b-img center fluid src="~/static/img/logo.svg"></b-img>
-            </template>
             <b-card-body class="p-4">
-              <h1>Cadastro de conta</h1>
+              <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
+              <h1>Cadastro</h1>
               <p class="text-muted">Preencha todos os campos abaixo para criação da conta.</p>
               <b-input-group class="mt-4 mb-3">
                 <b-input-group-prepend>
@@ -133,9 +131,6 @@ export default {
 
 
 <style scoped>
-h1, p {
-  text-align: center;
-}
 
 img {
   max-width: 200px;
