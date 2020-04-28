@@ -30,7 +30,7 @@
           :items="disciplinas"
           :current-page="currentPage"
           :bordered="true"
-          :per-page="20"
+          :per-page="perPage"
           :fields="fields"
         >
           <template v-slot:cell(ativo)="row">
@@ -55,7 +55,7 @@
         <nav>
           <b-pagination
             :total-rows="numItems"
-            :per-page="20"
+            :per-page="perPage"
             v-model="currentPage"
             prev-text="Anterior "
             next-text="Próximo"
@@ -78,14 +78,15 @@ export default {
     return {
       keyword: "",
       disciplinas: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true },
         { key: "ativo", sortable: true, label: "Ativo" },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ],
-      numItems: 1,
     }
   },
   
@@ -94,7 +95,8 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      axios.get("disciplinas?page=" + val).then(res => {
+      axios.get("disciplinas?page=" + (val-1)).then(res => {
+        console.log(res.data);
         this.disciplinas = res.data.content;
         this.numPages = res.data.totalElements;
       });
