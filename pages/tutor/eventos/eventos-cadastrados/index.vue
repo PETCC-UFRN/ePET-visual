@@ -59,7 +59,7 @@
           <template v-slot:cell(actions)="row">
             <b-button
               class="btn btn-sm btn-cyan mt-2"
-              @click.prevent="edit(row.item.idEvento)"
+              @click.prevent="informacoes(row.item.idEvento)"
             ><i class="fa fa-eye fa-fw"></i> Informações</b-button>
             <b-button
               class="btn btn-sm btn-warning mt-2"
@@ -103,7 +103,6 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        // { key: "local", sortable: true },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "ativo", sortable: true, label: "Ativo"  },
@@ -120,11 +119,23 @@ export default {
     }
   },
   mounted() {
-    axios.get("eventos").then(res => {
-      this.eventos = res.data.content;
-    });
+    axios
+      .get("eventos")
+      .then(res => {
+        this.eventos = res.data.content;
+      })
+      .catch( err => {
+        Swal.fire({
+          title: 'Falha no consumo da API',
+          icon: 'error',
+          text: err.response.status
+        })
+      });
   },
   methods: {
+    informacoes(idEvento){
+      this.$router.push(`/tutor/eventos/eventos-cadastrados/${idEvento}`);          
+    },
     edit(idEvento){
       this.$router.push(`/tutor/eventos/eventos-cadastrados/edit/${idEvento}`);    
     },
@@ -146,7 +157,7 @@ export default {
         .catch(err => {
           Swal.fire({
             title: 'Erro na edição',
-            icon: 'warning',
+            icon: 'error',
             text: err.response.status
           })
         });
@@ -169,7 +180,7 @@ export default {
         .catch( err => {
           Swal.fire({
             title: 'Erro na edição',
-            icon: 'warning',
+            icon: 'error',
             text: err.response.status
           })
         });        

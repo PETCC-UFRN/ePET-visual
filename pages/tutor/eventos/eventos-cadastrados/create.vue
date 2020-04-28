@@ -133,7 +133,7 @@ export default {
         .catch(err => {
           Swal.fire({
             title: 'Erro no cadastro',
-            icon: 'warning',
+            icon: 'error',
             text: err.response.status
           })
           .then( () => {
