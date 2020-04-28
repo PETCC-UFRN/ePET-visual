@@ -1,14 +1,10 @@
 <template>
   <div class="col-md-12">
-    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
-      {{ this.alert.message }}
-      <!-- <b>&rArr;</b> -->
-    </b-alert>
     <div class="card">
       <div class="card-header">
         <strong><i class="fa fa-edit"></i> Disciplina</strong> <small>Formulário de criação</small>
         <div class="card-actions">
-          <nuxt-link to="/tutor/disciplina/" class="btn btn-close"><i class="icon-close"></i></nuxt-link>
+          <nuxt-link to="/tutor/disciplinas/" class="btn btn-close"><i class="icon-close"></i></nuxt-link>
         </div>
       </div>
       <div class="card-body">
@@ -16,6 +12,7 @@
           <div class="form-group">
             <label for="exampleFormControlInput1">Código:</label>
             <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
+            <b-form-text>Código no formato AAA#### (três letras e 4 números)</b-form-text>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Nome:</label>
@@ -34,6 +31,7 @@
 <script>
 import axios from "~/axios";
 import {TheMask} from 'vue-the-mask';
+import Swal from "sweetalert2";
 
 export default {
   layout: "menu/tutor",
@@ -42,16 +40,10 @@ export default {
   data() {
     return {
       form: {
-        // ativo: true,
         codigo: "",
-        // idDisciplina: 0,
         nome: ""
       },
-      alert: {
-        message: "",
-        class: ""
-      }
-    };
+    }
   },
   methods: {
     submitForm(e) {
@@ -59,25 +51,27 @@ export default {
       axios
         .post("disciplinas", this.form)
         .then(res => {
-          this.alert.class = "success";
-          this.alert.message = "Disciplina cadastrada com sucesso";
-          this.form = Object.entries(this.form).map(item => {
-            return (item = "");
+          this.reset();          
+          Swal.fire({
+            title: 'Disciplina cadastrada com sucesso',
+            icon: 'success',
+            timer: 2000
+          }).then(() => {
+            this.$router.push({ path : '/tutor/disciplinas/' });
           });
-          this.$router.push({ path : '/tutor/disciplina/' });
         })
         .catch(err => {
-          this.alert.class = "danger";
-          this.alert.message = "Disciplina NÃO cadastrada. Tente novamente";
+          Swal.fire({
+            title: err.response.data.titulo,
+            icon: 'error',
+          });
         });
       
     },
-    onReset(evt) {
-      evt.preventDefault()
-      // Reset our form values
+    reset() {
       this.form.nome = ""
       this.form.codigo = ""
-    }
+    },
   }
 };
 </script>
