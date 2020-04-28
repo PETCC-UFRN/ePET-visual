@@ -28,6 +28,7 @@
             ></b-form-textarea>
           </div>
 
+          <!--
           <div class="form-group">
             <label >Imagem:</label>
             <b-form-file
@@ -36,9 +37,7 @@
               drop-placeholder="Drop file here..."
             ></b-form-file>
           </div>
-
-
-
+          -->
 
           <div class="form-group">
             <label for="exampleFormControlInput1">Inicio exibição:</label>
@@ -48,6 +47,7 @@
             <label for="exampleFormControlInput1">Fim exibição:</label>
             <input type="date" class="form-control" v-model="form.limite_exibicao" />
           </div>
+
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
             <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>
@@ -71,7 +71,7 @@ export default {
         inicio_exibicao: "",
         limite_exibicao: "",
         ativo: false,
-        foto:""
+        foto:require('~/assets/users/LemurePet.jpg')
       },
       alert: {
         message: "",
@@ -81,6 +81,21 @@ export default {
   },
   methods: {
     submitForm(e) {
+      console.log(this.form)
+      /*
+              .post(
+          "participantes-cadastrar/" + this.form.evento + "/" + this.form.pessoa
+        )
+        .then(res => {
+          this.alert.class = "success";
+          this.alert.message = "Participante cadastrado com sucesso";
+          this.form = Object.entries(this.form).map(item => {
+            return (item = "");
+            this.$router.push({ path: "/petiano/rh/participantes/" });
+          });
+        })
+
+      */
       axios
         .post("noticia-cadastro/" + this.$store.state.auth.id, this.form)
         .then(res => {
@@ -105,7 +120,8 @@ export default {
       this.form.corpo = ""
       this.form.inicio_exibicao = ""
       this.form.limite_exibicao = "",
-      this.form.ativo= false
+      this.form.ativo= false,
+      this.form.foto = ""
     }
   }
 };
