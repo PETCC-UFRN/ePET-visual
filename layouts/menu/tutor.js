@@ -22,23 +22,8 @@ export default {
 
         {
             name: 'Eventos',
-            icon: 'icon-event',
-            children: [
-                {
-                    name: 'Eventos cadastrados',
-                    url: '/tutor/eventos/eventos-cadastrados',
-                    icon: 'icon-event'
-                },{
-                    name: 'Organizadores',
-                    url: '/tutor/eventos/organizadores',
-                    icon: 'icon-user'
-                },
-                {
-                    name: 'Participantes',
-                    url: '/tutor/eventos/participantes',
-                    icon: 'icon-user-female',
-                }
-            ]
+            url: '/tutor/eventos/eventos-cadastrados',
+            icon: 'icon-event'
         },
         {
             name: 'Notícias',

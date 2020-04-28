@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3>Eventos cadastrados</h3>
+            <h3><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h3>
           </b-col>
           <b-col>
             <b-button
@@ -38,25 +38,12 @@
           :fields="fields"
         >
           <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
-            </div>
+            <b-form-checkbox
+                size="lg"
+                v-model="row.item.ativo"
+              ></b-form-checkbox>
           </template>
-          <template v-slot:cell(actions)="row">
-            <b-button
-              @click="ativar(row.item.idEvento)"
-              class="btn btn-sm btn-success"
-              v-show="! row.item.ativo"
-            ><i class="fa fa-check" aria-hidden="true"></i>
-              Ativar</b-button>
-            <b-button
-              :href="'/petiano/eventos/edit/' + row.item.idEvento"
-              class="btn btn-sm btn-warning"
-            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-            <b-button
-              @click="del(row.item.idEvento, row.index)"
-              class="btn btn-sm btn-danger"
-            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+          <template v-slot:cell(pages)="row">
             <b-button
               @click="del(row.item.idEvento, row.index)"
               class="btn btn-sm"
@@ -65,15 +52,30 @@
             ><i class="fa fa-group fa-fw"></i> Organizadores</b-button>
             <b-button
               @click="del(row.item.idEvento, row.index)"
-              class="btn btn-sm"
+              class="btn btn-sm mt-2"
               variant="secondary"
             ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
+          </template>
+          <template v-slot:cell(actions)="row">
+            <b-button
+              class="btn btn-sm btn-cyan mt-2"
+              @click.prevent="edit(row.item.idEvento)"
+            ><i class="fa fa-eye fa-fw"></i> Informações</b-button>
+            <b-button
+              class="btn btn-sm btn-warning mt-2"
+              @click.prevent="edit(row.item.idEvento)"
+            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
+            <b-button
+              @click.prevent="del(row.item.idEvento, row.index)"
+              class="btn btn-sm btn-danger mt-2"
+            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
           </template>
         </b-table>
         <nav>
           <b-pagination
             :total-rows="items.length"
             :per-page="10"
+            pills
             v-model="currentPage"
             prev-text="Anterior"
             next-text="Próximo"
@@ -87,7 +89,9 @@
 </template>
 
 <script>
+
 import axios from "~/axios";
+import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
@@ -100,15 +104,14 @@ export default {
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         // { key: "local", sortable: true },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "qtdVagas", sortable: true, label: "Vagas" },
+        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
+        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "ativo", sortable: true, label: "Ativo"  },
+        { key: "pages", sortable: true, label: "Páginas"  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
-  
   computed: {
     items () {
       return this.keyword
@@ -122,24 +125,54 @@ export default {
     });
   },
   methods: {
+    edit(idEvento){
+      this.$router.push(`/tutor/eventos/eventos-cadastrados/edit/${idEvento}`);    
+    },
     novoEvento(){
       this.$router.push("/tutor/eventos/eventos-cadastrados/create");
     },
     del(id, rowId) {
-      axios.delete("eventos-remove/" + id).then(() => {
-        this.eventos.splice(rowId, 1);
-        alert("Evento removido com sucesso");
-      });
+      axios
+        .delete(`eventos-remove/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: 'Remoção realizada',
+            icon: 'success',
+          })
+          .then( () => {
+            this.eventos.splice(rowId, 1);
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: 'Erro na edição',
+            icon: 'warning',
+            text: err.response.status
+          })
+        });
     },
     ativar(id) {
-      axios.post("eventos-ativar/" + id).then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert("Evento ativado com sucesso");
-        let vm = this;
-        setTimeout(function() {
-          location.reload();
-        }, 1500);
-      });
+      axios
+        .post(`eventos-ativar/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: 'Evento ativado',
+            icon: 'success',
+          })
+          .then( () => {
+            let vm = this;
+            setTimeout(function() {
+              location.reload();
+            }, 1500);
+          })
+        })
+        .catch( err => {
+          Swal.fire({
+            title: 'Erro na edição',
+            icon: 'warning',
+            text: err.response.status
+          })
+        });        
     }
   }
 };

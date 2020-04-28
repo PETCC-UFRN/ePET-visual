@@ -1,9 +1,5 @@
 <template>
   <div class="col-md-12">
-    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
-      {{ this.alert.message }}
-      <!-- <b>&rArr;</b> -->
-    </b-alert>
     <div class="card">
       <div class="card-header">
         <b-row>
@@ -18,7 +14,7 @@
         </b-row>
       </div>
       <div class="card-body">
-        <form @submit="submitForm">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1"><strong>Título:</strong></label>
             <input type="text" class="form-control" placeholder="Digite o título" v-model="form.titulo" />
@@ -91,8 +87,10 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "~/axios";
+import Swal from "sweetalert2";
 
 export default {
   layout: "menu/tutor",
@@ -117,23 +115,31 @@ export default {
     };
   },
   methods: {
+    goToEventosCadastrados() {
+      this.$router.push('/tutor/eventos/eventos-cadastrados');
+    },
     submitForm(e) {
       axios
         .post("eventos-cadastrar", this.form)
         .then(res => {
-          this.alert.class = "success";
-          this.alert.message = "Evento cadastrado com sucesso";
-          this.form = Object.entries(this.form).map(item => {
-            return (item = "");
-          this.$router.push({ path : '/petiano/eventos/' });
-          
+          Swal.fire({
+            title: 'Evento cadastrado',
+            icon: 'success',
+          })
+          .then( () => {
+            this.$router.push('/tutor/eventos/eventos-cadastrados');
           });
         })
         .catch(err => {
-          this.alert.class = "danger";
-          this.alert.message = "Erro no cadastramento do evento. Por favor, tente novamente";
+          Swal.fire({
+            title: 'Erro no cadastro',
+            icon: 'warning',
+            text: err.response.status
+          })
+          .then( () => {
+            this.$router.push('/tutor/eventos/eventos-cadastrados');
+          });
         });
-      e.preventDefault();
     },
     onReset(evt) {
       evt.preventDefault()
