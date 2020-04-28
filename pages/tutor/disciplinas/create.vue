@@ -8,7 +8,7 @@
       <div class="card-header">
         <strong><i class="fa fa-edit"></i> Disciplina</strong> <small>Formulário de criação</small>
         <div class="card-actions">
-          <nuxt-link to="/petiano/disciplina/" class="btn btn-close"><i class="icon-close"></i></nuxt-link>
+          <nuxt-link to="/tutor/disciplina/" class="btn btn-close"><i class="icon-close"></i></nuxt-link>
         </div>
       </div>
       <div class="card-body">
@@ -64,7 +64,7 @@ export default {
           this.form = Object.entries(this.form).map(item => {
             return (item = "");
           });
-          this.$router.push({ path : '/petiano/disciplina/' });
+          this.$router.push({ path : '/tutor/disciplina/' });
         })
         .catch(err => {
           this.alert.class = "danger";

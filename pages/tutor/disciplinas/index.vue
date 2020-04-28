@@ -7,7 +7,7 @@
             <nuxt-link
               class="btn btn-sm btn-primary float-right"
               style="color: white"
-              to="/petiano/disciplina/create"
+              to="/tutor/disciplina/create"
             ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina</nuxt-link>
         </template>
 
@@ -99,7 +99,7 @@ export default {
     editar(id, nome, codigo, ativo){
       this.$router.push({
                 
-          path: '/petiano/disciplina/edit/',
+          path: '/tutor/disciplina/edit/',
           query  : {"id": id,
                     "nome": nome,
                     "codigo":codigo,

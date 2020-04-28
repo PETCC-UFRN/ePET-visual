@@ -96,7 +96,7 @@ export default {
     }
   },
   mounted() {
-    Cookies.get("auth", null);
+    Cookies.set("auth", null);
   },
   methods: {
     EsqueciSenha() {

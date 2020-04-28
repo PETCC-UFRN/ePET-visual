@@ -19,7 +19,6 @@ export default {
             url: '/tutor/perfil',
             icon: 'icon-user'
         },
-
         {
             name: 'Eventos',
             url: '/tutor/eventos/eventos-cadastrados',

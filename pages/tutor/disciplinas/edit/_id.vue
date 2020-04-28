@@ -20,7 +20,7 @@
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <b-button href="/petiano/disciplina/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+            <b-button href="/tutor/disciplina/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
           </div>
         </form>
       </div>

@@ -7,7 +7,7 @@
             <template v-slot:header>
               <strong><i class="fa fa-edit"></i> Usuário</strong> <small>Formulário de criação</small>
               <div class="card-actions">
-                <a href="/petiano/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
+                <a href="/tutor/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
               </div>
             </template> 
             <b-form>
@@ -44,7 +44,7 @@ import {TheMask} from 'vue-the-mask'
 
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {TheMask},
 
   data: function() {

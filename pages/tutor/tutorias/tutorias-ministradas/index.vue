@@ -21,7 +21,7 @@
         >
           <template v-slot:cell(actions)="row">
             <b-button
-                :href="'/petiano/tutorias/tutorias-ministradas/' + row.item.idTutoria_ministrada"
+                :href="'/tutor/tutorias/tutorias-ministradas/' + row.item.idTutoria_ministrada"
                 variant="outline-warning"
               ><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</b-button>
             <b-button @click="del(row.item.idTutoria, row.index)" 

@@ -5,7 +5,7 @@
         <b-col md="12">
           <b-card >
             <template v-slot:header>
-              <h4>Petianos</h4>
+              <h4>Petianos (Precisa atualizar os endpoints)</h4>
             </template>
 
             <b-input-group  class="mb-3" >
@@ -128,7 +128,7 @@ import axios from "axios";
 export default {
   //middleware: 'auth',
   name: "admin",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {},
   data: function() {
     return {
