@@ -36,30 +36,27 @@
           <template v-slot:header>
             <b-row>
               <b-col>
-                <h5>Informações</h5>
+                <h5>Outras informações</h5>
               </b-col>
             </b-row>
           </template>
           <b-card-body>
               <p class="mt-0 mb-1">
                 <strong>Perído de inscrições:</strong>
-                <!-- {{ new Intl.DateTimeFormat('pt-BR').format(new Date(form.d_inscricao))}} - -->
-                <!-- {{ new Intl.DateTimeFormat('pt-BR').format(new Date(form.d_inscricao_fim))}} -->
+                <span v-if="this.form.d_inscricao !== ''">{{ new Intl.DateTimeFormat('pt-BR').format(new Date(this.form.d_inscricao))}}</span> -
+                <span v-if="this.form.d_inscricao_fim !== ''">{{ new Intl.DateTimeFormat('pt-BR').format(new Date(this.form.d_inscricao_fim))}}</span>
               </p>
               <p class="mt-0 mb-1">
                 <strong>Carga horária:</strong>
-                {{form.qtdCargaHoraria}}
+                {{form.qtdCargaHoraria}} horas
               </p>
               <p class="mt-0 mb-1">
-                <strong>Vagas:</strong>
+                <strong>Total de vagas:</strong>
                 {{form.qtdVagas}}
               </p>
-              <p class="mt-0 mb-1">
+              <p class="mt-0 mb-0">
                 <strong>Local do curso:</strong>
                 {{form.local}}
-              </p>
-              <p class="mt-0 mb-q">
-                <strong>Horário do curso:</strong>
               </p>
           </b-card-body>
         </b-card>
@@ -142,5 +139,7 @@ ul {
 p {
   font-size: 15px;
 }
-
+strong {
+  font-size: 16px;
+}
 </style>
