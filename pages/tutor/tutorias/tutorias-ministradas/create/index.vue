@@ -69,7 +69,7 @@ export default {
   methods: {
     cadastro(id_tutoria){
       this.$router.push({
-        path: '/petiano/tutorias/tutorias-ministradas/create/pessoa/',
+        path: '/tutor/tutorias/tutorias-ministradas/create/pessoa/',
         query  : {"id_tutoria": id_tutoria}
       })
     }

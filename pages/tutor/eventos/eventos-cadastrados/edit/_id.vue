@@ -54,7 +54,7 @@
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <b-button href="/petiano/eventos/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+            <b-button href="/tutor/eventos/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
           </div>
         </form>
       </div>
@@ -65,7 +65,7 @@
 import axios from "~/axios";
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   validate ({ params }) {
     // Id da rota deve ser um número
     return /^\d+$/.test(params.id)
