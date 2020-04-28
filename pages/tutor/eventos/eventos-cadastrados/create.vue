@@ -6,19 +6,25 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong><i class="fa fa-edit"></i> Evento</strong> <small>Formulário de criação</small>
-        <div class="card-actions">
-          <a href="/petiano/eventos/" class="btn btn-close"><i class="icon-close"></i></a>
-        </div>
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-edit"></i> Cadastrar evento</h3>
+          </b-col>
+          <b-col>
+            <div class="card-actions">
+              <b-button @click.prevent="goToEventosCadastrados()" class="btn btn-close btn-lg"><i class="icon-close"></i></b-button>
+            </div>
+          </b-col>
+        </b-row>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Título:</label>
+            <label for="exampleFormControlInput1"><strong>Título:</strong></label>
             <input type="text" class="form-control" placeholder="Digite o título" v-model="form.titulo" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Descrição:</label>
+            <label for="exampleFormControlInput1"><strong>Descrição:</strong></label>
             <b-form-textarea
             id="textarea"
             v-model="form.descricao"
@@ -28,33 +34,54 @@
             ></b-form-textarea>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Local:</label>
+            <label for="exampleFormControlInput1"><strong>Local:</strong></label>
             <input type="text" class="form-control" placeholder="Digite o local" v-model="form.local" />
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Carga horária: (em horas)</label>
-            <input type="number" class="form-control"  v-model="form.qtdCargaHoraria" />
+          <div>
+            <b-row>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Carga horária:</strong> <em>(em horas)</em></label>
+                  <input type="number" class="form-control"  v-model="form.qtdCargaHoraria" />
+                </div>
+              </b-col>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Quantidade de dias:</strong></label>
+                  <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdDias" />
+                </div>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Quantidade de vagas:</strong></label>
+                  <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdVagas" />
+                </div>
+              </b-col>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Valor da inscrição:</strong></label>
+                  <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.valor" />
+                </div>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Data de início de inscrições:</strong></label>
+                  <input type="date" class="form-control" v-model="form.d_inscricao" />
+                </div>
+              </b-col>
+              <b-col>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1"><strong>Data de fim de inscrições:</strong></label>
+                  <input type="date" :min="form.d_inscricao" class="form-control" v-model="form.d_inscricao_fim" />
+                </div>
+              </b-col>
+            </b-row>            
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Quantidade de dias:</label>
-            <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdDias" />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Quantidade de vagas:</label>
-            <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.qtdVagas" />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Valor da inscrição:</label>
-            <input type="number" min="0" pattern="\d+" class="form-control" v-model="form.valor" />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Data de início de inscrições:</label>
-            <input type="date" class="form-control" v-model="form.d_inscricao" />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Data de fim de inscrições:</label>
-            <input type="date" class="form-control" v-model="form.d_inscricao_fim" />
-          </div>
+          
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
             <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar campos</b-button>

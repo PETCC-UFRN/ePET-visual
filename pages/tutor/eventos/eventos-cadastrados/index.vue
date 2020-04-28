@@ -2,13 +2,18 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Eventos cadastrados</h3>
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="eventos/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i>
- Adicionar evento</a>
+        <b-row>
+          <b-col>
+            <h3>Eventos cadastrados</h3>
+          </b-col>
+          <b-col>
+            <b-button
+              class="btn btn-sm btn-primary float-right mt-4"
+              variant="primary"
+              @click.prevent="novoEvento()"
+            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</b-button>
+          </b-col>
+        </b-row>
       </template>
       <div v-if="eventos.length > 0">
           
@@ -52,6 +57,17 @@
               @click="del(row.item.idEvento, row.index)"
               class="btn btn-sm btn-danger"
             ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            <b-button
+              @click="del(row.item.idEvento, row.index)"
+              class="btn btn-sm"
+              style="color: white"  
+              variant="teal"
+            ><i class="fa fa-group fa-fw"></i> Organizadores</b-button>
+            <b-button
+              @click="del(row.item.idEvento, row.index)"
+              class="btn btn-sm"
+              variant="secondary"
+            ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
           </template>
         </b-table>
         <nav>
@@ -75,9 +91,6 @@ import axios from "~/axios";
 
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/tutor",
   data() {
     return {
@@ -86,10 +99,10 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        { key: "local", sortable: true },
+        // { key: "local", sortable: true },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "qtdVagas", sortable: true, label: "Quantidade de vagas" },
+        { key: "qtdVagas", sortable: true, label: "Vagas" },
         { key: "ativo", sortable: true, label: "Ativo"  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
@@ -109,6 +122,9 @@ export default {
     });
   },
   methods: {
+    novoEvento(){
+      this.$router.push("/tutor/eventos/eventos-cadastrados/create");
+    },
     del(id, rowId) {
       axios.delete("eventos-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
@@ -128,9 +144,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-h3 {
-  text-align: center;
-}
-</style>
