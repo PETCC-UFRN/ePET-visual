@@ -58,7 +58,6 @@ import axios from "~/axios";
 import {TheMask} from 'vue-the-mask';
 import Swal from "sweetalert2";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-
 export default {
   name: 'Register',
   layout: 'clean',
@@ -76,7 +75,6 @@ export default {
       error: null
     };
   },
-
   validations: {
     usuario: {
       nome: { required },
@@ -91,7 +89,6 @@ export default {
       title: "Registrar - PET-CC UFRN"
     }
   },
-
   methods: {
     async register(){
       try{
@@ -106,7 +103,6 @@ export default {
           this.usuario.senha = "";
           this.usuario.cpf = "";
           this.usuario.nome = "";
-
           Swal.fire({
             icon: "info",
             title: "Falta pouco...",
@@ -115,7 +111,6 @@ export default {
           });
           
         })
-
         // this.$router.push('/usuarios');
       } catch(err){
           Swal.fire({
@@ -131,7 +126,6 @@ export default {
 
 
 <style scoped>
-
 img {
   max-width: 200px;
 }

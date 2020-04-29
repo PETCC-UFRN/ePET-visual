@@ -44,7 +44,7 @@
                 </b-alert>
                 <b-row>
                   <b-col cols="8" class="text-left mb-2">
-                    <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>
+                    <b-button @click.prevent="EsqueciSenha()" variant="link" class="px-0">Esqueceu sua senha?</b-button>
                   </b-col>
                   <b-col cols="12">
                     <b-button block variant="success" class="px-4" @click="login()">
@@ -95,12 +95,13 @@ export default {
       }
     }
   },
-
   mounted() {
     Cookies.set("auth", null);
   },
-
   methods: {
+    EsqueciSenha() {
+      this.$router.push("/esqueciSenha");      
+    },
     goToRegister() {
       this.$router.push("/register");
     },
@@ -191,7 +192,6 @@ export default {
 
 
 <style scoped>
-
 img {
   max-width: 200px;
 }
