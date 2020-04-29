@@ -52,16 +52,13 @@
             </b-button>
           </template>
         </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="numItems"
-            :per-page="perPage"
-            v-model="currentPage"
-            prev-text="Anterior "
-            next-text="Próximo"
-            hide-goto-end-buttons
+        <div>
+          <Pagination
+            :totalRows="numItems"
+            :perPage="perPage"
+            v-on:currentPage="setCurrentPage"
           />
-        </nav>
+        </div>
       </div>
       <div v-else>Nenhuma disciplina cadastrada</div>
     </b-card>
@@ -70,10 +67,14 @@
 
 <script>
 import axios from "~/axios";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    Pagination,
+  },
   data() {
     return {
       keyword: "",
@@ -92,10 +93,11 @@ export default {
   
   mounted() {
     this.getDisciplinas();
+    this.$on('currentPage', )
   },
   watch: {
     currentPage: function(val){
-      axios.get("disciplinas?page=" + (val-1)).then(res => {
+      axios.get("disciplinas?page=" + val).then(res => {
         console.log(res.data);
         this.disciplinas = res.data.content;
         this.numPages = res.data.totalElements;
@@ -128,6 +130,9 @@ export default {
         this.numItems = res.data.totalElements;
         this.disciplinas = res.data.content;
       });
+    },
+    setCurrentPage(val){
+      this.currentPage = val;
     },
   }
 };
