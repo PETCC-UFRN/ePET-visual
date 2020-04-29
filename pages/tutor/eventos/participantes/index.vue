@@ -22,7 +22,7 @@
           </div>
           <div class="form-group">
             <b-button block type="submit" variant="success">
-              <i class="fa fa-check"></i> Confirmar cadastrado de organizador
+              <i class="fa fa-check"></i> Confirmar cadastrado de participante
             </b-button>
           </div>
         </form>
@@ -102,6 +102,7 @@
 
 <script>
 import axios from "~/axios";
+import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
