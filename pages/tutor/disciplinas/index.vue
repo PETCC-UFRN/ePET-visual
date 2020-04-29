@@ -37,7 +37,6 @@
             <div class="form-check">
               <input
               @click.prevent="desativarAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
-              
                type="checkbox" class="form-check-input" :checked="row.item.ativo" />
             </div>
           </template>

@@ -41,6 +41,7 @@
             <b-form-checkbox
                 size="lg"
                 v-model="row.item.ativo"
+                disabled
               ></b-form-checkbox>
           </template>
           <template v-slot:cell(pages)="row">
@@ -57,6 +58,11 @@
             ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
           </template>
           <template v-slot:cell(actions)="row">
+            <b-button
+              class="btn btn-sm btn-success mt-2"
+              v-if="row.item.ativo === false"
+              @click.prevent="ativar(row.item.idEvento)"
+            ><i class="fa fa-check fa-fw"></i> Ativar</b-button>
             <b-button
               class="btn btn-sm btn-cyan mt-2"
               @click.prevent="informacoes(row.item.idEvento)"
@@ -108,7 +114,7 @@ export default {
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "ativo", sortable: true, label: "Ativo"  },
-        { key: "pages", sortable: true, label: "Páginas"  },
+        { key: "pages", sortable: true, label: "Páginas disponíveis"  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
