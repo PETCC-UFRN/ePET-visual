@@ -45,7 +45,7 @@
           </template>
           <template v-slot:cell(pages)="row">
             <b-button
-              @click="del(row.item.idEvento, row.index)"
+              @click="goToOrganizadores(row.item.idEvento)"
               class="btn btn-sm"
               style="color: white"  
               variant="teal"
@@ -83,7 +83,9 @@
           />
         </nav>
       </div>
-      <div v-else>Nenhum evento cadastrado</div>
+      <div v-else>
+        <h5>Nenhum evento cadastrado</h5>
+      </div>
     </b-card>
   </div>
 </template>
@@ -133,7 +135,10 @@ export default {
       });
   },
   methods: {
-    informacoes(idEvento){
+    goToOrganizadores(idEvento) {
+      this.$router.push({path: "/tutor/eventos/organizadores/", query: {idEvento: idEvento}});
+    },
+    informacoes(idEvento) {
       this.$router.push(`/tutor/eventos/eventos-cadastrados/${idEvento}`);          
     },
     edit(idEvento){

@@ -1,16 +1,52 @@
 <template>
   <div>
+    
+    <div class="card">
+      <div class="card-header">
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-edit"></i> Cadastrar organizador</h3>             
+          </b-col>
+        </b-row>
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="submitForm">
+           <div class="form-group">
+            <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
+            <select class="form-control" v-model="form.pessoa">
+              <option
+                v-for="participante in pessoas"
+                :key="participante.idPessoa"
+                :value="participante.idPessoa"
+              >{{ participante.nome }}</option>
+            </select>
+          </div>
+        <!--  <div class="form-group">
+            <label for="exampleFormControlInput1">Evento:</label>
+            <select class="form-control" v-model="form.evento">
+              <option
+                v-for="evento in eventos"
+                :key="evento.idEvento"
+                :value="evento.idEvento"
+              >{{ evento.titulo }}</option>
+            </select>
+          </div>-->
+          <div class="form-group">
+            <b-button block type="submit" variant="success">
+              <i class="fa fa-check"></i> Confirmar cadastrado de organizador
+            </b-button>
+          </div> 
+        </form>
+      </div>
+    </div>
     <b-card>
       <template v-slot:header>
-        <h3>Organizadores Cadastrados</h3>
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="organizadores/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i>
- Adicionar organizador</a>
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-group fa-fw"></i> Organizadores cadastrados</h3>
+          </b-col>
+        </b-row>
       </template>
-
       <b-card-body>
         <div v-if="eventos.length > 0">
 
@@ -52,7 +88,9 @@
             />
           </nav>
         </div>
-        <div v-else> Nenhum organizador cadastrado</div>
+        <div v-else> 
+          <h5>Nenhum organizador cadastrado</h5>
+        </div>
       </b-card-body>
     </b-card>
   </div>
@@ -60,13 +98,19 @@
 
 <script>
 import axios from "~/axios";
+import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
   data() {
     return {
+      form: {
+        pessoa: 0,
+      },
+      pessoas: {},
       keyword: '',
+      organizadores: [],
       eventos: [],
       currentPage: 1,
       fields: [
@@ -84,23 +128,75 @@ export default {
     }
   },
   mounted() {
-    axios.get("organizadores").then(res => {
-      this.eventos = res.data.content;
-    });
+    axios
+      .get("pessoas")
+      .then(res => {
+        this.pessoas = res.data.content;
+      })
+      .catch ( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhum pessoa cadastrada",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Falha em consumir API",
+            icon: 'error',
+          });
+        }
+      });
+
+    axios
+      .get(`organizadores-evento/${this.$route.query.idEvento}`)
+      .then(res => {
+        this.organizadores = res.data.content;
+      })
+      .catch( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhum organizador cadastrado",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Falha em consumir API",
+            icon: 'error',
+          });
+        }
+
+      });
   },
   methods: {
+    novoOrganizador() {
+      this.$router.push("/tutor/eventos/organizadores/create");
+    },
     del(id, rowId) {
-      axios.delete("organizadores-remove/" + id).then(() => {
-        this.eventos.splice(rowId, 1);
-        alert("Participante removido com sucesso");
-      });
+      axios
+        .delete("organizadores-remove/" + id)
+        .then(() => {
+          this.eventos.splice(rowId, 1);
+          alert("Participante removido com sucesso");
+        });
+    },
+    submitForm(e) {
+      axios
+        .post(`organizadores-cadastrar/${this.form.evento}/${this.form.pessoa}`)
+        .then( res => {
+          this.alert.class = "success";
+          this.alert.message = "Organizador cadastrado com sucesso.";
+          this.form = Object.entries(this.form).map(item => {
+            return (item = "");
+          });
+        })
+        .catch(err => {
+          this.alert.class = "danger";
+          this.alert.message =
+            "Organizador não cadastrado. Por favor, tente novamente";
+        });
     }
   }
 };
 </script>
-
-<style scoped>
-h3 {
-  text-align: center;
-}
-</style>

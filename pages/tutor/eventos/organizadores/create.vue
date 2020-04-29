@@ -1,20 +1,19 @@
 <template>
   <div class="col-md-12">
-    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
-      {{ this.alert.message }}
-      <!-- <b>&rArr;</b> -->
-    </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong>
-          <i class="fa fa-edit"></i> Organizadores
-        </strong>
-        <small>Formulário de criação</small>
-        <div class="card-actions">
-          <nuxt-link to="/tutor/eventos/organizadores" class="btn btn-close">
-            <i class="icon-close"></i>
-          </nuxt-link>
-        </div>
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-edit"></i> Cadastrar organizador</h3>             
+          </b-col>
+          <b-col>
+            <div class="card-actions">
+              <nuxt-link to="/tutor/eventos/organizadores" class="btn btn-close">
+                <i class="icon-close"></i>
+              </nuxt-link>
+            </div>
+          </b-col>
+        </b-row>
       </div>
       <div class="card-body">
         <form @submit="submitForm">
