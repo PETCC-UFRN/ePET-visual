@@ -1,20 +1,45 @@
 <template>
   <div>
+    <div class="card">
+      <div class="card-header">
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-edit"></i> Cadastrar participante</h3>             
+          </b-col>
+        </b-row>
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
+            <select class="form-control" v-model="form.pessoa">
+              <option
+                v-for="participante in pessoas"
+                :key="participante.idPessoa"
+                :value="participante.idPessoa"
+              >{{ participante.nome }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <b-button block type="submit" variant="success">
+              <i class="fa fa-check"></i> Confirmar cadastrado de organizador
+            </b-button>
+          </div>
+        </form>
+      </div>
+    </div>
     <b-card>
       <template v-slot:header>
-        <h3> Participantes cadastrados </h3>
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="participantes/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i>
-  Adicionar participante</a>
+        <b-row>
+          <b-col>
+            <h3><i class="fa fa-group fa-fw"></i> Participantes cadastrados </h3>
+          </b-col>
+        </b-row>
       </template>
       <b-card-body>
         <div v-if="eventos.length > 0">
 
-        <b-input-group  class="mt-1 mb-3" >
-            <!-- Always bind the id to the input so that it can be focused when needed -->
+        <!-- <b-input-group  class="mt-1 mb-3" >
             <b-form-input
               v-model="keyword"
               placeholder="Busca"            
@@ -23,8 +48,8 @@
             <b-input-group-text slot="append">
               <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
           </b-input-group-text>
-          </b-input-group>
-
+          </b-input-group> -->
+<!-- 
           <b-table
             responsive="sm"
             :items="items"
@@ -67,9 +92,9 @@
               next-text="Próximo"
               hide-goto-end-buttons
             />
-          </nav>
+          </nav> -->
         </div>
-        <div v-else>Nenhum participante cadastrado</div>
+        <div v-else><h5>Nenhum participante cadastrado</h5></div>
       </b-card-body>
     </b-card>
   </div>
@@ -77,20 +102,21 @@
 
 <script>
 import axios from "~/axios";
+
 export default {
   name: "dashboard",
   layout: "menu/tutor",
   data() {
     return {
+      form: {
+        pessoa: 0,
+      },
+      pessoas: {},
       keyword: '',
       eventos: [],
       currentPage: 1,
       fields: [
-        { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
-        { key: "evento.titulo", label: "Nome do evento", sortable: true },
-        { key: "confirmado", sortable: true },
-        { key: "espera", sortable: true },
-        //{ key: "ativo", sortable: true },
+        { key: "pessoa.nome", label: "Nome", sortable: true },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
@@ -103,17 +129,69 @@ export default {
     }
   },
   mounted() {
+    axios
+      .get("pessoas")
+      .then(res => {
+        this.pessoas = res.data.content;
+      })
+      .catch ( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhum pessoa cadastrada",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Falha em consumir API",
+            icon: 'error',
+          });
+        }
+      });
+
     axios.get("participantes").then(res => {
       this.eventos = res.data.content;
     });
   },
   methods: {
+    consumirParticipantesApi(){
+
+    },
+    submitForm(e) {
+      e.preventDefault();
+      axios
+        .post(`participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
+        .then( res => {
+          Swal.fire({
+            title: "Participante cadastrado",
+            icon: 'success',
+          })
+          .then( () => {
+            this.form = Object.entries(this.form).map(item => {
+              return (item = "");
+            });
+            this.consumirParticipantesApi();
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Participante não cadastrado",
+            icon: 'error',
+          })
+          .then( () => {
+            this.form = Object.entries(this.form).map(item => {
+              return (item = "");
+            });
+          });
+        });
+    },
     del(id, rowId) {
-      console.log(id);
-      axios.delete("participantes-remove/" + id).then(() => {
-        this.eventos.splice(rowId, 1);
-        alert("Participante removido com sucesso");
-      });
+      axios
+        .delete("participantes-remove/" + id)
+        .then( () => {
+          this.eventos.splice(rowId, 1);
+          alert("Participante removido com sucesso");
+        });
     },
     confirmar(id) {
       axios.post("participantes-confirmar/" + id).then(() => {

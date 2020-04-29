@@ -52,7 +52,7 @@
               variant="teal"
             ><i class="fa fa-group fa-fw"></i> Organizadores</b-button>
             <b-button
-              @click="del(row.item.idEvento, row.index)"
+              @click="goToParticipantes(row.item.idEvento)"
               class="btn btn-sm mt-2"
               variant="secondary"
             ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
@@ -126,21 +126,34 @@ export default {
           : this.eventos
     }
   },
-  mounted() {
-    axios
-      .get("eventos")
-      .then(res => {
-        this.eventos = res.data.content;
-      })
-      .catch( err => {
-        Swal.fire({
-          title: 'Falha no consumo da API',
-          icon: 'error',
-          text: err.response.status
-        })
-      });
+  async fetch () {
+    this.consumindoEventosApi();
   },
   methods: {
+    consumindoEventosApi() {
+      axios
+        .get("eventos")
+        .then(res => {
+          this.eventos = res.data.content;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum evento cadastrado",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            });
+          }  
+        });
+    },
+    goToParticipantes(idEvento) {
+      this.$router.push({path: "/tutor/eventos/participantes/", query: {idEvento: idEvento}});
+    },
     goToOrganizadores(idEvento) {
       this.$router.push({path: "/tutor/eventos/organizadores/", query: {idEvento: idEvento}});
     },
@@ -168,12 +181,12 @@ export default {
         .catch(err => {
           Swal.fire({
             title: 'Erro na edição',
-            icon: 'error',
-            text: err.response.status
+            icon: 'error'
           })
         });
     },
     ativar(id) {
+      e.preventDefault();
       axios
         .post(`eventos-ativar/${id}`)
         .then( () => {
@@ -182,17 +195,13 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            let vm = this;
-            setTimeout(function() {
-              location.reload();
-            }, 1500);
-          })
+            this.consumindoEventosApi();
+          });
         })
         .catch( err => {
           Swal.fire({
-            title: 'Erro na edição',
-            icon: 'error',
-            text: err.response.status
+            title: 'Erro na ativação',
+            icon: 'error'
           })
         });        
     }
