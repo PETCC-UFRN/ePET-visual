@@ -18,7 +18,6 @@
       <div v-if="eventos.length > 0">
           
        <b-input-group  class="mt-3 mb-3" >
-          <!-- Always bind the id to the input so that it can be focused when needed -->
           <b-form-input
             v-model="keyword"
             placeholder="Busca por título"            
