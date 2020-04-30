@@ -7,7 +7,7 @@
 
     <b-card>
       <h1 align="center" class="textDark">
-        <strong>{{ dataPerfil.nome }}</strong>
+        <strong>{{ nome }}</strong>
       </h1>
 
       <hr class="my-4" />
@@ -48,10 +48,9 @@ import Swal from "sweetalert2";
 export default {
   props: [
     "fotoPath",
-    //"nome",
     "status",
     "email",
-    //"cpf",
+    "cpf",
     "areaInteresse",
     "dataIngresso",
     "lattes",
@@ -60,8 +59,23 @@ export default {
     "dataPerfil",
   ],
 
+data() {
+		return {
+      nome: this.dataPerfil.nome,
+    }
+},
+
+mounted(){
+this.carregar();
+console.log(this.nome);
+},
 
   methods: {
+
+    carregar(){
+      this.nome = this.dataPerfil.nome;
+    },
+
     async deleteAccount() {
       const { value: password } = await Swal.fire({
         title: "Insira a senha para confirmar",
