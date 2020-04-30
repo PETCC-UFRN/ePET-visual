@@ -109,11 +109,11 @@ export default {
     };
   },
   computed: {
-    // items () {
-    //   return this.keyword
-    //       ? this.eventos.filter(item => item.pessoa.nome.includes(this.keyword) || item.evento.titulo.includes(this.keyword))
-    //       : this.eventos
-    // }
+    items () {
+      return this.keyword
+          ? this.eventos.filter(item => item.pessoa.nome.includes(this.keyword) || item.evento.titulo.includes(this.keyword))
+          : this.eventos
+    }
   },
   mounted() {
     axios

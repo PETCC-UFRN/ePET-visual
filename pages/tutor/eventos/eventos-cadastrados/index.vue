@@ -7,11 +7,11 @@
             <h3><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h3>
           </b-col>
           <b-col>
-            <b-button
+            <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
               variant="primary"
-              @click.prevent="novoEvento()"
-            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</b-button>
+              to="/tutor/eventos/eventos-cadastrados/create"
+            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
         </b-row>
       </template>
@@ -44,14 +44,13 @@
               ></b-form-checkbox>
           </template>
           <template v-slot:cell(pages)="row">
+            <nuxt-link
+              :to="`/tutor/eventos/organizadores/?idEvento=${row.item.idEvento}`"
+              class="btn btn-sm btn-teal"
+              style="color: white" 
+            ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
             <b-button
-              @click="goToOrganizadores(row.item.idEvento)"
-              class="btn btn-sm"
-              style="color: white"  
-              variant="teal"
-            ><i class="fa fa-group fa-fw"></i> Organizadores</b-button>
-            <b-button
-              @click="goToParticipantes(row.item.idEvento)"
+              :to="`/tutor/eventos/participantes/?idEvento=${row.item.idEvento}`"
               class="btn btn-sm mt-2"
               variant="secondary"
             ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
@@ -62,14 +61,14 @@
               v-if="row.item.ativo === false"
               @click.prevent="ativar(row.item.idEvento)"
             ><i class="fa fa-check fa-fw"></i> Ativar</b-button>
-            <b-button
+            <nuxt-link
               class="btn btn-sm btn-cyan mt-2"
-              @click.prevent="informacoes(row.item.idEvento)"
-            ><i class="fa fa-eye fa-fw"></i> Informações</b-button>
-            <b-button
+              :to="`/tutor/eventos/eventos-cadastrados/${row.item.idEvento}`"
+            ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+            <nuxt-link
               class="btn btn-sm btn-warning mt-2"
-              @click.prevent="edit(row.item.idEvento)"
-            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
+              :to="`/tutor/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"              
+            ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
             <b-button
               @click.prevent="del(row.item.idEvento, row.index)"
               class="btn btn-sm btn-danger mt-2"
@@ -156,20 +155,11 @@ export default {
           }  
         });
     },
-    goToParticipantes(idEvento) {
-      this.$router.push({path: "/tutor/eventos/participantes/", query: {idEvento: idEvento}});
-    },
-    goToOrganizadores(idEvento) {
-      this.$router.push({path: "/tutor/eventos/organizadores/", query: {idEvento: idEvento}});
-    },
     informacoes(idEvento) {
       this.$router.push(`/tutor/eventos/eventos-cadastrados/${idEvento}`);          
     },
     edit(idEvento){
       this.$router.push(`/tutor/eventos/eventos-cadastrados/edit/${idEvento}`);    
-    },
-    novoEvento(){
-      this.$router.push("/tutor/eventos/eventos-cadastrados/create");
     },
     del(id, rowId) {
       axios
