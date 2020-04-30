@@ -36,22 +36,10 @@ export default {
         },
 
         {
-            name: 'Tutoria',
-            icon: 'icon-notebook',
-            children: [
-                {
-                    name: 'Quadro de tutoria',
-                    url: '/#',
-                    icon: 'icon-docs'
-                },
-                {
-                    name: 'Agendar tutoria',
-                    url: '/#',
-                    icon: 'icon-calendar'
-                }
-            ]
+            name: 'Quadro de tutorias',
+            url: '/usuario/quadro-de-tutorias',
+            icon: 'icon-docs'
         },
-
         {
             name: 'Notícias',
             url: '/usuario/noticia',

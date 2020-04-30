@@ -45,19 +45,30 @@ export default {
             icon: 'icon-envelope-open'
         },
         {
-            name: 'Tutoria',
-            url: '/petiano/tutoria',
-            icon: 'icon-notebook'
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Quadro de tutoria',
+                    url: '/petiano/tutorias/quadro-de-tutoria',
+                    icon: 'icon-docs'
+                },
+                {
+                    name: 'Tutorias ministradas',
+                    url: '/petiano/tutorias/tutorias-ministradas',
+                    icon: 'icon-check'
+                }
+            ]
         },
         {
             name: 'Disciplinas',
-            url: '/petiano/disciplina',
+            url: '/petiano/disciplinas',
             icon: 'icon-book-open'
         },
         {
-            name: 'Participantes',
-            url: '/petiano/participantes',
-            icon: 'icon-user-female'
+            name: 'Pessoas cadastradas',
+            url: '/petiano/pessoas-cadastradas',
+            icon: 'icon-people'
         }
     ]
 }

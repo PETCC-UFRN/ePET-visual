@@ -19,26 +19,10 @@ export default {
             url: '/tutor/perfil',
             icon: 'icon-user'
         },
-
         {
             name: 'Eventos',
-            icon: 'icon-event',
-            children: [
-                {
-                    name: 'Eventos cadastrados',
-                    url: '/tutor/eventos/eventos-cadastrados',
-                    icon: 'icon-event'
-                },{
-                    name: 'Organizadores',
-                    url: '/tutor/eventos/organizadores',
-                    icon: 'icon-user'
-                },
-                {
-                    name: 'Participantes',
-                    url: '/tutor/eventos/participantes',
-                    icon: 'icon-user-female',
-                }
-            ]
+            url: '/tutor/eventos/eventos-cadastrados',
+            icon: 'icon-event'
         },
         {
             name: 'Notícias',
@@ -46,19 +30,30 @@ export default {
             icon: 'icon-envelope-open'
         },
         {
-            name: 'Tutoria',
-            url: '/tutor/tutoria',
-            icon: 'icon-notebook'
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Quadro de tutoria',
+                    url: '/tutor/tutorias/quadro-de-tutoria',
+                    icon: 'icon-docs'
+                },
+                {
+                    name: 'Tutorias ministradas',
+                    url: '/tutor/tutorias/tutorias-ministradas',
+                    icon: 'icon-check'
+                }
+            ]
         },
         {
             name: 'Disciplinas',
-            url: '/tutor/disciplina',
+            url: '/tutor/disciplinas',
             icon: 'icon-book-open'
         },
         {
-            name: 'Participantes',
-            url: '/tutor/participantes',
-            icon: 'icon-user-female'
+            name: 'Pessoas cadastradas',
+            url: '/tutor/pessoas-cadastradas',
+            icon: 'icon-people'
         }
     ]
 }

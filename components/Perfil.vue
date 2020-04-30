@@ -110,7 +110,7 @@ console.log(this.nome);
 </script>
 
 
-<style>
+<style scoped>
 .parent {
   padding: 2rem;
 }

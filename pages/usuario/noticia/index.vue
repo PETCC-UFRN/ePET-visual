@@ -1,6 +1,11 @@
 <template>
   <div>
     <b-card>
+
+      <template v-slot:header>
+        <h3>Notícias</h3>
+      </template>
+
       <div v-if="noticias.length > 0">
         <b-table
           responsive="sm"
@@ -59,3 +64,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>

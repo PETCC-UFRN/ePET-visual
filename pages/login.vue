@@ -2,10 +2,11 @@
   <div class="app flex-row align-items-center">
     <div class="container">
       <b-row class="justify-content-center">
-        <b-col md="8">
+        <b-col md="6">
           <b-card-group>
             <b-card no-body class="p-4">
               <b-card-body>
+                <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
                 <h1>Login</h1>
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
@@ -22,7 +23,7 @@
                     placeholder="E-mail"
                   />
                 </b-input-group>
-                <b-input-group class="mb-4">
+                <b-input-group class="mb-0">
                   <b-input-group-prepend>
                     <b-input-group-text>
                       <i class="icon-lock"></i>
@@ -42,28 +43,15 @@
                   </ul>
                 </b-alert>
                 <b-row>
-                  <b-col cols="6">
-                    <b-button variant="success" class="px-4" @click="login()">
+                  <b-col cols="8" class="text-left mb-2">
+                    <b-button @click.prevent="EsqueciSenha()" variant="link" class="px-0">Esqueceu sua senha?</b-button>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-button block variant="success" class="px-4" @click="login()">
                       <i class="fa fa-user"></i> Login
                     </b-button>
                   </b-col>
-                  <b-col cols="6" class="text-right">
-                    <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>
-                  </b-col>
                 </b-row>
-              </b-card-body>
-            </b-card>
-            <b-card no-body class="text-white py-5 d-md-down-none k" style="width:44%">
-              <b-card-body class="text-center">
-                <div>
-                  <h2>Cadastrar</h2>
-                  <p>Faça o cadastro para participar dos eventos realizados pelo PET-CC UFRN.</p>
-                  <b-button
-                    variant="success"
-                    class="active mt-3"
-                    @click="goToRegister()"
-                  >Clique aqui para se cadastrar!</b-button>
-                </div>
               </b-card-body>
             </b-card>
           </b-card-group>
@@ -91,7 +79,7 @@ export default {
         petiano: "petiano",
         comum: "usuario"
       },
-      cookie: Cookies.get('auth'),
+      cookie: null,
       next: true
     };
   },
@@ -101,14 +89,19 @@ export default {
     };
   },
   watch: {
-    cookie: function(val){
-      console.log('watch', val);
-      if(next && val !== null){
+    cookie: function(val) {
+      if (next && val !== null) {
         this.getProfile();
       }
     }
   },
+  mounted() {
+    Cookies.set("auth", null);
+  },
   methods: {
+    EsqueciSenha() {
+      this.$router.push("/esqueciSenha");      
+    },
     goToRegister() {
       this.$router.push("/register");
     },
@@ -148,33 +141,39 @@ export default {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.message
+            text:
+              err.response.status === 403
+                ? "Email ou senha não encontrados"
+                : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
           });
           this.next = false;
         }
       }
-      if (this.next && Cookies.get('auth') !== null) {
-        console.log('login', Cookies.get('auth'));
+      if (this.next && Cookies.get("auth") !== null) {
         await this.getProfile();
       }
     },
-    getProfile(){
-       axios
-          .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
-          .then(res => {
-            this.perfil = res.data;
-            this.$store.commit("setProfile", this.perfil.tipo_usuario);
-          })
-          .then(res => {
-            this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
-          })
-          .catch(err => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: err.message
-            });
+    getProfile() {
+      axios
+        .get("pessoas-usuario", {
+          headers: { Authorization: `${Cookies.get("auth")}` }
+        })
+        .then(res => {
+          this.perfil = res.data;
+          this.$store.commit("setProfile", this.perfil.tipo_usuario);
+        })
+        .then(res => {
+          this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
+        })
+        .catch(err => {
+          console.log(err);
+          console.log(err.response);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.message
           });
+        });
     },
     showModal() {
       this.$refs["perfis"].show();
@@ -191,8 +190,9 @@ export default {
 };
 </script>
 
+
 <style scoped>
-.k {
-  background: #89023e;
+img {
+  max-width: 200px;
 }
 </style>

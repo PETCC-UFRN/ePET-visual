@@ -4,7 +4,10 @@
       <Perfil  :fotoPath="fotoPath" :nome="nome" :status="status" :email="email" 
                 :cpf="cpf" :editProfile="editProfile" :petianoTutorInfo="false"/>
     </b-card>
+<<<<<<< HEAD
     <!--<b-button class="float-left" variant="primary" href="#">Testar</b-button>-->
+=======
+>>>>>>> 1c73e00e1eed74428e7d2c0f6c4bcb5ce2305002
   </div>
 </template>
 
