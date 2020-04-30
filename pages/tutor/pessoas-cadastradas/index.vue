@@ -133,7 +133,7 @@ export default {
     currentPage: function(val){
       axios.get("pessoas?page=" + val).then(res => {
         this.pessoas = res.data.content;
-        this.pageable = res.data.totalPages;
+        this.numPages = res.data.totalPages;
       });
     }
   },
@@ -198,8 +198,7 @@ export default {
     getPessoas(){
       axios.get("pessoas").then(res => {
         this.pessoas = res.data.content;
-        this.pageable = res.data.totalPages;
-
+        this.numPages = res.data.totalPages;
       });
     }
   }

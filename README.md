@@ -3,26 +3,25 @@
 
 ## Introdução 
 
-Neste repositório está contida a implementação do frontend da plataforma do PET-CC UFRN, Programa de Educação Tutorial da Universidade do Rio Grande do Norte.
+Neste repositório está contida a implementação do frontend utilizando-se do framework progressivo Nuxt.Js - baseado em Vue.JS - e do template de dashboard CoreUI da plataforma do PET-CC UFRN, Programa de Educação Tutorial da Universidade do Rio Grande do Norte.
 
 - [Pré-requisitos](#pré-requisitos) - Requisitos para executar o projeto.
 - [Como executar](#como-executar) - Instruções sobre como executar o projeto.
+- [Referências](#referências) - Link contendo material de referência.
+- [Contribuidores](#contribuidores) - Pessoas que ajudaram no desenvolvimento do projeto.
 
 
-## Pré-requisitos :eyes:
+## Pré-requisitos
 
 Faz-se necessário os seguintes programas para executar o projeto com suas respectivas versões recomendadas:
 
 
 | Nome: | Versão:  |    
 | :---------- | :------------- |
-|`NPM` 	| 3.5.2 |  
-|`Vue CLI` 	| 3.11.0 |  
-|`Node` 	| 8.10.0 |  
+|`NPM` 	| 6.13.4 |  
+|`Node` 	| 12.16.1 |  
 
 
-
-    Pode-se utilizar o Yarn ao invés do NPM. Diante disso, recomenda-se o uso a partir da versão `1.21.1`.
 ### Observação :warning:
 Além disso, é necessário adicionar as credenciais da API no arquivo axios.js, o arquivo é uma instância do axios.example.js:
 
@@ -32,23 +31,21 @@ cp axios.example.js axios.js
 
 ## Como executar
 
-Em seu computador execute os seguintes comandos:
+Em seu computador execute os seguintes comandos para clonagem do repositório localmente e instalação das dependências do projeto:
 
 ``` bash
-$ git clone   
+$ git clone https://github.com/PETCC-UFRN/ePET-visual.git  
 $ cd ePET-frontend
 
-# install dependencies
-$ npm install # Or yarn install
+$ npm install
 ```
 
 ### Desenvolvimento
 
-Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor. Diante disso, execute o seguinte comando:
+Para facilitar o desenvolvimento, aconselha-se a usar o programa no modo de desenvolvedor onde ocorre atualização automática em tela das mudanças feitas em código. Diante disso, execute o seguinte comando:
 
 ``` bash
-# serve with hot reloading at localhost:3000
-$ npm run dev # Or yarn dev
+$ npm run dev
 ```
 
 Em seguida, abra o navegador e acesse o seguinte endereço [http://localhost:3000](http://localhost:3000).
@@ -58,11 +55,18 @@ Em seguida, abra o navegador e acesse o seguinte endereço [http://localhost:300
 Em estágio de produção, aconselha-se a usar o programa no modo de produção. Diante disso, execute os seguintes comandos:
 
 ``` bash
-# build for production and launch the server
 $ npm run build
 $ npm start
 ```
+## Referências
+- [Nuxt.js - Documentação](https://nuxtjs.org/guide)
+- [CoreUI - Demo](https://nuxt-coreui.netlify.app/)
+- [CoreUI - Repositório no Github](https://github.com/muhibbudins/nuxt-coreui)
+- [BootstrapVue - Documentação](https://bootstrap-vue.org/docs)
 
-### Observação :construction:
 
-No momento o login ainda não foi desenvolvido, por isso existe o arquivo user.js com um usuário fantásia. No futuro os dados desse usuário serão recuperados do usuário que está logado.
+## Contribuidores
+
+Samuel, Ítalo, Jhonattan, Daniel, Henrique e Abraão. 
+
+

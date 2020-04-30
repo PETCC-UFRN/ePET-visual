@@ -21,7 +21,7 @@ export const actions = {
         if (req.headers.cookie) {
             const parsed = cookieparser.parse(req.headers.cookie)
             try {
-              auth = JSON.parse(parsed.auth)
+              auth = parsed.auth
             } catch (err) {
               console.log('Nenhum cookie encontrado')
             }
