@@ -41,7 +41,7 @@
          <b-input-group  class="mt-1 mb-3" >
             <b-form-input
               v-model="keyword"
-              placeholder="Busca"            
+              placeholder="Busca por nome ou por CPF"            
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
@@ -132,6 +132,12 @@ export default {
           Swal.fire({
             title: "Falha em consumir API",
             icon: 'error',
+          })
+          .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
           });
         }
       });
@@ -157,6 +163,12 @@ export default {
             Swal.fire({
               title: "Falha em consumir API",
               icon: 'error',
+            })
+            .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
             });
           }
         });

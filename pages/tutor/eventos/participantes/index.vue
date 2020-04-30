@@ -37,62 +37,70 @@
         </b-row>
       </template>
       <b-card-body>
-        <div v-if="eventos.length > 0">
+        <div v-if="participantes.length > 0">
 
-        <!-- <b-input-group  class="mt-1 mb-3" >
+        <b-input-group  class="mt-1 mb-3" >
             <b-form-input
               v-model="keyword"
-              placeholder="Busca"            
+              placeholder="Busca por nome ou por CPF"            
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
               <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
           </b-input-group-text>
-          </b-input-group> -->
-<!-- 
+          </b-input-group> 
+ 
           <b-table
             responsive="sm"
-            :items="items"
+            :items="participantes"
             :current-page="currentPage"
             :bordered="true"
             :per-page="10"
+            pills
             :fields="fields"
           >
             <template v-slot:cell(confirmado)="row">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" :checked="row.item.confirmado" disabled />
+                <b-form-checkbox
+                  size="lg"
+                  v-model="row.item.confirmado"
+                  disabled
+                ></b-form-checkbox>
               </div>
             </template>
             <template v-slot:cell(espera)="row">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" :checked="row.item.espera" disabled />
+                <b-form-checkbox
+                  size="lg"
+                  v-model="row.item.espera"
+                  disabled
+                ></b-form-checkbox>
               </div>
             </template>
-
 
             <template v-slot:cell(actions)="row">
               <b-button
                 @click="confirmar(row.item.idParticipantes)"
                 class="btn btn-sm btn-success"
-                v-show="! row.item.ativo"
-              ><i class="fa fa-check" aria-hidden="true"></i>
- Confirmar</b-button>
+                v-if="row.item.confirmado === false"
+              ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</b-button>
               <b-button
                 @click="del(row.item.idParticipantes, row.index)"
                 class="btn btn-sm btn-danger"
-              ><i class="fa fa-trash-o fa-fw"></i> Deletar</b-button>
+              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
             </template>
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="items.length"
+              :total-rows="participantes.length"
               :per-page="10"
               v-model="currentPage"
               prev-text="Anterior"
+              pills
               next-text="Próximo"
               hide-goto-end-buttons
             />
-          </nav> -->
+          </nav>
         </div>
         <div v-else><h5>Nenhum participante cadastrado</h5></div>
       </b-card-body>
@@ -113,11 +121,15 @@ export default {
         pessoa: 0,
       },
       pessoas: {},
+      participantes: [],
       keyword: '',
       eventos: [],
       currentPage: 1,
       fields: [
         { key: "pessoa.nome", label: "Nome", sortable: true },
+                { key: "pessoa.cpf", label: "CPF", sortable: true, formatter: (value) => { if (value != null) return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9, 11)}` } },
+        { key: "confirmado", label: "Confirmado", sortable: true },
+        { key: "espera", label: "Espera", sortable: true },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
@@ -125,7 +137,10 @@ export default {
   computed: {
     items () {
       return this.keyword
-          ? this.eventos.filter(item => item.evento.titulo.includes(this.keyword) || item.pessoa.nome.includes(this.keyword))
+          ? this.eventos
+            .filter(item => { 
+                item.evento.titulo.includes(this.keyword) || item.pessoa.nome.includes(this.keyword)
+              })
           : this.eventos
     }
   },
@@ -146,17 +161,46 @@ export default {
           Swal.fire({
             title: "Falha em consumir API",
             icon: 'error',
+          })
+          .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
           });
         }
       });
-
-    axios.get("participantes").then(res => {
-      this.eventos = res.data.content;
-    });
+  },
+  async fetch() {
+    this.consumirParticipantesApi();
   },
   methods: {
     consumirParticipantesApi(){
-
+      axios
+      .get(`participantes-evento/${this.$route.query.idEvento}`)
+      .then(res => {
+        this.participantes = res.data.content;
+      })
+      .catch ( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhum pessoa cadastrada",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Falha em consumir API",
+            icon: 'error',
+          })
+          .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+          });
+        }
+      });
     },
     submitForm(e) {
       e.preventDefault();
@@ -190,18 +234,37 @@ export default {
       axios
         .delete("participantes-remove/" + id)
         .then( () => {
-          this.eventos.splice(rowId, 1);
-          alert("Participante removido com sucesso");
+          Swal.fire({
+            title: "Participante removido",
+            icon: 'success',
+          }).then( () => {
+            this.participantes.splice(rowId, 1);
+          });
+        })
+        .catch( () => {
+          Swal.fire({
+            title: "Participante não removido",
+            icon: 'error',
+          });
         });
     },
     confirmar(id) {
-      axios.post("participantes-confirmar/" + id).then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert("Participante ativado com sucesso");
-        let vm = this;
-        setTimeout(function() {
-          location.reload();
-        }, 1500);
+      axios
+        .post(`participantes-confirmar/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: "Participante confirmado",
+            icon: 'success',
+          })
+          .then( () => {
+            this.consumirParticipantesApi();
+          })
+          .catch(() => {
+            Swal.fire({
+              title: "Participante não confirmado",
+              icon: 'error',
+            });
+          });
       });
     }
   }

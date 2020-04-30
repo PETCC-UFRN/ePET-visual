@@ -125,7 +125,7 @@ export default {
           : this.eventos
     }
   },
-  async fetch () {
+  mounted () {
     this.consumindoEventosApi();
   },
   methods: {
@@ -146,6 +146,12 @@ export default {
             Swal.fire({
               title: "Falha em consumir API",
               icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
             });
           }  
         });
@@ -170,7 +176,7 @@ export default {
         .delete(`eventos-remove/${id}`)
         .then( () => {
           Swal.fire({
-            title: 'Remoção realizada',
+            title: 'Evento removido',
             icon: 'success',
           })
           .then( () => {
@@ -179,7 +185,7 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Erro na edição',
+            title: 'Evento não removido',
             icon: 'error'
           })
         });
