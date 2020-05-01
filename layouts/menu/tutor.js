@@ -34,8 +34,8 @@ export default {
             icon: 'icon-notebook',
             children: [
                 {
-                    name: 'Quadro de tutoria',
-                    url: '/tutor/tutorias/quadro-de-tutoria',
+                    name: 'Quadro de tutorias',
+                    url: '/tutor/tutorias/quadro-de-tutorias',
                     icon: 'icon-docs'
                 },
                 {

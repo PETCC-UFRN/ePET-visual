@@ -1,20 +1,39 @@
 <template>
   <div>
-      <b-card>
-        <!-- TODO::remover esse style -->
-        <template v-slot:header>
-          <h3>Disciplinas cadastradas</h3>
-          
-          <nuxt-link
-            class="btn btn-sm btn-primary float-right"
-            style="color: white"
-            to="../disciplina/create"
-          ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Disciplina</nuxt-link>
-          
-        </template>
-      
+    <div class="card">
+      <div class="card-header">
+        <b-row>
+          <b-col>
+            <h3>Cadastrar disciplina</h3>
+          </b-col>
+        </b-row>
+      </div>
+      <div class="card-body">
+          <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="exampleFormControlInput1"><strong>Código:</strong></label>
+            <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
+            <b-form-text>Código no formato AAA#### (três letras e 4 números)</b-form-text>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1"><strong>Nome:</strong></label>
+            <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
+          </div>
+          <div class="form-group">
+            <b-button block type="submit" variant="success"><i class="fa fa-check"></i> Confirmar cadastro de disciplina</b-button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <b-card>
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h3>Disciplinas cadastradas</h3>
+          </b-col>
+        </b-row>          
+      </template>
       <div v-if="disciplinas.length > 0">
-        
         <b-table
           responsive="sm"
           :items="disciplinas"
@@ -24,7 +43,7 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning"><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor</b-button>
+            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning"><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina</b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"
@@ -39,24 +58,34 @@
             v-model="currentPage"
             prev-text="Anterior"
             next-text="Próximo"
+            pills
             hide-goto-end-buttons
           />
         </nav>
-
       </div>
-      <div v-else>Nenhuma disciplina cadastrada</div>
+      <div v-else>
+        <h5>Nenhuma disciplina cadastrada</h5>
+      </div>
     </b-card>
   </div>
 </template>
 
 <script>
 import axios from "~/axios";
+import Swal from "sweetalert2";
+import {TheMask} from 'vue-the-mask';
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {TheMask},
+  
   data() {
     return {
+      form: {
+        codigo: "",
+        nome: ""
+      },
       disciplinas: [],
       currentPessoa:[],
       currentPetiano:[],
@@ -128,11 +157,3 @@ export default {
   }*/
 };
 </script>
-
-
-
-<style scoped>
-h3 {
-  text-align: center;
-}
-</style>
