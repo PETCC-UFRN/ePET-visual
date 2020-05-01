@@ -4,7 +4,7 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h3>Cadastrar disciplina</h3>
+            <h3><i class="fa fa-edit px-2"></i>Cadastrar disciplina</h3>
           </b-col>
         </b-row>
       </div>
@@ -29,7 +29,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3>Disciplinas cadastradas</h3>
+            <h3><i class="fa fa-book px-2"></i>Disciplinas ativas cadastradas</h3>
           </b-col>
         </b-row>          
       </template>
@@ -64,7 +64,7 @@
         </nav>
       </div>
       <div v-else>
-        <h5>Nenhuma disciplina cadastrada</h5>
+        <h5>Nenhuma disciplina ativa cadastrada</h5>
       </div>
     </b-card>
   </div>
@@ -84,11 +84,10 @@ export default {
     return {
       form: {
         codigo: "",
+        ativo: true,
         nome: ""
       },
       disciplinas: [],
-      currentPessoa:[],
-      currentPetiano:[],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
@@ -97,63 +96,77 @@ export default {
       ]
     };
   },
-  mounted() {
-    axios.get("disciplinas").then(res => {
-      this.disciplinas = res.data.content;
-    });
-    axios.get("pessoas-usuario").then(res => {
-      this.currentPessoa = res.data;
-      if(res.data.tipo_usuario.nome != "petiano" && res.data.tipo_usuario.nome != "tutor")
-      {
-        this.$router.push("/");
-      }
-    }).finally( () =>{
-      axios.get("petianos-pessoa/"+this.currentPessoa.idPessoa).then(res2 => {
-        this.currentPetiano = res2.data;
-        console.log(this.currentPetiano);
-      });
-      }
-    );
-    console.log("petianos-pessoa/");
+  async fetch() { 
+    this.consumirDisciplinasApi();
   },
   methods: {
+    consumirDisciplinasApi() {
+      axios
+        .get("disciplinas-ativas")
+        .then( res => {
+          this.disciplinas = res.data.content;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum pessoa cadastrada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+            });
+          }
+        });
+    },
+    submitForm(e) {
+      e.preventDefault();
+      axios
+        .post("disciplinas", this.form)
+        .then(res => {
+          Swal.fire({
+            title: 'Disciplina cadastrada',
+            icon: 'success',
+          })
+          .then( () => {
+            this.reset();          
+            this.consumirDisciplinasApi();
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: 'Disciplina não cadastrada',
+            icon: 'error',
+          });
+        });
+    },
     cadastrar(id){
-      /*this.$router.push(
-        {
-          path: 'edit/',
-          query  : {"id": id,
-                    "nome": nome,
-                    "codigo":codigo}
-        }
-      )*/
       console.log("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/");
-      axios.post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/").then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert('Tutoria cadastrada com sucesso');
-        let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
-      });
+      axios
+        .post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/")
+        .then( () => {
+          // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+          alert('Tutoria cadastrada com sucesso');
+          let vm = this;
+          setTimeout(function(){
+            location.reload()
+          }, 1500)
+        });
     }
   }
-  /*methods: {
-    del(id, rowId){
-      axios.delete("eventos-remove/" + id).then(() => {
-        this.disciplinas.splice(rowId, 1);
-        alert('Evento removido com sucesso');
-      });
-    },
-    ativar(id){
-      axios.post("eventos-ativar/" + id).then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert('Evento ativado com sucesso');
-        let vm = this;
-        setTimeout(function(){
-          location.reload()
-        }, 1500)
-      });
-    }
-  }*/
 };
 </script>
+
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>
