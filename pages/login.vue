@@ -166,8 +166,6 @@ export default {
           this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
         })
         .catch(err => {
-          console.log(err);
-          console.log(err.response);
           Swal.fire({
             icon: "error",
             title: "Oops...",

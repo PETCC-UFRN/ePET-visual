@@ -30,11 +30,24 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Inicio exibição:</label>
-            <b-form-datepicker v-model="form.inicio_exibicao" class="mb-2" locale="pt-br" placeholder="Escolha uma data"></b-form-datepicker>
+            <b-form-datepicker
+              v-model="form.inicio_exibicao"
+              :min="minDate"
+              :max="form.inicio_exibicao"
+              class="mb-2"
+              locale="pt-br"
+              placeholder="Escolha uma data"
+            ></b-form-datepicker>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Fim exibição:</label>
-            <b-form-datepicker v-model="form.limite_exibicao" class="mb-2" locale="pt-br" placeholder="Escolha uma data"></b-form-datepicker>
+            <b-form-datepicker
+              v-model="form.limite_exibicao"
+              :min="form.inicio_exibicao"
+              class="mb-2"
+              locale="pt-br"
+              placeholder="Escolha uma data"
+            ></b-form-datepicker>
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary">
@@ -67,15 +80,27 @@ export default {
         corpo: "",
         inicio_exibicao: null,
         limite_exibicao: null,
-        ativo: false
+        ativo: false,
       },
-      errors: []
+      errors: [],
+      minDate: null,
     };
   },
   mounted() {
-    axios.get("noticia/" + this.$route.params.id).then(res => {
-      this.form = res.data;
-    });
+    this.minDate = moment().format('YYYY-MM-DD');
+    console.log(this.minDate);
+
+    axios
+      .get("noticia/" + this.$route.params.id)
+      .then(res => {
+        this.form = res.data;
+      })
+      .catch(err => {
+        Swal.fire({
+          title: err.response.data.titulo,
+          icon: "error"
+        });
+      });
   },
   methods: {
     submitForm() {
@@ -98,7 +123,9 @@ export default {
         Swal.fire({
           title: "Edição não realizada",
           icon: "error",
-          html: `<ul>${ this.errors.map(err => `<li>${err}</li>`) }</ul>`.replace('","', '').replace(',', '')
+          html: `<ul>${this.errors.map(err => `<li>${err}</li>`)}</ul>`
+            .replace('","', "")
+            .replace(",", "")
         });
       }
     },
@@ -115,12 +142,17 @@ export default {
       if (!this.form.inicio_exibicao) {
         this.errors.push("O campo início exibição é obrigatório.");
       }
-    
+
       if (!this.form.limite_exibicao) {
         this.errors.push("O campo fim exibição é obrigatório.");
       }
 
-      if (moment(this.form.inicio_exibicao).isAfter(this.form.limite_exibicao, "day")) {
+      if (
+        moment(this.form.inicio_exibicao).isAfter(
+          this.form.limite_exibicao,
+          "day"
+        )
+      ) {
         this.errors.push(
           "O campo inicio exibição ter valor anterior ao campo limite exibição."
         );
