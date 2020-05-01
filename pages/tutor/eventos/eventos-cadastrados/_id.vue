@@ -54,6 +54,12 @@
                 <strong>Total de vagas:</strong>
                 {{form.qtdVagas}}
               </p>
+              <p class="mt-0 mb-1">
+                <strong>Valor da inscrição:</strong>
+                {{new Intl
+                    .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                    .format(form.valor) }}
+              </p>
               <p class="mt-0 mb-0">
                 <strong>Local do curso:</strong>
                 {{form.local}}

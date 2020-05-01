@@ -7,18 +7,17 @@
             <h3><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h3>
           </b-col>
           <b-col>
-            <b-button
+            <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
               variant="primary"
-              @click.prevent="novoEvento()"
-            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</b-button>
+              to="/tutor/eventos/eventos-cadastrados/create"
+            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
         </b-row>
       </template>
       <div v-if="eventos.length > 0">
           
        <b-input-group  class="mt-3 mb-3" >
-          <!-- Always bind the id to the input so that it can be focused when needed -->
           <b-form-input
             v-model="keyword"
             placeholder="Busca por título"            
@@ -41,30 +40,35 @@
             <b-form-checkbox
                 size="lg"
                 v-model="row.item.ativo"
+                disabled
               ></b-form-checkbox>
           </template>
           <template v-slot:cell(pages)="row">
+            <nuxt-link
+              :to="`/tutor/eventos/organizadores/?idEvento=${row.item.idEvento}`"
+              class="btn btn-sm btn-teal"
+              style="color: white" 
+            ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
             <b-button
-              @click="del(row.item.idEvento, row.index)"
-              class="btn btn-sm"
-              style="color: white"  
-              variant="teal"
-            ><i class="fa fa-group fa-fw"></i> Organizadores</b-button>
-            <b-button
-              @click="del(row.item.idEvento, row.index)"
+              :to="`/tutor/eventos/participantes/?idEvento=${row.item.idEvento}`"
               class="btn btn-sm mt-2"
               variant="secondary"
             ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
           </template>
           <template v-slot:cell(actions)="row">
             <b-button
+              class="btn btn-sm btn-success mt-2"
+              v-if="row.item.ativo === false"
+              @click.prevent="ativar(row.item.idEvento)"
+            ><i class="fa fa-check fa-fw"></i> Ativar</b-button>
+            <nuxt-link
               class="btn btn-sm btn-cyan mt-2"
-              @click.prevent="informacoes(row.item.idEvento)"
-            ><i class="fa fa-eye fa-fw"></i> Informações</b-button>
-            <b-button
+              :to="`/tutor/eventos/eventos-cadastrados/${row.item.idEvento}`"
+            ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+            <nuxt-link
               class="btn btn-sm btn-warning mt-2"
-              @click.prevent="edit(row.item.idEvento)"
-            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
+              :to="`/tutor/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"              
+            ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
             <b-button
               @click.prevent="del(row.item.idEvento, row.index)"
               class="btn btn-sm btn-danger mt-2"
@@ -83,7 +87,9 @@
           />
         </nav>
       </div>
-      <div v-else>Nenhum evento cadastrado</div>
+      <div v-else>
+        <h5>Nenhum evento cadastrado</h5>
+      </div>
     </b-card>
   </div>
 </template>
@@ -106,7 +112,7 @@ export default {
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return new Intl.DateTimeFormat('pt-BR').format(new Date(value))} },
         { key: "ativo", sortable: true, label: "Ativo"  },
-        { key: "pages", sortable: true, label: "Páginas"  },
+        { key: "pages", sortable: true, label: "Páginas disponíveis"  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
@@ -118,36 +124,49 @@ export default {
           : this.eventos
     }
   },
-  mounted() {
-    axios
-      .get("eventos")
-      .then(res => {
-        this.eventos = res.data.content;
-      })
-      .catch( err => {
-        Swal.fire({
-          title: 'Falha no consumo da API',
-          icon: 'error',
-          text: err.response.status
-        })
-      });
+  mounted () {
+    this.consumindoEventosApi();
   },
   methods: {
-    informacoes(idEvento){
+    consumindoEventosApi() {
+      axios
+        .get("eventos")
+        .then(res => {
+          this.eventos = res.data.content;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum evento cadastrado",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }  
+        });
+    },
+    informacoes(idEvento) {
       this.$router.push(`/tutor/eventos/eventos-cadastrados/${idEvento}`);          
     },
     edit(idEvento){
       this.$router.push(`/tutor/eventos/eventos-cadastrados/edit/${idEvento}`);    
-    },
-    novoEvento(){
-      this.$router.push("/tutor/eventos/eventos-cadastrados/create");
     },
     del(id, rowId) {
       axios
         .delete(`eventos-remove/${id}`)
         .then( () => {
           Swal.fire({
-            title: 'Remoção realizada',
+            title: 'Evento removido',
             icon: 'success',
           })
           .then( () => {
@@ -156,13 +175,13 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Erro na edição',
-            icon: 'error',
-            text: err.response.status
+            title: 'Evento não removido',
+            icon: 'error'
           })
         });
     },
     ativar(id) {
+      e.preventDefault();
       axios
         .post(`eventos-ativar/${id}`)
         .then( () => {
@@ -171,17 +190,13 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            let vm = this;
-            setTimeout(function() {
-              location.reload();
-            }, 1500);
-          })
+            this.consumindoEventosApi();
+          });
         })
         .catch( err => {
           Swal.fire({
-            title: 'Erro na edição',
-            icon: 'error',
-            text: err.response.status
+            title: 'Erro na ativação',
+            icon: 'error'
           })
         });        
     }
