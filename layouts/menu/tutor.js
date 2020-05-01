@@ -36,7 +36,7 @@ export default {
                 {
                     name: 'Quadro de tutorias',
                     url: '/tutor/tutorias/quadro-de-tutorias',
-                    icon: 'icon-docs'
+                    icon: 'icon-graduation'
                 },
                 {
                     name: 'Tutorias ministradas',

@@ -43,7 +43,11 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning"><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina</b-button>
+            <b-button 
+              @click="cadastrar(row.item.idDisciplina)" 
+              class="btn btn-sm btn-warning"
+            ><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina
+            </b-button>
             <!--<a
               class="btn btn-sm btn-primary"
               style="color: white"
@@ -88,6 +92,8 @@ export default {
         nome: ""
       },
       disciplinas: [],
+      currentPessoa:[],
+      currentPetiano:[],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
@@ -95,6 +101,44 @@ export default {
         { key: "actions", sortable: true, label: "Ações disponíveis" },
       ]
     };
+  },
+  mounted() {
+    axios
+      .get("pessoas-usuario")
+      .then(res => {
+        this.currentPessoa = res.data;
+        if( res.data.tipo_usuario.nome != "petiano" && 
+          res.data.tipo_usuario.nome != "tutor") {
+          this.$router.push("/");
+        }
+      })
+      .finally( () =>{
+        axios
+          .get(`petianos-pessoa/${this.currentPessoa.idPessoa}`)
+          .then( res2 => {
+            this.currentPetiano = res2.data;
+          })
+          .catch( () => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhum petiano cadastrado",
+                icon: 'error',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Falha em consumir API",
+                icon: 'error',
+              })
+              .then( () => {
+                  let vm = this;
+                  setTimeout(function() {
+                    location.reload();
+                  }, 1500);
+              });
+            }
+          }); 
+      });
   },
   async fetch() { 
     this.consumirDisciplinasApi();
@@ -149,17 +193,23 @@ export default {
         });
     },
     cadastrar(id){
-      console.log("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/");
       axios
-        .post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/")
+        .post(`tutoria-cadastro/${this.currentPetiano.idPetiano}/${id}/`)
         .then( () => {
-          // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-          alert('Tutoria cadastrada com sucesso');
-          let vm = this;
-          setTimeout(function(){
-            location.reload()
-          }, 1500)
-        });
+          Swal.fire({
+            title: 'Disciplina tutorada cadastrada',
+            icon: 'success',
+          })
+          .then( () => {
+            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");        
+          });
+        })
+        .catch( () => {
+          Swal.fire({
+            title: 'Disciplina tutorada não cadastrada',
+            icon: 'error',
+          });
+        }); 
     }
   }
 };
