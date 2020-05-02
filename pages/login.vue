@@ -160,7 +160,7 @@ export default {
         })
         .then(res => {
           this.perfil = res.data;
-          this.$store.commit("setProfile", this.perfil.tipo_usuario);
+          Cookies.set("setProfile", this.perfil.tipo_usuario);
         })
         .then(res => {
           this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
