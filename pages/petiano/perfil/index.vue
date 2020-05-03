@@ -1,6 +1,5 @@
 <template>
   <b-card>
-    <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
     <b-form @submit.prevent="onSubmit">
       <b-form-group label="Email">
         <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
