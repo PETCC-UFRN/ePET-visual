@@ -102,10 +102,15 @@ export default {
       });
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       if (this.checkForm()) {
-        axios
-          .post("noticia-cadastro/" + this.$store.state.profile.idTipo_usuario, this.form)
+        let idPetiano = 1;
+        await axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
+          idPetiano = res.data.idPetiano;
+        });
+
+        await axios
+          .post("noticia-cadastro/" + idPetiano, this.form)
           .then(res => {
             Swal.fire({
               title: "Edição realizada",
