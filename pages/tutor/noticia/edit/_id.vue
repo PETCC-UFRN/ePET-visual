@@ -33,7 +33,6 @@
             <b-form-datepicker
               v-model="form.inicio_exibicao"
               :min="minDate"
-              :max="form.inicio_exibicao"
               class="mb-2"
               locale="pt-br"
               placeholder="Escolha uma data"
@@ -103,10 +102,15 @@ export default {
       });
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       if (this.checkForm()) {
-        axios
-          .post("noticia-cadastro/" + this.$route.params.id, this.form)
+        let idPetiano = 1;
+        await axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
+          idPetiano = res.data.idPetiano;
+        });
+
+        await axios
+          .post("noticia-cadastro/" + idPetiano, this.form)
           .then(res => {
             Swal.fire({
               title: "Edição realizada",

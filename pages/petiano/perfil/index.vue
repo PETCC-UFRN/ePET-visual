@@ -1,62 +1,70 @@
 <template>
-  <div>
-    <b-card>
-      <Perfil  :photoPath="photoPath" :nome="nome" :status="status" :email="email" 
-                :cpf="cpf" :nascimento="nascimento"/>
-    </b-card>
-    <!--<b-button class="float-left" variant="primary" href="#">Testar</b-button>-->
-  </div>
+  <b-card>
+    <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
+    <b-form @submit="onSubmit">
+      <b-form-group label="Email">
+        <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Nome">
+        <b-form-input v-model="form.pessoa.nome" required></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Area de interesse">
+        <b-form-input v-model="form.area_interesse"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Lattes">
+        <b-form-input v-model="form.lattes" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Site pessoal">
+        <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+  </b-card>
 </template>
 
 <script>
 import axios from "~/axios";
-import Perfil from "~/components/Perfil";
 import Cookies from "js-cookie";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components:{
-    Perfil
-  },
-  data(){
+  data() {
     return {
-      dataPerfil: {},
-      photoPath: require('~/assets/users/LemurePet.jpg'),
-      nome: '',
-      status: '',
-      email: '',
-      cpf: '',
-      nascimento: ''
-    }
+      form: {
+        pessoa: {
+          nome: '',
+          usuario: {
+            email: '',
+          }
+        }
+      }
+    };
   },
 
-  mounted(){
+  mounted() {
     this.getInfo();
   },
-
   methods: {
-    
-    getInfo(){
+    getInfo() {
       axios
-      .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
-      .then(res => {
-        this.dataPerfil = res.data;
-        this.photoPath = require('~/assets/users/LemurePet.jpg');
-        this.nome = this.dataPerfil.nome;
-        this.status = this.userType(this.dataPerfil.tipo_usuario.nome);
-        this.email = 'email';
-        this.cpf = this.dataPerfil.cpf;
-        this.nascimento = 'nascimento';
-        //console.log(this.dataPerfil);
-      })
+        .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
+        .then(res => {
+          this.form = res.data;
+        });
     },
-
-    userType(type){
-      let result = ''
-      if(type === 'comum'){ return 'Usuário';}
-      else if(type === 'petiano'){ return 'Petiano';}
-      else {return 'Tutor';} 
+    onSubmit(){
+      axios.post('petianos-editar/' + this.$store.state.profile.idPessoa, this.form).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }
 };
