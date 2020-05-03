@@ -160,14 +160,13 @@ export default {
         })
         .then(res => {
           this.perfil = res.data;
-          this.$store.commit("setProfile", this.perfil.tipo_usuario);
+          console.log(res);
+          Cookies.set("setProfile", this.perfil);
         })
         .then(res => {
           this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
         })
         .catch(err => {
-          console.log(err);
-          console.log(err.response);
           Swal.fire({
             icon: "error",
             title: "Oops...",

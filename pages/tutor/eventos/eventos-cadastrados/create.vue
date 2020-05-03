@@ -134,7 +134,7 @@ export default {
           Swal.fire({
             title: 'Erro no cadastro',
             icon: 'error',
-            text: err.response.status
+            text: err.res.status
           })
           .then( () => {
             this.$router.push('/tutor/eventos/eventos-cadastrados');

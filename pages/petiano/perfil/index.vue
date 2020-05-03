@@ -1,80 +1,82 @@
 <template>
-  <div>
-    <b-card>
-      <Perfil :dataPerfil="dataPerfil" :status="status" :petianoTutorInfo="true" :email="email"/>
-    </b-card>
-    <!--<b-button class="float-left" variant="primary" href="#">Testar</b-button>-->
-  </div>
+  <b-card>
+    <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
+    <b-form @submit.prevent="onSubmit">
+      <b-form-group label="Email">
+        <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Nome">
+        <b-form-input v-model="form.pessoa.nome" required></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Area de interesse">
+        <b-form-input v-model="form.area_interesse"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Lattes">
+        <b-form-input v-model="form.lattes" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Site pessoal">
+        <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+  </b-card>
 </template>
 
 <script>
 import axios from "~/axios";
-import Perfil from "~/components/Perfil";
 import Cookies from "js-cookie";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components:{
-    Perfil
-  },
-  data(){
+  data() {
     return {
-      dataPerfil: {},
-      dataPerfilPetiano: {},
-      fotoPath: require('~/assets/users/LemurePet.jpg'),
-      //editProfile: '/petiano/perfil/edit/'+ this.dataPerfil.tipo_usuario.id,
-      //nome: '',
-      status: '',
-      email: '',
-      //cpf: '',
-      //areaInteresse: '',
-      //dataIngresso: '',
-      //lattes: '',
-      //sitePessoal: '',
-      //perfilID: '',
-    }
+      form: {
+        pessoa: {
+          nome: "",
+          usuario: {
+            email: ""
+          }
+        }
+      }
+    };
   },
 
-  mounted(){
+  mounted() {
     this.getInfo();
   },
-
   methods: {
-    
-    getInfo(){
+    getInfo() {
       axios
-      .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
-      .then(res => {
-        this.dataPerfil = res.data;
-        console.log(this.dataPerfil);
-        //this.fotoPath = require('~/assets/users/LemurePet.jpg');
-        //this.nome = this.dataPerfil.nome;
-        this.status = this.userType(this.dataPerfil.tipo_usuario.nome);
-        this.email = this.dataPerfil.usuario.email;
-        //this.cpf = this.dataPerfil.cpf;
-        //this.perfilID = this.dataPerfil.tipo_usuario.idTipo_usuario;
-        //console.log(res);
-        //console.log(this.dataPerfil);
-        axios
-        .get("petianos-pessoa/" + this.dataPerfil.idPessoa, {headers: {'Authorization': `${Cookies.get("auth")}`}})
+        .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
-          this.dataPerfilPetiano = res.data;
-          //this.areaInteresse = this.dataPerfilPetiano.area_interesse;
-          //this.dataIngresso = this.dataPerfilPetiano.data_ingresso;
-          //this.lattes = this.dataPerfilPetiano.lattes;
-          //this.sitePessoal =this.dataPerfilPetiano.site_pessoal.replace("https://", "").replace("http://", "");
-          //console.log(this.dataPerfilPetiano);
-        })
-      })
-      
+          this.form = res.data;
+        });
     },
+    onSubmit() {
+      axios
+        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
-    userType(type){
-      let result = ''
-      if(type === 'comum'){ return 'Usuário';}
-      else if(type === 'petiano'){ return 'Petiano';}
-      else {return 'Tutor';} 
+      axios
+        .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
