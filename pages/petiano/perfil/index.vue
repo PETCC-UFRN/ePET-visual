@@ -1,7 +1,7 @@
 <template>
   <b-card>
     <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
-    <b-form @submit="onSubmit">
+    <b-form @submit.prevent="onSubmit">
       <b-form-group label="Email">
         <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
       </b-form-group>
@@ -39,9 +39,9 @@ export default {
     return {
       form: {
         pessoa: {
-          nome: '',
+          nome: "",
           usuario: {
-            email: '',
+            email: ""
           }
         }
       }
@@ -59,12 +59,24 @@ export default {
           this.form = res.data;
         });
     },
-    onSubmit(){
-      axios.post('petianos-editar/' + this.$store.state.profile.idPessoa, this.form).then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      });
+    onSubmit() {
+      axios
+        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      axios
+        .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

@@ -7,20 +7,19 @@
           class="btn btn-sm btn-primary float-right"
           style="color: white"
           href="/petiano/noticia/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia</a>
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia
+        </a>
       </template>
       <div v-if="noticias.length > 0">
-
-       <b-input-group  class="mt-1 mb-3" >
+        <b-input-group class="mt-1 mb-3">
           <!-- Always bind the id to the input so that it can be focused when needed -->
-          <b-form-input
-            v-model="keyword"
-            placeholder="Busca"            
-            type="text"
-          ></b-form-input>
+          <b-form-input v-model="keyword" placeholder="Busca" type="text"></b-form-input>
           <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-        </b-input-group-text>
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''">
+              <i class="fa fa-remove"></i>
+            </b-btn>
+          </b-input-group-text>
         </b-input-group>
 
         <b-table
@@ -38,18 +37,21 @@
           </template>
           <template v-slot:cell(actions)="row">
             <b-button
-                :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
-                class="btn btn-sm btn-primary"
-              ><i class="fa fa-eye" aria-hidden="true"></i>
- Visualizar</b-button>
+              :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
+              class="btn btn-sm btn-primary"
+            >
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              Visualizar
+            </b-button>
             <b-button
               :href="'/petiano/noticia/edit/' + row.item.idNoticia"
               class="btn btn-sm btn-warning"
-            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-            <b-button
-              @click="del(row.item.idNoticia, row.index)"
-              class="btn btn-sm btn-danger"
-            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+            >
+              <i class="fa fa-pencil fa-fw"></i> Editar
+            </b-button>
+            <b-button @click="del(row.item.idNoticia, row.index)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash-o fa-fw"></i> Remover
+            </b-button>
           </template>
         </b-table>
         <nav>
@@ -70,29 +72,51 @@
 
 <script>
 import axios from "~/axios";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
   data() {
     return {
-      keyword: '',
+      keyword: "",
       noticias: [],
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        { key: "inicio_exibicao", sortable: true, label: "Início de exibição" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} }, 
-        { key: "limite_exibicao", sortable: true, label: "Início de exibição" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} }, 
+        {
+          key: "inicio_exibicao",
+          sortable: true,
+          label: "Início de exibição",
+          formatter: value => {
+            if (value != null)
+              return moment(value).format('DD/MM/Y');
+          }
+        },
+        {
+          key: "limite_exibicao",
+          sortable: true,
+          label: "Início de exibição",
+          formatter: value => {
+            if (value != null)
+              return moment(value).format('DD/MM/Y');
+          }
+        },
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
-        { key: "actions", label: "Ações disponíveis"},
-      ],
+        { key: "actions", label: "Ações disponíveis" }
+      ]
     };
   },
   computed: {
-    items () {
+    items() {
       return this.keyword
-          ? this.noticias.filter(item => item.titulo.includes(this.keyword) || item.petiano.pessoa.nome.includes(this.keyword))
-          : this.noticias
+        ? this.noticias.filter(
+            item =>
+              item.titulo.includes(this.keyword) ||
+              item.petiano.pessoa.nome.includes(this.keyword)
+          )
+        : this.noticias;
     }
   },
   mounted() {
@@ -102,11 +126,22 @@ export default {
   },
   methods: {
     del(id, rowId) {
-      axios.delete("noticia-remove/" + id).then(() => {
-        this.noticias.splice(rowId, 1);
-        alert("Noticia removido com sucesso");
-      });
-    },
+      axios
+        .delete("noticia-remove/" + id)
+        .then(() => {
+          this.noticias.splice(rowId, 1);
+          Swal.fire({
+            title: "Noticia removida com sucesso",
+            icon: "success"
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+          title: "Remoção não realizada",
+          icon: "error",
+        });
+        });
+    }
   }
 };
 </script>
