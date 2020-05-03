@@ -1,23 +1,21 @@
 <template>
   <div>
+    <!--
     <b-card>
       <Perfil  :fotoPath="fotoPath" :nome="nome" :status="status" :email="email" 
                 :cpf="cpf" :editProfile="editProfile" :petianoTutorInfo="true"
                 :areaInteresse="areaInteresse" :dataIngresso="dataIngresso"
                 :lattes="lattes" :sitePessoal="sitePessoal"/>
     </b-card>
-<<<<<<< HEAD
-    <!--<b-button class="float-left" variant="primary" href="#">Testar</b-button>-->
-=======
->>>>>>> 1c73e00e1eed74428e7d2c0f6c4bcb5ce2305002
+    -->
   </div>
 </template>
 
 <script>
-import axios from "~/axios";
-import Perfil from "~/components/Perfil";
-import Cookies from "js-cookie";
-
+//import axios from "~/axios";
+//import Perfil from "~/components/Perfil";
+//import Cookies from "js-cookie";
+/*
 export default {
   name: "dashboard",
   layout: "menu/tutor",
@@ -80,4 +78,5 @@ export default {
     }
   }
 };
+*/
 </script>
