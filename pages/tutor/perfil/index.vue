@@ -1,82 +1,100 @@
 <template>
-  <div>
-    <!--
-    <b-card>
-      <Perfil  :fotoPath="fotoPath" :nome="nome" :status="status" :email="email" 
-                :cpf="cpf" :editProfile="editProfile" :petianoTutorInfo="true"
-                :areaInteresse="areaInteresse" :dataIngresso="dataIngresso"
-                :lattes="lattes" :sitePessoal="sitePessoal"/>
-    </b-card>
-    -->
-  </div>
+  <b-card>
+    <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
+    <b-form @submit.prevent="onSubmit">
+      <b-form-group label="Email">
+        <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Nome">
+        <b-form-input v-model="form.pessoa.nome" required></b-form-input>
+            <b-form-text id="password-help-block">
+              Este nome estará presente nos certificados e declarações providos pelo sistema.
+            </b-form-text>
+      </b-form-group>
+
+      <b-form-group label="Area de interesse">
+        <b-form-input v-model="form.area_interesse"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Lattes">
+        <b-form-input v-model="form.lattes" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Site pessoal">
+        <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
+      </b-form-group>
+
+      <b-button class="float-left" type="submit" @click="submitAlert" variant="primary">Salvar</b-button>
+      <b-button class="float-right" type="reset" variant="danger">Resetar</b-button>
+    </b-form>
+  </b-card>
 </template>
 
 <script>
-//import axios from "~/axios";
-//import Perfil from "~/components/Perfil";
-//import Cookies from "js-cookie";
-/*
+import axios from "~/axios";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+
 export default {
   name: "dashboard",
-  layout: "menu/tutor",
-  components:{
-    Perfil
-  },
-  data(){
+  layout: "menu/petiano",
+  data() {
     return {
-      dataPerfil: {},
-      dataPerfilTutor: {},
-      fotoPath: require('~/assets/users/LemureTutor.jpg'),
-      editProfile: '/tutor/perfil/create',
-      nome: '',
-      status: '',
-      email: '',
-      cpf: '',
-      areaInteresse: '',
-      dataIngresso: '',
-      lattes: '',
-      sitePessoal: ''
-    }
+      form: {
+        pessoa: {
+          nome: "",
+          usuario: {
+            email: ""
+          }
+        }
+      }
+    };
   },
 
-  mounted(){
+  mounted() {
     this.getInfo();
   },
-
   methods: {
-    
-    async getInfo(){
-      axios
-      .get("pessoas-usuario", {headers: {'Authorization': `${Cookies.get("auth")}`}})
-      .then(res => {
-        this.dataPerfil = res.data;
-        this.fotoPath = require('~/assets/users/LemureTutor.jpg');
-        this.nome = this.dataPerfil.nome;
-        this.status = this.userType(this.dataPerfil.tipo_usuario.nome);
-        this.email = this.dataPerfil.usuario.email;
-        this.cpf = this.dataPerfil.cpf;
-        console.log(this.dataPerfil);
-        axios
-        .get("petianos-pessoa/" + this.dataPerfil.idPessoa, {headers: {'Authorization': `${Cookies.get("auth")}`}})
+    getInfo() {
+     
+     axios
+        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
-          this.dataPerfilTutor = res.data;
-          this.areaInteresse = this.dataPerfilTutor.area_interesse;
-          this.dataIngresso = this.dataPerfilTutor.data_ingresso;
-          this.lattes = this.dataPerfilTutor.lattes;
-          this.sitePessoal =this.dataPerfilTutor.site_pessoal.replace("https://", "").replace("http://", "");
-          //console.log(this.dataPerfilTutor);
+          //this.form = res.data;
+          console.log(res.data);
+        });
+    },
+    
+    onSubmit() {
+      axios
+        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+        .then(res => {
+          console.log("res");
         })
-      })
-      
+        .catch(err => {
+          console.log(err);
+        });
+
+      axios
+        .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
-    userType(type){
-      let result = ''
-      if(type === 'comum'){ return 'Usuário';}
-      else if(type === 'petiano'){ return 'Petiano';}
-      else {return 'Tutor';} 
+    submitAlert(){
+      if(!(this.form.pessoa.nome=="")){
+        Swal.fire({
+              icon: 'success',
+              title: 'Salvo com sucesso',
+              confirmButtonColor: '#4DBD74',
+            })
+      }
     }
   }
 };
-*/
 </script>

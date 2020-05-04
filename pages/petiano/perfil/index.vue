@@ -84,11 +84,13 @@ export default {
     },
 
     submitAlert(){
-      Swal.fire({
-            icon: 'success',
-            title: 'Salvo com sucesso',
-            confirmButtonColor: '#4DBD74',
-          })
+      if(!(this.form.pessoa.nome=="")){
+        Swal.fire({
+              icon: 'success',
+              title: 'Salvo com sucesso',
+              confirmButtonColor: '#4DBD74',
+            })
+      }
     }
   }
 };
