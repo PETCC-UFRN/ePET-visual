@@ -19,7 +19,7 @@
                 <div slot="header">
                   <b-row>
                     <b-col>
-                      <h3><i class="fa fa-align-justify"></i>  Próximos eventos</h3>
+                      <h3><i class="fa fa-calendar-check-o"></i> Próximos eventos</h3>
                     </b-col>
                   </b-row>
                 </div>
@@ -34,11 +34,14 @@
                           <strong>Descrição: </strong>{{evento.descricao}}
                         </p>
                         <div class="card-text">
-                          <p  class="mt-0 mb-0"><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
-                          <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
-                          <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}.</p>
-                          <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
-                          <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
+                          <p  class="mt-0 mb-0"><b>Período de inscrição:</b> 
+                            {{evento.d_inscricao | moment}} a
+                            {{evento.d_inscricao_fim | moment}}
+                          </p>
+                          <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
+                          <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}} horas</p>
+                          <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00</p>
+                          <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}</p>
                         </div>
                       </b-card-body>
                     </b-collapse>
@@ -55,7 +58,7 @@
               <div slot="header">
                 <b-row>
                   <b-col>
-                    <h3><i class="fa fa-group fa-lg mt-4"></i> Petianos atuais</h3> 
+                    <h3><i class="fa fa-group mt-2"></i> Petianos atuais</h3> 
                   </b-col>
                 </b-row>
               </div>
@@ -75,6 +78,7 @@
                     v-model="currentPage"
                     prev-text="Anterior"
                     next-text="Próximo"
+                    pills
                     hide-goto-end-buttons
                   />
                 </nav>
@@ -119,6 +123,7 @@
 <script>
 import axios from "~/axios";
 import style from "~/assets/css/loading.css";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -149,6 +154,11 @@ export default {
     axios.get("petianos-atuais").then(res => {
       this.petianosAtuais = res.data.content;
     });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   computed: {
     resNoticias: function() {
