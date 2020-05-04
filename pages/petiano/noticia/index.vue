@@ -21,13 +21,12 @@
             </b-btn>
           </b-input-group-text>
         </b-input-group>
-
         <b-table
           responsive="sm"
-          :items="items"
+          :items="noticias"
           :current-page="currentPage"
           :bordered="true"
-          :per-page="10"
+          :per-page="20"
           :fields="fields"
         >
           <template v-slot:cell(ativo)="row">
@@ -54,16 +53,9 @@
             </b-button>
           </template>
         </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="items.length"
-            :per-page="10"
-            v-model="currentPage"
-            prev-text="Anterior"
-            next-text="Próximo"
-            hide-goto-end-buttons
-          />
-        </nav>
+        <div>
+          <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+        </div>
       </div>
       <div v-else>Nenhuma notícia cadastrada</div>
     </b-card>
@@ -74,15 +66,21 @@
 import axios from "~/axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
+  components: {
+    Pagination
+  },
   data() {
     return {
       keyword: "",
       noticias: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
         {
@@ -90,8 +88,7 @@ export default {
           sortable: true,
           label: "Início de exibição",
           formatter: value => {
-            if (value != null)
-              return moment(value).format('DD/MM/Y');
+            if (value != null) return moment(value).format("DD/MM/Y");
           }
         },
         {
@@ -99,8 +96,7 @@ export default {
           sortable: true,
           label: "Início de exibição",
           formatter: value => {
-            if (value != null)
-              return moment(value).format('DD/MM/Y');
+            if (value != null) return moment(value).format("DD/MM/Y");
           }
         },
         { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
@@ -108,21 +104,29 @@ export default {
       ]
     };
   },
-  computed: {
-    items() {
-      return this.keyword
-        ? this.noticias.filter(
-            item =>
-              item.titulo.includes(this.keyword) ||
-              item.petiano.pessoa.nome.includes(this.keyword)
-          )
-        : this.noticias;
-    }
-  },
+  // TODO:: esperando back implementar o search de noticias
+  // computed: {
+  //   items() {
+  //     return this.keyword
+  //       ? this.noticias.filter(
+  //           item =>
+  //             item.titulo.includes(this.keyword) ||
+  //             item.petiano.pessoa.nome.includes(this.keyword)
+  //         )
+  //       : this.noticias;
+  //   }
+  // },
   mounted() {
-    axios.get("noticia").then(res => {
-      this.noticias = res.data.content;
-    });
+    this.getNoticias();
+  },
+  watch: {
+    currentPage: function(val) {
+      axios.get("noticia?page=" + val).then(res => {
+        console.log(res);
+        this.noticias = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
   },
   methods: {
     del(id, rowId) {
@@ -137,10 +141,19 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-          title: "Remoção não realizada",
-          icon: "error",
+            title: "Remoção não realizada",
+            icon: "error"
+          });
         });
-        });
+    },
+    setCurrentPage(val) {
+      this.currentPage = val;
+    },
+    getNoticias() {
+      axios.get("noticia").then(res => {
+        this.noticias = res.data.content;
+        this.numItems = res.data.totalElements;
+      });
     }
   }
 };

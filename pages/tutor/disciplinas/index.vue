@@ -90,7 +90,6 @@ export default {
       ],
     }
   },
-  
   mounted() {
     this.getDisciplinas();
     this.$on('currentPage', )
@@ -98,7 +97,6 @@ export default {
   watch: {
     currentPage: function(val){
       axios.get("disciplinas?page=" + val).then(res => {
-        console.log(res.data);
         this.disciplinas = res.data.content;
         this.numPages = res.data.totalElements;
       });
@@ -126,7 +124,7 @@ export default {
       });
     },
     search() {
-      axios.get('https://epet.imd.ufrn.br:8443/api/pesquisar-diciplina/Melhor').then(res => {
+      axios.get('pesquisar-diciplina/' + this.keyword).then(res => {
         this.numItems = res.data.totalElements;
         this.disciplinas = res.data.content;
       });
