@@ -8,6 +8,9 @@
 
       <b-form-group label="Nome">
         <b-form-input v-model="form.pessoa.nome" required></b-form-input>
+            <b-form-text id="password-help-block">
+              Este nome estará presente nos certificados e declarações providos pelo sistema.
+            </b-form-text>
       </b-form-group>
 
       <b-form-group label="Area de interesse">
@@ -22,8 +25,8 @@
         <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button class="float-left" type="submit" @click="submitAlert" variant="primary">Salvar</b-button>
+      <b-button class="float-right" type="reset" variant="danger">Resetar</b-button>
     </b-form>
   </b-card>
 </template>
@@ -31,6 +34,7 @@
 <script>
 import axios from "~/axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
@@ -77,6 +81,14 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+
+    submitAlert(){
+      Swal.fire({
+            icon: 'success',
+            title: 'Salvo com sucesso',
+            confirmButtonColor: '#4DBD74',
+          })
     }
   }
 };
