@@ -35,8 +35,8 @@
                         </p>
                         <div class="card-text">
                           <p  class="mt-0 mb-0"><b>Período de inscrição:</b> 
-                            {{new Intl.DateTimeFormat('pt-BR').format(new Date(evento.d_inscricao))}} a 
-                            {{new Intl.DateTimeFormat('pt-BR').format(new Date(evento.d_inscricao_fim))}}
+                            {{evento.d_inscricao | moment}} a
+                            {{evento.d_inscricao_fim | moment}}
                           </p>
                           <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
                           <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}} horas</p>
@@ -123,6 +123,7 @@
 <script>
 import axios from "~/axios";
 import style from "~/assets/css/loading.css";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -153,6 +154,11 @@ export default {
     axios.get("petianos-atuais").then(res => {
       this.petianosAtuais = res.data.content;
     });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   computed: {
     resNoticias: function() {
