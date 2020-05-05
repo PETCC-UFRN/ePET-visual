@@ -37,6 +37,7 @@ import axios from "~/axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
+
 export default {
   name: "dashboard",
   layout: "menu/usuario",
@@ -54,18 +55,21 @@ export default {
   },
 
   mounted() {
-    this.getInfo();
+   // console.log(this.$store.state.profile.idPessoa);
+    //this.getInfo();
   },
   methods: {
     getInfo() {
-     /*
+      /*
+     console.log(this.$store.state.profile.idPessoa);
      axios
-        .get("/pessoas-usuario")// + this.$store.state.profile.idPessoa)
+        .get("/pessoas/" + this.$store.state.profile.idPessoa)
         .then(res => {
           //this.form = res.data;
           console.log(res.data);
         });
         */
+        
     },
     /*
     onSubmit() {
