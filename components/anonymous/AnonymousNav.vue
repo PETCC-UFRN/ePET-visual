@@ -50,6 +50,9 @@
 </template>
 
 <style scoped>
+a {
+  border-radius: 0px !important;
+}
 .m{
   font-weight: bold;
   font-size: 24px; 

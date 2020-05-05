@@ -87,7 +87,6 @@ export default {
   },
   mounted() {
     this.minDate = moment().format('YYYY-MM-DD');
-    console.log(this.minDate);
 
     axios
       .get("noticia/" + this.$route.params.id)

@@ -2,16 +2,16 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Pessoas cadastradas</h3>
+        <h3><i class="fa fa-group px-2"></i>Pessoas cadastradas</h3>
       </template>
       <div v-if="pessoas.length > 0">
         <b-input-group class="mt-3 mb-3">
-          <b-form-input placeholder="Busca" type="text" v-model="keyword"></b-form-input>
+          <b-form-input placeholder="Buscar por nome ou por CPF" type="text" v-model="keyword"></b-form-input>
           <b-input-group-append>
-            <b-button variant="success" @click="search">
+            <b-button class="bbutton" variant="success" @click="search">
               <i class="fa fa-search"></i>
             </b-button>
-            <b-button variant="outline-danger" @click="getPessoas">
+            <b-button class="bbutton" variant="outline-danger" @click="getPessoas">
               <i class="fa fa-remove"></i>
             </b-button>
           </b-input-group-append>
@@ -46,6 +46,7 @@
           <b-pagination
             :total-rows="numPages"
             :per-page="20"
+            pills
             v-model="currentPage"
             prev-text="Anterior"
             next-text="Próximo"
@@ -98,7 +99,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: false },
+        { key: "cpf", sortable: false, label: "CPF"},
         {
           key: "tipo_usuario",
           sortable: true,
@@ -206,7 +207,7 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  text-align: center;
+.bbutton {
+  border-radius: 0px !important;
 }
 </style>
