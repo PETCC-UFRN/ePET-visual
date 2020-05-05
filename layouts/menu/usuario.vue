@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <AppHeader />
+    <AppHeader :headerItems="head"/>
     <div class="app-body">
       <Sidebar :navItems="nav" />
       <main class="main">
@@ -16,6 +16,8 @@
 
 <script>
 import nav from "./usuario";
+import head from "./usuarioHeader";
+
 import {
   Header as AppHeader,
   Sidebar,
@@ -33,12 +35,13 @@ export default {
   },
   data() {
     return {
-      nav: nav.items
+      nav: nav.items,
+      head: head.items
     };
   },
   head () {
     return {
-      title: 'PET-CC UFRN- Usuário'
+      title: 'PET-CC UFRN - Usuário'
     }
   },
   computed: {

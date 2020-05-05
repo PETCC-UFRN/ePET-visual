@@ -1,17 +1,18 @@
 <template>
   <b-card>
-    <!-- @submit="onSubmit" @reset="onReset" v-if="show" -->
+    
     <b-form @submit.prevent="onSubmit">
       <b-form-group label="Email">
-        <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
+        <b-form-input :value="form.usuario.email" type="email" required disabled></b-form-input>
       </b-form-group>
 
       <b-form-group label="Nome">
-        <b-form-input v-model="form.pessoa.nome" required></b-form-input>
+        <b-form-input v-model="form.nome" required></b-form-input>
             <b-form-text id="password-help-block">
               Este nome estará presente nos certificados e declarações providos pelo sistema.
             </b-form-text>
       </b-form-group>
+      
 <!--
       <b-form-group label="Area de interesse">
         <b-form-input v-model="form.area_interesse"></b-form-input>
@@ -39,62 +40,48 @@ import Swal from "sweetalert2";
 
 
 export default {
-  name: "dashboard",
+ 
+ name: "dashboard",
   layout: "menu/usuario",
   data() {
     return {
       form: {
-        pessoa: {
           nome: "",
           usuario: {
             email: ""
           }
         }
-      }
     };
   },
 
   mounted() {
-   // console.log(this.$store.state.profile.idPessoa);
-    //this.getInfo();
+    this.getInfo();
   },
   methods: {
     getInfo() {
-      /*
-     console.log(this.$store.state.profile.idPessoa);
+      
      axios
         .get("/pessoas/" + this.$store.state.profile.idPessoa)
         .then(res => {
-          //this.form = res.data;
-          console.log(res.data);
+          this.form = res.data;
         });
-        */
         
     },
-    /*
+    
     onSubmit() {
       axios
-        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.nome})
         .then(res => {
-          console.log("res");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
-      axios
-        .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
-        .then(res => {
-          console.log(res);
         })
         .catch(err => {
           console.log(err);
         });
     },
-    */
+    
 
     submitAlert(){
-      if(!(this.form.pessoa.nome=="")){
+      
+      if(!(this.form.nome=="")){
         Swal.fire({
               icon: 'success',
               title: 'Salvo com sucesso',
