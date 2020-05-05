@@ -1,6 +1,5 @@
 <template>
   <b-card>
-    
     <b-form @submit.prevent="onSubmit">
       <b-form-group label="Email">
         <b-form-input :value="form.usuario.email" type="email" required disabled></b-form-input>
@@ -8,12 +7,12 @@
 
       <b-form-group label="Nome">
         <b-form-input v-model="form.nome" required></b-form-input>
-            <b-form-text id="password-help-block">
-              Este nome estará presente nos certificados e declarações providos pelo sistema.
-            </b-form-text>
+        <b-form-text
+          id="password-help-block"
+        >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
       </b-form-group>
-      
-<!--
+
+      <!--
       <b-form-group label="Area de interesse">
         <b-form-input v-model="form.area_interesse"></b-form-input>
       </b-form-group>
@@ -38,19 +37,17 @@ import axios from "~/axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
-
 export default {
- 
- name: "dashboard",
+  name: "dashboard",
   layout: "menu/usuario",
   data() {
     return {
       form: {
-          nome: "",
-          usuario: {
-            email: ""
-          }
+        nome: "",
+        usuario: {
+          email: ""
         }
+      }
     };
   },
 
@@ -59,34 +56,43 @@ export default {
   },
   methods: {
     getInfo() {
-      
-     axios
-        .get("/pessoas/" + this.$store.state.profile.idPessoa)
-        .then(res => {
-          this.form = res.data;
-        });
-        
+      axios.get("/pessoas/" + this.$store.state.profile.idPessoa).then(res => {
+        this.form = res.data;
+      });
     },
-    
+
     onSubmit() {
       axios
-        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.nome})
-        .then(res => {
+        .post("pessoas-atualizar/", {
+          ...this.$store.state.profile,
+          nome: this.form.nome
         })
+        .then(res => {})
         .catch(err => {
+          this.submitAlert(true);
           console.log(err);
         });
+      this.submitAlert(false);
     },
-    
 
-    submitAlert(){
-      
-      if(!(this.form.nome=="")){
+    submitAlert(withError) {
+      let icon_ = "success";
+      let title_ = "Salvo com sucesso";
+      let text_ = "";
+
+      if (withError) {
+        icon_ = "error";
+        title_ = "Erro ao salvar!";
+        text_ = "Por favor, tente novamente.";
+      }
+
+      if (!(this.form.pessoa.nome == "")) {
         Swal.fire({
-              icon: 'success',
-              title: 'Salvo com sucesso',
-              confirmButtonColor: '#4DBD74',
-            })
+          icon: icon_,
+          title: title_,
+          text: text_,
+          confirmButtonColor: "#4DBD74"
+        });
       }
     }
   }

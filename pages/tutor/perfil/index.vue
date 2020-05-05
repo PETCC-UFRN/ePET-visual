@@ -25,7 +25,7 @@
         <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
       </b-form-group>
 
-      <b-button class="float-left" type="submit" @click="submitAlert" variant="primary">Salvar</b-button>
+      <b-button class="float-left" type="submit" variant="primary">Salvar</b-button>
       <b-button class="float-right" type="reset" variant="danger">Resetar</b-button>
     </b-form>
   </b-card>
@@ -38,7 +38,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       form: {
@@ -59,9 +59,9 @@ export default {
     getInfo() {
      
      axios
-        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
+        .get("/petianos/" + this.$store.state.profile.idPessoa)
         .then(res => {
-          //this.form = res.data;
+          this.form = res.data;
           console.log(res.data);
         });
     },
@@ -70,9 +70,10 @@ export default {
       axios
         .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
         .then(res => {
-          console.log("res");
+          console.log(res);
         })
         .catch(err => {
+           this.submitAlert(true);
           console.log(err);
         });
 
@@ -82,19 +83,33 @@ export default {
           console.log(res);
         })
         .catch(err => {
+          this.submitAlert(true);
           console.log(err);
         });
+
+        this.submitAlert(false);
     },
 
-    submitAlert(){
+    submitAlert(withError){
+      let icon_ = 'success';
+      let title_ = 'Salvo com sucesso';
+      let text_ = '';
+
+      if(withError){
+        icon_ = 'error';
+        title_ = 'Erro ao salvar!'
+        text_ = 'Por favor, tente novamente.'
+      }
+
       if(!(this.form.pessoa.nome=="")){
         Swal.fire({
-              icon: 'success',
-              title: 'Salvo com sucesso',
+              icon: icon_,
+              title: title_,
+              text: text_,
               confirmButtonColor: '#4DBD74',
             })
       }
-    }
+    },
   }
 };
 </script>
