@@ -24,9 +24,7 @@
         <b-table
           responsive="sm"
           :items="noticias"
-          :current-page="currentPage"
           :bordered="true"
-          :per-page="20"
           :fields="fields"
         >
           <template v-slot:cell(ativo)="row">
