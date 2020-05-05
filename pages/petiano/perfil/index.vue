@@ -52,19 +52,19 @@ export default {
     };
   },
 
-  mounted() {
+    mounted() {
     this.getInfo();
   },
   methods: {
     getInfo() {
-      console.log(this.$store.state.profile.idPessoa);
-      axios
-        .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
+     axios
+        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
+          this.form = res.data;
           console.log(res.data);
-          //this.form = res.data;
         });
     },
+    
     onSubmit() {
       axios
         .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
@@ -72,7 +72,7 @@ export default {
           console.log(res);
         })
         .catch(err => {
-          this.submitAlert(true);
+           this.submitAlert(true);
           console.log(err);
         });
 
@@ -85,10 +85,11 @@ export default {
           this.submitAlert(true);
           console.log(err);
         });
+
         this.submitAlert(false);
     },
 
-  submitAlert(withError){
+    submitAlert(withError){
       let icon_ = 'success';
       let title_ = 'Salvo com sucesso';
       let text_ = '';

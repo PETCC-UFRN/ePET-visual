@@ -57,9 +57,8 @@ export default {
   },
   methods: {
     getInfo() {
-     
      axios
-        .get("/petianos/" + this.$store.state.profile.idPessoa)
+        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
           this.form = res.data;
           console.log(res.data);
