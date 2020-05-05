@@ -164,6 +164,7 @@ export default {
           Cookies.set("setProfile", this.perfil);
         })
         .then(res => {
+          //console.log(this.perfil.tipo_usuario.nome);
           this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
         })
         .catch(err => {
