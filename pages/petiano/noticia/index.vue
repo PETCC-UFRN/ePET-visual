@@ -11,22 +11,25 @@
           <i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia
         </a>
       </template>
+      <b-input-group class="mt-1 mb-3">
+        <b-form-input
+          v-model="keyword"
+          placeholder="Busca por nome ou por código"
+          type="text"
+          v-on:keyup.enter="search"
+        ></b-form-input>
+        <b-input-group-append>
+          <b-button variant="success" @click="search">
+            <i class="fa fa-search"></i>
+          </b-button>
+          <b-button variant="outline-danger" @click="getNoticias">
+            <i class="fa fa-remove"></i>
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
+
       <div v-if="noticias.length > 0">
-        <b-input-group class="mt-1 mb-3">
-          <!-- Always bind the id to the input so that it can be focused when needed -->
-          <b-form-input v-model="keyword" placeholder="Busca" type="text"></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''">
-              <i class="fa fa-remove"></i>
-            </b-btn>
-          </b-input-group-text>
-        </b-input-group>
-        <b-table
-          responsive="sm"
-          :items="noticias"
-          :bordered="true"
-          :fields="fields"
-        >
+        <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
           <template v-slot:cell(ativo)="row">
             <div class="form-check">
               <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
@@ -102,25 +105,12 @@ export default {
       ]
     };
   },
-  // TODO:: esperando back implementar o search de noticias
-  // computed: {
-  //   items() {
-  //     return this.keyword
-  //       ? this.noticias.filter(
-  //           item =>
-  //             item.titulo.includes(this.keyword) ||
-  //             item.petiano.pessoa.nome.includes(this.keyword)
-  //         )
-  //       : this.noticias;
-  //   }
-  // },
   mounted() {
     this.getNoticias();
   },
   watch: {
     currentPage: function(val) {
       axios.get("noticia?page=" + val).then(res => {
-        console.log(res);
         this.noticias = res.data.content;
         this.numPages = res.data.totalElements;
       });
@@ -149,6 +139,12 @@ export default {
     },
     getNoticias() {
       axios.get("noticia").then(res => {
+        this.noticias = res.data.content;
+        this.numItems = res.data.totalElements;
+      });
+    },
+    search() {
+      axios.get("pesquisar-noticia/" + this.keyword).then(res => {
         this.noticias = res.data.content;
         this.numItems = res.data.totalElements;
       });
