@@ -29,16 +29,15 @@
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-search"></i></b-btn>
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
             </b-input-group-text>
             <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
             </b-input-group-text>
           </b-input-group>
-
           <b-table
             responsive="sm"
-            :items="items"
+            :items="eventos"
             :current-page="currentPage"
             :bordered="true"
             :per-page="10"
@@ -82,7 +81,7 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="items.length"
+              :total-rows="eventos.length"
               :per-page="10"
               pills
               v-model="currentPage"
@@ -128,17 +127,41 @@ export default {
       ]
     };
   },
-  computed: {
-    items () {
-      return this.keyword
-          ? this.eventos.filter(item => item.titulo.includes(this.keyword) || item.local.includes(this.keyword))
-          : this.eventos
-    }
-  },
   mounted () {
     this.consumindoEventosApi();
   },
   methods: {
+    cancelSearch() {
+      this.keyword = ''
+      this.consumindoEventosApi()
+    },
+    search() {
+      axios
+        .get(`pesquisar-evento/${this.keyword}`)
+        .then( res => {
+          this.eventos = res.data.content;
+        })
+        .catch( err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhum evento cadastrado",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Falha em consumir API",
+                icon: 'error',
+              })
+              .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+              });
+            }  
+        });
+    },
     consumindoEventosApi() {
       axios
         .get("eventos")
