@@ -9,7 +9,6 @@
           <b-col>
             <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
-              variant="primary"
               to="/tutor/eventos/eventos-cadastrados/create"
             ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
@@ -30,8 +29,11 @@
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-search"></i></b-btn>
+            </b-input-group-text>
+            <b-input-group-text slot="append">
               <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-          </b-input-group-text>
+            </b-input-group-text>
           </b-input-group>
 
           <b-table

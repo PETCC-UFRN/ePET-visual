@@ -4,7 +4,7 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h3><i class="fa fa-edit"></i> Editando evento</h3>
+            <h2><i class="fa fa-edit"></i> Editando evento</h2>
           </b-col>
         </b-row>
       </div>
@@ -253,3 +253,18 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h2 {
+  font-weight: 300;
+}
+
+strong {
+  color: gray;
+}
+
+em {
+  color: gray;
+  font-weight: 500;
+}
+</style>
