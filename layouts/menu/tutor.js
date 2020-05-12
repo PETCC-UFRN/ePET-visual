@@ -46,11 +46,6 @@ export default {
             ]
         },
         {
-            name: 'Disciplinas',
-            url: '/tutor/disciplinas',
-            icon: 'icon-book-open'
-        },
-        {
             name: 'Pessoas cadastradas',
             url: '/tutor/pessoas-cadastradas',
             icon: 'icon-people'
