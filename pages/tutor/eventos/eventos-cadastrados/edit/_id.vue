@@ -176,7 +176,10 @@
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <b-button @click.prevent="goToEventosCadastrados()" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+            <nuxt-link to="/tutor/eventos/eventos-cadastrados" 
+              class="btn btn-danger">
+              <i class="fa fa-ban"></i> Cancelar
+            </nuxt-link>
           </div>
         </form>
       </div>
@@ -224,9 +227,6 @@ export default {
     });
   },
   methods: {
-    goToEventosCadastrados() {
-      this.$router.push('/tutor/eventos/eventos-cadastrados');
-    },
     submitForm(e) {
       axios
         .post("eventos-cadastrar", this.form)

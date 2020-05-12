@@ -8,7 +8,9 @@
           </b-col>
           <b-col>
             <div class="card-actions">
-              <b-button @click.prevent="goToEventosCadastrados()" class="btn btn-close btn-lg"><i class="icon-close"></i></b-button>
+              <nuxt-link  to="/tutor/eventos/eventos-cadastrados" class="btn btn-close btn-lg">
+                <i class="icon-close"></i>
+              </nuxt-link>
             </div>
           </b-col>
         </b-row>
@@ -242,9 +244,6 @@ export default {
     }
   },
   methods: {
-    goToEventosCadastrados() {
-      this.$router.push('/tutor/eventos/eventos-cadastrados');
-    },
     submitForm(e) {
       axios
         .post("eventos-cadastrar", this.form)
