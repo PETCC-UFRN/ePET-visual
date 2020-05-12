@@ -1,71 +1,60 @@
 <template>
   <div class="col-md-12">
-    <b-card header-tag="header">
+
+    <b-card>
       <template v-slot:header>
         <b-row>
-          <b-col cols="12">
-            <h3>
-              <i class="fa fa-calendar-check-o px-2"></i>Evento cadastrado
-            </h3>
+          <b-col>
+            <h3>Informações públicas</h3>
           </b-col>
         </b-row>
       </template>
       <b-card-body>
-        <b-card :title="form.titulo" title-tag="h5">
-          <template v-slot:header>
-            <b-row>
-              <b-col>
-                <h4>Título</h4>
-              </b-col>
-            </b-row>
-          </template>
-        </b-card>
-        <b-card header-tag="header">
-          <template v-slot:header>
-            <b-row>
-              <b-col>
-                <h5>Descrição</h5>
-              </b-col>
-            </b-row>
-          </template>
-          <b-card-body>
-            <p>{{form.descricao}}</p>
-          </b-card-body>
-        </b-card>
-        <b-card header-tag="header">
-          <template v-slot:header>
-            <b-row>
-              <b-col>
-                <h5>Outras informações</h5>
-              </b-col>
-            </b-row>
-          </template>
-          <b-card-body>
-              <p class="mt-0 mb-1">
-                <strong>Perído de inscrições:</strong>
-                <span v-if="this.form.d_inscricao !== ''">{{ new Intl.DateTimeFormat('pt-BR').format(new Date(this.form.d_inscricao))}}</span> -
-                <span v-if="this.form.d_inscricao_fim !== ''">{{ new Intl.DateTimeFormat('pt-BR').format(new Date(this.form.d_inscricao_fim))}}</span>
-              </p>
-              <p class="mt-0 mb-1">
-                <strong>Carga horária:</strong>
-                {{form.qtdCargaHoraria}} horas
-              </p>
-              <p class="mt-0 mb-1">
-                <strong>Total de vagas:</strong>
-                {{form.qtdVagas}}
-              </p>
-              <p class="mt-0 mb-1">
-                <strong>Valor da inscrição:</strong>
-                {{new Intl
-                    .NumberFormat([], { style: 'currency', currency: 'BRL'})           
-                    .format(form.valor) }}
-              </p>
-              <p class="mt-0 mb-0">
-                <strong>Local do curso:</strong>
-                {{form.local}}
-              </p>
-          </b-card-body>
-        </b-card>
+        <div v-if="isLoading === true" class="d-flex justify-content-center">
+          <h4>Carregando...</h4>
+          <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        </div>
+        <div v-else>
+          <spain class="mt-0 mb-2">
+            <h5>Título:</h5> <h6> {{form.titulo}}</h6>
+          </spain>
+          <p class="mt-3 mb-2">
+            <strong>Descrição:</strong>
+            {{form.descricao}}
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Local do curso:</strong>
+            {{form.local}}
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Perído de inscrições:</strong>
+            <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
+            <span v-if="form.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Perído de realização do evento:</strong>
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Quantidade de dias de evento:</strong>
+            {{form.qtdDia}} dia(s)
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Carga horária:</strong>
+            {{form.qtdCargaHoraria}} hora(s)
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Total de vagas:</strong>
+            {{form.qtdVagas}}
+          </p>
+          <p class="mt-0 mb-0">
+            <strong>Valor da inscrição:</strong>
+            {{new Intl
+                .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                .format(form.valor) }}
+          </p>
+        </div>  
       </b-card-body>
       <template v-slot:footer>
         <b-button id="tooltip-target-1" @click.prevent="gerarCertificado()" block variant="success">
@@ -76,34 +65,74 @@
         </b-tooltip>
       </template>
     </b-card>
+    <b-card header-tag="header">
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h3>Outras informações</h3>
+          </b-col>
+        </b-row>
+      </template>
+      <b-card-body>
+        <div v-if="isLoading === true" class="d-flex justify-content-center">
+          <h4>Carregando...</h4>
+          <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        </div>
+        <div v-else>    
+          <p class="mt-0 mb-1">
+            <strong>Perído de rolagem:</strong>
+            <span v-if="this.form.inicio_rolagem !== ''">{{ this.form.inicio_rolagem | moment }}</span> -
+            <span v-if="this.form.fim_rolagem !== ''">{{ this.form.fim_rolagem | moment}}</span>
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Quantidade de dias de compensação:</strong>
+            {{form.dias_compensacao}} dia(s)
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Há anexo para os participantes:</strong>
+            <span v-if="form.participante_anexos === true ">Sim.</span>
+            <span v-else>Não.</span> 
+          </p>
+          <p class="mt-0 mb-0">
+            <strong>Texto de declaração:</strong>
+            {{form.textoDeclaracaoEvento}}
+          </p>
+        </div>
+      </b-card-body>
+    </b-card>
   </div>
 </template>
 
 <script>
 import axios from "~/axios";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   layout: "menu/tutor",
   data() {
     return {
+      isLoading: true,
       form: {
         idEvento: 0,
-        titulo: "",
-        descricao: "",
-        local: "",
+        d_evento_fim: "",
+        d_evento_inicio: "",
         d_inscricao: "",
         d_inscricao_fim: "",
-        inicio_rolagem: "",
+        descricao: "",
+        dias_compensacao: "",
         fim_rolagem: "",
-        dias_compensacao: 0,
-        percentual: 0,
-        ativo: false,
+        inicio_rolagem: "",
+        local: "",
         participante_anexos: false,
-        qtdVagas: 0,
-        qtdCargaHoraria: 0,
-        qtdDias: 0,
-        valor: 0
+        percentual: 0,
+        qtdCargaHoraria: "",
+        qtdDias: "",
+        qtdVagas: "",
+        textoDeclaracaoEvento: "",
+        titulo: "",
+        valor: "",
+        ativo: false
       }
     };
   },
@@ -112,14 +141,26 @@ export default {
       .get(`eventos/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
+        this.isLoading = false;
       })
       .catch(err => {
         Swal.fire({
           title: "Falha no consumo da API",
           icon: "error",
           text: err.res.status
+        })
+        .then( () => {
+          let vm = this;
+          setTimeout(function() {
+            location.reload();
+          }, 1500);
         });
       });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   methods: {
     gerarCertificado() {
@@ -147,5 +188,12 @@ p {
 }
 strong {
   font-size: 16px;
+}
+h3, h4 {
+  font-weight: 300;
+}
+h5, h6 {
+  display: inline;
+  font-size: 18px;
 }
 </style>
