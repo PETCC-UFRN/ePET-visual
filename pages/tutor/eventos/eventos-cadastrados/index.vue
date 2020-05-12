@@ -190,12 +190,6 @@ export default {
           }  
         });
     },
-    informacoes(idEvento) {
-      this.$router.push(`/tutor/eventos/eventos-cadastrados/${idEvento}`);          
-    },
-    edit(idEvento){
-      this.$router.push(`/tutor/eventos/eventos-cadastrados/edit/${idEvento}`);    
-    },
     del(id, rowId) {
       axios
         .delete(`eventos-remove/${id}`)
