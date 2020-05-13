@@ -1,6 +1,5 @@
 <template>
 	<div class="col-md-12">
-
 		 <b-card>
 			<template v-slot:header>
         <b-row>

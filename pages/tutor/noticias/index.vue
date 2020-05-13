@@ -10,7 +10,7 @@
             <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4 wf-100"
               style="color: white"
-              to="/tutor/noticia/create"
+              to="/tutor/noticias/create"
             >
               <i class="fa fa-plus fa-fw"></i> Adicionar notícia      
             </nuxt-link>
@@ -43,13 +43,13 @@
             
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                :to="`/tutor/noticia/visualize/${row.item.idNoticia}`"
+                :to="`/tutor/noticias/${row.item.idNoticia}`"
                 class="btn btn-sm btn-cyan"
               >
                 <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
               </nuxt-link>
               <nuxt-link
-                :to="`/tutor/noticia/edit/${row.item.idNoticia}`"
+                :to="`/tutor/noticias/edit/${row.item.idNoticia}`"
                 class="btn btn-sm btn-warning"
               >
                 <i class="fa fa-pencil fa-fw"></i> Editar

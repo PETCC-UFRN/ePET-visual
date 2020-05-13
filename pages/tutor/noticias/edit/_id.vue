@@ -4,19 +4,12 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h2><i class="fa fa-edit"></i> Cadastrar notícia</h2>
-          </b-col>
-          <b-col>
-            <div class="card-actions">
-              <nuxt-link  to="/tutor/noticia/" class="btn btn-close btn-lg">
-                <i class="icon-close"></i>
-              </nuxt-link>
-            </div>
+            <h2><i class="fa fa-edit"></i> Editando notícia</h2>
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
-        <b-form @submit.prevent="submitForm">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="titulo"><strong>Título</strong></label>
             <input
@@ -72,22 +65,21 @@
                 ></b-form-datepicker>
               </div>
             </b-col>
-          </b-row>
-            
+          </b-row>   
+          
           <div class="form-group">
             <b-button type="submit" variant="primary">
-              <i class="fa fa-dot-circle-o"></i> Enviar
+              <i class="fa fa-dot-circle-o"></i> Salvar modificações
             </b-button>
-            <b-button type="reset" variant="danger" @click="clearForm">
-              <i class="fa fa-ban"></i> Limpar campos
+            <b-button href="/tutor/noticias/" variant="danger">
+              <i class="fa fa-ban"></i> Cancelar
             </b-button>
           </div>
-        </b-form>
+        </form>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from "~/axios";
 import Swal from "sweetalert2";
@@ -95,21 +87,37 @@ import moment from "moment";
 
 export default {
   layout: "menu/tutor",
+  validate({ params }) {
+    // Id da rota deve ser um número
+    return /^\d+$/.test(params.id);
+  },
   data() {
     return {
       form: {
         titulo: "",
         corpo: "",
-        inicio_exibicao: "",
-        limite_exibicao: "",
+        inicio_exibicao: null,
+        limite_exibicao: null,
         ativo: false,
-        foto: ""
       },
-      minDate: null
+      errors: [],
+      minDate: null,
     };
   },
   mounted() {
-    this.minDate = moment().format("YYYY-MM-DD");
+    this.minDate = moment().format('YYYY-MM-DD');
+
+    axios
+      .get("noticia/" + this.$route.params.id)
+      .then(res => {
+        this.form = res.data;
+      })
+      .catch(err => {
+        Swal.fire({
+          title: err.response.data.titulo,
+          icon: "error"
+        });
+      });
   },
   computed: {
     disabledDataExibicao() {
@@ -120,30 +128,28 @@ export default {
     async submitForm() {
       if (this.checkForm()) {
         let idPetiano = 1;
-        await axios
-          .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
-          .then(res => {
-            idPetiano = res.data.idPetiano;
-          });
+        await axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
+          idPetiano = res.data.idPetiano;
+        });
 
         await axios
           .post("noticia-cadastro/" + idPetiano, this.form)
           .then(res => {
             Swal.fire({
-              title: "Notícia cadastrada",
+              title: "Notícia editada",
               icon: "success"
             })
             .then( () =>{
-              this.$router.push('/tutor/noticia');
+              this.$router.push('/tutor/noticias');
             });
           })
           .catch(err => {
             Swal.fire({
-              title: "Notícia não cadastradas",
+              title: 'Notícia não editada',
               icon: "error"
             })
-            .then( () => {
-              this.$router.push('/tutor/noticia');
+            .then( () =>{
+              this.$router.push('/tutor/noticias');
             });
           });
       } else {
@@ -156,19 +162,17 @@ export default {
         });
       }
     },
-    clearForm() {
-      this.form = Object.entries(this.form).map(item => {
-        return (item = "");
-      });
-    },
     checkForm() {
       this.errors = [];
+
       if (!this.form.inicio_exibicao) {
         this.errors.push("O campo início exibição é obrigatório.");
       }
+
       if (!this.form.limite_exibicao) {
         this.errors.push("O campo fim exibição é obrigatório.");
       }
+
       if (this.errors.length === 0) {
         return true;
       }
