@@ -1,5 +1,5 @@
 .table-outline {
-  border: 1px solid $table-border-color;
+  border: 1px solid $table-border-color !important;
 
   td {
     vertical-align: middle;
@@ -15,6 +15,6 @@
 
 .table-clear {
   td {
-    border: 0;
+    border: 10;
   }
 }
