@@ -11,7 +11,7 @@
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1"><strong>Pessoa:</strong></label>
+            <label for="exampleFormControlInput1"><strong>Organizador</strong></label>
             <select class="form-control" v-model="form.pessoa">
               <option
                 v-for="participante in pessoas"

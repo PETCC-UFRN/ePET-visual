@@ -4,14 +4,14 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h3><i class="fa fa-edit"></i> Cadastrar participante</h3>             
+            <h2><i class="fa fa-edit"></i> Cadastrar participante</h2>             
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
+            <label for="exampleFormControlInput1"><strong>Participante</strong> </label>
             <select class="form-control" v-model="form.pessoa">
               <option
                 v-for="participante in pessoas"
@@ -32,7 +32,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3><i class="fa fa-group fa-fw"></i> Participantes cadastrados </h3>
+            <h2><i class="fa fa-group fa-fw"></i> Participantes cadastrados </h2>
           </b-col>
         </b-row>
       </template>
@@ -272,7 +272,13 @@ export default {
 </script>
 
 <style scoped>
-h3 {
+
+h2, h4 {  
   text-align: center;
+  font-weight: 300;
+}
+
+strong {
+  font-size: 18px;
 }
 </style>
