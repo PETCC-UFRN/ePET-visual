@@ -26,7 +26,7 @@ export default {
         },
         {
             name: 'Notícias',
-            url: '/tutor/noticia',
+            url: '/tutor/noticias',
             icon: 'icon-envelope-open'
         },
         {
