@@ -18,7 +18,7 @@
                 <nuxt-link
                   class="btn btn-sm btn-primary w-100 mt-4"
                   style="color: white"
-                  to="quadro-de-tutorias/create"
+                  to="/tutor/tutorias/quadro-de-tutorias/create"
                 ><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Adicionar tutoria</nuxt-link>
               </b-col>
             </b-row>

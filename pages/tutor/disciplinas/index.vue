@@ -67,18 +67,22 @@
             :per-page="perPage"
             :fields="fields"
           >
-            <template v-slot:cell(ativo)="row">
-              <b-form-checkbox
-                  size="lg"
-                  v-model="row.item.ativo"
-                  @change="desativarAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
-                ></b-form-checkbox>
-            </template>
             <template v-slot:cell(actions)="row">
               <b-button
+                v-if="row.item.ativo === true"
+                @click.prevent="desativarAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
+                class="btn btn-sm btn-danger">
+                 <i class="fa fa-times-circle fa-fw"></i> Desativar
+              </b-button>
+              <b-button
+                v-if="row.item.ativo === false"
+                @click.prevent="desativarAtivar(row.item.ativo, row.item.idDisciplina, row.item.nome, row.item.codigo)"
+                class="btn btn-sm btn-success">
+                 <i class="fa fa-check fa-fw"></i> Ativar
+              </b-button>
+              <b-button
                 @click.prevent="editar(row.item.idDisciplina, row.item.nome, row.item.codigo, row.item.ativo)"
-                class="btn btn-sm btn-warning"
-              >
+                class="btn btn-sm btn-warning">
                 <i class="fa fa-pencil fa-fw"></i> Editar
               </b-button>
             </template>
@@ -160,6 +164,40 @@ export default {
           idDisciplina: id,
           nome: nome,
           codigo: codigo
+        })
+        .then( () => {
+          if ( ativo === true ) {
+            Swal.fire({
+              title: 'Disciplina desativada',
+              icon: 'success',
+            })
+            .then( () => {
+              this.getDisciplinas();
+            });
+          }
+          else {
+            Swal.fire({
+              title: 'Disciplina ativada',
+              icon: 'success',
+            })
+            .then( () => {
+              this.getDisciplinas();
+            });
+          }
+        })
+        .catch( err => {
+          if ( ativo === true) {
+            Swal.fire({
+              title: 'Disciplina não desativada',
+              icon: 'error',
+            });
+          }
+          else {
+            Swal.fire({
+              title: 'Disciplina não ativada',
+              icon: 'error',
+            });
+          }
         });
     },
     getDisciplinas(){
