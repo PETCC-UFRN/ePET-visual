@@ -4,15 +4,15 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3><i class="fa fa-book px-2"></i>Disciplinas cadastradas</h3>
+            <h2><i class="fa fa-book px-2"></i>Disciplinas cadastradas</h2>
           </b-col>
           <b-col>
             <nuxt-link
-              class="btn btn-sm btn-primary float-right mt-4"
+              class="btn btn-sm btn-primary float-right mt-4 w-80"
               style="color: white"
               to="/tutor/disciplinas/create"
             >
-              <i class="fa fa-plus" aria-hidden="true"></i> Adicionar disciplina
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i> Adicionar disciplina
             </nuxt-link>
           </b-col>
         </b-row>
@@ -144,4 +144,8 @@ export default {
 .bbutton {
   border-radius: 0px !important;
 }
+h2, h4 {
+  font-weight: 300;
+}
+
 </style>
