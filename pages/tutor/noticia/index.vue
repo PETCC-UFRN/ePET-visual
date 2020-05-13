@@ -2,63 +2,74 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Notícias cadastradas</h3>
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="/tutor/noticia/create"
-        >
-          <i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia
-        </a>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-newspaper-o px-2"></i>Notícias cadastradas</h2>
+          </b-col>
+          <b-col>
+            <nuxt-link
+              class="btn btn-sm btn-primary float-right mt-4 wf-100"
+              style="color: white"
+              to="/tutor/noticia/create"
+            >
+              <i class="fa fa-plus fa-fw"></i> Adicionar notícia      
+            </nuxt-link>
+          </b-col>
+        </b-row>
       </template>
-      <b-input-group class="mt-1 mb-3">
-        <b-form-input
-          v-model="keyword"
-          placeholder="Busca por nome ou por código"
-          type="text"
-          v-on:keyup.enter="search"
-        ></b-form-input>
-        <b-input-group-append>
-          <b-button variant="success" @click="search">
-            <i class="fa fa-search"></i>
-          </b-button>
-          <b-button variant="outline-danger" @click="getNoticias">
-            <i class="fa fa-remove"></i>
-          </b-button>
-        </b-input-group-append>
-      </b-input-group>
 
-      <div v-if="noticias.length > 0">
-        <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
-            </div>
-          </template>
-          <template v-slot:cell(actions)="row">
-            <b-button
-              :href="'/tutor/noticia/visualize/' + row.item.idNoticia"
-              class="btn btn-sm btn-primary"
-            >
-              <i class="fa fa-eye" aria-hidden="true"></i>
-              Visualizar
-            </b-button>
-            <b-button
-              :href="'/tutor/noticia/edit/' + row.item.idNoticia"
-              class="btn btn-sm btn-warning"
-            >
-              <i class="fa fa-pencil fa-fw"></i> Editar
-            </b-button>
-            <b-button @click="del(row.item.idNoticia, row.index)" class="btn btn-sm btn-danger">
-              <i class="fa fa-trash-o fa-fw"></i> Remover
-            </b-button>
-          </template>
-        </b-table>
-        <div>
-          <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+      <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+      </div>
+      <div v-else>  
+        <b-input-group class="mt-1 mb-3">
+          <b-form-input
+            v-model="keyword"
+            placeholder="Busca por título"
+            type="text"
+            v-on:keyup.enter="search"
+          ></b-form-input>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
+          </b-input-group-text>
+          <b-input-group-text slot="append">
+            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
+          </b-input-group-text>
+        </b-input-group>
+
+        <div v-if="noticias.length > 0">
+          <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
+            
+            <template v-slot:cell(actions)="row">
+              <nuxt-link
+                :to="`/tutor/noticia/visualize/${row.item.idNoticia}`"
+                class="btn btn-sm btn-cyan"
+              >
+                <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
+              </nuxt-link>
+              <nuxt-link
+                :to="`/tutor/noticia/edit/${row.item.idNoticia}`"
+                class="btn btn-sm btn-warning"
+              >
+                <i class="fa fa-pencil fa-fw"></i> Editar
+              </nuxt-link>
+              <b-button 
+                @click.prevent="del(row.item.idNoticia, row.index)" 
+                class="btn btn-sm btn-danger"
+              >
+                <i class="fa fa-trash-o fa-fw"></i> Remover
+              </b-button>
+            </template>
+          </b-table>
+          <div>
+            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+          </div>
+        </div>
+        <div v-else>
+          <h5>Nenhuma notícia cadastrada</h5>
         </div>
       </div>
-      <div v-else>Nenhuma notícia cadastrada</div>
     </b-card>
   </div>
 </template>
@@ -77,6 +88,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       keyword: "",
       noticias: [],
       currentPage: 0,
@@ -100,7 +112,6 @@ export default {
             if (value != null) return moment(value).format("DD/MM/Y");
           }
         },
-        { key: "petiano.pessoa.nome", sortable: true, label: "Publicado por" },
         { key: "actions", label: "Ações disponíveis" }
       ]
     };
@@ -123,13 +134,13 @@ export default {
         .then(() => {
           this.noticias.splice(rowId, 1);
           Swal.fire({
-            title: "Noticia removida com sucesso",
+            title: "Notícia removida",
             icon: "success"
           });
         })
         .catch(err => {
           Swal.fire({
-            title: "Remoção não realizada",
+            title: "Notícia não removida",
             icon: "error"
           });
         });
@@ -138,25 +149,72 @@ export default {
       this.currentPage = val;
     },
     getNoticias() {
-      axios.get("noticia").then(res => {
-        this.noticias = res.data.content;
-        this.numItems = res.data.totalElements;
-      });
+      axios
+        .get("noticia")
+        .then(res => {
+          this.noticias = res.data.content;
+          this.numItems = res.data.totalElements;
+          this.isLoading = false;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma notícia cadastrada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }
+        });
+    },
+    cancelSearch() {
+      this.getNoticias();
+      this.keyword = "";
     },
     search() {
-      axios.get("pesquisar-noticia/" + this.keyword).then(res => {
-        this.noticias = res.data.content;
-        this.numItems = res.data.totalElements;
-      });
+      axios
+        .get(`pesquisar-noticia/${this.keyword}`)
+        .then(res => {
+          this.noticias = res.data.content;
+          this.numItems = res.data.totalElements;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma notícia encontrada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }
+        });
     }
   }
 };
 </script>
 
-
-
 <style scoped>
-h3 {
-  text-align: center;
+h2, h4 {
+  font-weight: 300;
 }
 </style>
