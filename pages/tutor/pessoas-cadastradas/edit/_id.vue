@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import axios from "~/axios";
+
 export default {
   layout: "menu/tutor",
   data() {
@@ -47,8 +47,7 @@ export default {
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("pessoas/" + this.$route.params.tipo_usuario + "/" + this.$route.params.idPessoa, this.form)
+      this.$axios.post("pessoas/" + this.$route.params.tipo_usuario + "/" + this.$route.params.idPessoa, this.form)
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Disciplina editada com sucesso";

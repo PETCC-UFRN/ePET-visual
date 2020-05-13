@@ -70,7 +70,7 @@
 <script>
 import Comum from "~/components/Comum";
 
-import axios from "~/axios";
+
 import BottomBar from "~/components/anonymous/BottomBar";
 
 
@@ -94,12 +94,12 @@ export default {
   },
   methods: {
       async getPetianosAtuais() {
-        axios.get("petianos-atuais").then(res => {
+        this.$axios.get("petianos-atuais").then(res => {
             this.petianosAtuais = res.data.content;
             });
       },
       async getPetianosAntigos() {
-        axios.get("petianos-antigos").then(res => {
+        this.$axios.get("petianos-antigos").then(res => {
             this.membrosEmeritos = res.data.content;
             });
       }

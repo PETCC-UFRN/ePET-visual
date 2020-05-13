@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -74,8 +74,7 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("tutorias")
+   this.$axios.get("tutorias")
       .then(res => {
         this.tutorias = res.data.content;
       })
@@ -102,8 +101,7 @@ export default {
   },
   methods: {
     del(id, rowId){
-      axios
-        .delete("tutoria-remove/" + id, {})
+      this.$axios.delete("tutoria-remove/" + id, {})
         .then( () => {
           Swal.fire({
             title: 'Tutoria removida',

@@ -62,7 +62,7 @@
   </div>
 </template>
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -89,8 +89,7 @@ export default {
     this.minDate = moment().format('YYYY-MM-DD');
     console.log(this.minDate);
 
-    axios
-      .get("noticia/" + this.$route.params.id)
+   this.$axios.get("noticia/" + this.$route.params.id)
       .then(res => {
         this.form = res.data;
       })
@@ -105,11 +104,11 @@ export default {
     async submitForm() {
       if (this.checkForm()) {
         let idPetiano = 1;
-        await axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
+        await this.$axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
           idPetiano = res.data.idPetiano;
         });
 
-        await axios
+        await this.$axios
           .post("noticia-cadastro/" + idPetiano, this.form)
           .then(res => {
             Swal.fire({

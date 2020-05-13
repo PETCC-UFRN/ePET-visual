@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   layout: "menu/petiano",
@@ -94,7 +94,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("informacoes").then(res => {
+    this.$axios.get("informacoes").then(res => {
       this.informacoes = res.data;
     });
   },

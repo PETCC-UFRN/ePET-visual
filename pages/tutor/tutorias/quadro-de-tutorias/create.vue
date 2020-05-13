@@ -4,23 +4,36 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h3><i class="fa fa-edit px-2"></i>Cadastrar disciplina</h3>
+            <h3>
+              <i class="fa fa-edit px-2"></i>Cadastrar disciplina
+            </h3>
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
-          <form @submit.prevent="submitForm">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1"><strong>Código:</strong></label>
-            <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
+            <label for="exampleFormControlInput1">
+              <strong>Código:</strong>
+            </label>
+            <the-mask
+              :mask="['AAA####']"
+              class="form-control"
+              placeholder="Digite o código"
+              v-model="form.codigo"
+            />
             <b-form-text>Código no formato AAA#### (três letras e 4 números)</b-form-text>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1"><strong>Nome:</strong></label>
+            <label for="exampleFormControlInput1">
+              <strong>Nome:</strong>
+            </label>
             <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
           </div>
           <div class="form-group">
-            <b-button block type="submit" variant="success"><i class="fa fa-check"></i> Confirmar cadastro de disciplina</b-button>
+            <b-button block type="submit" variant="success">
+              <i class="fa fa-check"></i> Confirmar cadastro de disciplina
+            </b-button>
           </div>
         </form>
       </div>
@@ -29,9 +42,11 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3><i class="fa fa-book px-2"></i>Disciplinas ativas cadastradas</h3>
+            <h3>
+              <i class="fa fa-book px-2"></i>Disciplinas ativas cadastradas
+            </h3>
           </b-col>
-        </b-row>          
+        </b-row>
       </template>
       <div v-if="disciplinas.length > 0">
         <b-table
@@ -43,10 +58,8 @@
           :fields="fields"
         >
           <template v-slot:cell(actions)="row">
-            <b-button 
-              @click="cadastrar(row.item.idDisciplina)" 
-              class="btn btn-sm btn-warning"
-            ><i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina
+            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning">
+              <i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina
             </b-button>
             <!--<a
               class="btn btn-sm btn-primary"
@@ -75,15 +88,14 @@
 </template>
 
 <script>
-import axios from "~/axios";
 import Swal from "sweetalert2";
-import {TheMask} from 'vue-the-mask';
+import { TheMask } from "vue-the-mask";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
-  components: {TheMask},
-  
+  components: { TheMask },
+
   data() {
     return {
       form: {
@@ -92,124 +104,120 @@ export default {
         nome: ""
       },
       disciplinas: [],
-      currentPessoa:[],
-      currentPetiano:[],
+      currentPessoa: [],
+      currentPetiano: [],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true, label: "Nome" },
-        { key: "actions", sortable: true, label: "Ações disponíveis" },
+        { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
   mounted() {
-    axios
+    this.$axios
       .get("pessoas-usuario")
       .then(res => {
         this.currentPessoa = res.data;
-        if( res.data.tipo_usuario.nome != "petiano" && 
-          res.data.tipo_usuario.nome != "tutor") {
+        if (
+          res.data.tipo_usuario.nome != "petiano" &&
+          res.data.tipo_usuario.nome != "tutor"
+        ) {
           this.$router.push("/");
         }
       })
-      .finally( () =>{
-        axios
+      .finally(() => {
+        this.$axios
           .get(`petianos-pessoa/${this.currentPessoa.idPessoa}`)
-          .then( res2 => {
+          .then(res2 => {
             this.currentPetiano = res2.data;
           })
-          .catch( () => {
+          .catch(() => {
             if (err.response.status === 404) {
               Swal.fire({
                 title: "Nenhum petiano cadastrado",
-                icon: 'error',
+                icon: "error"
               });
-            }
-            else {
+            } else {
               Swal.fire({
                 title: "Falha em consumir API",
-                icon: 'error',
-              })
-              .then( () => {
-                  let vm = this;
-                  setTimeout(function() {
-                    location.reload();
-                  }, 1500);
-              });
-            }
-          }); 
-      });
-  },
-  async fetch() { 
-    this.consumirDisciplinasApi();
-  },
-  methods: {
-    consumirDisciplinasApi() {
-      axios
-        .get("disciplinas-ativas")
-        .then( res => {
-          this.disciplinas = res.data.content;
-        })
-        .catch( err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum pessoa cadastrada",
-              icon: 'info',
-            });
-          }
-          else {
-            Swal.fire({
-              title: "Falha em consumir API",
-              icon: 'error',
-            })
-            .then( () => {
+                icon: "error"
+              }).then(() => {
                 let vm = this;
                 setTimeout(function() {
                   location.reload();
                 }, 1500);
+              });
+            }
+          });
+      });
+  },
+  async fetch() {
+    this.consumirDisciplinasApi();
+  },
+  methods: {
+    consumirDisciplinasApi() {
+      this.$axios
+        .get("disciplinas-ativas")
+        .then(res => {
+          this.disciplinas = res.data.content;
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum pessoa cadastrada",
+              icon: "info"
+            });
+          } else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: "error"
+            }).then(() => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
             });
           }
         });
     },
     submitForm(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("disciplinas", this.form)
         .then(res => {
           Swal.fire({
-            title: 'Disciplina cadastrada',
-            icon: 'success',
-          })
-          .then( () => {
-            this.reset();          
+            title: "Disciplina cadastrada",
+            icon: "success"
+          }).then(() => {
+            this.reset();
             this.consumirDisciplinasApi();
           });
         })
         .catch(err => {
           Swal.fire({
-            title: 'Disciplina não cadastrada',
-            icon: 'error',
+            title: "Disciplina não cadastrada",
+            icon: "error"
           });
         });
     },
-    cadastrar(id){
-      axios
+    cadastrar(id) {
+      this.$axios
         .post(`tutoria-cadastro/${this.currentPetiano.idPetiano}/${id}/`)
-        .then( () => {
+        .then(() => {
           Swal.fire({
-            title: 'Disciplina tutorada cadastrada',
-            icon: 'success',
-          })
-          .then( () => {
-            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");        
+            title: "Disciplina tutorada cadastrada",
+            icon: "success"
+          }).then(() => {
+            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");
           });
         })
-        .catch( () => {
+        .catch(() => {
           Swal.fire({
-            title: 'Disciplina tutorada não cadastrada',
-            icon: 'error',
+            title: "Disciplina tutorada não cadastrada",
+            icon: "error"
           });
-        }); 
+        });
     }
   }
 };

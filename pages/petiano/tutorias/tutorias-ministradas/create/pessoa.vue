@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 export default {
   name: "dashboard",
   layout: "menu/petiano",
@@ -74,13 +74,13 @@ export default {
     }
   },
   mounted() {
-    axios.get("pessoas").then(res => {
+    this.$axios.get("pessoas").then(res => {
       this.pessoas = res.data.content;
     });
   },
   methods: {
     cadastrar(id) {
-      axios.get("tutorias-ministradas-cadastro/" + id + "/" + this.id_tutoria ).then(() => {
+      this.$axios.get("tutorias-ministradas-cadastro/" + id + "/" + this.id_tutoria ).then(() => {
         // para não ter que atualizar os pessoas em tempo real forçarei a página a atualizar
         alert("Tutoria ministrada cadastrada");
         let vm = this;

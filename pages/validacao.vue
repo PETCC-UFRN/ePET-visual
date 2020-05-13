@@ -44,7 +44,7 @@
 
 <script>
 import Comum from "../components/Comum";
-import axios from "../axios";
+
 import BottomBar from "../components/anonymous/BottomBar";
 import Swal from "sweetalert2";
 //import '../node_modules/sweetalert2/src/sweetalert2.scss'

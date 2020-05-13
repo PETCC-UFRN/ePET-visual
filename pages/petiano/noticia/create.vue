@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -99,13 +99,13 @@ export default {
     async submitForm() {
       if (this.checkForm()) {
         let idPetiano = 1;
-        await axios
-          .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
+        await this.$axios
+         this.$axios.get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
           .then(res => {
             idPetiano = res.data.idPetiano;
           });
 
-        await axios
+        await this.$axios
           .post("noticia-cadastro/" + idPetiano, this.form)
           .then(res => {
             Swal.fire({

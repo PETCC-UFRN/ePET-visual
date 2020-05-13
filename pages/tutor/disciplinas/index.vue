@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Pagination from "~/components/Pagination";
 
 export default {
@@ -99,7 +99,7 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      axios.get("disciplinas?page=" + val).then(res => {
+      this.$axios.get("disciplinas?page=" + val).then(res => {
         this.disciplinas = res.data.content;
         this.numPages = res.data.totalElements;
       });
@@ -113,7 +113,7 @@ export default {
       });
     },
     desativarAtivar(ativo, id, nome, codigo) {
-      axios.post("disciplinas", {
+      this.$axios.post("disciplinas", {
         ativo: !ativo,
         idDisciplina: id,
         nome: nome,
@@ -121,13 +121,13 @@ export default {
       });
     },
     getDisciplinas(){
-      axios.get("disciplinas").then(res => {
+      this.$axios.get("disciplinas").then(res => {
         this.numItems = res.data.totalElements;
         this.disciplinas = res.data.content;
       });
     },
     search() {
-      axios.get('pesquisar-diciplina/' + this.keyword).then(res => {
+      this.$axios.get('pesquisar-diciplina/' + this.keyword).then(res => {
         this.numItems = res.data.totalElements;
         this.disciplinas = res.data.content;
       });

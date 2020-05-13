@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("pessoas").then(res => {
+    this.$axios.get("pessoas").then(res => {
       this.pessoas = res.data.content.filter(pessoa => pessoa.tipo_usuario.nome == 'comum');
     });
   },
