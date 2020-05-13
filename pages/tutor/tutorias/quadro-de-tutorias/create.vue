@@ -137,7 +137,31 @@ export default {
       this.consumirDisciplinasApi()
     },
     search() {
-
+      axios
+        .get(`pesquisar-disciplina-ativa/${this.keyword}`)
+        .then( res => {
+          this.disciplinas = res.data.content;
+        })
+        .catch( err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhuma disciplina ativa encontrada",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Falha em consumir API",
+                icon: 'error',
+              })
+              .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+              });
+            }  
+        });
     },
     consumirDisciplinasApi() {
       axios
@@ -149,7 +173,7 @@ export default {
         .catch( err => {
           if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhum disciplina encontrada",
+              title: "Nenhum disciplina ativa encontrada",
               icon: 'info',
             });
           }

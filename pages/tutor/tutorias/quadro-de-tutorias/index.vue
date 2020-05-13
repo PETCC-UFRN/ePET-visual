@@ -62,8 +62,7 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button 
-                v-if="row.item.ativo === true"
-                @click.prevent="del(row.item.idTutoria, row.index)" 
+                @click.prevent="desativar(row.item.idTutoria, row.index)" 
                 class="btn btn-sm btn-danger">
                 <i class="fa fa-times-circle fa-fw"></i> Desativar
               </b-button>
@@ -216,9 +215,9 @@ export default {
           }
         });
     },
-    del(id, rowId){
+    desativar(id, rowId){
       axios
-        .delete("tutoria-remove/" + id, {})
+        .delete("tutoria-desativa/" + id, {})
         .then( () => {
           Swal.fire({
             title: 'Tutoria removida',
