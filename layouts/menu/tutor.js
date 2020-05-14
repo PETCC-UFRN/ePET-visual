@@ -26,7 +26,7 @@ export default {
         },
         {
             name: 'Notícias',
-            url: '/tutor/noticia',
+            url: '/tutor/noticias',
             icon: 'icon-envelope-open'
         },
         {
@@ -44,11 +44,6 @@ export default {
                     icon: 'icon-check'
                 }
             ]
-        },
-        {
-            name: 'Disciplinas',
-            url: '/tutor/disciplinas',
-            icon: 'icon-book-open'
         },
         {
             name: 'Pessoas cadastradas',
