@@ -79,7 +79,14 @@
               </b-button>
             </template>
           </b-table>
-          <nav>
+          <div>
+            <Pagination
+              :totalRows="numItems"
+              :perPage="perPage"
+              v-on:currentPage="setCurrentPage"
+            />
+          </div>
+          <nav><!--
             <b-pagination
               :total-rows="eventos.length"
               :per-page="10"
@@ -88,7 +95,7 @@
               prev-text="Anterior"
               next-text="Próximo"
               hide-goto-end-buttons
-            />
+            />-->
           </nav>
         </div>
         <div v-else>
@@ -104,10 +111,14 @@
 import axios from "~/axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    Pagination
+  },
   data() {
     return {
       eventosLoading: true,
@@ -115,7 +126,10 @@ export default {
       eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      currentPage: 1,
+      //currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -129,6 +143,7 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
+    this.$on('currentPage', )
   },
   methods: {
     cancelSearch() {
@@ -162,12 +177,16 @@ export default {
             }  
         });
     },
+    setCurrentPage(val){
+      this.currentPage = val;
+    },
     consumindoEventosApi() {
       axios
         .get("eventos")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
+          this.numItems = res.data.totalElements;
         })
         .catch( err => {
           if (err.response.status === 404) {
