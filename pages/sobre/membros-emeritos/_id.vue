@@ -41,7 +41,7 @@
 <script>
 import Comum from "~/components/Comum";
 
-import axios from "~/axios";
+
 import BottomBar from "~/components/anonymous/BottomBar";
 
 
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
       async getPetianosAntigos() {
-        axios.get("petianos-antigos").then(res => {
+        this.$axios.get("petianos-antigos").then(res => {
             this.petianosAntigos = res.data.content;
             });
       }

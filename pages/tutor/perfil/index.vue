@@ -8,9 +8,9 @@
 
       <b-form-group label="Nome">
         <b-form-input v-model="form.pessoa.nome" required></b-form-input>
-            <b-form-text id="password-help-block">
-              Este nome estará presente nos certificados e declarações providos pelo sistema.
-            </b-form-text>
+        <b-form-text
+          id="password-help-block"
+        >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
       </b-form-group>
 
       <b-form-group label="Area de interesse">
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from "~/axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
@@ -57,26 +56,29 @@ export default {
   },
   methods: {
     getInfo() {
-     axios
-        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
+      this.$axios
+       this.$axios.get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
           this.form = res.data;
           console.log(res.data);
         });
     },
-    
+
     onSubmit() {
-      axios
-        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+      this.$axios
+        .post("pessoas-atualizar/", {
+          ...this.$store.state.profile,
+          nome: this.form.pessoa.nome
+        })
         .then(res => {
           console.log(res);
         })
         .catch(err => {
-           this.submitAlert(true);
+          this.submitAlert(true);
           console.log(err);
         });
 
-      axios
+      this.$axios
         .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
         .then(res => {
           console.log(res);
@@ -86,29 +88,29 @@ export default {
           console.log(err);
         });
 
-        this.submitAlert(false);
+      this.submitAlert(false);
     },
 
-    submitAlert(withError){
-      let icon_ = 'success';
-      let title_ = 'Salvo com sucesso';
-      let text_ = '';
+    submitAlert(withError) {
+      let icon_ = "success";
+      let title_ = "Salvo com sucesso";
+      let text_ = "";
 
-      if(withError){
-        icon_ = 'error';
-        title_ = 'Erro ao salvar!'
-        text_ = 'Por favor, tente novamente.'
+      if (withError) {
+        icon_ = "error";
+        title_ = "Erro ao salvar!";
+        text_ = "Por favor, tente novamente.";
       }
 
-      if(!(this.form.pessoa.nome=="")){
+      if (!(this.form.pessoa.nome == "")) {
         Swal.fire({
-              icon: icon_,
-              title: title_,
-              text: text_,
-              confirmButtonColor: '#4DBD74',
-            })
+          icon: icon_,
+          title: title_,
+          text: text_,
+          confirmButtonColor: "#4DBD74"
+        });
       }
-    },
+    }
   }
 };
 </script>

@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import axios from "~/axios";
+
 
 export default {
   layout: "menu/petiano",
@@ -91,8 +91,7 @@ export default {
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("eventos-cadastrar", this.form)
+      this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Evento cadastrado com sucesso";

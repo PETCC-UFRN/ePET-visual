@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
@@ -56,8 +56,7 @@ export default {
   },
   methods: {
     getInfo() {
-     axios
-        .get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
+     this.$axios.get("/petianos-pessoa/" + this.$store.state.profile.idPessoa)
         .then(res => {
           this.form = res.data;
           console.log(res.data);
@@ -65,8 +64,7 @@ export default {
     },
     
     onSubmit() {
-      axios
-        .post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
+      this.$axios.post("pessoas-atualizar/", {...this.$store.state.profile, nome: this.form.pessoa.nome})
         .then(res => {
           console.log(res);
         })
@@ -75,8 +73,7 @@ export default {
           console.log(err);
         });
 
-      axios
-        .put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
+      this.$axios.put("petianos-editar/" + this.$store.state.profile.idPessoa, this.form)
         .then(res => {
           console.log(res);
         })

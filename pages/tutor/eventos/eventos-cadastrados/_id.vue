@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -137,8 +137,7 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get(`eventos/${this.$route.params.id}`)
+   this.$axios.get(`eventos/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
         this.isLoading = false;

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import axios from "../../axios";
+
 
 export default {
   name: "dashboard",
@@ -55,12 +55,12 @@ export default {
     };
   },
   async mounted() {
-    // await axios.get("pessoas/3").then(res => {
+    // await this.$axios.get("pessoas/3").then(res => {
     //   this.pessoa = res.data;
     // });
 
     // if (this.pessoa) {
-    //   await axios.get("petianos-atuais").then(res => {
+    //   await this.$axios.get("petianos-atuais").then(res => {
     //     let res_ = res.data.content;
     //     let filtro = res_.filter(petiano => {
     //       return petiano.pessoa.idPessoa === this.pessoa. idPessoa;
@@ -72,10 +72,10 @@ export default {
   },
   methods: {
     del(id, rowId) {
-      axios.delete("eventos-remove/" + id).then(() => {});
+      this.$axios.delete("eventos-remove/" + id).then(() => {});
     },
     ativar(id) {
-      axios.post("eventos-ativar/" + id).then(() => {
+      this.$axios.post("eventos-ativar/" + id).then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
       });
     }

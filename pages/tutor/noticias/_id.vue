@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import axios from "~/axios";
 import moment from "moment";
 
 export default {
@@ -83,7 +82,7 @@ export default {
     }
   },
 	mounted(){
-		axios
+		this.$axios
 			.get(`noticia/${this.$route.params.id}`)
 			.then((res) => {
 				this.form = res.data;

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 export default {
@@ -128,7 +128,7 @@ export default {
       this.next = await this.checkForm();
       if (this.next) {
         try {
-          await axios
+          await this.$axios
             .post("sign-in/", {
               email: this.email,
               senha: this.senha
@@ -154,8 +154,8 @@ export default {
       }
     },
     getProfile() {
-      axios
-        .get("pessoas-usuario", {
+      this.$axios
+       this.$axios.get("pessoas-usuario", {
           headers: { Authorization: `${Cookies.get("auth")}` }
         })
         .then(res => {

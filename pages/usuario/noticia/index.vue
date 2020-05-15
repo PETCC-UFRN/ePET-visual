@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -58,7 +58,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("noticia").then(res => {
+    this.$axios.get("noticia").then(res => {
       this.noticias = res.data.content;
     });
   }
