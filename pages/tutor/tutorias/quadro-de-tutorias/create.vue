@@ -1,97 +1,16 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <div class="card">
-      <div class="card-header">
-        <b-row>
-          <b-col>
-            <h3>
-              <i class="fa fa-edit px-2"></i>Cadastrar disciplina
-            </h3>
-          </b-col>
-        </b-row>
-      </div>
-      <div class="card-body">
-        <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">
-              <strong>Código:</strong>
-            </label>
-            <the-mask
-              :mask="['AAA####']"
-              class="form-control"
-              placeholder="Digite o código"
-              v-model="form.codigo"
-            />
-            <b-form-text>Código no formato AAA#### (três letras e 4 números)</b-form-text>
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">
-              <strong>Nome:</strong>
-            </label>
-            <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
-          </div>
-          <div class="form-group">
-            <b-button block type="submit" variant="success">
-              <i class="fa fa-check"></i> Confirmar cadastro de disciplina
-            </b-button>
-          </div>
-        </form>
-      </div>
-    </div>
-=======
->>>>>>> 18f0ecb36cbc2fa6afb676fb0dca12e0e57b829f
     <b-card>
       <template v-slot:header>
         <b-row>
           <b-col>
-<<<<<<< HEAD
-            <h3>
-              <i class="fa fa-book px-2"></i>Disciplinas ativas cadastradas
-            </h3>
-=======
             <h2><i class="fa fa-book px-2"></i>Disciplinas para tutoria</h2>
->>>>>>> 18f0ecb36cbc2fa6afb676fb0dca12e0e57b829f
           </b-col>
         </b-row>
       </template>
-<<<<<<< HEAD
-      <div v-if="disciplinas.length > 0">
-        <b-table
-          responsive="sm"
-          :items="disciplinas"
-          :current-page="currentPage"
-          :bordered="true"
-          :per-page="10"
-          :fields="fields"
-        >
-          <template v-slot:cell(actions)="row">
-            <b-button @click="cadastrar(row.item.idDisciplina)" class="btn btn-sm btn-warning">
-              <i class="fa fa-check" aria-hidden="true"></i> Tornar tutor da disciplina
-            </b-button>
-            <!--<a
-              class="btn btn-sm btn-primary"
-              style="color: white"
-              href='disciplina/edit/${row.item.id_disciplina}'
-            >Editar {{row.item.id_disciplina}}</a>-->
-          </template>
-        </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="disciplinas.length"
-            :per-page="10"
-            v-model="currentPage"
-            prev-text="Anterior"
-            next-text="Próximo"
-            pills
-            hide-goto-end-buttons
-          />
-        </nav>
-=======
       <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
->>>>>>> 18f0ecb36cbc2fa6afb676fb0dca12e0e57b829f
       </div>
       <div v-else>  
         <div v-if="disciplinas.length > 0">

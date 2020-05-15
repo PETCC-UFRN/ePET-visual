@@ -75,7 +75,6 @@
 </template>
 
 <script>
-import axios from "~/axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import Pagination from "~/components/Pagination";
@@ -121,7 +120,7 @@ export default {
   },
   watch: {
     currentPage: function(val) {
-      axios.get("noticia?page=" + val).then(res => {
+      this.$axios.get("noticia?page=" + val).then(res => {
         this.noticias = res.data.content;
         this.numPages = res.data.totalElements;
       });
@@ -129,7 +128,7 @@ export default {
   },
   methods: {
     del(id, rowId) {
-      axios
+      this.$axios
         .delete("noticia-remove/" + id)
         .then(() => {
           this.noticias.splice(rowId, 1);
@@ -149,7 +148,7 @@ export default {
       this.currentPage = val;
     },
     getNoticias() {
-      axios
+      this.$axios
         .get("noticia")
         .then(res => {
           this.noticias = res.data.content;
@@ -182,7 +181,7 @@ export default {
       this.keyword = "";
     },
     search() {
-      axios
+      this.$axios
         .get(`pesquisar-noticia/${this.keyword}`)
         .then(res => {
           this.noticias = res.data.content;
