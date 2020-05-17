@@ -174,8 +174,8 @@ export default {
       this.getUsuarios();
     },
     async getUsuarios() {
-      await axios
-        .get("https://epet.imd.ufrn.br:8443/api/pessoas", {
+      await this.$axios
+       this.$axios.get("https://epet.imd.ufrn.br:8443/api/pessoas", {
           auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {
@@ -200,8 +200,8 @@ export default {
         .catch(er => console.log(er));
     },
     async getPetianos() {
-      await axios
-        .get("http://epet.imd.ufrn.br/service/api/petianos-atuais", {
+      await this.$axios
+       this.$axios.get("http://epet.imd.ufrn.br/service/api/petianos-atuais", {
           auth: { username: "teste@gmail.com", password: "123456789" }
         })
         .then(res => {
@@ -209,7 +209,7 @@ export default {
         });
     },
     async removerPetiano(user){
-      await axios.delete(`http://epet.imd.ufrn.br/service/api/petianos-remove/${user}`,
+      await this.$axios.delete(`http://epet.imd.ufrn.br/service/api/petianos-remove/${user}`,
       {
         auth: {username: "teste@gmail.com", password: "123456789"}
       }).then(res => {
@@ -219,7 +219,7 @@ export default {
     },
     async tornarPetiano(user) {
 
-      await axios
+      await this.$axios
         .post(
           `http://epet.imd.ufrn.br/api/petianos-cadastro/${user}`,
           {data: {}},

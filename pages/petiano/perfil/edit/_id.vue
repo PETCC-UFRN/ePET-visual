@@ -62,7 +62,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from "~/axios";
+
 import { TheMask } from "vue-the-mask";
 
 export default {
@@ -81,8 +81,7 @@ export default {
   },
 
   mounted() {
-    axios
-      .get("petianos/" + this.$route.params.id)
+   this.$axios.get("petianos/" + this.$route.params.id)
       .then(res => {
         console.log(res);
       });
@@ -91,7 +90,7 @@ export default {
   
   methods: {
     async criarUsuario() {
-      await axios
+      await this.$axios
         .post(
           "/petianos-cadastro/" + this.$store.state.payload.idTipo_usuario,
           {

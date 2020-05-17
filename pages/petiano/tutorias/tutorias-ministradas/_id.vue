@@ -66,7 +66,7 @@
 	</div>
 </template>
 <script>
-import axios from "~/axios";
+
 
 export default {
 	layout: "menu/petiano",
@@ -108,7 +108,7 @@ export default {
 		};
 	},
 	mounted(){
-		axios.get('tutorias-ministradas/'+ this.$route.params.id).then((res) => {
+		this.$axios.get('tutorias-ministradas/'+ this.$route.params.id).then((res) => {
 				this.form = res.data;
 		});
 	}

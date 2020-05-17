@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -145,8 +145,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get("pessoas")
+   this.$axios.get("pessoas")
       .then(res => {
         this.pessoas = res.data.content;
       })
@@ -176,8 +175,7 @@ export default {
   },
   methods: {
     consumirParticipantesApi(){
-      axios
-      .get(`participantes-evento/${this.$route.query.idEvento}`)
+     this.$axios.get(`participantes-evento/${this.$route.query.idEvento}`)
       .then(res => {
         this.participantes = res.data.content;
       })
@@ -204,8 +202,7 @@ export default {
     },
     submitForm(e) {
       e.preventDefault();
-      axios
-        .post(`participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
+      this.$axios.post(`participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
         .then( res => {
           Swal.fire({
             title: "Participante cadastrado",
@@ -231,8 +228,7 @@ export default {
         });
     },
     del(id, rowId) {
-      axios
-        .delete("participantes-remove/" + id)
+      this.$axios.delete("participantes-remove/" + id)
         .then( () => {
           Swal.fire({
             title: "Participante removido",
@@ -249,8 +245,7 @@ export default {
         });
     },
     confirmar(id) {
-      axios
-        .post(`participantes-confirmar/${id}`)
+      this.$axios.post(`participantes-confirmar/${id}`)
         .then( () => {
           Swal.fire({
             title: "Participante confirmado",

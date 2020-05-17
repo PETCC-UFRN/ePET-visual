@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -65,14 +65,14 @@ export default {
     };
   },
   mounted() {
-    axios.get("tutorias-ministradas").then(res => {
+    this.$axios.get("tutorias-ministradas").then(res => {
       this.tutorias_ministradas = res.data.content;
     });
   },
   methods: {
     del(id, rowId){
       console.log(id);
-      axios.delete("tutoria-remove/" + id).then(() => {
+      this.$axios.delete("tutoria-remove/" + id).then(() => {
         this.tutorias_ministradas.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });

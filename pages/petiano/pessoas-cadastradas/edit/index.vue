@@ -36,7 +36,7 @@
 
 <script>
 
-import axios from "~/axios";
+
 import {TheMask} from 'vue-the-mask';
 
 export default {
@@ -66,14 +66,13 @@ export default {
     };
   },
   mounted() {
-    axios.get("pesquisar-pessoa/" + this.$route.query.cpf).then(res => {
+    this.$axios.get("pesquisar-pessoa/" + this.$route.query.cpf).then(res => {
       this.pessoa = res.data.content[0];
     });
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("pessoas-cadastro-atualizar/" + this.pessoa.tipo_usuario.idTipo_usuario 
+      this.$axios.post("pessoas-cadastro-atualizar/" + this.pessoa.tipo_usuario.idTipo_usuario 
           + "/" + this.pessoa.usuario.idUsuario, this.pessoa).then(res => {
             
           this.alert.class = "success";

@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -116,8 +116,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get("pessoas")
+   this.$axios.get("pessoas")
       .then(res => {
         this.pessoas = res.data.content;
       })
@@ -147,8 +146,7 @@ export default {
   },
   methods: {
     consumirOrganizadoresApi() {
-      axios
-        .get(`organizadores-evento/${this.$route.query.idEvento}`)
+      this.$axios.get(`organizadores-evento/${this.$route.query.idEvento}`)
         .then(res => {
           this.organizadores = res.data;
         })
@@ -177,8 +175,7 @@ export default {
       this.$router.push("/tutor/eventos/organizadores/create");
     },
     del(id, rowId) {
-      axios
-        .delete("organizadores-remove/" + id)
+      this.$axios.delete("organizadores-remove/" + id)
         .then(() => {
           Swal.fire({
             title: "Organizador removido",
@@ -197,8 +194,7 @@ export default {
     },
     submitForm(e) {
       e.preventDefault();
-      axios
-        .post(`organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
+      this.$axios.post(`organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
         .then( res => {
           Swal.fire({
             title: "Organizador cadastrado",

@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -134,7 +134,7 @@ export default {
       }  
     },
     searchDisciplinaTutoria(){
-      axios
+      this.$axios
         .get(`pesquisar-disciplina-tutoria/${this.keyword}`)
         .then( res => {
           this.tutorias = res.data.content;
@@ -161,7 +161,7 @@ export default {
         });
     },
     searchPetianoTutoria(){
-      axios
+      this.$axios
         .get(`pesquisar-petiano-tutoria/${this.keyword}`)
         .then( res => {
           this.tutorias = res.data.content;
@@ -188,7 +188,7 @@ export default {
         });
     },
     consumindoTutoriasApi() {
-      axios
+      this.$axios
         .get("tutorias")
         .then(res => {
           this.tutorias = res.data.content;
@@ -216,7 +216,7 @@ export default {
         });
     },
     desativar(id, rowId){
-      axios
+      this.$axios
         .delete("tutoria-desativa/" + id, {})
         .then( () => {
           Swal.fire({

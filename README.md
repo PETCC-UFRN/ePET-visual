@@ -22,13 +22,6 @@ Faz-se necessário os seguintes programas para executar o projeto com suas respe
 |`Node` 	| 12.16.1 |  
 
 
-### Observação :warning:
-Além disso, é necessário adicionar as credenciais da API no arquivo axios.js, o arquivo é uma instância do axios.example.js:
-
-```shell
-cp axios.example.js axios.js
-``` 
-
 ## Como executar
 
 Em seu computador execute os seguintes comandos para clonagem do repositório localmente e instalação das dependências do projeto:

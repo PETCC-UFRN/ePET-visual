@@ -198,7 +198,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -245,8 +245,7 @@ export default {
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("eventos-cadastrar", this.form)
+      this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           Swal.fire({
             title: 'Evento cadastrado',

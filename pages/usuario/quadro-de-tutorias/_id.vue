@@ -42,7 +42,7 @@
 	</div>
 </template>
 <script>
-import axios from "~/axios";
+
 
 export default {
 	layout: "menu/usuario",
@@ -74,7 +74,7 @@ export default {
 		};
 	},
 	mounted(){
-		axios.get('tutorias/'+ this.$route.params.id).then((res) => {
+		this.$axios.get('tutorias/'+ this.$route.params.id).then((res) => {
 				this.form = res.data;
 		});
 	}
