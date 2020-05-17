@@ -31,7 +31,7 @@ module.exports = {
   */
   router: {
     linkActiveClass: 'active open'
-  },  
+  },
 
   /*
   ** Customize the progress bar color
@@ -58,7 +58,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    
+    '~/plugins/axios.js'
   ],
 
   /*
@@ -75,19 +75,21 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://127.0.0.1:8080/api'
+    baseURL: "https://epet.imd.ufrn.br:8443/api"
   },
 
-  auth:{
-    strategies:{
-      local:{
-        endpoints:{
-          login: { url:'login', method: 'post', propertyName: 'data'},
-          user: {url: 'admin', method: 'get', propertyName:'data'},
-          logout: false
-        }
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'sign-in', method: 'post', propertyName: false },
+          logout: false,
+          user: false
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
       }
-    }
+    },
   },
 
   /*
@@ -105,7 +107,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -115,9 +117,9 @@ module.exports = {
         })
 
         const vueLoader = config.module.rules.find(
-          ({loader}) => loader === 'vue-loader')
-        const { options: {loaders} } = vueLoader || { options: {} }
-        
+          ({ loader }) => loader === 'vue-loader')
+        const { options: { loaders } } = vueLoader || { options: {} }
+
         if (loaders) {
           for (const loader of Object.values(loaders)) {
             changeLoaderOptions(Array.isArray(loader) ? loader : [loader])

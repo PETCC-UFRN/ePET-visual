@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -53,7 +53,7 @@ export default {
   methods: {
     async redefinirSenha(){
       try{
-        await axios.post('reset/',{
+        await this.$axios.post('reset/',{
             code: this.$route.params.code,
             senha: this.usuario.senha
           }).then(res => {

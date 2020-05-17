@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -50,7 +50,7 @@ export default {
     async register(){
       try{
         
-        await axios.setHeader('email', this.usuario.email).post('forgot/')
+        await this.$axios.setHeader('email', this.usuario.email).post('forgot/')
           .then(res => {
             this.usuario.email = "";
 

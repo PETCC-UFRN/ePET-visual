@@ -108,7 +108,7 @@
 
 <script>
 
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 import Pagination from "~/components/Pagination";
@@ -151,8 +151,7 @@ export default {
       this.consumindoEventosApi()
     },
     search() {
-      axios
-        .get(`pesquisar-evento/${this.keyword}`)
+      this.$axios.get(`pesquisar-evento/${this.keyword}`)
         .then( res => {
           this.eventos = res.data.content;
         })
@@ -181,8 +180,7 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      axios
-        .get("eventos")
+      this.$axios.get("eventos")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
@@ -210,8 +208,7 @@ export default {
         });
     },
     del(id, rowId) {
-      axios
-        .delete(`eventos-remove/${id}`)
+      this.$axios.delete(`eventos-remove/${id}`)
         .then( () => {
           Swal.fire({
             title: 'Evento removido',
@@ -236,8 +233,7 @@ export default {
         });
     },
     ativar(id) {
-      axios
-        .post(`eventos-ativar/${id}`)
+      this.$axios.post(`eventos-ativar/${id}`)
         .then( () => {
           Swal.fire({
             title: 'Evento ativado',

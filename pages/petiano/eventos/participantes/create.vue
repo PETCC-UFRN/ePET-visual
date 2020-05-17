@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import axios from "~/axios";
+
 
 export default {
   layout: "menu/petiano",
@@ -79,18 +79,17 @@ export default {
     };
   },
   mounted() {
-    axios.get("pessoas").then(res => {
+    this.$axios.get("pessoas").then(res => {
       this.pessoas = res.data.content;
     });
 
-    axios.get("eventos-abertos").then(res => {
+    this.$axios.get("eventos-abertos").then(res => {
       this.eventos = res.data;
     });
   },
   methods: {
     submitForm(e) {
-      axios
-        .post(
+      this.$axios.post(
           "participantes-cadastrar/" + this.form.evento + "/" + this.form.pessoa
         )
         .then(res => {

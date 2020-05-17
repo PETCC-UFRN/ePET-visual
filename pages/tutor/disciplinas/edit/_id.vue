@@ -29,9 +29,8 @@
 </template>
 
 <script>
-import axios from "~/axios";
-import Swal from "sweetalert2";
 
+import Swal from "sweetalert2";
 import {TheMask} from 'vue-the-mask';
 
 export default {
@@ -50,7 +49,7 @@ export default {
   methods: {
     submitForm(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("disciplinas", this.form)
         .then(res => {
           Swal.fire({
