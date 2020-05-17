@@ -157,7 +157,6 @@ export default {
   mounted() {
    this.$axios.get("noticia/?page=0")
       .then(res => {
-        //console.log(res.data);
         this.noticias = res.data.content.slice(0, 3);
         this.isLoading = false;
       })
@@ -166,16 +165,13 @@ export default {
           this.isLoading = false;
         }
       });
-      axios
+      this.$axios
       .get("/pesquisar-pessoa-tutorias-ministradas/" + this.$store.state.profile.idPessoa)
       .then(res => {
-        console.log(this.$store.state.profile.idPessoa);
-        console.log(res);
         this.tutorias = res.data.content.slice(0, 3);
         this.isLoading = false;
       })
       .catch(err => {
-        console.log(err);
         if (err.response.status) {
           this.isLoading = false;
         }
