@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -69,17 +69,17 @@ export default {
     };
   },
   mounted() {
-    axios.get("disciplinas").then(res => {
+    this.$axios.get("disciplinas").then(res => {
       this.disciplinas = res.data.content;
     });
-    axios.get("pessoas-usuario").then(res => {
+    this.$axios.get("pessoas-usuario").then(res => {
       this.currentPessoa = res.data;
       if(res.data.tipo_usuario.nome != "petiano" && res.data.tipo_usuario.nome != "tutor")
       {
         this.$router.push("/");
       }
     }).finally( () =>{
-      axios.get("petianos-pessoa/"+this.currentPessoa.idPessoa).then(res2 => {
+      this.$axios.get("petianos-pessoa/"+this.currentPessoa.idPessoa).then(res2 => {
         this.currentPetiano = res2.data;
         console.log(this.currentPetiano);
       });
@@ -98,7 +98,7 @@ export default {
         }
       )*/
       console.log("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/");
-      axios.post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/").then(() => {
+      this.$axios.post("tutoria-cadastro/" + this.currentPetiano.idPetiano +"/"+id+"/").then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
         alert('Tutoria cadastrada com sucesso');
         let vm = this;
@@ -110,13 +110,13 @@ export default {
   }
   /*methods: {
     del(id, rowId){
-      axios.delete("eventos-remove/" + id).then(() => {
+      this.$axios.delete("eventos-remove/" + id).then(() => {
         this.disciplinas.splice(rowId, 1);
         alert('Evento removido com sucesso');
       });
     },
     ativar(id){
-      axios.post("eventos-ativar/" + id).then(() => {
+      this.$axios.post("eventos-ativar/" + id).then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
         alert('Evento ativado com sucesso');
         let vm = this;

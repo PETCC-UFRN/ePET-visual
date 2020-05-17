@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -222,14 +222,13 @@ export default {
     };
   },
   mounted(){
-    axios.get('eventos/'+ this.$route.params.id).then((res) => {
+    this.$axios.get('eventos/'+ this.$route.params.id).then((res) => {
         this.form = res.data;
     });
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("eventos-cadastrar", this.form)
+      this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           Swal.fire({
             title: 'Evento atualizado',

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -24,7 +24,7 @@ export default {
     return { noticia: [], loaded: false };
   },
   mounted() {
-    axios.get("noticia/" + this.$route.params.id).then(res => {
+    this.$axios.get("noticia/" + this.$route.params.id).then(res => {
       this.noticia = res.data;
       this.loaded = true;
       console.log(this.noticia.petiano.pessoa.nome);

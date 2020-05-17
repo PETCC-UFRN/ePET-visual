@@ -6,7 +6,7 @@
           <b-col>
             <h2><i class="fa fa-book px-2"></i>Disciplinas para tutoria</h2>
           </b-col>
-        </b-row>          
+        </b-row>
       </template>
       <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import axios from "~/axios";
 import Swal from "sweetalert2";
 
 export default {
@@ -81,32 +80,34 @@ export default {
         nome: ""
       },
       disciplinas: [],
-      currentPessoa:[],
-      currentPetiano:[],
+      currentPessoa: [],
+      currentPetiano: [],
       currentPage: 1,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true, label: "Nome" },
-        { key: "actions", sortable: true, label: "Ações disponíveis" },
+        { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
   mounted() {
     this.consumirDisciplinasApi();
 
-    axios
+    this.$axios
       .get("pessoas-usuario")
       .then(res => {
         this.currentPessoa = res.data;
-        if( res.data.tipo_usuario.nome != "petiano" && 
-          res.data.tipo_usuario.nome != "tutor") {
+        if (
+          res.data.tipo_usuario.nome != "petiano" &&
+          res.data.tipo_usuario.nome != "tutor"
+        ) {
           this.$router.push("/");
         }
       })
-      .finally( () =>{
-        axios
+      .finally(() => {
+        this.$axios
           .get(`petianos-pessoa/${this.currentPessoa.idPessoa}`)
-          .then( res2 => {
+          .then(res2 => {
             this.currentPetiano = res2.data;
           })
           .catch( err => {
@@ -115,20 +116,18 @@ export default {
                 title: "Usuário não tem permissão nem de petiano nem de tutor",
                 icon: 'error',
               });
-            }
-            else {
+            } else {
               Swal.fire({
                 title: "Falha em consumir API",
-                icon: 'error',
-              })
-              .then( () => {
-                  let vm = this;
-                  setTimeout(function() {
-                    location.reload();
-                  }, 1500);
+                icon: "error"
+              }).then(() => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
               });
             }
-          }); 
+          });
       });
   },
   methods: {
@@ -137,7 +136,7 @@ export default {
       this.consumirDisciplinasApi()
     },
     search() {
-      axios
+      this.$axios
         .get(`pesquisar-disciplina-ativa/${this.keyword}`)
         .then( res => {
           this.disciplinas = res.data.content;
@@ -164,72 +163,68 @@ export default {
         });
     },
     consumirDisciplinasApi() {
-      axios
+      this.$axios
         .get("disciplinas-ativas")
-        .then( res => {
+        .then(res => {
           this.disciplinas = res.data.content;
           this.isLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           if (err.response.status === 404) {
             Swal.fire({
               title: "Nenhum disciplina ativa encontrada",
               icon: 'info',
             });
-          }
-          else {
+          } else {
             Swal.fire({
               title: "Falha em consumir API",
-              icon: 'error',
-            })
-            .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
+              icon: "error"
+            }).then(() => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
             });
           }
         });
     },
     submitForm(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("disciplinas", this.form)
         .then(res => {
           Swal.fire({
-            title: 'Disciplina cadastrada',
-            icon: 'success',
-          })
-          .then( () => {
-            this.reset();          
+            title: "Disciplina cadastrada",
+            icon: "success"
+          }).then(() => {
+            this.reset();
             this.consumirDisciplinasApi();
           });
         })
         .catch(err => {
           Swal.fire({
-            title: 'Disciplina não cadastrada',
-            icon: 'error',
+            title: "Disciplina não cadastrada",
+            icon: "error"
           });
         });
     },
-    cadastrar(id){
-      axios
+    cadastrar(id) {
+      this.$axios
         .post(`tutoria-cadastro/${this.currentPetiano.idPetiano}/${id}/`)
-        .then( () => {
+        .then(() => {
           Swal.fire({
-            title: 'Disciplina tutorada cadastrada',
-            icon: 'success',
-          })
-          .then( () => {
-            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");        
+            title: "Disciplina tutorada cadastrada",
+            icon: "success"
+          }).then(() => {
+            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");
           });
         })
-        .catch( () => {
+        .catch(() => {
           Swal.fire({
-            title: 'Disciplina tutorada não cadastrada',
-            icon: 'error',
+            title: "Disciplina tutorada não cadastrada",
+            icon: "error"
           });
-        }); 
+        });
     }
   }
 };

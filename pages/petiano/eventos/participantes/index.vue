@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 export default {
   name: "dashboard",
   /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
@@ -106,20 +106,20 @@ export default {
     }
   },
   mounted() {
-    axios.get("participantes").then(res => {
+    this.$axios.get("participantes").then(res => {
       this.eventos = res.data.content;
     });
   },
   methods: {
     del(id, rowId) {
       console.log(id);
-      axios.delete("participantes-remove/" + id).then(() => {
+      this.$axios.delete("participantes-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
         alert("Participante removido com sucesso");
       });
     },
     confirmar(id) {
-      axios.post("participantes-confirmar/" + id).then(() => {
+      this.$axios.post("participantes-confirmar/" + id).then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
         alert("Participante ativado com sucesso");
         let vm = this;

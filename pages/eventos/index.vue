@@ -36,7 +36,6 @@
 
 <script>
 import Comum from "~/components/Comum";
-import axios from "axios";
 import BottomBar from "~/components/anonymous/BottomBar";
 
 
@@ -70,7 +69,7 @@ export default {
       };
   },
   mounted() {
-    axios.get("https://epet.imd.ufrn.br:8443/api/eventos-abertos").then(res => {
+    this.$axios.get("eventos-abertos").then(res => {
       this.eventos = res.data;
     });
   },

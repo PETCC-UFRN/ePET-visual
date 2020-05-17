@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     async criarUsuario() {
-      await axios
+      await this.$axios
         .post(
           "http://localhost:8080/api/usuarios-cadastrar/",
           {

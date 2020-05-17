@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -68,13 +68,13 @@ export default {
     };
   },
   mounted() {
-    axios.get("tutorias").then(res => {
+    this.$axios.get("tutorias").then(res => {
       this.tutorias = res.data.content;
     });
   },
   methods: {
     del(id, rowId){
-      axios.delete("tutoria-remove/" + id, {}).then(() => {
+      this.$axios.delete("tutoria-remove/" + id, {}).then(() => {
         this.tutorias.splice(rowId, 1);
         alert('Tutoria removido com sucesso');
       });

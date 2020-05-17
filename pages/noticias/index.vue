@@ -64,7 +64,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("https://epet.imd.ufrn.br:8443/api/noticia").then(res => {
+    this.$axios.get("https://epet.imd.ufrn.br:8443/api/noticia").then(res => {
       this.noticias = res.data.content;
     });
   },

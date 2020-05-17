@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Cookies from "js-cookie";
 
 export default {
@@ -128,13 +128,13 @@ export default {
   mounted() {
     this.getPessoas();
 
-    axios.get("tipo-usuario").then(res => {
+    this.$axios.get("tipo-usuario").then(res => {
       this.tipos_usuario = res.data;
     });
   },
   watch: {
     currentPage: function(val){
-      axios.get("pessoas?page=" + val).then(res => {
+      this.$axios.get("pessoas?page=" + val).then(res => {
         this.pessoas = res.data.content;
         this.numPages = res.data.totalPages;
       });
@@ -144,7 +144,7 @@ export default {
     async changePermission(row, event) {
       let id_usuario = row.item.usuario.idUsuario;
       let id_tipo = event.target.value;
-      await axios
+      await this.$axios
         .post(
           "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
           this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
@@ -181,7 +181,7 @@ export default {
         pessoaSelected["data_egresso"] = this.modal.data_egresso;
       }
 
-      axios
+      this.$axios
         .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
         .then(res => {
           this.hideModal("modal-create");
@@ -198,7 +198,7 @@ export default {
       this.getPessoas();
     },
     search() {
-      axios
+      this.$axios
         .get(`pesquisar-pessoa/${this.keyword}`)
         .then(res => {
           this.pessoas = res.data.content;
@@ -225,7 +225,7 @@ export default {
         });
     },
     getPessoas(){
-      axios
+      this.$axios
         .get("pessoas")
         .then(res => {
           this.pessoas = res.data.content;

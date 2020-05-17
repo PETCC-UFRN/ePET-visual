@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import style from "~/assets/css/loading.css";
 
 export default {
@@ -137,16 +137,16 @@ export default {
     };
   },
   mounted() {
-    axios.get("noticia/?page=0").then(res => {
+    this.$axios.get("noticia/?page=0").then(res => {
       this.noticias = res.data.content.slice(0,3);
       this.isLoading = false;
     })
 
-    axios.get("eventos-abertos").then(res => {
+    this.$axios.get("eventos-abertos").then(res => {
       this.eventos = res.data;
     });
 
-    axios.get("petianos-atuais").then(res => {
+    this.$axios.get("petianos-atuais").then(res => {
       this.petianosAtuais = res.data.content;
     });
   },

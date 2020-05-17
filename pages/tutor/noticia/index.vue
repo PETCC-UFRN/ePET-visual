@@ -6,7 +6,7 @@
         <a
           class="btn btn-sm btn-primary float-right"
           style="color: white"
-          href="/petiano/noticia/create"
+          href="/tutor/noticia/create"
         >
           <i class="fa fa-plus" aria-hidden="true"></i> Adicionar notícia
         </a>
@@ -37,14 +37,14 @@
           </template>
           <template v-slot:cell(actions)="row">
             <b-button
-              :href="'/petiano/noticia/visualize/' + row.item.idNoticia"
+              :href="'/tutor/noticia/visualize/' + row.item.idNoticia"
               class="btn btn-sm btn-primary"
             >
               <i class="fa fa-eye" aria-hidden="true"></i>
               Visualizar
             </b-button>
             <b-button
-              :href="'/petiano/noticia/edit/' + row.item.idNoticia"
+              :href="'/tutor/noticia/edit/' + row.item.idNoticia"
               class="btn btn-sm btn-warning"
             >
               <i class="fa fa-pencil fa-fw"></i> Editar
@@ -71,7 +71,7 @@ import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {
     Pagination
   },
