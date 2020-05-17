@@ -15,11 +15,6 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Perfil',
-            url: '/tutor/perfil',
-            icon: 'icon-user'
-        },
-        {
             name: 'Eventos',
             url: '/tutor/eventos/eventos-cadastrados',
             icon: 'icon-event'
