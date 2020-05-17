@@ -81,15 +81,7 @@
               </b-btn>
             </b-input-group-text>
             <b-input-group-text slot="append">
-              <b-btn
-                class="p-0"
-                :disabled="!keyword"
-                variant="link"
-                size="sm"
-                @click="getDisciplinas"
-              >
-                <i class="fa fa-remove"></i>
-              </b-btn>
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
             </b-input-group-text>
           </b-input-group>
 
@@ -253,11 +245,17 @@ export default {
           }
         });
     },
+    cancelSearch() {
+      this.keyword = '';
+      this.getDisciplinas();
+    },
     search() {
-      this.$axios.get("pesquisar-diciplina/" + this.keyword).then(res => {
-        this.numItems = res.data.totalElements;
-        this.disciplinas = res.data.content;
-      });
+      this.$axios
+        .get('pesquisar-disciplina/' + this.keyword)
+        .then(res => {
+          this.numItems = res.data.totalElements;
+          this.disciplinas = res.data.content;
+        });
     },
     setCurrentPage(val) {
       this.currentPage = val;
@@ -268,7 +266,7 @@ export default {
     },
     submitForm(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("disciplinas", this.form)
         .then(res => {
           Swal.fire({
