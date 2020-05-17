@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -91,7 +91,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("disciplinas").then(res => {
+    this.$axios.get("disciplinas").then(res => {
       this.disciplinas = res.data.content;
     });
   },
@@ -108,7 +108,7 @@ export default {
     },
     desativarAtivar(ativo, id, nome, codigo) {
       this.$nextTick(() => {
-        axios.post("disciplinas", {
+        this.$axios.post("disciplinas", {
         "ativo": !ativo,
         "idDisciplina": id,
         "nome": nome,

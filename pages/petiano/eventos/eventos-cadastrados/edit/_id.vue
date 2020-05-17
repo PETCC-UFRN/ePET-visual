@@ -62,7 +62,7 @@
   </div>
 </template>
 <script>
-import axios from "~/axios";
+
 
 export default {
   layout: "menu/petiano",
@@ -91,14 +91,13 @@ export default {
     };
   },
   mounted(){
-    axios.get('eventos/'+ this.$route.params.id).then((res) => {
+    this.$axios.get('eventos/'+ this.$route.params.id).then((res) => {
         this.form = res.data;
     });
   },
   methods: {
     submitForm(e) {
-      axios
-        .post("eventos-cadastrar", this.form)
+      this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Evento editado com sucesso";

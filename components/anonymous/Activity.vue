@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import axios from "../../axios";
+
 export default {
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
       this.sliding = false
     },
     async getNoticias() {
-      axios.get("noticia").then(res => {
+      this.$axios.get("noticia").then(res => {
         this.noticias = res.data.content;
       });
     }

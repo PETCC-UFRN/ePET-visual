@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
@@ -56,14 +56,13 @@ export default {
   },
   methods: {
     getInfo() {
-      axios.get("/pessoas/" + this.$store.state.profile.idPessoa).then(res => {
+      this.$axios.get("/pessoas/" + this.$store.state.profile.idPessoa).then(res => {
         this.form = res.data;
       });
     },
 
     onSubmit() {
-      axios
-        .post("pessoas-atualizar/", {
+      this.$axios.post("pessoas-atualizar/", {
           ...this.$store.state.profile,
           nome: this.form.nome
         })

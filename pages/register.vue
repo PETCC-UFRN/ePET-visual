@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import {TheMask} from 'vue-the-mask';
 import Swal from "sweetalert2";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
@@ -93,7 +93,7 @@ export default {
     async register(){
       try{
         
-        await axios.post('sign-up/',{
+        await this.$axios.post('sign-up/',{
           email: this.usuario.email,
           senha: this.usuario.senha,
           cpf: this.usuario.cpf,

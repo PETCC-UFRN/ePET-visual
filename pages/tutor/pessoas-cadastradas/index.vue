@@ -2,59 +2,61 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3><i class="fa fa-group px-2"></i>Pessoas cadastradas</h3>
+        <h2><i class="fa fa-group px-2"></i>Pessoas cadastradas</h2>
       </template>
-      <div v-if="pessoas.length > 0">
-        <b-input-group class="mt-3 mb-3">
-          <b-form-input placeholder="Buscar por nome ou por CPF" type="text" v-model="keyword"></b-form-input>
-          <b-input-group-append>
-            <b-button class="bbutton" variant="success" @click="search">
-              <i class="fa fa-search"></i>
-            </b-button>
-            <b-button class="bbutton" variant="outline-danger" @click="getPessoas">
-              <i class="fa fa-remove"></i>
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-
-        <b-table
-          responsive="sm"
-          :items="pessoas"
-          :current-page="currentPage"
-          :bordered="true"
-          :per-page="20"
-          :fields="fields"
-        >
-          <template v-slot:cell(tipo_usuario)="row">
-            <select @change="changePermission(row, $event)" class="form-control">
-              <option
-                v-for="tipo in tipos_usuario"
-                :key="tipo.idTipo_usuario"
-                :value="tipo.idTipo_usuario"
-                :selected="row.item.tipo_usuario.idTipo_usuario === tipo.idTipo_usuario"
-              >{{ tipo.nome }}</option>
-            </select>
-          </template>
-          <template v-slot:cell(actions)="row">
-            <b-button 
-                @click.prevent="editar(row.item.idPessoa, row.item.nome, row.item.cpf, row.item.tipo_usuario)" 
-                class="btn btn-sm btn-warning">
-                <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-          </template>
-        </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="numPages"
-            :per-page="20"
-            pills
-            v-model="currentPage"
-            prev-text="Anterior"
-            next-text="Próximo"
-            hide-goto-end-buttons
-          />
-        </nav>
+      <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
-      <div v-else>Nenhuma pessoa cadastrada</div>
+      <div v-else>
+        <div v-if="pessoas.length > 0">
+          <b-input-group  class="mt-3 mb-3" >
+            <b-form-input
+              v-model="keyword"
+              placeholder="Buscar por nome ou por CPF"            
+              type="text"
+            ></b-form-input>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
+            </b-input-group-text>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
+            </b-input-group-text>
+          </b-input-group>
+
+          <b-table
+            responsive="sm"
+            :items="pessoas"
+            :current-page="currentPage"
+            :bordered="true"
+            :per-page="20"
+            :fields="fields"
+          >
+            <template v-slot:cell(tipo_usuario)="row">
+              <select @change="changePermission(row, $event)" class="form-control">
+                <option
+                  v-for="tipo in tipos_usuario"
+                  :key="tipo.idTipo_usuario"
+                  :value="tipo.idTipo_usuario"
+                  :selected="row.item.tipo_usuario.idTipo_usuario === tipo.idTipo_usuario"
+                >{{ tipo.nome }}</option>
+              </select>
+            </template>
+          </b-table>
+          <nav>
+            <b-pagination
+              :total-rows="numPages"
+              :per-page="20"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
+        </div>
+        <div v-else><h5>Nenhuma pessoa cadastrada</h5></div>
+      </div>
     </b-card>
 
     <b-modal ref="modal-create" title="Informações adicionais" hide-footer no-close-on-backdrop>
@@ -86,7 +88,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Cookies from "js-cookie";
 
 export default {
@@ -94,6 +96,7 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+      isLoading: true,
       pessoas: {},
       tipos_usuario: {},
       currentPage: 1,
@@ -116,7 +119,6 @@ export default {
             return value.email;
           }
         },
-        { key: "actions", sortable: true, label: "Ações disponíveis" },
       ],
       modal: {},
       keyword: "",
@@ -126,13 +128,13 @@ export default {
   mounted() {
     this.getPessoas();
 
-    axios.get("tipo-usuario").then(res => {
+    this.$axios.get("tipo-usuario").then(res => {
       this.tipos_usuario = res.data;
     });
   },
   watch: {
     currentPage: function(val){
-      axios.get("pessoas?page=" + val).then(res => {
+      this.$axios.get("pessoas?page=" + val).then(res => {
         this.pessoas = res.data.content;
         this.numPages = res.data.totalPages;
       });
@@ -142,7 +144,7 @@ export default {
     async changePermission(row, event) {
       let id_usuario = row.item.usuario.idUsuario;
       let id_tipo = event.target.value;
-      await axios
+      await this.$axios
         .post(
           "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
           this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
@@ -179,7 +181,7 @@ export default {
         pessoaSelected["data_egresso"] = this.modal.data_egresso;
       }
 
-      axios
+      this.$axios
         .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
         .then(res => {
           this.hideModal("modal-create");
@@ -191,16 +193,65 @@ export default {
           );
         });
     },
+    cancelSearch() {
+      this.keyword = "";
+      this.getPessoas();
+    },
     search() {
-      axios.get("pesquisar-pessoa/" + this.keyword).then(res => {
-        this.pessoas = res.data.content;
-      });
+      this.$axios
+        .get(`pesquisar-pessoa/${this.keyword}`)
+        .then(res => {
+          this.pessoas = res.data.content;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma pessoa encontrada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }
+        });
     },
     getPessoas(){
-      axios.get("pessoas").then(res => {
-        this.pessoas = res.data.content;
-        this.numPages = res.data.totalPages;
-      });
+      this.$axios
+        .get("pessoas")
+        .then(res => {
+          this.pessoas = res.data.content;
+          this.numPages = res.data.totalPages;
+          this.isLoading = false;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma pessoa cadastrada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }
+        });
     }
   }
 };
@@ -209,5 +260,10 @@ export default {
 <style scoped>
 .bbutton {
   border-radius: 0px !important;
+}
+
+
+h2, h4 {
+  font-weight: 300;
 }
 </style>

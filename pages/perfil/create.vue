@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import axios from "../../axios";
+
 
 export default {
   layout: "menu/petiano",
@@ -69,14 +69,14 @@ export default {
     };
   },
   async mounted() {
-    await axios.get("pessoas/3").then(res => {
+    await this.$axios.get("pessoas/3").then(res => {
       let pessoa = res.data;
       this.usuario.id = pessoa.idPessoa;
       this.usuario.nome = pessoa.nome;
       this.usuario.cpf = pessoa.cpf;
     });
-    await axios
-      .get("petianos-atuais")
+    await this.$axios
+     this.$axios.get("petianos-atuais")
       .then(res => {
         let res_ = res.data.content;
         let filtro = res_.filter(petiano_ => {
@@ -105,8 +105,7 @@ export default {
   methods: {
     submitForm(e) {
         console.log(this.usuario)
-      axios
-        .put(`petianos-editar/${this.usuario.id}`, {
+      this.$axios.put(`petianos-editar/${this.usuario.id}`, {
             data_ingresso: this.usuario.data_ingresso,
             area_interesse: this.usuario.area_interesse,
             lattes: this.usuario.lattes,

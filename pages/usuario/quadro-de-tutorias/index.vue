@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -82,7 +82,7 @@ export default {
 	  }
   },
   mounted() {
-    axios.get("tutorias").then(res => {
+    this.$axios.get("tutorias").then(res => {
       this.tutorias = res.data.content;
     });
   }

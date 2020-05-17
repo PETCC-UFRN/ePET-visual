@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import style from "~/assets/css/loading.css";
 
 export default {
@@ -155,8 +155,7 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("noticia/?page=0")
+   this.$axios.get("noticia/?page=0")
       .then(res => {
         //console.log(res.data);
         this.noticias = res.data.content.slice(0, 3);
