@@ -10,7 +10,66 @@
     </div>
     <div v-else>
       <div class="row">
+
+                <div class="col-md-6">
+          <b-card header-tag="header" footer-tag="footer">
+            <div slot="header">
+              <b-row>
+                <b-col>
+                  <h3>
+                    <i class="fa fa-file" aria-hidden="true"></i> Tutorias ativas recentes
+                  </h3>
+                </b-col>
+              </b-row>
+            </div>
+            <b-list-group>
+              <div v-for="tt in tutorias" :key="tt.idTutoria_ministrada">
+                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{tt.disciplina.nome}}</h5>
+                    <small class="text-muted">{{tt.data}}</small>
+                  </div>
+                  <p class="mb-1">{{tt.tutoria.petiano.pessoa.nome}}</p>
+                  <!--
+                  <small class="text-muted">
+                    <em>Postado por {{noticia.petiano.pessoa.nome}}</em>
+                  </small>
+                  -->
+                </b-list-group-item>
+              </div>
+            </b-list-group>
+          </b-card>
+        </div>
+
         <div class="col-md-6">
+          <b-card header-tag="header" footer-tag="footer">
+            <div slot="header">
+              <b-row>
+                <b-col>
+                  <h3>
+                    <i class="fa fa-newspaper-o" aria-hidden="true"></i> Notícias recentes
+                  </h3>
+                </b-col>
+              </b-row>
+            </div>
+            <b-list-group>
+              <div v-for="noticia in noticias" :key="noticia.idNoticia">
+                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{noticia.titulo}}</h5>
+                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
+                  </div>
+                  <p class="mb-1">{{noticia.corpo}}</p>
+                  <small class="text-muted">
+                    <em>Postado por {{noticia.petiano.pessoa.nome}}</em>
+                  </small>
+                </b-list-group-item>
+              </div>
+            </b-list-group>
+          </b-card>
+        </div>
+
+                <div class="col-md-6">
           <b-card header-tag="header" footer-tag="footer">
             <div slot="header">
               <b-row>
@@ -69,33 +128,6 @@
             </div>
           </b-card>
         </div>
-        <div class="col-md-6">
-          <b-card header-tag="header" footer-tag="footer">
-            <div slot="header">
-              <b-row>
-                <b-col>
-                  <h3>
-                    <i class="fa fa-newspaper-o" aria-hidden="true"></i> Notícias recentes
-                  </h3>
-                </b-col>
-              </b-row>
-            </div>
-            <b-list-group>
-              <div v-for="noticia in noticias" :key="noticia.idNoticia">
-                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{noticia.titulo}}</h5>
-                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
-                  </div>
-                  <p class="mb-1">{{noticia.corpo}}</p>
-                  <small class="text-muted">
-                    <em>Postado por {{noticia.petiano.pessoa.nome}}</em>
-                  </small>
-                </b-list-group-item>
-              </div>
-            </b-list-group>
-          </b-card>
-        </div>
       </div>
     </div>
   </div>
@@ -112,6 +144,7 @@ export default {
     return {
       isLoading: true,
       noticias: [], // requisicao de noticias
+      tutorias: [],
       eventos: [],
       currentPage: 1,
       fields: [
@@ -125,10 +158,25 @@ export default {
     axios
       .get("noticia/?page=0")
       .then(res => {
+        //console.log(res.data);
         this.noticias = res.data.content.slice(0, 3);
         this.isLoading = false;
       })
       .catch(err => {
+        if (err.response.status) {
+          this.isLoading = false;
+        }
+      });
+      axios
+      .get("/pesquisar-pessoa-tutorias-ministradas/" + this.$store.state.profile.idPessoa)
+      .then(res => {
+        console.log(this.$store.state.profile.idPessoa);
+        console.log(res);
+        this.tutorias = res.data.content.slice(0, 3);
+        this.isLoading = false;
+      })
+      .catch(err => {
+        console.log(err);
         if (err.response.status) {
           this.isLoading = false;
         }
