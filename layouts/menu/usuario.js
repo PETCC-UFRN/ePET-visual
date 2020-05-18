@@ -14,12 +14,6 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Perfil',
-            url: '/usuario/perfil',
-            icon: 'icon-user'
-        },
-
-        {
             name: 'Eventos',
             icon: 'icon-event',
             children: [
