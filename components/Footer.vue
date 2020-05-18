@@ -1,6 +1,6 @@
 <template>
   <footer class="app-footer">
-    <span>{{ year }} &copy;  PET-CC UFRN</span>
+    <span>{{ year }} &copy;  PET-CC UFRN - Programa de Educação Tutorial de Ciência da Computação</span>
     <span class="ml-auto">Template por <a href="http://coreui.io">CoreUI</a></span>
   </footer>
 </template>
