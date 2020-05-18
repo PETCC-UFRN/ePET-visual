@@ -40,7 +40,7 @@
             :items="eventos"
             :current-page="currentPage"
             :bordered="true"
-            :per-page="10"
+            :per-page="20"
             :fields="fields"
           >
             <template v-slot:cell(pages)="row">
@@ -86,17 +86,6 @@
               v-on:currentPage="setCurrentPage"
             />
           </div>
-          <nav><!--
-            <b-pagination
-              :total-rows="eventos.length"
-              :per-page="10"
-              pills
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />-->
-          </nav>
         </div>
         <div v-else>
           <h5>Nenhum evento cadastrado</h5>
@@ -126,7 +115,6 @@ export default {
       eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      //currentPage: 1,
       currentPage: 0,
       numItems: 0,
       perPage: 20,
@@ -143,7 +131,14 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
-    this.$on('currentPage', )
+  },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
   },
   methods: {
     cancelSearch() {
