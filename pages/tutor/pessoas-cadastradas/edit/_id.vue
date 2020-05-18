@@ -6,7 +6,10 @@
     </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong><i class="fa fa-edit"></i> Pessoas cadastradas</strong> <small>Formulário de edição</small>
+        <strong>
+          <i class="fa fa-edit"></i> Pessoas cadastradas
+        </strong>
+        <small>Formulário de edição</small>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
@@ -19,8 +22,12 @@
             <input type="text" class="form-control" placeholder="Digite o CPF" v-model="form.cpf" />
           </div>
           <div class="form-group">
-            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <b-button href="/tutor/dados-cadastrais/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+            <b-button type="submit" variant="primary">
+              <i class="fa fa-dot-circle-o"></i> Salvar modificações
+            </b-button>
+            <a href="/tutor/pessoas-cadastradas/" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Cancelar
+            </a>
           </div>
         </form>
       </div>
@@ -28,16 +35,17 @@
   </div>
 </template>
 <script>
+import Swal from "sweetalert2";
 
 export default {
   layout: "menu/tutor",
   data() {
     return {
       form: {
-        idPessoa: this.$route.query.idPessoa,
-        nome: this.$route.query.nome,
-        cpf: this.$route.query.cpf,
-        tipo_usuario: this.$route.query.tipo_usuario
+        idPessoa: "",
+        nome: "",
+        cpf: "",
+        tipo_usuario: ""
       },
       alert: {
         message: "",
@@ -45,24 +53,33 @@ export default {
       }
     };
   },
+  mounted() {
+    this.form = JSON.parse(this.$route.query.data);
+  },
   methods: {
     submitForm(e) {
-      this.$axios.post("pessoas/" + this.$route.params.tipo_usuario + "/" + this.$route.params.idPessoa, this.form)
+      this.$axios
+        .post(
+          "pessoas-cadastro-atualizar/" +
+            this.form.tipo_usuario.idTipo_usuario +
+            "/" +
+            this.form.usuario.idUsuario,
+          this.form
+        )
         .then(res => {
-          this.alert.class = "success";
-          this.alert.message = "Disciplina editada com sucesso";
-          this.form = Object.entries(this.form).map(item => {
-            return (item = "");
+          Swal.fire({
+            title: "Cadastro atualizado com sucesso",
+            icon: "success"
+          }).then(() => {
+            this.$router.push('/tutor/pessoas-cadastradas/edit/' + this.$route.params.id + '?data=' + JSON.stringify(this.form));
           });
-          this.$router.push(
-            {
-              path: '../',
-            }
-          )
         })
         .catch(err => {
-          this.alert.class = "danger";
-          this.alert.message = "Disciplina não editada. Tente novamente.";
+          Swal.fire({
+            title:
+              "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            icon: "error"
+          });
         });
     }
   }

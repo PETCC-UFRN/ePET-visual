@@ -10,6 +10,8 @@ const changeLoaderOptions = loaders => {
   }
 }
 
+const webpack = require("webpack");
+
 module.exports = {
   /*
   ** Headers of the page
@@ -58,7 +60,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/axios.js'
+    '~/plugins/axios.js',
   ],
 
   /*
@@ -104,6 +106,11 @@ module.exports = {
   */
   build: {
     extractCSS: true,
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: "jquery"
+      })
+    ],
     /*
     ** You can extend webpack config here
     */

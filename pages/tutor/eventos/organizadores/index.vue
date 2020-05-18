@@ -12,13 +12,7 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
-            <select class="form-control" v-model="form.pessoa">
-              <option
-                v-for="participante in pessoas"
-                :key="participante.idPessoa"
-                :value="participante.idPessoa"
-              >{{ participante.nome }}</option>
-            </select>
+            <BaseSelect v-model="form.pessoas" :url="`${$axios.defaults.baseURL}pessoas`"></BaseSelect>
           </div>
           <div class="form-group">
             <b-button block type="submit" variant="success">
@@ -88,10 +82,14 @@
 <script>
 
 import Swal from "sweetalert2";
+import BaseSelect from "~/components/Select2";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    BaseSelect
+  },
   data() {
     return {
       form: {

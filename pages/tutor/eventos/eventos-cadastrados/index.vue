@@ -46,7 +46,7 @@
             <template v-slot:cell(pages)="row">
               <nuxt-link
                 :to="`/tutor/eventos/organizadores/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm btn-teal"
+                class="btn btn-sm btn-teal mt-2"
                 style="color: white" 
               ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button

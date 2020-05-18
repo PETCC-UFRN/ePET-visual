@@ -29,10 +29,14 @@ export const actions = {
             } catch (err) {
                 console.log('Nenhum cookie encontrado');
             }
-        } else if (!auth) {
+        } 
+        
+        if (auth === null || auth === "null") {
             auth = Cookies.get('auth');
-        } else if (!profile){
-            auth = Cookies.get('profile');
+        } 
+        
+        if (!profile){
+            profile = Cookies.get('profile');
         }
 
         commit('setProfile', profile);

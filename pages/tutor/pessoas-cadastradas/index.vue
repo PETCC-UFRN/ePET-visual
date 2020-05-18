@@ -36,10 +36,10 @@
             </select>
           </template>
           <template v-slot:cell(actions)="row">
-            <b-button 
-                @click.prevent="editar(row.item.idPessoa, row.item.nome, row.item.cpf, row.item.tipo_usuario)" 
+            <a :href="'/tutor/pessoas-cadastradas/edit/' + row.item.idPessoa + '?data=' + JSON.stringify(row.item)"
                 class="btn btn-sm btn-warning">
-                <i class="fa fa-pencil fa-fw"></i> Editar</b-button>
+                <i class="fa fa-pencil fa-fw"></i> Editar
+            </a>
           </template>
         </b-table>
         <nav>
@@ -87,6 +87,7 @@
 
 <script>
 
+import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
 export default {
@@ -149,7 +150,6 @@ export default {
         )
         .then(res => {
           if (id_tipo == 2) {
-            // se tipo petiano
             this.$set(this.modal, "item", row.item);
             this.showModal("modal-create");
           } else if (id_tipo != 2) {
@@ -158,11 +158,13 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
+          Swal.fire({
+            title: "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            icon: "error"
+          });
         });
     },
     showModal(name) {
-      console.log("abre modal");
       this.$refs[name].show();
     },
     hideModal(name) {
@@ -186,9 +188,10 @@ export default {
           this.hideModal("modal-update");
         })
         .catch(err => {
-          alert(
-            "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!"
-          );
+          Swal.fire({
+            title: "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!",
+            icon: 'error'
+          });
         });
     },
     search() {
