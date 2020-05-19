@@ -40,7 +40,7 @@
             :items="eventos"
             :current-page="currentPage"
             :bordered="true"
-            :per-page="10"
+            :per-page="20"
             :fields="fields"
           >
             <template v-slot:cell(pages)="row">
@@ -79,17 +79,13 @@
               </b-button>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="eventos.length"
-              :per-page="10"
-              pills
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
+          <div>
+            <Pagination
+              :totalRows="numItems"
+              :perPage="perPage"
+              v-on:currentPage="setCurrentPage"
             />
-          </nav>
+          </div>
         </div>
         <div v-else>
           <h5>Nenhum evento cadastrado</h5>
@@ -104,10 +100,14 @@
 
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    Pagination
+  },
   data() {
     return {
       eventosLoading: true,
@@ -115,7 +115,9 @@ export default {
       eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -129,6 +131,14 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
+  },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
   },
   methods: {
     cancelSearch() {
@@ -161,11 +171,15 @@ export default {
             }  
         });
     },
+    setCurrentPage(val){
+      this.currentPage = val;
+    },
     consumindoEventosApi() {
       this.$axios.get("eventos")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
+          this.numItems = res.data.totalElements;
         })
         .catch( err => {
           if (err.response.status === 404) {
