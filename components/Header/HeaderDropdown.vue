@@ -28,10 +28,11 @@ export default {
     perfilUsuario() {
       if (this.$store.state.profile.tipo_usuario.nome === 'tutor')
         this.$router.push('/tutor/perfil');
-      else if (this.$store.state.profile.tipo_usuario.nome === 'petiano')
+      if (this.$store.state.profile.tipo_usuario.nome === 'petiano')
         this.$router.push('/petiano/perfil');      
-      else 
+      if (this.$store.state.profile.tipo_usuario.nome === 'comum')
         this.$router.push('/usuario/perfil');
+      
     },
     logout() {
       Cookies.set('auth', null);
