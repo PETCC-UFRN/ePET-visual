@@ -12,13 +12,7 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
-            <select class="form-control" v-model="form.pessoa">
-              <option
-                v-for="participante in pessoas"
-                :key="participante.idPessoa"
-                :value="participante.idPessoa"
-              >{{ participante.nome }}</option>
-            </select>
+            <v-select :options="pessoas"></v-select>
           </div>
           <div class="form-group">
             <b-button block type="submit" variant="success">
@@ -111,10 +105,15 @@
 <script>
 
 import Swal from "sweetalert2";
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    'v-select': vSelect
+  },
   data() {
     return {
       form: {

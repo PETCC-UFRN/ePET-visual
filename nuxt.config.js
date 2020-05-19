@@ -10,8 +10,6 @@ const changeLoaderOptions = loaders => {
   }
 }
 
-const webpack = require("webpack");
-
 module.exports = {
   /*
   ** Headers of the page
@@ -106,11 +104,6 @@ module.exports = {
   */
   build: {
     extractCSS: true,
-    plugins: [
-      new webpack.ProvidePlugin({
-        $: "jquery"
-      })
-    ],
     /*
     ** You can extend webpack config here
     */
