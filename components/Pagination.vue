@@ -2,7 +2,7 @@
   <nav>
     <ul class="pagination">
       <li class="page-item" :class="hasPrevious() ? '' : 'disabled'">
-        <a class="page-link" href="#" :tabindex="-1" @click="previous">Previous</a>
+        <a class="page-link" href="#" :tabindex="-1" @click="previous">Anterior</a>
       </li>
 
       <li
@@ -15,7 +15,7 @@
         <span class="sr-only" v-show="index === (currentPage+1)">(current)</span>
       </li>
       <li class="page-item" :class="hasNext() ? '' : 'disabled'">
-        <a class="page-link" href="#" @click="next">Next</a>
+        <a class="page-link" href="#" @click="next">Próximo</a>
       </li>
     </ul>
   </nav>
@@ -42,12 +42,14 @@ export default {
     },
     next() {
       if (this.hasNext) {
-        this.$emit("currentPage", this.currentPage + 1);
+        this.currentPage = (this.currentPage+1);
+        this.$emit("currentPage", this.currentPage);
       }
     },
     previous() {
       if (this.hasPrevious) {
-        this.$emit("currentPage", this.currentPage - 1);
+        this.currentPage = (this.currentPage-1);
+        this.$emit("currentPage", this.currentPage);
       }
     },
     setPage(val){
