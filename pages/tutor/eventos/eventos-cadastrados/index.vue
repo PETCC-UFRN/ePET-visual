@@ -209,7 +209,7 @@ export default {
             title: 'Evento removido',
             icon: 'success',
           })
-          .then( () => this.eventos.splice(rowId, 1) );
+          .then( () => this.consumindoEventosApi() );
         })
         .catch(err => {
           if (err.response.status === 500) {
