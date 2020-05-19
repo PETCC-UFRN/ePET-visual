@@ -69,7 +69,6 @@ export default {
         .then(res => {})
         .catch(err => {
           this.submitAlert(true);
-          console.log(err);
         });
       this.submitAlert(false);
     },

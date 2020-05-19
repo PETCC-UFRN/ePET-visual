@@ -4,24 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos</h2>
-          </b-col>
-          <b-col>
-            <b-row>
-              <b-col>
-                <nuxt-link
-                  class="btn btn-sm btn-secondary w-100 mt-4"
-                  to="/usuario/eventos/eventos-participando/"
-                > Eventos participando</nuxt-link>
-              </b-col>
-              <b-col>
-                <nuxt-link
-                  class="btn btn-sm btn-teal w-100 mt-4"
-                  style="color: white"
-                  to="/usuario/eventos/eventos-organizando/"
-                > Eventos organizando</nuxt-link>
-              </b-col>
-            </b-row>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos participando</h2>
           </b-col>
         </b-row>
       </template>
@@ -75,7 +58,7 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhum evento aberto</h5>
+          <h5>Nenhum evento participando</h5>
         </div>
       </div>
     </b-card>
@@ -96,22 +79,22 @@ export default {
       eventos: [],
       currentPage: 1,
       fields: [
-        { key: "titulo", sortable: true, label: "Título"  },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "evento.titulo", sortable: true, label: "Título"  },
+        { key: "evento.d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "evento.d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "evento.d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "evento.d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
-    this.consumindoEventosApi();
+    this.consumindoEventosParticipandoApi();
   },
   methods: {
     cancelSearch() {
       this.keyword = ''
-      this.consumindoEventosApi()
+      this.consumindoEventosParticipandoApi()
     },
     search() {
       this.$axios.get(`pesquisar-evento/${this.keyword}`)
@@ -119,9 +102,9 @@ export default {
           this.eventos = res.data.content;
         })
         .catch( err => {
-            if (err.response.status === 500) {
+            if (err.response.status === 404) {
               Swal.fire({
-                title: "Nenhum evento aberto",
+                title: "Nenhum evento organizando",
                 icon: 'info',
               })
             }
@@ -134,17 +117,17 @@ export default {
             }  
         });
     },
-    consumindoEventosApi() {
+    consumindoEventosParticipandoApi() {
       this.$axios
-        .get("eventos-abertos")
+        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.eventos = res.data;
           this.isLoading = false;
         })
         .catch( err => {
-          if (err.response.status === 500) {
+          if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhum evento aberto",
+              title: "Nenhum evento participando",
               icon: 'info',
             })
             .then(() => this.isLoading = false );
