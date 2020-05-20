@@ -10,7 +10,7 @@ export default {
         },
         {
             name: 'Início',
-            url: '/usuario', // TODO::Modificar depois para a página inicial do petiano
+            url: '/usuario',
             icon: 'icon-home'
         },
         {
