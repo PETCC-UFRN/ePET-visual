@@ -8,11 +8,11 @@
       <strong>Configurações</strong>
     </b-dropdown-header>
 
-    <b-dropdown-item @click.prevent="perfilUsuario">
+    <b-dropdown-item class="headerDropdownItem" @click.prevent="perfilUsuario">
       <i class="fa fa-user fa-fw"></i> Meus dados
     </b-dropdown-item>
 
-    <b-dropdown-item class="" @click="logout">
+    <b-dropdown-item class="headerDropdownItem" @click="logout">
       <i class="fa fa-sign-out fa-fw"></i> Sair
     </b-dropdown-item>
     
@@ -45,9 +45,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
-  a {
+  .headerDropdownItem {
     cursor:pointer;
     border-radius: 0px !important;
   }
