@@ -14,20 +14,47 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Eventos',
-            url: '/usuario/eventos/eventos-cadastrados',
-            icon: 'icon-event'
+            name: 'Notícias',
+            url: '/usuario/noticia',
+            icon: 'icon-envelope-letter'
+        },
+        {
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Tutorias abertas',
+                    url: '/usuario/tutorias/tutorias-abertas',
+                    icon: 'icon-book-open'
+                },
+                {
+                    name: 'Minhas tutorias',
+                    url: '/usuario/tutorias/minhas-tutorias',
+                    icon: 'icon-check'
+                }
+            ]
         },
 
         {
-            name: 'Quadro de tutorias',
-            url: '/usuario/quadro-de-tutorias',
-            icon: 'icon-docs'
-        },
-        {
-            name: 'Notícias',
-            url: '/usuario/noticia',
-            icon: 'icon-envelope-open'
+            name: 'Eventos',
+            icon: 'icon-event',
+            children: [
+                {
+                    name: 'Eventos abertos',
+                    url: '/usuario/eventos/eventos-abertos',
+                    icon: 'icon-calendar'
+                },
+                {
+                    name: 'Inscritos',
+                    url: '/usuario/eventos/eventos-inscritos',
+                    icon: 'icon-user-following'
+                },
+                {
+                    name: 'Organizados',
+                    url: '/usuario/eventos/eventos-organizados',
+                    icon: 'icon-user-following'
+                }
+            ]
         },
     ]
 }

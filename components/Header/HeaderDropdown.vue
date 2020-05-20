@@ -9,11 +9,11 @@
     </b-dropdown-header>
 
     <b-dropdown-item @click.prevent="perfilUsuario">
-      <i class="fa fa-user fa-fw"></i> Perfil
+      <i class="fa fa-user fa-fw"></i> Meus dados
     </b-dropdown-item>
 
     <b-dropdown-item @click="logout">
-      <i class="fa fa-sign-out fa-fw"></i> Logout
+      <i class="fa fa-sign-out fa-fw"></i> Sair
     </b-dropdown-item>
     
   </b-nav-item-dropdown>

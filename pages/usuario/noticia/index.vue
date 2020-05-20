@@ -69,9 +69,7 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
-import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -84,22 +82,6 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        {
-          key: "inicio_exibicao",
-          sortable: true,
-          label: "Início de exibição",
-          formatter: value => {
-            if (value != null) return moment(value).format("DD/MM/Y");
-          }
-        },
-        {
-          key: "limite_exibicao",
-          sortable: true,
-          label: "Início de exibição",
-          formatter: value => {
-            if (value != null) return moment(value).format("DD/MM/Y");
-          }
-        },
         { key: "actions", label: "Ações disponíveis"},
       ],
     };

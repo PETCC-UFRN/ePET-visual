@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos participando</h2>
+            <h2><i class="fa fa-calendar-plus-o px-2"></i>Eventos abertos</h2>
           </b-col>
         </b-row>
       </template>
@@ -40,10 +40,13 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/eventos/eventos-cadastrados/${row.item.idEvento}`"
+                  :to="`/usuario/eventos/eventos-abertos/${row.item.idEvento}`"
                   class="btn btn-sm btn-info"
-                ><i class="fa fa-eye" aria-hidden="true"></i>
-                Informações</nuxt-link>
+                ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+              <b-button
+                  @click.prevent="inscrever(row.item.idEvento)"
+                  class="btn btn-sm btn-success mt-2"
+                ><i class="fa fa-check fa-fw"></i> Inscrever-me</b-button>
             </template>
           </b-table>
           <nav>
@@ -58,7 +61,7 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhum evento participando</h5>
+          <h5>Nenhum evento aberto</h5>
         </div>
       </div>
     </b-card>
@@ -79,22 +82,22 @@ export default {
       eventos: [],
       currentPage: 1,
       fields: [
-        { key: "evento.titulo", sortable: true, label: "Título"  },
-        { key: "evento.d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "titulo", sortable: true, label: "Título"  },
+        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_fim", sortable: true, label: "Fim dos eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
-    this.consumindoEventosParticipandoApi();
+    this.consumindoEventosApi();
   },
   methods: {
     cancelSearch() {
       this.keyword = ''
-      this.consumindoEventosParticipandoApi()
+      this.consumindoEventosApi()
     },
     search() {
       this.$axios.get(`pesquisar-evento/${this.keyword}`)
@@ -102,9 +105,9 @@ export default {
           this.eventos = res.data.content;
         })
         .catch( err => {
-            if (err.response.status === 404) {
+            if (err.response.status === 500) {
               Swal.fire({
-                title: "Nenhum evento organizando",
+                title: "Nenhum evento aberto",
                 icon: 'info',
               })
             }
@@ -117,17 +120,17 @@ export default {
             }  
         });
     },
-    consumindoEventosParticipandoApi() {
+    consumindoEventosApi() {
       this.$axios
-        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
+        .get("eventos-abertos")
         .then(res => {
           this.eventos = res.data;
           this.isLoading = false;
         })
         .catch( err => {
-          if (err.response.status === 404) {
+          if (err.response.status === 500) {
             Swal.fire({
-              title: "Nenhum evento participando",
+              title: "Nenhum evento aberto",
               icon: 'info',
             })
             .then(() => this.isLoading = false );
@@ -142,6 +145,35 @@ export default {
           }  
       });
 
+    },
+    inscrever(idEvento) {
+      
+      return  Swal.fire({
+        title: 'Cadastrando inscrição',
+        text: 'Para concluir a inscrição, escolha a forma de inscrição no evento.',
+        input: 'select',
+        inputOptions: {
+          participante: 'Participante',
+          organizador: 'Organizador'
+        },
+        inputPlaceholder: 'Forma de inscrição',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (value === 'Participante') {
+              resolve()
+            }
+            else if (value === 'Organizador') {
+              resolve()
+            } else {
+              resolve('Você precisa escolher umas das opções válidas apresentadas para poder finalizar a inscrição.')
+            }
+          })
+        }
+      });      
     }
   }
 };

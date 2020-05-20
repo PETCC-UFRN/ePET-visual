@@ -2,7 +2,11 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Quadro de tutorias</h3>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-graduation-cap px-2"></i>Tutorias abertas</h2>
+          </b-col>
+        </b-row>
       </template>
 
       <div v-if="filterTutorias.length > 0">
@@ -30,9 +34,9 @@
           <template v-slot:cell(actions)="row">
             <b-button
                 :href="'/usuario/quadro-de-tutorias/' + row.item.idTutoria"
-                variant="outline-warning"
-              ><i class="fa fa-eye" aria-hidden="true"></i>
-              Visualizar</b-button>
+                class="btn btn-sm btn-success"
+              ><i class="fa fa-check fa-fw"></i>
+              Solicitar tutoria</b-button>
           </template>
         </b-table>
         <nav>
@@ -63,9 +67,9 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "disciplina.nome", sortable: true, label: "Nome da disciplina" },
         { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
-        { key: "petiano.pessoa.nome", sortable: true, label: "Nome do petiano" },
+        { key: "disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
@@ -82,15 +86,17 @@ export default {
 	  }
   },
   mounted() {
-    this.$axios.get("tutorias").then(res => {
-      this.tutorias = res.data.content;
-    });
+    this.$axios
+      .get("tutorias")
+      .then(res => {
+        this.tutorias = res.data.content;
+      });
   }
 };
 </script>
 
 <style scoped>
-h3 {
-  text-align: center;
+h2, h4, h5 {
+  font-weight: 300;
 }
 </style>

@@ -18,7 +18,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-file" aria-hidden="true"></i> Tutorias ativas
+                        <i class="fa fa-check fa-fw"></i> Minhas tutorias
                       </h3>
                     </b-col>
                   </b-row>
@@ -49,7 +49,46 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-check-o"></i> Próximos eventos
+                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                      </h3>
+                    </b-col>
+                  </b-row>
+                </div>
+                <div role="tablist" v-for="evento in eventos_abertos" :key="evento.idEvento">
+                  <b-card no-body class="mb-1">
+                    <b-card-header header-tag="header" class="p-1" role="tab">
+                      <b-btn
+                        block
+                        href="#"
+                        v-b-toggle="'accordion' + evento.idEvento"
+                        variant="primary"
+                      >{{evento.titulo}}</b-btn>
+                    </b-card-header>
+                    <b-collapse
+                      :id="'accordion' + evento.idEvento"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
+                      <b-card-body>
+                        <p class="card-text">
+                          <strong>Descrição:</strong>
+                          {{evento.descricao}}
+                        </p>
+                      </b-card-body>
+                    </b-collapse>
+                  </b-card>
+                </div>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-card header-tag="header" footer-tag="footer">
+                <div slot="header">
+                  <b-row>
+                    <b-col>
+                      <h3>
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Meus eventos 
                       </h3>
                     </b-col>
                   </b-row>
@@ -118,10 +157,10 @@
             </div>
             <b-list-group>
               <div v-for="noticia in noticias" :key="noticia.idNoticia">
-                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
+                <b-list-group-item :href="`/usuario/noticia/${noticia.idNoticia}`" class="flex-column align-items-start mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
-                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
+                    <small class="text-muted">{{noticia.inicio_exibicao | moment}}</small>
                   </div>
                   <p class="mb-1">{{noticia.corpo}}</p>
                   <small class="text-muted">
@@ -141,6 +180,7 @@
 <script>
 
 import style from "~/assets/css/loading.css";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -151,6 +191,7 @@ export default {
       noticias: [], // requisicao de noticias
       tutorias: [],
       eventos: [],
+      eventos_abertos:[],
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
@@ -160,7 +201,15 @@ export default {
     };
   },
   mounted() {
-   this.$axios.get("noticia/?page=0")
+   
+    this.$axios
+      .get("eventos-abertos")
+      .then(res => {
+        this.eventos_abertos = res.data;
+      });
+
+   this.$axios
+      .get("noticia/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
         this.isLoading = false;
@@ -181,6 +230,11 @@ export default {
           this.isLoading = false;
         }
       });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   computed: {
     resNoticias: function() {

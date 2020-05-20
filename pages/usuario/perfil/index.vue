@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <h2>
-            <i class="fa fa-user px-2"></i> Perfil
+            <i class="fa fa-user px-2"></i> Meus dados
           </h2>
         </b-col>
       </b-row>
@@ -22,17 +22,17 @@
       <b-form @submit.prevent="onSubmit">
 
         <b-form-group for="nomeCompleto" label="Nome completo">
-          <b-form-input id="nomeCompleto" v-model="form.nome" required></b-form-input>
+          <b-form-input id="nomeCompleto" v-model="profile.nome" required></b-form-input>
           <b-form-text
             id="password-help-block"
           >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
         </b-form-group>
 
         <b-form-group label="Email">
-          <b-form-input :value="form.usuario.email" type="email" disabled></b-form-input>
+          <b-form-input :value="profile.usuario.email" type="email" disabled></b-form-input>
         </b-form-group>
 
-        <b-button class="float-left w-25 mt-2" type="submit" @click="submitAlert" variant="primary"> Atualizar</b-button>
+        <b-button class="float-left w-25 mt-2" type="submit" variant="primary"> Atualizar</b-button>
         <b-button class="float-right w-25 mt-2" type="reset" variant="danger">Resetar</b-button>
       </b-form>
     </div>
@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       isLoading: true,
+      profile: {},
       form: {
         nome: "",
         usuario: {
@@ -67,7 +68,7 @@ export default {
       this.$axios
       .get(`/pessoas/${this.$store.state.profile.idPessoa}`)
       .then(res => {
-        this.form = res.data;
+        this.profile = res.data;
         this.isLoading = false;
       })
       .catch(err => {
@@ -79,36 +80,21 @@ export default {
     },
 
     onSubmit() {
-      this.$axios.post("pessoas-atualizar/", {
-          ...this.$store.state.profile,
-          nome: this.form.nome
+      this.$axios
+        .post("pessoas-atualizar/", this.profile)
+        .then(res => {
+          Swal.fire({
+            title: "Dados atualizados",
+            icon: "success"
+          })
         })
-        .then(res => {})
         .catch(err => {
-          this.submitAlert(true);
+          Swal.fire({
+            title: "Dados não atualizados",
+            icon: "error"
+          })
         });
-      this.submitAlert(false);
     },
-
-    submitAlert(withError) {
-      let icon_ = "success";
-      let title_ = "Perfil atualizado";
-      let text_ = "";
-
-      if (withError) {
-        icon_ = "error";
-        title_ = "Perfil não atualizado";
-        text_ = "Por favor, tente novamente.";
-      }
-
-      if (!(this.form.pessoa.nome == "")) {
-        Swal.fire({
-          icon: icon_,
-          title: title_,
-          text: text_,
-        });
-      }
-    }
   }
 };
 </script>
