@@ -101,19 +101,16 @@ export default {
             Swal.fire({
               title: "Nenhuma notícia cadastrada",
               icon: 'info',
-            });
+            })
+            .then(() => this.isLoading = false );
           }
           else {
             Swal.fire({
               title: "Falha em consumir API",
+              text: "Por favor, tente recarregar a página. Caso não dê certo, tente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
+            .then(() => this.isLoading = false );
           }
         });
     },
@@ -156,7 +153,7 @@ export default {
 
 
 <style scoped>
-h2, h4 {
+h2, h4, h5 {
   font-weight: 300;
 }
 </style>

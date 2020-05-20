@@ -1,29 +1,20 @@
 <template>
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" v-for="(item, index) in list" v-bind:key="index">
-      <span class="active" v-if="isLast(index)">       
-        <span v-for="(i, index) in showName(item)" v-bind:key="index">
-          
-          <span v-if="index == 0">
-            <a href="">{{"Início "}} </a>  / 
-          </span>
-          
-          <span v-else-if="index != Object.keys(showName(item)).length - 1">
-            <span v-if="i == 'rh'"> 
-            <a href="">RH </a>  / 
-            </span>
-          <span v-else>
-            <a href="">{{i.replace(/^\w/, c => c.toUpperCase())}} </a>  / 
-          </span>
-          </span>
-          <span v-else>
-            {{i.replace(/^\w/, c => c.toUpperCase())}}
-          </span>
-        </span>
+  <div>
+    <b-progress  height="2px" :value="`${this.$route.path.split('/').slice(1).length}`" max=3></b-progress>
+
+ <ol class="breadcrumb">
+    <li class="breadcrumb-item" v-for="(item, index) in this.$route.path.split('/').slice(1)" v-bind:key="index">
+      <span v-if="index === 0">
+        <nuxt-link to="">{{"Início  "}}</nuxt-link>  
       </span>
-      <router-link :to="item" v-else>{{ showName(item) }}</router-link>
+      <span v-else>
+        <nuxt-link to="">{{item.replace(/^\w/, c => c.toUpperCase()) }} </nuxt-link>  
+      </span>
     </li>
   </ol>
+  </div>
+
+
 </template>
 
 <script>
