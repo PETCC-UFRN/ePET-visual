@@ -74,6 +74,10 @@
                           <strong>Descrição:</strong>
                           {{evento.descricao}}
                         </p>
+                        <nuxt-link
+                            class="btn btn-sm btn-info w-100 mt-2"
+                          :to="`usuario/eventos/eventos-abertos/${evento.idEvento}`"
+                          >Ver mais informações</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>
