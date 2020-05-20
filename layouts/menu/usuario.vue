@@ -4,7 +4,7 @@
     <div class="app-body">
       <Sidebar :navItems="nav" />
       <main class="main">
-        <breadcrumb :list="list" />
+        <breadcrumb/>
         <div class="container">
           <nuxt />
         </div>
@@ -42,14 +42,6 @@ export default {
   head () {
     return {
       title: `PET-CC UFRN | ${this.$store.state.profile.nome}`
-    }
-  },
-  computed: {
-    name() {
-      return this.$route.name;
-    },
-    list() {
-      return this.$route.matched;
     }
   }
 };
