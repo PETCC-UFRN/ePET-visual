@@ -223,8 +223,9 @@ export default {
           this.isLoading = false;
         }
       });
-      this.$axios
-      .get("/pesquisar-pessoa-tutorias-ministradas/" + this.$store.state.profile.idPessoa)
+    
+    this.$axios
+      .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
       .then(res => {
         this.tutorias = res.data.content.slice(0, 3);
         this.isLoading = false;
