@@ -9,9 +9,10 @@
     v-model="idPessoa"
     @input="handleInput"
   >
-    <!-- <template #list-footer v-if="hasNextPage">
-      <li ref="load" class="loader">Loading more options...</li>
-    </template> -->
+    <li slot="list-footer" class="pagination">
+      <button @click="pagination('prev')" :disabled="!hasPrevPage">Prev</button>
+      <button @click="pagination('next')" :disabled="!hasNextPage">Next</button>
+    </li>
   </v-select>
 </template>
 
@@ -31,9 +32,18 @@ export default {
       pessoas: [],
       currentPage: 0,
       observer: null,
+      idPessoa: 0,
+      numPages: 0,
       limit: 20,
-      idPessoa: 0
     };
+  },
+  computed: {
+    hasNextPage() {
+      return (this.currentPage+1) < this.numPages;
+    },
+    hasPrevPage() {
+      return this.currentPage != 0;
+    }
   },
   mounted() {
     this.getPessoas();
@@ -44,12 +54,20 @@ export default {
     },
     getPessoas(page = 0) {
       this.$axios.get("pessoas?page=" + page).then(res => {
+        this.numPages = res.totalPages;
         this.pessoas = res.data.content;
       });
     },
     onSearch(search, loading) {
       loading(true);
       this.fetchPessoas(loading, search, this);
+    },
+    pagination(type){
+      if(type == 'next'){
+        this.currentPage += 1;
+      }else{
+        this.currentPage -= 1;
+      }
     },
     fetchPessoas: _.debounce((loading, search, vm) => {
       vm.$axios.get("pesquisar-pessoa/" + search).then(res => {
