@@ -27,7 +27,7 @@
                   <div v-for="tt in tutorias" :key="tt.idTutoria_ministrada">
                     <b-list-group-item href="#" class="flex-column align-items-start mb-2">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{tt.disciplina.nome}}</h5>
+                        <!-- <h5 class="mb-1">{{tt.disciplina.nome}}</h5> -->
                         <small class="text-muted">{{tt.data}}</small>
                       </div>
                       <p class="mb-1">{{tt.tutoria.petiano.pessoa.nome}}</p>

@@ -38,14 +38,20 @@
             :per-page="10"
             :fields="fields"
           >
+            <template v-slot:cell(inicioFimInscricoes)="row">
+              {{ row.item.d_inscricao | moment }} - {{ row.item.d_inscricao | moment }} 
+            </template>
+            <template v-slot:cell(inicioFimEvento)="row">
+              {{ row.item.d_evento_inicio | moment }} - {{ row.item.d_evento_fim | moment }} 
+            </template>
             <template v-slot:cell(actions)="row">
               <nuxt-link
                   :to="`/usuario/eventos/eventos-abertos/${row.item.idEvento}`"
-                  class="btn btn-sm btn-info"
+                  class="btn btn-sm btn-info mt-1"
                 ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
               <b-button
                   @click.prevent="inscrever(row.item.idEvento)"
-                  class="btn btn-sm btn-success mt-2"
+                  class="btn btn-sm btn-success mt-1"
                 ><i class="fa fa-check fa-fw"></i> Inscrever-me</b-button>
             </template>
           </b-table>
@@ -83,16 +89,19 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_fim", sortable: true, label: "Fim dos eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "actions", sortable: true, label: "Ações disponíveis"  }
+        { key: "inicioFimInscricoes",  label: "Perído de inscrições" },
+        { key: "inicioFimEvento",  label: "Perído do evento" },
+        { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
     this.consumindoEventosApi();
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   methods: {
     cancelSearch() {

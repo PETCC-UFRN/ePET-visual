@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-graduation-cap px-2"></i>Tutorias abertas</h2>
+            <h2><i class="fa fa-check-circle px-2"></i>Minhas tutorias</h2>
           </b-col>
         </b-row>
       </template>
@@ -14,27 +14,7 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <div v-if="tutorias.length > 0">      
-          <b-form-group label="Forma de pesquisa" label-size="lg" label-cols-lg="2">
-            <b-form-radio-group label="Forma de pesquisa" 
-              v-model="selected"
-              :options="options" 
-              class="mt-lg-2">
-            </b-form-radio-group>
-          </b-form-group>  
-          <b-input-group  class="mb-3" >
-            <b-form-input
-              v-model="keyword"
-              placeholder="Digite aqui o que deseja pesquisar"            
-              type="text"
-            ></b-form-input>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
-            </b-input-group-text>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
-            </b-input-group-text>
-          </b-input-group>
+        <div v-if="tutorias.length > 0">
           
           <b-table
             responsive="sm"
@@ -44,15 +24,21 @@
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(codigoNome)="row">
-              {{ row.item.disciplina.codigo }} - {{ row.item.disciplina.nome }} 
-            </template>
             <template v-slot:cell(actions)="row">
-              <b-button
-                  @click="solicitarTutoria(row.item.idTutoria)"
-                  class="btn btn-sm btn-success"
-                ><i class="fa fa-check fa-fw"></i>
-                Solicitar tutoria</b-button>
+              <b-button 
+              
+              v-b-toggle="`collapse-${row.item.idTutoria}`"
+                        
+                class="btn btn-sm btn-info"
+                ><i class="fa fa-eye fa-fw"></i>
+                Email do reponsável 
+              </b-button>
+
+              <b-collapse class="mt-3" 
+                      :id="`collapse-${row.item.idTutoria}`">
+                <b-card>{{row.item.petiano.pessoa.usuario.email}} </b-card>
+              </b-collapse>
+
             </template>
           </b-table>
           <nav>
@@ -94,19 +80,21 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "codigoNome", label: "Código - Disciplina" },
-        { key: "petiano.pessoa.nome", label: "Responsável" },
-        { key: "actions", label: "Ações disponíveis"  }
+        { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "petiano.pessoa.nome", sortable: true, label: "Responsável" },
+        { key: "petiano.idPetiano", sortable: true, label: "Data da tutoria" },
+        { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
-    this.consumindoTutoriasApi();
+    this.consumindoTutoriasMinistradasApi();
   },
   methods: {
     cancelSearch() {
       this.keyword = ''
-      this.consumindoTutoriasApi()
+      this.consumindoTutoriasMinistradasApi()
     },
     search() {
       if (this.selected === "nomeCodigoDisciplina") {
@@ -162,7 +150,7 @@ export default {
             }  
         });
     },
-    consumindoTutoriasApi() {
+    consumindoTutoriasMinistradasApi() {
       this.$axios
         .get("tutorias")
         .then(res => {

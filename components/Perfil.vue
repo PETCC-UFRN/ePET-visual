@@ -7,7 +7,7 @@
 
     <b-card>
       <h1 align="center" class="textDark">
-        <strong>{{ nome }}</strong>
+        <!-- <strong>{{ nome }}</strong> -->
       </h1>
 
       <hr class="my-4" />

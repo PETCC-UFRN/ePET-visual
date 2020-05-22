@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       nav: nav.items,
-      head: head.items
+      head: head.items,
     };
   },
   head () {
