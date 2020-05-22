@@ -42,7 +42,7 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/noticia/${row.item.idNoticia}`"
+                  :to="`/usuario/noticias/${row.item.idNoticia}`"
                   class="btn btn-sm btn-info"
                 >
                   <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações

@@ -15,7 +15,7 @@ export default {
         },
         {
             name: 'Notícias',
-            url: '/usuario/noticia',
+            url: '/usuario/noticias',
             icon: 'icon-envelope-letter'
         },
         {
