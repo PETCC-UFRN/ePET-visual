@@ -14,25 +14,9 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Perfil',
-            url: '/usuario/perfil',
-            icon: 'icon-user'
-        },
-
-        {
             name: 'Eventos',
-            icon: 'icon-event',
-            children: [
-                {
-                    name: 'Todos os eventos',
-                    url: '/usuario/eventos/eventos-cadastrados',
-                    icon: 'icon-book-open'
-                },{
-                    name: 'Meus eventos',
-                    url: '/#',
-                    icon: 'icon-check'
-                }
-            ]
+            url: '/usuario/eventos/eventos-cadastrados',
+            icon: 'icon-event'
         },
 
         {

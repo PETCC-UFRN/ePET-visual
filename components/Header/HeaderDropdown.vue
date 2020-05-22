@@ -5,15 +5,15 @@
     </template>
     
     <b-dropdown-header tag="div"  class="text-center">
-      <strong>Perfil</strong>
+      <strong>Configurações</strong>
     </b-dropdown-header>
 
-    <b-dropdown-item to="/#">
-      <i class="fa fa-edit"></i>Editar perfil
+    <b-dropdown-item @click.prevent="perfilUsuario">
+      <i class="fa fa-user fa-fw"></i> Perfil
     </b-dropdown-item>
 
     <b-dropdown-item @click="logout">
-      <i class="fa fa-sign-out"></i>Logout
+      <i class="fa fa-sign-out fa-fw"></i> Logout
     </b-dropdown-item>
     
   </b-nav-item-dropdown>
@@ -25,6 +25,15 @@ import Cookies from "js-cookie";
 export default {
   name: "header-dropdown",
   methods: {
+    perfilUsuario() {
+      if (this.$store.state.profile.tipo_usuario.nome === 'tutor')
+        this.$router.push('/tutor/perfil');
+      if (this.$store.state.profile.tipo_usuario.nome === 'petiano')
+        this.$router.push('/petiano/perfil');      
+      if (this.$store.state.profile.tipo_usuario.nome === 'comum')
+        this.$router.push('/usuario/perfil');
+      
+    },
     logout() {
       Cookies.set('auth', null);
       //Cookies.remove('auth');
