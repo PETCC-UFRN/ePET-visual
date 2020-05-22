@@ -70,7 +70,7 @@
                   <label for="inicioEvento"><strong>Início do evento</strong></label>
                   <b-form-datepicker
                     id="inicioEvento" v-model="form.d_evento_inicio"
-                    :min="minDate" class="mb-2"
+                    :min="form.fim_rolagem" class="mb-2"
                     locale="pt-br" placeholder="Escolha uma data"
                   ></b-form-datepicker>
                 </div>
