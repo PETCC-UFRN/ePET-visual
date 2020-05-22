@@ -25,8 +25,9 @@ export const actions = {
             const parsed = cookieparser.parse(req.headers.cookie);
             try {
                 auth = parsed.auth;
-                profile = JSON.parse(parsed.setProfile);
+                profile = parsed.profile ? JSON.parse(parsed.profile) : JSON.parse(parsed.setProfile);
             } catch (err) {
+                console.log(req.headers.cookie);
                 console.log('Nenhum cookie encontrado');
             }
         } 

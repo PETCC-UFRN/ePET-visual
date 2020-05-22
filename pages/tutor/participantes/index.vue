@@ -126,7 +126,6 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
-  //middleware: 'auth',
   name: "admin",
   layout: "menu/tutor",
   components: {},

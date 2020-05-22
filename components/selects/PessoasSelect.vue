@@ -10,8 +10,8 @@
     @input="handleInput"
   >
     <li slot="list-footer" class="pagination">
-      <button @click="pagination('prev')" :disabled="!hasPrevPage">Prev</button>
-      <button @click="pagination('next')" :disabled="!hasNextPage">Next</button>
+      <button @click="pagination('prev')" :disabled="!hasPrevPage" class="col-md-6">Prev</button>
+      <button @click="pagination('next')" :disabled="!hasNextPage" class="col-md-6">Next</button>
     </li>
   </v-select>
 </template>
