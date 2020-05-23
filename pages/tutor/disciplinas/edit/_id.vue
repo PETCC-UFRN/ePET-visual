@@ -1,41 +1,41 @@
 <template>
   <div class="col-md-12">
-    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
-      {{ this.alert.message }}
-      <!-- <b>&rArr;</b> -->
-    </b-alert>
     <div class="card">
       <div class="card-header">
-        <strong><i class="fa fa-edit"></i> Disciplina</strong> <small>Formulário de edição</small>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-edit"></i> Editando disciplina</h2>
+          </b-col>
+        </b-row>
       </div>
       <div class="card-body">
-        <form @submit="submitForm">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Código:</label>
-            <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" />
+            <label for="codigo"><strong>Código:</strong></label>
+            <the-mask :mask="['AAA####']" class="form-control" placeholder="Digite o código" v-model="form.codigo" required/>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Nome:</label>
-            <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
+            <label for="nome"><strong>Nome:</strong></label>
+            <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" required/>
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <b-button href="/tutor/disciplina/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+            <b-button href="/tutor/disciplinas/" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
-<script>
-import axios from "~/axios";
 
+<script>
+
+import Swal from "sweetalert2";
 import {TheMask} from 'vue-the-mask';
 
 export default {
   layout: "menu/tutor",
-    components: {TheMask},
-
+  components: {TheMask},
   data() {
     return {
       form: {
@@ -43,36 +43,40 @@ export default {
         codigo: this.$route.query.codigo,
         nome: this.$route.query.nome,
         ativo: this.$route.query.ativo
-      },
-      alert: {
-        message: "",
-        class: ""
       }
     };
   },
   methods: {
     submitForm(e) {
-      axios
+      e.preventDefault();
+      this.$axios
         .post("disciplinas", this.form)
         .then(res => {
-          this.alert.class = "success";
-          this.alert.message = "Disciplina editada com sucesso";
-          this.form = Object.entries(this.form).map(item => {
-            return (item = "");
+          Swal.fire({
+            title: 'Disciplina editada',
+            icon: 'success',
+          })
+          .then( () => {
+            this.$router.push('../');
           });
-          this.$router.push(
-            {
-              path: '../',
-            }
-          )
         })
         .catch(err => {
-          this.alert.class = "danger";
-          this.alert.message = "Disciplina não editada. Tente novamente.";
+          Swal.fire({
+            title: 'Disciplina não editada',
+            icon: 'error',
+          });
         });
-      e.preventDefault();
-      console.log("AAAA");
     }
   }
 };
 </script>
+
+<style scoped>
+h2 {
+  font-weight: 300;
+}
+strong {
+  font-size: 17px;
+  color: gray;
+}
+</style>

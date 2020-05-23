@@ -65,7 +65,7 @@
 
 <script>
 
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -88,7 +88,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("informacoes").then(res => {
+    this.$axios.get("informacoes").then(res => {
       this.informacoes = res.data;
     });
   },
@@ -97,8 +97,7 @@ export default {
       this.$router.push('/tutor/configuracoes-site')      
     },
     submitForm(e) {
-      axios
-        .post("informacoes-cadastro", this.informacoes)
+      this.$axios.post("informacoes-cadastro", this.informacoes)
         .then(res => {
           Swal.fire({
             title: 'Edição realizada',

@@ -47,7 +47,7 @@
 
 <script>
 import Comum from "~/components/Comum";
-import axios from "~/axios";
+
 import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
@@ -141,10 +141,10 @@ export default {
     	}
   },
   mounted(){
-    axios.get('noticia/'+ this.$route.params.id).then((res) => {
+    this.$axios.get('noticia/'+ this.$route.params.id).then((res) => {
         this.noticia = res.data;
 	});
-	axios.get("noticia").then(res => {
+	this.$axios.get("noticia").then(res => {
       this.noticias = res.data.content;
     });
   },

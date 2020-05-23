@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 import moment from "moment";
 import Pagination from "~/components/Pagination";
@@ -110,7 +110,7 @@ export default {
   },
   watch: {
     currentPage: function(val) {
-      axios.get("noticia?page=" + val).then(res => {
+      this.$axios.get("noticia?page=" + val).then(res => {
         this.noticias = res.data.content;
         this.numPages = res.data.totalElements;
       });
@@ -118,8 +118,7 @@ export default {
   },
   methods: {
     del(id, rowId) {
-      axios
-        .delete("noticia-remove/" + id)
+      this.$axios.delete("noticia-remove/" + id)
         .then(() => {
           this.noticias.splice(rowId, 1);
           Swal.fire({
@@ -138,13 +137,13 @@ export default {
       this.currentPage = val;
     },
     getNoticias() {
-      axios.get("noticia").then(res => {
+      this.$axios.get("noticia").then(res => {
         this.noticias = res.data.content;
         this.numItems = res.data.totalElements;
       });
     },
     search() {
-      axios.get("pesquisar-noticia/" + this.keyword).then(res => {
+      this.$axios.get("pesquisar-noticia/" + this.keyword).then(res => {
         this.noticias = res.data.content;
         this.numItems = res.data.totalElements;
       });

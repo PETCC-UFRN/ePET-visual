@@ -1,5 +1,6 @@
 // Links, buttons, and more within the dropdown menu
 .dropdown-item {
+  font-weight: 300;
   position: relative;
   padding: 10px 20px;
   border-bottom: 1px solid $dropdown-border-color;
@@ -7,25 +8,14 @@
   &:last-child {
     border-bottom: 0;
   }
-
   i {
-    display: inline-block;
-    width: 20px;
-    margin-right: 10px;
-    margin-left: -10px;
     color: $dropdown-border-color;
-    text-align: center;
-  }
-
-  .badge {
-    position: absolute;
-    right: 10px;
-    margin-top: 2px;
   }
 }
 
 // Dropdown section headers
 .dropdown-header {
+  font-weight: 300;
   padding: 8px 20px;
   background: $dropdown-divider-bg;
   border-bottom: 1px solid $dropdown-border-color;
@@ -45,7 +35,7 @@
 }
 
 .dropdown-menu-lg {
-  width: 250px;
+  width: 230px;
 }
 .app-header {
   .navbar-nav {

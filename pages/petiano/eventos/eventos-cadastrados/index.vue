@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -104,19 +104,19 @@ export default {
     }
   },
   mounted() {
-    axios.get("eventos").then(res => {
+    this.$axios.get("eventos").then(res => {
       this.eventos = res.data.content;
     });
   },
   methods: {
     del(id, rowId) {
-      axios.delete("eventos-remove/" + id).then(() => {
+      this.$axios.delete("eventos-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
         alert("Evento removido com sucesso");
       });
     },
     ativar(id) {
-      axios.post("eventos-ativar/" + id).then(() => {
+      this.$axios.post("eventos-ativar/" + id).then(() => {
         // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
         alert("Evento ativado com sucesso");
         let vm = this;

@@ -1,34 +1,104 @@
 <template>
   <div>
     <b-card
-      v-if="loaded"
       header="Notícia"
       header-tag="header"
-      :footer="'Adicionado por: ' + noticia.petiano.pessoa.nome"
-      :title="noticia.corpo"
+      :sub-title="`Postada em: ${moment(noticia.inicio_exibicao)}`"
+      sub-title-tag="h6"
+      :footer="`Adicionada por: ${noticia.petiano.pessoa.nome}`"
+      :title="noticia.titulo"
     >
-      <b-card-text>
+			<template v-slot:header>
+        <b-row>
+          <b-col>
+            <h2>Informações</h2>
+          </b-col>
+        </b-row>
+			</template>
+      <b-card-body>
+
+      <div v-if="!loaded" class="d-flex justify-content-center">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+      </div>
+      <div v-else>
         <span v-html="noticia.corpo"></span>
-      </b-card-text>
+      </div>
+      </b-card-body>
     </b-card>
   </div>
 </template>
 
 <script>
-import axios from "~/axios";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
   data() {
-    return { noticia: [], loaded: false };
+    return { 
+      noticia: {
+				titulo: "",
+				corpo: "",
+				inicio_exibicao: "",
+				limite_exibicao: "",
+				petiano: {
+					pessoa: {
+						nome:""
+					}
+				}
+      }, 
+      loaded: false 
+    };
   },
   mounted() {
-    axios.get("noticia/" + this.$route.params.id).then(res => {
-      this.noticia = res.data;
-      this.loaded = true;
-      console.log(this.noticia.petiano.pessoa.nome);
-    });
+    this.$axios
+      .get(`noticia/${this.$route.params.id}`)
+      .then(res => {
+        this.noticia = res.data;
+        this.loaded = true;
+      })
+      .catch( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhuma notícia cadastrada",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Falha em consumir API",
+            icon: 'error',
+          })
+          .then( () => {
+            let vm = this;
+            setTimeout(function() {
+              location.reload();
+            }, 1500);
+          });
+        }
+      });
+  },
+  methods: {
+    moment: function (date) {
+      if (date !== null & date !== '')
+        return moment(date).format('DD/MM/YYYY');
+      else   
+        return '';
+
+    }
   }
 };
 </script>
+
+
+<style scoped>
+h2, h4, h6 {
+  font-weight: 300;
+}
+
+h6 {
+  font-size: 80%;
+}
+</style>

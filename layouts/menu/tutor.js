@@ -15,18 +15,13 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Perfil',
-            url: '/tutor/perfil',
-            icon: 'icon-user'
-        },
-        {
             name: 'Eventos',
             url: '/tutor/eventos/eventos-cadastrados',
             icon: 'icon-event'
         },
         {
             name: 'Notícias',
-            url: '/tutor/noticia',
+            url: '/tutor/noticias',
             icon: 'icon-envelope-open'
         },
         {
@@ -44,11 +39,6 @@ export default {
                     icon: 'icon-check'
                 }
             ]
-        },
-        {
-            name: 'Disciplinas',
-            url: '/tutor/disciplinas',
-            icon: 'icon-book-open'
         },
         {
             name: 'Pessoas cadastradas',

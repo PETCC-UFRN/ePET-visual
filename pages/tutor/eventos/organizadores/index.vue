@@ -4,14 +4,14 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h3><i class="fa fa-edit"></i> Cadastrar organizador</h3>             
+            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>             
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1"><h5>Pessoa:</h5> </label>
+            <label for="exampleFormControlInput1"><strong>Organizador</strong></label>
             <select class="form-control" v-model="form.pessoa">
               <option
                 v-for="participante in pessoas"
@@ -32,7 +32,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h3><i class="fa fa-group fa-fw"></i> Organizadores cadastrados</h3>
+            <h2><i class="fa fa-group fa-fw"></i> Organizadores cadastrados</h2>
           </b-col>
         </b-row>
       </template>
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import Swal from "sweetalert2";
 
 export default {
@@ -116,8 +116,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get("pessoas")
+   this.$axios.get("pessoas")
       .then(res => {
         this.pessoas = res.data.content;
       })
@@ -147,8 +146,7 @@ export default {
   },
   methods: {
     consumirOrganizadoresApi() {
-      axios
-        .get(`organizadores-evento/${this.$route.query.idEvento}`)
+      this.$axios.get(`organizadores-evento/${this.$route.query.idEvento}`)
         .then(res => {
           this.organizadores = res.data;
         })
@@ -177,8 +175,7 @@ export default {
       this.$router.push("/tutor/eventos/organizadores/create");
     },
     del(id, rowId) {
-      axios
-        .delete("organizadores-remove/" + id)
+      this.$axios.delete("organizadores-remove/" + id)
         .then(() => {
           Swal.fire({
             title: "Organizador removido",
@@ -197,8 +194,7 @@ export default {
     },
     submitForm(e) {
       e.preventDefault();
-      axios
-        .post(`organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
+      this.$axios.post(`organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
         .then( res => {
           Swal.fire({
             title: "Organizador cadastrado",
@@ -229,7 +225,13 @@ export default {
 
 
 <style scoped>
-h3 {
+
+h2, h4 {  
   text-align: center;
+  font-weight: 300;
+}
+
+strong {
+  font-size: 18px;
 }
 </style>

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 import {TheMask} from 'vue-the-mask';
 
 export default {
@@ -56,8 +56,7 @@ export default {
   methods: {
     submitForm(e) {
       e.preventDefault();
-      axios
-        .post("disciplinas", this.form)
+      this.$axios.post("disciplinas", this.form)
         .then(res => {
           this.alert.class = "success";
           this.alert.message = "Disciplina cadastrada com sucesso";

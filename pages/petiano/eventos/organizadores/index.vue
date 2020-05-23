@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import axios from "~/axios";
+
 
 export default {
   name: "dashboard",
@@ -118,20 +118,20 @@ export default {
     }
   },
   mounted() {
-    axios.get("organizadores").then(res => {
+    this.$axios.get("organizadores").then(res => {
       this.eventos = res.data.content;
     });
   },
   methods: {
     del(id, rowId) {
       console.log(id);
-      axios.delete("organizadores-remove/" + id).then(() => {
+      this.$axios.delete("organizadores-remove/" + id).then(() => {
         this.eventos.splice(rowId, 1);
         alert("Organizador removido com sucesso");
       });
     }
     // confirmar(id) {
-    //   axios.post("organizadores-confirmar/" + id).then(() => {
+    //   this.$axios.post("organizadores-confirmar/" + id).then(() => {
     //     // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
     //     alert("Organizador ativado com sucesso");
     //     let vm = this;

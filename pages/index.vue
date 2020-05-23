@@ -30,6 +30,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* Footer */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 section {

@@ -15,11 +15,6 @@ export default {
             icon: 'icon-home'
         },
         {
-            name: 'Perfil',
-            url: '/petiano/perfil',
-            icon: 'icon-user'
-        },
-        {
             name: 'Eventos',
             icon: 'icon-event',
             children: [
