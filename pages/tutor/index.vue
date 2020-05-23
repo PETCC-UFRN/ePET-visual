@@ -100,7 +100,7 @@
             <b-list-group>
               <div v-for="noticia in noticias" :key="noticia.idNoticia">
           
-                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
+                <b-list-group-item href="#" @click="redirectNoticia(noticia.idNoticia)" class="flex-column align-items-start mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
                     <small class="text-muted">{{noticia.inicio_exibicao}}</small>
@@ -165,6 +165,11 @@ export default {
       return this.noticias.filter(item => {
         return new Date(item.limite_exibicao).getTime() > Date.now() && new Date(item.inicio_exibicao).getTime() < Date.now();
       });
+    }
+  },
+  methods:{
+    redirectNoticia: function(idNoticia){
+      this.$router.push('/tutor/noticia/visualize/' + idNoticia);
     }
   }
 };
