@@ -156,33 +156,29 @@ export default {
 
     },
     inscrever(idEvento) {
-      
-      return  Swal.fire({
-        title: 'Cadastrando inscrição',
-        text: 'Para concluir a inscrição, escolha a forma de inscrição no evento.',
-        input: 'select',
-        inputOptions: {
-          participante: 'Participante',
-          organizador: 'Organizador'
-        },
-        inputPlaceholder: 'Forma de inscrição',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        inputValidator: (value) => {
-          return new Promise((resolve) => {
-            if (value === 'Participante') {
-              resolve()
-            }
-            else if (value === 'Organizador') {
-              resolve()
-            } else {
-              resolve('Você precisa escolher umas das opções válidas apresentadas para poder finalizar a inscrição.')
-            }
-          })
-        }
-      });      
+      this.$axios
+        .post(`participantes-cadastrar/${idEvento}/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          Swal.fire({
+            title: "Inscrição realizada",
+            icon: "success"
+          });
+        })
+        .catch( err => {
+          if (err.response.status === 500) {
+            Swal.fire({
+              title: "Inscrição não realizada",
+              icon: 'error',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              icon: 'error',
+            });
+          }  
+        });
     }
   }
 };
