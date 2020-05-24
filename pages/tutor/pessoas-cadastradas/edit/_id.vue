@@ -1,9 +1,5 @@
 <template>
   <div class="col-md-12">
-    <b-alert :variant="this.alert.class" v-show="this.alert.class !== ''" show dismissible>
-      {{ this.alert.message }}
-      <!-- <b>&rArr;</b> -->
-    </b-alert>
     <div class="card">
       <div class="card-header">
         <strong>
@@ -14,20 +10,20 @@
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1">Nome:</label>
+            <label>Nome:</label>
             <input type="text" class="form-control" placeholder="Digite o nome" v-model="form.nome" />
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">CPF:</label>
+            <label>CPF:</label>
             <input type="text" class="form-control" placeholder="Digite o CPF" v-model="form.cpf" />
           </div>
           <div class="form-group">
             <b-button type="submit" variant="primary">
               <i class="fa fa-dot-circle-o"></i> Salvar modificações
             </b-button>
-            <a href="/tutor/pessoas-cadastradas/" class="btn btn-danger">
+            <nuxt-link to="/tutor/pessoas-cadastradas/" class="btn btn-danger">
               <i class="fa fa-ban"></i> Cancelar
-            </a>
+            </nuxt-link>
           </div>
         </form>
       </div>
