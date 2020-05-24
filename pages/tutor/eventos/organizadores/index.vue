@@ -4,34 +4,20 @@
       <div class="card-header">
         <b-row>
           <b-col>
-<<<<<<< HEAD
             <h3>
               <i class="fa fa-edit"></i> Cadastrar organizador
             </h3>
-=======
-            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>             
->>>>>>> 3821a5208a1648dbcdc84458810aa83231f349f0
+            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-<<<<<<< HEAD
             <label for="exampleFormControlInput1">
               <h5>Pessoa:</h5>
             </label>
             <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
-=======
-            <label for="exampleFormControlInput1"><strong>Organizador</strong></label>
-            <select class="form-control" v-model="form.pessoa">
-              <option
-                v-for="participante in pessoas"
-                :key="participante.idPessoa"
-                :value="participante.idPessoa"
-              >{{ participante.nome }}</option>
-            </select>
->>>>>>> 3821a5208a1648dbcdc84458810aa83231f349f0
           </div>
           <div class="form-group">
             <b-button block type="submit" variant="success">
@@ -237,7 +223,7 @@ export default {
 
 <style scoped>
 
-h2, h4 {  
+h2, h4 {
   text-align: center;
   font-weight: 300;
 }
