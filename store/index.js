@@ -27,15 +27,14 @@ export const actions = {
                 auth = parsed.auth;
                 profile = parsed.profile ? JSON.parse(parsed.profile) : JSON.parse(parsed.setProfile);
             } catch (err) {
-                console.log(req.headers.cookie);
-                console.log('Nenhum cookie encontrado');
+                // pass
             }
-        } 
-        
+        }
+
         if (auth === null || auth === "null") {
             auth = Cookies.get('auth');
-        } 
-        
+        }
+
         if (!profile){
             profile = Cookies.get('profile');
         }
