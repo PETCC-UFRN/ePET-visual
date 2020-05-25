@@ -2,70 +2,95 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Eventos cadastrados</h3>
-        <a
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          href="eventos-cadastrados/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i>
- Adicionar evento</a>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h2>
+          </b-col>
+          <b-col>
+            <nuxt-link
+              class="btn btn-sm btn-primary float-right mt-4"
+              to="/petiano/eventos/eventos-cadastrados/create"
+            ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
+          </b-col>
+        </b-row>
       </template>
-      <div v-if="eventos.length > 0">
-          
-       <b-input-group  class="mt-3 mb-3" >
-          <!-- Always bind the id to the input so that it can be focused when needed -->
-          <b-form-input
-            v-model="keyword"
-            placeholder="Busca"            
-            type="text"
-          ></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-        </b-input-group-text>
-        </b-input-group>
-
-        <b-table
-          responsive="sm"
-          :items="items"
-          :current-page="currentPage"
-          :bordered="true"
-          :per-page="10"
-          :fields="fields"
-        >
-          <template v-slot:cell(ativo)="row">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" :checked="row.item.ativo" disabled />
-            </div>
-          </template>
-          <template v-slot:cell(actions)="row">
-            <b-button
-              @click="ativar(row.item.idEvento)"
-              class="btn btn-sm btn-success"
-              v-show="! row.item.ativo"
-            ><i class="fa fa-check" aria-hidden="true"></i>
-              Ativar</b-button>
-            <b-button
-              :href="'/petiano/eventos/eventos-cadastrados/edit/' + row.item.idEvento"
-              class="btn btn-sm btn-warning"
-            ><i class="fa fa-pencil fa-fw"></i> Editar</b-button>
-            <b-button
-              @click="del(row.item.idEvento, row.index)"
-              class="btn btn-sm btn-danger"
-            ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
-          </template>
-        </b-table>
-        <nav>
-          <b-pagination
-            :total-rows="items.length"
-            :per-page="10"
-            v-model="currentPage"
-            prev-text="Anterior"
-            next-text="Próximo"
-            hide-goto-end-buttons
-          />
-        </nav>
+      
+      <div v-if="eventosLoading === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
-      <div v-else>Nenhum evento cadastrado</div>
+      <div v-else>
+        <div v-if="eventos.length > 0">
+            
+          <b-input-group  class="mt-3 mb-3" >
+            <b-form-input
+              v-model="keyword"
+              placeholder="Busca por título"            
+              type="text"
+            ></b-form-input>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
+            </b-input-group-text>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
+            </b-input-group-text>
+          </b-input-group>
+          <b-table
+            responsive="sm"
+            :items="eventos"
+            :current-page="currentPage"
+            :bordered="true"
+            :per-page="20"
+            :fields="fields"
+          >
+            <template v-slot:cell(pages)="row">
+              <nuxt-link
+                :to="`/petiano/eventos/organizadores/?idEvento=${row.item.idEvento}`"
+                class="btn btn-sm btn-teal"
+                style="color: white" 
+              ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
+              <b-button
+                :to="`/petiano/eventos/participantes/?idEvento=${row.item.idEvento}`"
+                class="btn btn-sm mt-2"
+                variant="secondary"
+              ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
+            </template>
+            <template  v-slot:cell(actions)="row">
+              <b-button
+                class="btn btn-sm btn-success mt-2"
+                v-if="row.item.ativo === false"
+                @click.prevent="ativar(row.item.idEvento)"
+              >
+                <i class="fa fa-check fa-fw"></i> Ativar
+              </b-button>
+              <nuxt-link
+                class="btn btn-sm btn-cyan mt-2"
+                :to="`/petiano/eventos/eventos-cadastrados/${row.item.idEvento}`"
+              ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+              <nuxt-link
+                class="btn btn-sm btn-warning mt-2"
+                :to="`/petiano/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"              
+              ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
+              <b-button
+                @click.prevent="del(row.item.idEvento, row.index)"
+                class="btn btn-sm btn-danger mt-2"
+              >
+                <i class="fa fa-trash-o fa-fw"></i> Remover
+              </b-button>
+            </template>
+          </b-table>
+          <div>
+            <Pagination
+              :totalRows="numItems"
+              :perPage="perPage"
+              v-on:currentPage="setCurrentPage"
+            />
+          </div>
+        </div>
+        <div v-else>
+          <h5>Nenhum evento cadastrado</h5>
+        </div>
+      </div>
     </b-card>
   </div>
 </template>
@@ -73,64 +98,159 @@
 <script>
 
 
+import Swal from "sweetalert2";
+import moment from "moment";
+import Pagination from "~/components/Pagination";
+
 export default {
   name: "dashboard",
-  /* TODO:: Esse layout será apresentado tanto pro petiano quando pro coordenador
-  depois será necessário uma lógica pra chamar o layout dependendo do tipo de usuário
-  logado. No momento trabalharei apenas com os petianos. */
   layout: "menu/petiano",
+  components: {
+    Pagination
+  },
   data() {
     return {
+      eventosLoading: true,
+      eventosAtivarLoading: false,
+      eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        { key: "local", sortable: true },
-        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (value) => { if (value != null) return `${value.substring(8, 10)}-${value.substring(5, 7)}-${value.substring(0, 4)}`} },
-        { key: "qtdVagas", sortable: true, label: "Quantidade de vagas" },
-        { key: "ativo", sortable: true, label: "Ativo"  },
+        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "pages", sortable: true, label: "Páginas disponíveis"  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
   },
-  
-  computed: {
-    items () {
-      return this.keyword
-          ? this.eventos.filter(item => item.titulo.includes(this.keyword) || item.local.includes(this.keyword))
-          : this.eventos
+  mounted () {
+    this.consumindoEventosApi();
+  },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
     }
   },
-  mounted() {
-    this.$axios.get("eventos").then(res => {
-      this.eventos = res.data.content;
-    });
-  },
   methods: {
+    cancelSearch() {
+      this.keyword = ''
+      this.consumindoEventosApi()
+    },
+    search() {
+      this.$axios.get(`pesquisar-evento/${this.keyword}`)
+        .then( res => {
+          this.eventos = res.data.content;
+        })
+        .catch( err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhum evento cadastrado",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Falha em consumir API",
+                icon: 'error',
+              })
+              .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+              });
+            }  
+        });
+    },
+    setCurrentPage(val){
+      this.currentPage = val;
+    },
+    consumindoEventosApi() {
+      this.$axios.get("eventos")
+        .then(res => {
+          this.eventos = res.data.content;
+          this.eventosLoading = false;
+          this.numItems = res.data.totalElements;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum evento cadastrado",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Falha em consumir API",
+              icon: 'error',
+            })
+            .then( () => {
+              let vm = this;
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
+            });
+          }  
+        });
+    },
     del(id, rowId) {
-      this.$axios.delete("eventos-remove/" + id).then(() => {
-        this.eventos.splice(rowId, 1);
-        alert("Evento removido com sucesso");
-      });
+      this.$axios.delete(`eventos-remove/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: 'Evento removido',
+            icon: 'success',
+          })
+          .then( () => this.consumindoEventosApi() );
+        })
+        .catch(err => {
+          if (err.response.status === 500) {
+            Swal.fire({
+              title: 'Evento não removido',
+              text: 'Não é possível remover eventos com participantes ou organizadores, remova-os antes.',
+              icon: 'error'
+            })
+          } 
+          else {
+            Swal.fire({
+              title: 'Evento não removido',
+              icon: 'error'
+            })
+          }
+        });
     },
     ativar(id) {
-      this.$axios.post("eventos-ativar/" + id).then(() => {
-        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
-        alert("Evento ativado com sucesso");
-        let vm = this;
-        setTimeout(function() {
-          location.reload();
-        }, 1500);
-      });
+      this.$axios.post(`eventos-ativar/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: 'Evento ativado',
+            icon: 'success',
+          })
+          .then( () => {
+            this.consumindoEventosApi();
+          });
+        })
+        .catch( err => {
+          Swal.fire({
+            title: 'Erro na ativação',
+            icon: 'error'
+          })
+        });        
     }
   }
 };
 </script>
 
 <style scoped>
-h3 {
-  text-align: center;
+h2, h4 {
+  font-weight: 300;
 }
 </style>
