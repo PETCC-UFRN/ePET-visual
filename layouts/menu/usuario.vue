@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: `PET-CC UFRN | ${this.$store.state.profile.nome}`
+      title: `PET-CC UFRN | Usuário comum`
     }
   }
 };

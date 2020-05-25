@@ -166,10 +166,18 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 500) {
-            Swal.fire({
-              title: "Inscrição não realizada",
-              icon: 'error',
-            });
+            if (err.response.data.message === "Essa pessoa já fez sua inscrição no evento!") {
+              Swal.fire({
+                title: "Inscrição já foi realizada",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Inscrição não realizada",
+                icon: 'error',
+              });
+            }  
           }
           else {
             Swal.fire({
