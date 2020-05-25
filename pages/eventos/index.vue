@@ -1,6 +1,6 @@
 <template>
   	<div >
-        <Comum/>  
+        <Comum/>
         <div class="container">
 			<br>
 			<h1 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h1>
@@ -54,16 +54,16 @@ export default {
       return {
 		eventos: [],
         mesNomes: [
-          "JANEIRO", 
-          "FEVEREIRO", 
-          "MARÇO", 
-          "ABRIL", 
+          "JANEIRO",
+          "FEVEREIRO",
+          "MARÇO",
+          "ABRIL",
           "MAIO",
           "JUNHO",
-          "JULHO", 
-          "AGOSTO", 
-          "SETEMBRO", 
-          "OUTUBRO", 
+          "JULHO",
+          "AGOSTO",
+          "SETEMBRO",
+          "OUTUBRO",
           "NOVEMBRO",
           "DEZEMBRO"]
       };
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     filterEventos() {
-      return this.eventos.filter(evento => evento.ativo == true) 
+      return this.eventos.filter(evento => evento.ativo == true)
 	}
   }
 }
@@ -84,7 +84,7 @@ export default {
 
 <style scoped>
 
-a { 
+a {
 	color: #000000;
 	text-decoration: none;
  }
@@ -114,5 +114,10 @@ hr {
 }
 a {
   color: inherit;
+}
+
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: calc(100vh - 256px - 400px);
 }
 </style>
