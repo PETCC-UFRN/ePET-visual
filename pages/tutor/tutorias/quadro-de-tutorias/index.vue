@@ -68,7 +68,10 @@
               </b-button>
             </template>
           </b-table>
-          <nav>
+          <nav>eventos:Array[0]￼
+￼
+￼
+
             <b-pagination
               :total-rows="tutorias.length"
               :per-page="10"

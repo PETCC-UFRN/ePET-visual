@@ -4,27 +4,26 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>             
+            <h3>
+              <i class="fa fa-edit"></i> Cadastrar organizador
+            </h3>
+            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="exampleFormControlInput1"><strong>Organizador</strong></label>
-            <select class="form-control" v-model="form.pessoa">
-              <option
-                v-for="participante in pessoas"
-                :key="participante.idPessoa"
-                :value="participante.idPessoa"
-              >{{ participante.nome }}</option>
-            </select>
+            <label for="exampleFormControlInput1">
+              <h5>Pessoa:</h5>
+            </label>
+            <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
           </div>
           <div class="form-group">
             <b-button block type="submit" variant="success">
               <i class="fa fa-check"></i> Confirmar cadastrado de organizador
             </b-button>
-          </div> 
+          </div>
         </form>
       </div>
     </div>
@@ -32,20 +31,26 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-group fa-fw"></i> Organizadores cadastrados</h2>
+            <h3>
+              <i class="fa fa-group fa-fw"></i> Organizadores cadastrados
+            </h3>
           </b-col>
         </b-row>
       </template>
       <b-card-body>
         <div v-if="organizadores.length > 0">
-         <b-input-group  class="mt-1 mb-3" >
-            <b-form-input
-              v-model="keyword"
-              placeholder="Busca por nome ou por CPF"            
-              type="text"
-            ></b-form-input>
+          <b-input-group class="mt-1 mb-3">
+            <b-form-input v-model="keyword" placeholder="Busca por nome ou por CPF" type="text"></b-form-input>
             <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+              <b-btn
+                class="p-0"
+                :disabled="!keyword"
+                variant="link"
+                size="sm"
+                @click="keyword = ''"
+              >
+                <i class="fa fa-remove"></i>
+              </b-btn>
             </b-input-group-text>
           </b-input-group>
 
@@ -62,7 +67,9 @@
               <b-button
                 @click="del(row.item.idOrganizadores, row.index)"
                 class="btn btn-sm btn-danger"
-              ><i class="fa fa-trash-o fa-fw"></i> Remover</b-button>
+              >
+                <i class="fa fa-trash-o fa-fw"></i> Remover
+              </b-button>
             </template>
           </b-table>
           <nav>
@@ -77,7 +84,7 @@
             />
           </nav>
         </div>
-        <div v-else> 
+        <div v-else>
           <h5>Nenhum organizador cadastrado</h5>
         </div>
       </b-card-body>
@@ -86,87 +93,76 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
+import PessoasSelect from "~/components/selects/PessoasSelect";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
+  components: {
+    "v-pessoas": PessoasSelect
+  },
   data() {
     return {
       form: {
-        pessoa: 0,
+        pessoa: 0
       },
-      pessoas: {},
-      keyword: '',
+      keyword: "",
+      limit: 20,
       organizadores: [],
       currentPage: 1,
       fields: [
         { key: "pessoa.nome", label: "Nome", sortable: true },
-        { key: "pessoa.cpf", label: "CPF", sortable: true, formatter: (value) => { if (value != null) return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9, 11)}` } },
+        {
+          key: "pessoa.cpf",
+          label: "CPF",
+          sortable: true,
+          formatter: value => {
+            if (value != null)
+              return `${value.substring(0, 3)}.${value.substring(
+                3,
+                6
+              )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
+          }
+        },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
   computed: {
-    items () {
+    items() {
       return this.keyword
-          ? this.eventos.filter(item => item.pessoa.nome.includes(this.keyword) || item.evento.titulo.includes(this.keyword))
-          : this.eventos
+        ? this.eventos.filter(
+            item =>
+              item.pessoa.nome.includes(this.keyword) ||
+              item.evento.titulo.includes(this.keyword)
+          )
+        : this.eventos;
     }
   },
-  mounted() {
-   this.$axios.get("pessoas")
-      .then(res => {
-        this.pessoas = res.data.content;
-      })
-      .catch ( err => {
-        if (err.response.status === 404) {
-          Swal.fire({
-            title: "Nenhum pessoa cadastrada",
-            icon: 'info',
-          });
-        }
-        else {
-          Swal.fire({
-            title: "Falha em consumir API",
-            icon: 'error',
-          })
-          .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-          });
-        }
-      });
+  mounted(){
+    this.consumirOrganizadoresApi();
   },
-  async fetch () {
+  async fetch() {
     this.consumirOrganizadoresApi();
   },
   methods: {
     consumirOrganizadoresApi() {
-      this.$axios.get(`organizadores-evento/${this.$route.query.idEvento}`)
+      this.$axios
+        .get(`organizadores-evento/${this.$route.query.idEvento}`)
         .then(res => {
           this.organizadores = res.data;
         })
-        .catch( err => {
-          if (err.response.status === 404) {
+        .catch(err => {
+          if (err.response && err.response.status === 404) {
             Swal.fire({
               title: "Nenhum organizador cadastrado",
-              icon: 'info',
+              icon: "info"
             });
-          }
-          else {
+          } else {
             Swal.fire({
               title: "Falha em consumir API",
-              icon: 'error',
-            })
-            .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
+              icon: "error"
             });
           }
         });
@@ -175,32 +171,34 @@ export default {
       this.$router.push("/tutor/eventos/organizadores/create");
     },
     del(id, rowId) {
-      this.$axios.delete("organizadores-remove/" + id)
+      this.$axios
+        .delete("organizadores-remove/" + id)
         .then(() => {
           Swal.fire({
             title: "Organizador removido",
-            icon: 'success',
-          })
-          .then( () => {
+            icon: "success"
+          }).then(() => {
             this.organizadores.splice(rowId, 1);
           });
         })
-        .catch( err => {
+        .catch(err => {
           Swal.fire({
             title: "Organizador não removido",
-            icon: 'error',
+            icon: "error"
           });
         });
     },
     submitForm(e) {
       e.preventDefault();
-      this.$axios.post(`organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`)
-        .then( res => {
+      this.$axios
+        .post(
+          `organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
+        )
+        .then(res => {
           Swal.fire({
             title: "Organizador cadastrado",
-            icon: 'success',
-          })
-          .then( () => {
+            icon: "success"
+          }).then(() => {
             this.form = Object.entries(this.form).map(item => {
               return (item = "");
             });
@@ -210,9 +208,8 @@ export default {
         .catch(err => {
           Swal.fire({
             title: "Organizador não cadastrado",
-            icon: 'error',
-          })
-          .then( () => {
+            icon: "error"
+          }).then(() => {
             this.form = Object.entries(this.form).map(item => {
               return (item = "");
             });
@@ -226,7 +223,7 @@ export default {
 
 <style scoped>
 
-h2, h4 {  
+h2, h4 {
   text-align: center;
   font-weight: 300;
 }
