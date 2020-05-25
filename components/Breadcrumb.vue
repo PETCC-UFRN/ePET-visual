@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{this.$route.path.split('/').slice(1)}}
     <b-progress  height="2px" :value="`${this.$route.path.split('/').slice(1).length}`" max=4></b-progress>
     <ol class="breadcrumb">
       <li class="breadcrumb-item" v-for="(item, index) in this.$route.path.split('/').slice(1)" v-bind:key="index">
@@ -8,7 +7,6 @@
           <nuxt-link :to="`/${item}`">{{"Início  "}}</nuxt-link>  
         </span>
         <span v-else>
-          {{console.log($route.path.split('/').slice(1).slice(0,index).join('/'))}}
           <nuxt-link :to="`/${$route.path.split('/').slice(1).slice(0,index).join('/')}`">
           {{item.replace(/^\w/, c => c.toUpperCase()) }} </nuxt-link>  
         </span>
