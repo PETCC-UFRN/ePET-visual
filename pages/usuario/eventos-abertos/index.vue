@@ -31,7 +31,7 @@
             </template>
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/eventos/eventos-abertos/${row.item.idEvento}`"
+                  :to="`/usuario/eventos-abertos/${row.item.idEvento}`"
                   class="btn btn-sm btn-info mt-1"
                 ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
               <b-button
