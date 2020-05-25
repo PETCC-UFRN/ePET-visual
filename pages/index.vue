@@ -3,9 +3,6 @@
     <Comum/>
     <div class="atividades container">
       <About/>
-      <!-- <div>
-          <Activity/>
-      </div> -->
     </div>
     <Footer/>
     <nuxt/>
