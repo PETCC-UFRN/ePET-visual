@@ -14,22 +14,7 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <div v-if="eventos.length > 0">  
-          
-          <b-input-group  class="mt-3 mb-3" >
-            <b-form-input
-              v-model="keyword"
-              placeholder="Busca por título"            
-              type="text"
-            ></b-form-input>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
-            </b-input-group-text>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
-            </b-input-group-text>
-          </b-input-group>
-
+        <div v-if="eventos.length > 0">          
           <b-table
             responsive="sm"
             :items="eventos"
@@ -104,31 +89,6 @@ export default {
     }
   },
   methods: {
-    cancelSearch() {
-      this.keyword = ''
-      this.consumindoEventosApi()
-    },
-    search() {
-      this.$axios.get(`pesquisar-evento/${this.keyword}`)
-        .then( res => {
-          this.eventos = res.data.content;
-        })
-        .catch( err => {
-            if (err.response.status === 500) {
-              Swal.fire({
-                title: "Nenhum evento aberto",
-                icon: 'info',
-              })
-            }
-            else {
-              Swal.fire({
-                title: "Houve um problema...",
-                text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
-                icon: 'error',
-              })
-            }  
-        });
-    },
     consumindoEventosApi() {
       this.$axios
         .get("eventos-abertos")

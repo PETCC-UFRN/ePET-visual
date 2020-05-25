@@ -92,67 +92,9 @@ export default {
     this.consumindoTutoriasMinistradasApi();
   },
   methods: {
-    cancelSearch() {
-      this.keyword = ''
-      this.consumindoTutoriasMinistradasApi()
-    },
-    search() {
-      if (this.selected === "nomeCodigoDisciplina") {
-        this.searchDisciplinaTutoria();
-      }
-      else {
-        this.searchPetianoTutoria();
-      }  
-    },
-    searchDisciplinaTutoria(){
-      this.$axios
-        .get(`pesquisar-disciplina-tutoria/${this.keyword}`)
-        .then( res => {
-          this.tutorias = res.data.content;
-        })
-        .catch( err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: "Nenhuma tutoria encontrada",
-                icon: 'info',
-              });
-            }
-            else {
-              Swal.fire({
-                title: "Houve um problema...",
-                text: "Por favor, tente recarregar a página. Caso não dê certo," +
-                " tente novamente mais tarde.",
-                icon: 'error',
-              })
-            }  
-        });
-    },
-    searchPetianoTutoria(){
-      this.$axios
-        .get(`pesquisar-petiano-tutoria/${this.keyword}`)
-        .then( res => {
-          this.tutorias = res.data.content;
-        })
-        .catch( err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: "Nenhuma tutoria encontrada",
-                icon: 'info',
-              });
-            }
-            else {
-              Swal.fire({
-                title: "Houve um problema...",
-                text: "Por favor, tente recarregar a página. Caso não dê certo," +
-                " tente novamente mais tarde.",
-                icon: 'error',
-              })
-            }  
-        });
-    },
     consumindoTutoriasMinistradasApi() {
       this.$axios
-        .get("tutorias")
+        .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.tutorias = res.data.content;
           this.isLoading = false;

@@ -7,7 +7,7 @@
           <nuxt-link :to="`/${item}`">{{"Início  "}}</nuxt-link>  
         </span>
         <span v-else>
-          <nuxt-link :to="`/${$route.path.split('/').slice(1).slice(0,index).join('/')}`">
+          <nuxt-link :to="`/${$route.path.split('/').slice(1).slice(0,index+1).join('/')}`">
           {{item.replace(/^\w/, c => c.toUpperCase()) }} </nuxt-link>  
         </span>
       </li>
