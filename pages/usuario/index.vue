@@ -11,7 +11,7 @@
     <div v-else>
       <div class="row">
         <div class="col-md-6">
-          <b-row>
+          <!-- <b-row>
             <b-col>
               <b-card 
                 v-show="tutorias.length > 0"
@@ -39,7 +39,7 @@
                 </b-list-group>
               </b-card>
             </b-col>
-          </b-row>
+          </b-row> -->
           <b-row>
             <b-col>
               <b-card header-tag="header" footer-tag="footer">
@@ -161,17 +161,17 @@ export default {
         }
       });
     
-    this.$axios
-      .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
-      .then(res => {
-        this.tutorias = res.data.content.slice(0, 3);
-        this.isLoading = false;
-      })
-      .catch(err => {
-        if (err.response.status) {
-          this.isLoading = false;
-        }
-      });
+    // this.$axios
+    //   .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
+    //   .then(res => {
+    //     this.tutorias = res.data.content.slice(0, 3);
+    //     this.isLoading = false;
+    //   })
+    //   .catch(err => {
+    //     if (err.response.status) {
+    //       this.isLoading = false;
+    //     }
+    //   });
   },
   filters: {
     moment: function (date) {
