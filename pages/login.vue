@@ -154,17 +154,14 @@ export default {
       }
     },
     getProfile() {
-      this.$axios
        this.$axios.get("pessoas-usuario", {
           headers: { Authorization: `${Cookies.get("auth")}` }
         })
         .then(res => {
           this.perfil = res.data;
-          console.log(res);
-          Cookies.set("setProfile", this.perfil);
+          Cookies.set("profile", this.perfil);
         })
         .then(res => {
-          //console.log(this.perfil.tipo_usuario.nome);
           this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
         })
         .catch(err => {

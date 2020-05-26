@@ -11,7 +11,7 @@
     
     <b-navbar-nav class="d-md-down-none">
       <template v-for="item in headerItems" >
-        <b-nav-item v-bind:key="item.id" :href="item.url" class="px-3"><i :class="item.icon"></i> {{item.name}}</b-nav-item>
+        <b-nav-item v-bind:key="item.id" :to="item.url" class="px-3"><i :class="item.icon"></i> {{item.name}}</b-nav-item>
       </template>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">

@@ -42,7 +42,7 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/noticia/${row.item.idNoticia}`"
+                  :to="`/usuario/noticias/${row.item.idNoticia}`"
                   class="btn btn-sm btn-info"
                 >
                   <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
@@ -69,9 +69,7 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
-import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -84,22 +82,6 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        {
-          key: "inicio_exibicao",
-          sortable: true,
-          label: "Início de exibição",
-          formatter: value => {
-            if (value != null) return moment(value).format("DD/MM/Y");
-          }
-        },
-        {
-          key: "limite_exibicao",
-          sortable: true,
-          label: "Início de exibição",
-          formatter: value => {
-            if (value != null) return moment(value).format("DD/MM/Y");
-          }
-        },
         { key: "actions", label: "Ações disponíveis"},
       ],
     };
@@ -119,19 +101,16 @@ export default {
             Swal.fire({
               title: "Nenhuma notícia cadastrada",
               icon: 'info',
-            });
+            })
+            .then(() => this.isLoading = false );
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
+            .then(() => this.isLoading = false );
           }
         });
     },
@@ -155,15 +134,10 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
         });
     }
@@ -174,7 +148,7 @@ export default {
 
 
 <style scoped>
-h2, h4 {
+h2, h4, h5 {
   font-weight: 300;
 }
 </style>

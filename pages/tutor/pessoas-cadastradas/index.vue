@@ -89,6 +89,7 @@
 
 <script>
 
+import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
 export default {
@@ -151,7 +152,6 @@ export default {
         )
         .then(res => {
           if (id_tipo == 2) {
-            // se tipo petiano
             this.$set(this.modal, "item", row.item);
             this.showModal("modal-create");
           } else if (id_tipo != 2) {
@@ -160,11 +160,13 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
+          Swal.fire({
+            title: "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            icon: "error"
+          });
         });
     },
     showModal(name) {
-      console.log("abre modal");
       this.$refs[name].show();
     },
     hideModal(name) {
@@ -188,9 +190,10 @@ export default {
           this.hideModal("modal-update");
         })
         .catch(err => {
-          alert(
-            "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!"
-          );
+          Swal.fire({
+            title: "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!",
+            icon: 'error'
+          });
         });
     },
     cancelSearch() {

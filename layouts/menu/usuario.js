@@ -10,24 +10,51 @@ export default {
         },
         {
             name: 'Início',
-            url: '/usuario', // TODO::Modificar depois para a página inicial do petiano
+            url: '/usuario',
             icon: 'icon-home'
         },
         {
-            name: 'Eventos',
-            url: '/usuario/eventos/eventos-cadastrados',
-            icon: 'icon-event'
+            name: 'Notícias',
+            url: '/usuario/noticias',
+            icon: 'icon-envelope-letter'
+        },
+        {
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Tutorias abertas',
+                    url: '/usuario/tutorias-abertas',
+                    icon: 'icon-book-open'
+                },
+                {
+                    name: 'Minhas tutorias',
+                    url: '/usuario/minhas-tutorias',
+                    icon: 'icon-check'
+                }
+            ]
         },
 
         {
-            name: 'Quadro de tutorias',
-            url: '/usuario/quadro-de-tutorias',
-            icon: 'icon-docs'
-        },
-        {
-            name: 'Notícias',
-            url: '/usuario/noticia',
-            icon: 'icon-envelope-open'
+            name: 'Eventos',
+            icon: 'icon-event',
+            children: [
+                {
+                    name: 'Eventos abertos',
+                    url: '/usuario/eventos-abertos',
+                    icon: 'icon-calendar'
+                },
+                {
+                    name: 'Inscritos',
+                    url: '/usuario/eventos-inscritos',
+                    icon: 'icon-user-following'
+                },
+                {
+                    name: 'Organizados',
+                    url: '/usuario/eventos-organizados',
+                    icon: 'icon-user-following'
+                }
+            ]
         },
     ]
 }
