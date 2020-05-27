@@ -11,14 +11,18 @@
     <div v-else>
       <div class="row">
         <div class="col-md-6">
-          <b-row>
+          <!-- <b-row>
             <b-col>
-                <b-card header-tag="header" footer-tag="footer">
+              <b-card 
+                v-show="tutorias.length > 0"
+                header-tag="header" 
+                footer-tag="footer"
+              >
                 <div slot="header">
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-file" aria-hidden="true"></i> Tutorias ativas
+                        <i class="fa fa-check fa-fw"></i> Minhas tutorias
                       </h3>
                     </b-col>
                   </b-row>
@@ -28,20 +32,14 @@
                     <b-list-group-item href="#" class="flex-column align-items-start mb-2">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{tt.disciplina.nome}}</h5>
-                        <small class="text-muted">{{tt.data}}</small>
                       </div>
                       <p class="mb-1">{{tt.tutoria.petiano.pessoa.nome}}</p>
-                      <!--
-                      <small class="text-muted">
-                        <em>Postado por {{noticia.petiano.pessoa.nome}}</em>
-                      </small>
-                      -->
                     </b-list-group-item>
                   </div>
                 </b-list-group>
               </b-card>
             </b-col>
-          </b-row>
+          </b-row> -->
           <b-row>
             <b-col>
               <b-card header-tag="header" footer-tag="footer">
@@ -49,12 +47,12 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-check-o"></i> Próximos eventos
+                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>
                 </div>
-                <div role="tablist" v-for="evento in eventos" :key="evento.idEvento">
+                <div role="tablist" v-for="evento in eventos_abertos" :key="evento.idEvento">
                   <b-card no-body class="mb-1">
                     <b-card-header header-tag="header" class="p-1" role="tab">
                       <b-btn
@@ -74,28 +72,10 @@
                           <strong>Descrição:</strong>
                           {{evento.descricao}}
                         </p>
-                        <div class="card-text">
-                          <p class="mt-0 mb-0">
-                            <b>Período de inscrição:</b>
-                            {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.
-                          </p>
-                          <p class="mt-0 mb-0">
-                            <b>Número de vagas:</b>
-                            {{evento.qtdVagas}}.
-                          </p>
-                          <p class="mt-0 mb-0">
-                            <b>Local:</b>
-                            {{evento.local}}.
-                          </p>
-                          <p class="mt-0 mb-0">
-                            <b>Carga horária:</b>
-                            {{evento.qtdCargaHoraria}}h.
-                          </p>
-                          <p class="mt-0 mb-0">
-                            <b>Valor da inscrição:</b>
-                            R$ {{evento.valor}},00.
-                          </p>
-                        </div>
+                        <nuxt-link
+                            class="btn btn-sm btn-info w-100 mt-2"
+                          :to="`usuario/eventos-abertos/${evento.idEvento}`"
+                          >Ver mais informações</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>
@@ -118,10 +98,10 @@
             </div>
             <b-list-group>
               <div v-for="noticia in noticias" :key="noticia.idNoticia">
-                <b-list-group-item href="#" class="flex-column align-items-start mb-2">
+                <b-list-group-item :to="`/usuario/noticias/${noticia.idNoticia}`" class="flex-column align-items-start mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
-                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
+                    <small class="text-muted">{{noticia.inicio_exibicao | moment}}</small>
                   </div>
                   <p class="mb-1">{{noticia.corpo}}</p>
                   <small class="text-muted">
@@ -141,6 +121,7 @@
 <script>
 
 import style from "~/assets/css/loading.css";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -151,6 +132,7 @@ export default {
       noticias: [], // requisicao de noticias
       tutorias: [],
       eventos: [],
+      eventos_abertos:[],
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
@@ -160,7 +142,15 @@ export default {
     };
   },
   mounted() {
-   this.$axios.get("noticia/?page=0")
+   
+    this.$axios
+      .get("eventos-abertos")
+      .then(res => {
+        this.eventos_abertos = res.data;
+      });
+
+   this.$axios
+      .get("noticia/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
         this.isLoading = false;
@@ -170,17 +160,23 @@ export default {
           this.isLoading = false;
         }
       });
-      this.$axios
-      .get("/pesquisar-pessoa-tutorias-ministradas/" + this.$store.state.profile.idPessoa)
-      .then(res => {
-        this.tutorias = res.data.content.slice(0, 3);
-        this.isLoading = false;
-      })
-      .catch(err => {
-        if (err.response.status) {
-          this.isLoading = false;
-        }
-      });
+    
+    // this.$axios
+    //   .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
+    //   .then(res => {
+    //     this.tutorias = res.data.content.slice(0, 3);
+    //     this.isLoading = false;
+    //   })
+    //   .catch(err => {
+    //     if (err.response.status) {
+    //       this.isLoading = false;
+    //     }
+    //   });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
   },
   computed: {
     resNoticias: function() {

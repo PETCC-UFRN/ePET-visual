@@ -4,8 +4,8 @@
     <div class="app-body">
       <Sidebar :navItems="nav" />
       <main class="main">
-        <breadcrumb :list="list" />
-        <div class="container-fluid">
+        <breadcrumb/>
+        <div class="container">
           <nuxt />
         </div>
       </main>
@@ -36,20 +36,12 @@ export default {
   data() {
     return {
       nav: nav.items,
-      head: head.items
+      head: head.items,
     };
   },
   head () {
     return {
-      title: 'PET-CC UFRN - Usuário'
-    }
-  },
-  computed: {
-    name() {
-      return this.$route.name;
-    },
-    list() {
-      return this.$route.matched;
+      title: `PET-CC UFRN | Usuário comum`
     }
   }
 };

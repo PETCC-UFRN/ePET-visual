@@ -18,7 +18,7 @@
         </b-row>
       </template>
 
-      <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
+      <div v-if="isLoading" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
@@ -40,7 +40,6 @@
 
         <div v-if="noticias.length > 0">
           <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
-            
             <template v-slot:cell(actions)="row">
               <nuxt-link
                 :to="`/tutor/noticias/${row.item.idNoticia}`"

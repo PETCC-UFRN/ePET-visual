@@ -87,10 +87,28 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get("eventos/" + this.$route.params.id).then(res => {
-      this.evento = res.data;
-      this.loaded = true;
-    });
+    this.$axios
+      .get("eventos/" + this.$route.params.id)
+      .then(res => {
+        this.evento = res.data;
+        this.loaded = true;
+      })
+      .catch( err => {
+        if (err.response.status === 500) {
+          Swal.fire({
+            title: "Nenhum evento aberto",
+            icon: 'info',
+          })
+        }
+        else {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+            icon: 'error',
+          })
+        }  
+      });
+
   }
 };
 </script>

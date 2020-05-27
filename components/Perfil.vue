@@ -11,7 +11,7 @@
       </h1>
 
       <hr class="my-4" />
-      <!--<p v-html="perfilInfo"></p>-->
+      <p v-html="perfilInfo"></p>
 
       <div class="row">
         <div class="textDark mr-5">
@@ -61,13 +61,12 @@ export default {
 
 data() {
 		return {
-      nome: this.dataPerfil.nome,
+      // nome: this.dataPerfil.nome,
     }
 },
 
 mounted(){
 this.carregar();
-console.log(this.nome);
 },
 
   methods: {
