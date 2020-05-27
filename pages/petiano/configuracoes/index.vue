@@ -14,7 +14,7 @@
           <b-button
             class="float-right mt-2"
             variant="warning"
-            @click.prevent="goEditInformations()"
+            to="/petiano/configuracoes/edit" 
           ><i class="icon-wrench" aria-hidden="true"></i> Editar informações</b-button>
           </b-col>
         </b-row>
@@ -97,11 +97,6 @@ export default {
     this.$axios.get("informacoes").then(res => {
       this.informacoes = res.data;
     });
-  },
-  methods: {
-    goEditInformations() {
-      this.$router.push("/petiano/configuracoes-site/edit");
-    }
   }
 };
 

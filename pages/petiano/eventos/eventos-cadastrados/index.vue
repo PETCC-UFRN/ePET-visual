@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h2>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos abertos</h2>
           </b-col>
           <b-col>
             <nuxt-link
@@ -56,13 +56,6 @@
               ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
             </template>
             <template  v-slot:cell(actions)="row">
-              <b-button
-                class="btn btn-sm btn-success mt-2"
-                v-if="row.item.ativo === false"
-                @click.prevent="ativar(row.item.idEvento)"
-              >
-                <i class="fa fa-check fa-fw"></i> Ativar
-              </b-button>
               <nuxt-link
                 class="btn btn-sm btn-cyan mt-2"
                 :to="`/petiano/eventos/eventos-cadastrados/${row.item.idEvento}`"
@@ -226,24 +219,6 @@ export default {
             })
           }
         });
-    },
-    ativar(id) {
-      this.$axios.post(`eventos-ativar/${id}`)
-        .then( () => {
-          Swal.fire({
-            title: 'Evento ativado',
-            icon: 'success',
-          })
-          .then( () => {
-            this.consumindoEventosApi();
-          });
-        })
-        .catch( err => {
-          Swal.fire({
-            title: 'Erro na ativação',
-            icon: 'error'
-          })
-        });        
     }
   }
 };

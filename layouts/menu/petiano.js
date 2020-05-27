@@ -11,28 +11,8 @@ export default {
         },
         {
             name: 'Início',
-            url: '/petiano', // TODO::Modificar depois para a página inicial do petiano
+            url: '/petiano',
             icon: 'icon-home'
-        },
-        {
-            name: 'Eventos',
-            icon: 'icon-event',
-            children: [
-                {
-                    name: 'Eventos cadastrados',
-                    url: '/petiano/eventos/eventos-cadastrados',
-                    icon: 'icon-event'
-                },{
-                    name: 'Organizadores',
-                    url: '/petiano/eventos/organizadores',
-                    icon: 'icon-user'
-                },
-                {
-                    name: 'Participantes',
-                    url: '/petiano/eventos/participantes',
-                    icon: 'icon-user-female',
-                }
-            ]
         },
         {
             name: 'Notícias',
@@ -40,30 +20,53 @@ export default {
             icon: 'icon-envelope-open'
         },
         {
-            name: 'Tutorias',
-            icon: 'icon-notebook',
+            name: 'Eventos',
+            icon: 'icon-event',
             children: [
                 {
-                    name: 'Quadro de tutoria',
-                    url: '/petiano/tutorias/quadro-de-tutoria',
-                    icon: 'icon-docs'
+                    name: 'Eventos abertos',
+                    url: '/petiano/eventos/eventos-cadastrados',
+                    icon: 'icon-event'
                 },
                 {
-                    name: 'Tutorias ministradas',
-                    url: '/petiano/tutorias/tutorias-ministradas',
-                    icon: 'icon-check'
+                    name: 'Eventos inscritos',
+                    url: '/petiano/eventos/participantes',
+                    icon: 'icon-user-female',
+                },
+                {
+                    name: 'Eventos organizados',
+                    url: '/petiano/eventos/organizadores',
+                    icon: 'icon-user'
                 }
             ]
         },
         {
-            name: 'Disciplinas',
-            url: '/petiano/disciplinas',
-            icon: 'icon-book-open'
+            name: 'Tutorias',
+            icon: 'icon-notebook',
+            children: [
+                {
+                    name: 'Tutorias Abertas',
+                    url: '/petiano/tutorias-abertas',
+                    icon: 'icon-book-open'
+                },
+                {
+                    name: 'Tutorias Solicitadas',
+                    url: '/petiano/tutorias-solicitadas',
+                    icon: 'icon-check'
+                },
+                {
+                    name: 'Tutorias Ministradas',
+                    url: '/petiano/tutorias-ministradas',
+                    icon: 'icon-check'
+                }
+            ]
         },
+
         {
-            name: 'Pessoas cadastradas',
-            url: '/petiano/pessoas-cadastradas',
-            icon: 'icon-people'
-        }
+            name: 'Configurações',
+            url: '/petiano/configuracoes',
+            icon: 'icon-settings'
+        },
+
     ]
 }

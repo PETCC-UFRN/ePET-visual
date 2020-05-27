@@ -65,6 +65,7 @@ export default {
     };
   },
   mounted() {
+    // this.$axios.get(`pesquisar-petiano-tutorias-ministradas/{this.$store.state.profile.idPessoa}`).then(res => {
     this.$axios.get("tutorias-ministradas").then(res => {
       this.tutorias_ministradas = res.data.content;
     });
