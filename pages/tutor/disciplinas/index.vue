@@ -90,7 +90,6 @@
             :items="disciplinas"
             :current-page="currentPage"
             :bordered="true"
-            :per-page="perPage"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">

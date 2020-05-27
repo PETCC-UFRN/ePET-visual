@@ -14,18 +14,18 @@
           </b-col>
         </b-row>
       </template>
-      
+
       <div v-if="eventosLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
         <div v-if="eventos.length > 0">
-            
+
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input
               v-model="keyword"
-              placeholder="Busca por título"            
+              placeholder="Busca por título"
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
@@ -47,7 +47,7 @@
               <nuxt-link
                 :to="`/petiano/eventos/organizadores/?idEvento=${row.item.idEvento}`"
                 class="btn btn-sm btn-teal"
-                style="color: white" 
+                style="color: white"
               ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button
                 :to="`/petiano/eventos/participantes/?idEvento=${row.item.idEvento}`"
@@ -69,7 +69,7 @@
               ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-2"
-                :to="`/petiano/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"              
+                :to="`/petiano/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
                 @click.prevent="del(row.item.idEvento, row.index)"
@@ -168,7 +168,7 @@ export default {
                   location.reload();
                 }, 1500);
               });
-            }  
+            }
         });
     },
     setCurrentPage(val){
@@ -199,7 +199,7 @@ export default {
                 location.reload();
               }, 1500);
             });
-          }  
+          }
         });
     },
     del(id, rowId) {
@@ -218,7 +218,7 @@ export default {
               text: 'Não é possível remover eventos com participantes ou organizadores, remova-os antes.',
               icon: 'error'
             })
-          } 
+          }
           else {
             Swal.fire({
               title: 'Evento não removido',
@@ -243,7 +243,7 @@ export default {
             title: 'Erro na ativação',
             icon: 'error'
           })
-        });        
+        });
     }
   }
 };
