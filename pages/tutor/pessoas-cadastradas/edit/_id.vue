@@ -72,8 +72,9 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title:
-              "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
             icon: "error"
           });
         });

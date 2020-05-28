@@ -28,7 +28,7 @@ export default {
                     icon: 'icon-book-open'
                 },
                 {
-                    name: 'Minhas tutorias',
+                    name: 'Tutorias solicitadas',
                     url: '/usuario/minhas-tutorias',
                     icon: 'icon-check'
                 }
@@ -45,12 +45,12 @@ export default {
                     icon: 'icon-calendar'
                 },
                 {
-                    name: 'Inscritos',
+                    name: 'Eventos inscritos',
                     url: '/usuario/eventos-inscritos',
                     icon: 'icon-user-following'
                 },
                 {
-                    name: 'Organizados',
+                    name: 'Eventos organizados',
                     url: '/usuario/eventos-organizados',
                     icon: 'icon-user-following'
                 }

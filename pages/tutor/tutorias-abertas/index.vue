@@ -11,14 +11,14 @@
               <b-col>
                 <nuxt-link
                   class="btn btn-sm btn-warning w-100 mt-4"
-                  to="/petiano/tutorias-abertas/disciplinas"
+                  to="/tutor/tutorias-abertas/disciplinas"
                 ><i class="fa fa-pencil fa-fw"></i> Gerenciar disciplinas</nuxt-link>
               </b-col>
               <b-col>
                 <nuxt-link
                   class="btn btn-sm btn-primary w-100 mt-4"
                   style="color: white"
-                  to="/petiano/tutorias-abertas/create"
+                  to="/tutor/tutorias-abertas/create"
                 ><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Adicionar tutoria</nuxt-link>
               </b-col>
             </b-row>
@@ -60,20 +60,11 @@
             :per-page="10"
             :fields="fields"
           >
-
             <template v-slot:cell(actions)="row">
-              <b-button
-                v-if="$store.state.profile.idPessoa == row.item.petiano.pessoa.idPessoa"
+              <b-button 
                 @click.prevent="desativar(row.item.idTutoria, row.index)" 
                 class="btn btn-sm btn-danger">
                 <i class="fa fa-times-circle fa-fw"></i> Desativar
-              </b-button>
-              <b-button
-                v-else
-                @click="solicitarTutoria(row.item.idTutoria)"
-                class="btn btn-sm btn-success">
-                  <i class="fa fa-check fa-fw"></i>
-              Solicitar tutoria
               </b-button>
             </template>
           </b-table>
@@ -103,7 +94,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,
@@ -118,9 +109,10 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
-        { key: "disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "disciplina.nome", label:"Disciplina", sortable: true },
+        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Responsável", sortable: true },
+        { key: "petiano.pessoa.cpf", label:"CPF", sortable: true },
         { key: "actions", sortable: true, label:"Ações disponíveis" },
       ]
     };
@@ -161,6 +153,12 @@ export default {
                 " tente novamente mais tarde.",
                 icon: 'error',
               })
+              .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+              });
             }  
         });
     },
@@ -184,6 +182,12 @@ export default {
                 " tente novamente mais tarde.",
                 icon: 'error',
               })
+              .then( () => {
+                let vm = this;
+                setTimeout(function() {
+                  location.reload();
+                }, 1500);
+              });
             }  
         });
     },
@@ -211,30 +215,12 @@ export default {
           }
         });
     },
-    solicitarTutoria(idTutoria) {
-      this.$axios
-        .get(`tutorias-ministradas-cadastro/${this.$store.state.profile.idPessoa}/${idTutoria}`)
-        .then(res => {
-          Swal.fire({
-            title: "Tutoria solicitada",
-            text: "Sua solicitação foi enviada para o email do responsável. Aguarde a confirmação" + 
-            " de data e horário a ser enviada para o seu email que está cadastrado no sistema.",
-            icon: "success"
-          })
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Tutoria não solicitada",
-            icon: "error"
-          })
-        });
-    },
     desativar(id, rowId){
       this.$axios
         .delete("tutoria-desativa/" + id, {})
         .then( () => {
           Swal.fire({
-            title: 'Tutoria removida',
+            title: 'Tutoria desativada',
             icon: 'success',
           })
           .then( () => {
@@ -243,7 +229,7 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Tutoria não removida',
+            title: 'Tutoria não desativada',
             icon: 'error'
           })
         });

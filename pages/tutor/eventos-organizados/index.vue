@@ -15,7 +15,7 @@
       </div>
       <div v-else>
         <div v-if="eventos.length > 0">  
-          
+
           <b-table
             responsive="sm"
             :items="eventos"
@@ -26,7 +26,7 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/petiano/eventos-abertos/${row.item.evento.idEvento}`"
+                  :to="`/tutor/eventos-abertos/${row.item.evento.idEvento}`"
                   class="btn btn-sm btn-info"
                 ><i class="fa fa-eye" aria-hidden="true"></i>
                 Informações</nuxt-link>
@@ -53,11 +53,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import moment from "moment";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,

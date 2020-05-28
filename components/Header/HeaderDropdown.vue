@@ -27,11 +27,11 @@ export default {
   methods: {
     perfilUsuario() {
       if (this.$store.state.profile.tipo_usuario.nome === 'tutor')
-        this.$router.push('/tutor/perfil');
+        this.$router.push('/tutor/meus-dados');
       if (this.$store.state.profile.tipo_usuario.nome === 'petiano')
-        this.$router.push('/petiano/perfil');
+        this.$router.push('/petiano/meus-dados');
       if (this.$store.state.profile.tipo_usuario.nome === 'comum')
-        this.$router.push('/usuario/perfil');
+        this.$router.push('/usuario/meus-dados');
 
     },
     logout() {

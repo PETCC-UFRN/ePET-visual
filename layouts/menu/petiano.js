@@ -17,7 +17,7 @@ export default {
         {
             name: 'Notícias',
             url: '/petiano/noticias',
-            icon: 'icon-envelope-open'
+            icon: 'icon-envelope-letter'
         },
         {
             name: 'Eventos',
@@ -26,17 +26,17 @@ export default {
                 {
                     name: 'Eventos abertos',
                     url: '/petiano/eventos-abertos',
-                    icon: 'icon-event'
+                    icon: 'icon-calendar'
                 },
                 {
                     name: 'Eventos inscritos',
                     url: '/petiano/eventos-inscritos',
-                    icon: 'icon-user-female',
+                    icon: 'icon-user-following'
                 },
                 {
                     name: 'Eventos organizados',
                     url: '/petiano/eventos-organizados',
-                    icon: 'icon-user'
+                    icon: 'icon-user-following'
                 }
             ]
         },

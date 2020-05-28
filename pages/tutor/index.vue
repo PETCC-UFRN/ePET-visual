@@ -13,36 +13,40 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12">
-              <b-card
-                header-tag="header"
-                footer-tag="footer">
+              <b-card header-tag="header" footer-tag="footer">
                 <div slot="header">
                   <b-row>
                     <b-col>
-                      <h3><i class="fa fa-calendar-check-o"></i> Próximos eventos</h3>
+                      <h3>
+                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                      </h3>
                     </b-col>
                   </b-row>
                 </div>
                 <div role="tablist" v-for="evento in eventos" :key="evento.idEvento">
                   <b-card no-body class="mb-1">
                     <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-btn block href="#" v-b-toggle="'accordion' + evento.idEvento" variant="primary">{{evento.titulo}}</b-btn>
+                      <b-btn
+                        block
+                        href="#"
+                        v-b-toggle="'accordion' + evento.idEvento"
+                        variant="primary"
+                      >{{evento.titulo}}</b-btn>
                     </b-card-header>
-                    <b-collapse :id="'accordion' + evento.idEvento" accordion="my-accordion" role="tabpanel">
+                    <b-collapse
+                      :id="'accordion' + evento.idEvento"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
                       <b-card-body>
                         <p class="card-text">
-                          <strong>Descrição: </strong>{{evento.descricao}}
+                          <strong>Descrição:</strong>
+                          {{evento.descricao}}
                         </p>
-                        <div class="card-text">
-                          <p  class="mt-0 mb-0"><b>Período de inscrição:</b> 
-                            {{evento.d_inscricao | moment}} a
-                            {{evento.d_inscricao_fim | moment}}
-                          </p>
-                          <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
-                          <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}} horas</p>
-                          <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00</p>
-                          <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}</p>
-                        </div>
+                        <nuxt-link
+                            class="btn btn-sm btn-info w-100 mt-2"
+                          :to="`tutor/eventos-abertos/${evento.idEvento}`"
+                          >Ver mais informações</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>

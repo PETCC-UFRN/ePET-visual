@@ -7,6 +7,7 @@
             <h3>
               <i class="fa fa-edit"></i> Cadastrar organizador
             </h3>
+            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>
           </b-col>
         </b-row>
       </div>
@@ -97,7 +98,7 @@ import PessoasSelect from "~/components/selects/PessoasSelect";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {
     "v-pessoas": PessoasSelect
   },

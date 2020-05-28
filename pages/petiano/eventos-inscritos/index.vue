@@ -16,20 +16,7 @@
       <div v-else>
         <div v-if="eventos.length > 0">  
           
-          <b-input-group  class="mt-3 mb-3" >
-            <b-form-input
-              v-model="keyword"
-              placeholder="Busca por título"            
-              type="text"
-            ></b-form-input>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
-            </b-input-group-text>
-            <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
-            </b-input-group-text>
-          </b-input-group>
-
+        
           <b-table
             responsive="sm"
             :items="eventos"
@@ -80,10 +67,6 @@ export default {
       currentPage: 1,
       fields: [
         { key: "evento.titulo", sortable: true, label: "Título"  },
-        { key: "evento.d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "evento.d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
@@ -111,7 +94,8 @@ export default {
             else {
               Swal.fire({
                 title: "Houve um problema...",
-                text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
                 icon: 'error',
               })
             }  
@@ -121,7 +105,7 @@ export default {
       this.$axios
         .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
-          this.eventos = res.data;
+          this.eventos = res.data.content;
           this.isLoading = false;
         })
         .catch( err => {
@@ -135,7 +119,8 @@ export default {
           else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
             .then(() => this.isLoading = false );

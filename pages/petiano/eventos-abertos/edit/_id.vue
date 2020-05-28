@@ -240,9 +240,8 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Erro na edição',
-            icon: 'warning',
-            text: err.response.status
+            title: 'Evento não atualizado',
+            icon: 'error',
           })
           .then( () => {
             this.$router.push('/petiano/eventos/eventos-cadastrados');

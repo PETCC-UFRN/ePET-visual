@@ -18,7 +18,15 @@
           <spain class="mt-0 mb-2">
             <h5>Título:</h5> <h6> {{form.titulo}}</h6>
           </spain>
-          <p class="mt-3 mb-1">
+          <p class="mt-3 mb-2">
+            <strong>Descrição:</strong>
+            {{form.descricao}}
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Local do curso:</strong>
+            {{form.local}}
+          </p>
+          <p class="mt-0 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
             <span v-if="form.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
@@ -40,19 +48,11 @@
             <strong>Total de vagas:</strong>
             {{form.qtdVagas}}
           </p>
-          <p class="mt-0 mb-1">
+          <p class="mt-0 mb-0">
             <strong>Valor da inscrição:</strong>
             {{new Intl
                 .NumberFormat([], { style: 'currency', currency: 'BRL'})           
                 .format(form.valor) }}
-          </p>
-          <p class="mt-0 mb-1">
-            <strong>Local do curso:</strong>
-            {{form.local}}
-          </p>
-          <p class="mt-3 mb-2">
-            <strong>Descrição:</strong>
-            {{form.descricao}}
           </p>
         </div>  
       </b-card-body>
@@ -109,7 +109,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,
@@ -147,7 +147,7 @@ export default {
           title: "Houve um problema...",
           text: "Por favor, tente recarregar a página. Caso não dê certo," + 
           " tente novamente mais tarde.",
-          icon: "error",
+          icon: "error"
         })
       });
   },

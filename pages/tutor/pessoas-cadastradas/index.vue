@@ -103,7 +103,15 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: false, label: "CPF"},
+        { key: "cpf", sortable: false, label: "CPF",
+          formatter: value => {
+            if (value != null)
+              return `${value.substring(0, 3)}.${value.substring(
+                3,
+                6
+              )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
+          }
+        },
         {
           key: "tipo_usuario",
           sortable: true,
@@ -161,7 +169,9 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
             icon: "error"
           });
         });
@@ -191,7 +201,9 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!",
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
             icon: 'error'
           });
         });
@@ -215,15 +227,11 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
         });
     },
@@ -244,15 +252,11 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
         });
     }

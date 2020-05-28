@@ -69,7 +69,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,
@@ -206,7 +206,7 @@ export default {
             title: "Disciplina tutorada cadastrada",
             icon: "success"
           }).then(() => {
-            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");
+            this.$router.push("/tutor/tutorias-abertas");
           });
         })
         .catch(() => {

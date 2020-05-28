@@ -134,7 +134,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {
     Pagination,
     TheMask
@@ -174,7 +174,7 @@ export default {
   methods: {
     editar(id, nome, codigo, ativo) {
       this.$router.push({
-        path: "/petiano/tutorias-abertas/disciplinas/edit/",
+        path: "/tutor/tutorias-abertas/disciplinas/edit/",
         query: { id: id, nome: nome, codigo: codigo, ativo: ativo }
       });
     },

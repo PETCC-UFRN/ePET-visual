@@ -4,28 +4,28 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos abertos</h2>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos cadastrados</h2>
           </b-col>
           <b-col>
             <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
-              to="/petiano/eventos-abertos/create"
+              to="/tutor/eventos-abertos/create"
             ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
         </b-row>
       </template>
-
+      
       <div v-if="eventosLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
         <div v-if="eventos.length > 0">
-
+            
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input
               v-model="keyword"
-              placeholder="Busca por título"
+              placeholder="Busca por título"            
               type="text"
             ></b-form-input>
             <b-input-group-text slot="append">
@@ -45,24 +45,31 @@
           >
             <template v-slot:cell(pages)="row">
               <nuxt-link
-                :to="`/petiano/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm btn-teal"
-                style="color: white"
+                :to="`/tutor/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
+                class="btn btn-sm btn-teal mt-2"
+                style="color: white" 
               ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button
-                :to="`/petiano/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
                 class="btn btn-sm mt-2"
                 variant="secondary"
               ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
             </template>
             <template  v-slot:cell(actions)="row">
+              <b-button
+                class="btn btn-sm btn-success mt-2"
+                v-if="row.item.ativo === false"
+                @click.prevent="ativar(row.item.idEvento)"
+              >
+                <i class="fa fa-check fa-fw"></i> Ativar
+              </b-button>
               <nuxt-link
                 class="btn btn-sm btn-cyan mt-2"
-                :to="`/petiano/eventos-abertos/${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/${row.item.idEvento}`"
               ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-2"
-                :to="`/petiano/eventos-abertos/edit/${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/edit/${row.item.idEvento}`"              
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
                 @click.prevent="del(row.item.idEvento, row.index)"
@@ -70,7 +77,7 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
-              
+
               <b-button
                   @click.prevent="inscrever(row.item.idEvento)"
                   class="btn btn-sm btn-success mt-1"
@@ -102,7 +109,7 @@ import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   components: {
     Pagination
   },
@@ -162,7 +169,7 @@ export default {
                 " tente novamente mais tarde.",
                 icon: 'error',
               })
-            }
+            }  
         });
     },
     setCurrentPage(val){
@@ -188,6 +195,31 @@ export default {
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
               icon: 'error',
+            })
+          }  
+        });
+    },
+    del(id, rowId) {
+      this.$axios.delete(`eventos-remove/${id}`)
+        .then( () => {
+          Swal.fire({
+            title: 'Evento removido',
+            icon: 'success',
+          })
+          .then( () => this.consumindoEventosApi() );
+        })
+        .catch(err => {
+          if (err.response.status === 500) {
+            Swal.fire({
+              title: 'Evento não removido',
+              text: 'Não é possível remover eventos com participantes ou organizadores, remova-os antes.',
+              icon: 'error'
+            })
+          } 
+          else {
+            Swal.fire({
+              title: 'Evento não removido',
+              icon: 'error'
             })
           }
         });
@@ -226,30 +258,23 @@ export default {
           }  
         });
     },
-    del(id, rowId) {
-      this.$axios.delete(`eventos-remove/${id}`)
+    ativar(id) {
+      this.$axios.post(`eventos-ativar/${id}`)
         .then( () => {
           Swal.fire({
-            title: 'Evento removido',
+            title: 'Evento ativado',
             icon: 'success',
           })
-          .then( () => this.consumindoEventosApi() );
+          .then( () => {
+            this.consumindoEventosApi();
+          });
         })
-        .catch(err => {
-          if (err.response.status === 500) {
-            Swal.fire({
-              title: 'Evento não removido',
-              text: 'Não é possível remover eventos com participantes ou organizadores, remova-os antes.',
-              icon: 'error'
-            })
-          }
-          else {
-            Swal.fire({
-              title: 'Evento não removido',
-              icon: 'error'
-            })
-          }
-        });
+        .catch( err => {
+          Swal.fire({
+            title: 'Evento não ativado',
+            icon: 'error'
+          })
+        });        
     }
   }
 };

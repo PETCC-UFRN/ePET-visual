@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos organizados</h2>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos inscritos</h2>
           </b-col>
         </b-row>
       </template>
@@ -26,7 +26,7 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/petiano/eventos-abertos/${row.item.evento.idEvento}`"
+                  :to="`/tutor/eventos-abertos/${row.item.evento.idEvento}`"
                   class="btn btn-sm btn-info"
                 ><i class="fa fa-eye" aria-hidden="true"></i>
                 Informações</nuxt-link>
@@ -44,7 +44,7 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhum evento organizado</h5>
+          <h5>Nenhum evento inscrito</h5>
         </div>
       </div>
     </b-card>
@@ -57,7 +57,7 @@ import moment from "moment";
 
 export default {
   name: "dashboard",
-  layout: "menu/petiano",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,
@@ -71,12 +71,12 @@ export default {
     };
   },
   mounted() {
-    this.consumindoEventosOrganizandoApi();
+    this.consumindoEventosParticipandoApi();
   },
   methods: {
     cancelSearch() {
       this.keyword = ''
-      this.consumindoEventosOrganizandoApi()
+      this.consumindoEventosParticipandoApi()
     },
     search() {
       this.$axios.get(`pesquisar-evento/${this.keyword}`)
@@ -100,17 +100,17 @@ export default {
             }  
         });
     },
-    consumindoEventosOrganizandoApi() {
+    consumindoEventosParticipandoApi() {
       this.$axios
-        .get(`organizadores-pessoa/${this.$store.state.profile.idPessoa}`)
+        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
-          this.eventos = res.data;
+          this.eventos = res.data.content;
           this.isLoading = false;
         })
         .catch( err => {
           if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhum evento organizando",
+              title: "Nenhum evento participando",
               icon: 'info',
             })
             .then(() => this.isLoading = false );
@@ -122,7 +122,7 @@ export default {
               " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then(() => this.isLoading = false );            
+            .then(() => this.isLoading = false );
           }  
       });
 
