@@ -9,7 +9,7 @@
           <b-col>
             <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
-              to="/petiano/eventos/eventos-cadastrados/create"
+              to="/petiano/eventos-abertos/create"
             ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
         </b-row>

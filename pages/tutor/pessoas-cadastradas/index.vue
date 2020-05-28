@@ -103,7 +103,15 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
-        { key: "cpf", sortable: false, label: "CPF"},
+        { key: "cpf", sortable: false, label: "CPF",
+          formatter: value => {
+            if (value != null)
+              return `${value.substring(0, 3)}.${value.substring(
+                3,
+                6
+              )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
+          }
+        },
         {
           key: "tipo_usuario",
           sortable: true,

@@ -120,12 +120,7 @@ export default {
               Swal.fire({
                 title: "Falha em consumir API",
                 icon: "error"
-              }).then(() => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
-              });
+              })
             }
           });
       });
@@ -153,12 +148,6 @@ export default {
                 title: "Falha em consumir API",
                 icon: 'error',
               })
-              .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
-              });
             }  
         });
     },
@@ -179,12 +168,7 @@ export default {
             Swal.fire({
               title: "Falha em consumir API",
               icon: "error"
-            }).then(() => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
+            })
           }
         });
     },
@@ -216,7 +200,7 @@ export default {
             title: "Disciplina tutorada cadastrada",
             icon: "success"
           }).then(() => {
-            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");
+            this.$router.push("/tutor/tutorias-abertas");
           });
         })
         .catch(() => {

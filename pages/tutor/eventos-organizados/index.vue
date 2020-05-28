@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos inscritos</h2>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos organizados</h2>
           </b-col>
         </b-row>
       </template>
@@ -26,7 +26,7 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/eventos/eventos-cadastrados/${row.item.idEvento}`"
+                  :to="`/tutor/eventos-abertos/${row.item.evento.idEvento}`"
                   class="btn btn-sm btn-info"
                 ><i class="fa fa-eye" aria-hidden="true"></i>
                 Informações</nuxt-link>
@@ -44,7 +44,7 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhum evento inscrito</h5>
+          <h5>Nenhum evento organizado</h5>
         </div>
       </div>
     </b-card>
@@ -53,11 +53,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import moment from "moment";
 
 export default {
   name: "dashboard",
-  layout: "menu/usuario",
+  layout: "menu/tutor",
   data() {
     return {
       isLoading: true,
@@ -71,12 +70,12 @@ export default {
     };
   },
   mounted() {
-    this.consumindoEventosParticipandoApi();
+    this.consumindoEventosOrganizandoApi();
   },
   methods: {
     cancelSearch() {
       this.keyword = ''
-      this.consumindoEventosParticipandoApi()
+      this.consumindoEventosOrganizandoApi()
     },
     search() {
       this.$axios.get(`pesquisar-evento/${this.keyword}`)
@@ -99,17 +98,17 @@ export default {
             }  
         });
     },
-    consumindoEventosParticipandoApi() {
+    consumindoEventosOrganizandoApi() {
       this.$axios
-        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
+        .get(`organizadores-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
-          this.eventos = res.data.content;
+          this.eventos = res.data;
           this.isLoading = false;
         })
         .catch( err => {
           if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhum evento participando",
+              title: "Nenhum evento organizando",
               icon: 'info',
             })
             .then(() => this.isLoading = false );
@@ -120,7 +119,7 @@ export default {
               text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
               icon: 'error',
             })
-            .then(() => this.isLoading = false );
+            .then(() => this.isLoading = false );            
           }  
       });
 

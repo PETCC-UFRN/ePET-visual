@@ -174,7 +174,7 @@ export default {
   methods: {
     editar(id, nome, codigo, ativo) {
       this.$router.push({
-        path: "/tutor/disciplinas/edit/",
+        path: "/tutor/tutorias-abertas/disciplinas/edit/",
         query: { id: id, nome: nome, codigo: codigo, ativo: ativo }
       });
     },
@@ -235,12 +235,7 @@ export default {
             Swal.fire({
               title: "Falha em consumir API",
               icon: "error"
-            }).then(() => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
+            })
           }
         });
     },

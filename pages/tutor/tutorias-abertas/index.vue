@@ -4,21 +4,21 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-graduation-cap px-2"></i>Quadro de tutorias</h2>
+            <h2><i class="fa fa-graduation-cap px-2"></i>Tutorias abertas</h2>
           </b-col>
           <b-col>
             <b-row>
               <b-col>
                 <nuxt-link
                   class="btn btn-sm btn-warning w-100 mt-4"
-                  to="/tutor/disciplinas/"
+                  to="/tutor/tutorias-abertas/disciplinas"
                 ><i class="fa fa-pencil fa-fw"></i> Gerenciar disciplinas</nuxt-link>
               </b-col>
               <b-col>
                 <nuxt-link
                   class="btn btn-sm btn-primary w-100 mt-4"
                   style="color: white"
-                  to="/tutor/tutorias/quadro-de-tutorias/create"
+                  to="/tutor/tutorias-abertas/create"
                 ><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Adicionar tutoria</nuxt-link>
               </b-col>
             </b-row>
@@ -68,10 +68,7 @@
               </b-button>
             </template>
           </b-table>
-          <nav>eventos:Array[0]￼
-￼
-￼
-
+          <nav>
             <b-pagination
               :total-rows="tutorias.length"
               :per-page="10"
@@ -223,7 +220,7 @@ export default {
         .delete("tutoria-desativa/" + id, {})
         .then( () => {
           Swal.fire({
-            title: 'Tutoria removida',
+            title: 'Tutoria desativada',
             icon: 'success',
           })
           .then( () => {
@@ -232,7 +229,7 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Tutoria não removida',
+            title: 'Tutoria não desativada',
             icon: 'error'
           })
         });

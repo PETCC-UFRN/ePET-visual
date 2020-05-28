@@ -37,7 +37,7 @@
               <b-button
                   @click.prevent="inscrever(row.item.idEvento)"
                   class="btn btn-sm btn-success mt-1"
-                ><i class="fa fa-check fa-fw"></i> Inscrever-me</b-button>
+                ><i class="fa fa-check fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
           <nav>

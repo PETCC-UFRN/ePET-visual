@@ -9,7 +9,7 @@
           <b-col>
             <nuxt-link
               class="btn btn-sm btn-primary float-right mt-4"
-              to="/tutor/eventos/eventos-cadastrados/create"
+              to="/tutor/eventos-abertos/create"
             ><i class="fa fa-plus px-2" aria-hidden="true"></i> Adicionar evento</nuxt-link>
           </b-col>
         </b-row>
@@ -45,12 +45,12 @@
           >
             <template v-slot:cell(pages)="row">
               <nuxt-link
-                :to="`/tutor/eventos/organizadores/?idEvento=${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
                 class="btn btn-sm btn-teal mt-2"
                 style="color: white" 
               ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button
-                :to="`/tutor/eventos/participantes/?idEvento=${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
                 class="btn btn-sm mt-2"
                 variant="secondary"
               ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
@@ -65,11 +65,11 @@
               </b-button>
               <nuxt-link
                 class="btn btn-sm btn-cyan mt-2"
-                :to="`/tutor/eventos/eventos-cadastrados/${row.item.idEvento}`"
+                :to="`/tutor/eventos-abertos/${row.item.idEvento}`"
               ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-2"
-                :to="`/tutor/eventos/eventos-cadastrados/edit/${row.item.idEvento}`"              
+                :to="`/tutor/eventos-abertos/edit/${row.item.idEvento}`"              
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
                 @click.prevent="del(row.item.idEvento, row.index)"
@@ -77,6 +77,11 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+
+              <b-button
+                  @click.prevent="inscrever(row.item.idEvento)"
+                  class="btn btn-sm btn-success mt-1"
+                ><i class="fa fa-check fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
           <div>
@@ -225,6 +230,39 @@ export default {
               icon: 'error'
             })
           }
+        });
+    },
+    inscrever(idEvento) {
+      this.$axios
+        .post(`participantes-cadastrar/${idEvento}/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          Swal.fire({
+            title: "Inscrição realizada",
+            icon: "success"
+          });
+        })
+        .catch( err => {
+          if (err.response.status === 500) {
+            if (err.response.data.message === "Essa pessoa já fez sua inscrição no evento!") {
+              Swal.fire({
+                title: "Inscrição já foi realizada",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Inscrição não realizada",
+                icon: 'error',
+              });
+            }  
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              icon: 'error',
+            });
+          }  
         });
     },
     ativar(id) {

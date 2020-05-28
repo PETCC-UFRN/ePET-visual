@@ -143,8 +143,6 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        { key: "confirmado", label: "Confirmado", sortable: true },
-        { key: "espera", label: "Espera", sortable: true },
         { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
