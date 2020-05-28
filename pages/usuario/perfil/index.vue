@@ -74,8 +74,9 @@ export default {
       .catch(err => {
           Swal.fire({
             title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
-            icon: "error"
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: "error"
           })
         });
     },

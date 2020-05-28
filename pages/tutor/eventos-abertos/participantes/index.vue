@@ -175,14 +175,11 @@ export default {
             });
           } else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: "error"
-            }).then(() => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
+            })
           }
         });
     },

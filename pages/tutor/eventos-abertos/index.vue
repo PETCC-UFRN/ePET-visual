@@ -81,7 +81,7 @@
               <b-button
                   @click.prevent="inscrever(row.item.idEvento)"
                   class="btn btn-sm btn-success mt-1"
-                ><i class="fa fa-check fa-fw"></i> Inscrever</b-button>
+                ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
           <div>
@@ -164,15 +164,11 @@ export default {
             }
             else {
               Swal.fire({
-                title: "Falha em consumir API",
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
                 icon: 'error',
               })
-              .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
-              });
             }  
         });
     },
@@ -195,15 +191,11 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }  
         });
     },
@@ -259,7 +251,8 @@ export default {
           else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             });
           }  
@@ -278,7 +271,7 @@ export default {
         })
         .catch( err => {
           Swal.fire({
-            title: 'Erro na ativação',
+            title: 'Evento não ativado',
             icon: 'error'
           })
         });        

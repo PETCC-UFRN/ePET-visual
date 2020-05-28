@@ -113,7 +113,9 @@ export default {
       })
       .catch(err => {
         Swal.fire({
-          title: err.response.data.titulo,
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
           icon: "error"
         });
       });

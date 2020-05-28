@@ -144,16 +144,11 @@ export default {
       })
       .catch(err => {
         Swal.fire({
-          title: "Falha no consumo da API",
-          icon: "error",
-          text: err.res.status
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
         })
-        .then( () => {
-          let vm = this;
-          setTimeout(function() {
-            location.reload();
-          }, 1500);
-        });
       });
   },
   filters: {

@@ -11,13 +11,13 @@ export default {
         },
         {
             name: 'Início',
-            url: '/tutor', // TODO::Modificar depois para a página inicial do tutor
+            url: '/tutor', 
             icon: 'icon-home'
         },
         {
             name: 'Notícias',
             url: '/tutor/noticias',
-            icon: 'icon-envelope-open'
+            icon: 'icon-envelope-letter'
         },
         {
             name: 'Eventos',
@@ -26,17 +26,17 @@ export default {
                 {
                     name: 'Eventos abertos',
                     url: '/tutor/eventos-abertos',
-                    icon: 'icon-event'
+                    icon: 'icon-calendar'
                 },
                 {
                     name: 'Eventos inscritos',
                     url: '/tutor/eventos-inscritos',
-                    icon: 'icon-user-female',
+                    icon: 'icon-user-following'
                 },
                 {
                     name: 'Eventos organizados',
                     url: '/tutor/eventos-organizados',
-                    icon: 'icon-user'
+                    icon: 'icon-user-following'
                 }
             ]
         },

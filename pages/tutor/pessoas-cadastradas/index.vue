@@ -169,7 +169,9 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: "Algo deu errado na hora de editar os dados. Tente novamente mais tarde!",
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
             icon: "error"
           });
         });
@@ -199,7 +201,9 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: "Algo deu errado na hora de cadastrar o petiano. Tente novamente mais tarde!",
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
             icon: 'error'
           });
         });
@@ -223,15 +227,11 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
         });
     },
@@ -252,15 +252,11 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
         });
     }

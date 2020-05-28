@@ -70,6 +70,11 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+              
+              <b-button
+                  @click.prevent="inscrever(row.item.idEvento)"
+                  class="btn btn-sm btn-success mt-1"
+                ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
           <div>
@@ -152,15 +157,11 @@ export default {
             }
             else {
               Swal.fire({
-                title: "Falha em consumir API",
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
                 icon: 'error',
               })
-              .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
-              });
             }
         });
     },
@@ -183,16 +184,46 @@ export default {
           }
           else {
             Swal.fire({
-              title: "Falha em consumir API",
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then( () => {
-              let vm = this;
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            });
           }
+        });
+    },
+    inscrever(idEvento) {
+      this.$axios
+        .post(`participantes-cadastrar/${idEvento}/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          Swal.fire({
+            title: "Inscrição realizada",
+            icon: "success"
+          });
+        })
+        .catch( err => {
+          if (err.response.status === 500) {
+            if (err.response.data.message === "Essa pessoa já fez sua inscrição no evento!") {
+              Swal.fire({
+                title: "Inscrição já foi realizada",
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Inscrição não realizada",
+                icon: 'error',
+              });
+            }  
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            });
+          }  
         });
     },
     del(id, rowId) {
