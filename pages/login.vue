@@ -63,133 +63,134 @@
 
 <script>
 
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-export default {
-  name: "Login",
-  layout: "clean",
-  data() {
-    return {
-      email: "",
-      senha: "",
-      perfil: {},
-      errors: [],
-      mapPerfil: {
-        tutor: "tutor",
-        petiano: "petiano",
-        comum: "usuario"
-      },
-      cookie: null,
-      next: true
-    };
-  },
-  head() {
-    return {
-      title: "Login - PET-CC UFRN"
-    };
-  },
-  watch: {
-    cookie: function(val) {
-      if (next && val !== null) {
-        this.getProfile();
-      }
-    }
-  },
-  mounted() {
-    Cookies.set("auth", null);
-  },
-  methods: {
-    EsqueciSenha() {
-      this.$router.push("/esqueciSenha");      
+  import Cookies from "js-cookie";
+  import Swal from "sweetalert2";
+
+  export default {
+    name: "Login",
+    layout: "clean",
+    data() {
+      return {
+        email: "",
+        senha: "",
+        perfil: {},
+        errors: [],
+        mapPerfil: {
+          tutor: "tutor",
+          petiano: "petiano",
+          comum: "usuario"
+        },
+        cookie: null,
+        next: true
+      };
     },
-    goToRegister() {
-      this.$router.push("/register");
+    head() {
+      return {
+        title: "Login - PET-CC UFRN"
+      };
     },
-    validEmail: function(email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-    async checkForm() {
-      this.errors = [];
-      if (!this.email) {
-        this.errors.push("O email é obrigatório.");
-      } else if (!this.validEmail(this.email)) {
-        this.errors.push("Utilize um e-mail válido.");
-      }
-      if (!this.senha) {
-        this.errors.push("A senha é obrigatória.");
-      }
-      if (this.errors.length === 0) {
-        return true;
-      }
-      return false;
-    },
-    async login() {
-      this.next = await this.checkForm();
-      if (this.next) {
-        try {
-          await this.$axios
-            .post("sign-in/", {
-              email: this.email,
-              senha: this.senha
-            })
-            .then(auth => {
-              // guarda token
-              Cookies.set("auth", auth.data);
-            });
-        } catch (err) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text:
-              err.response.status === 403
-                ? "Email ou senha não encontrados"
-                : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
-          });
-          this.next = false;
+    watch: {
+      cookie: function (val) {
+        if (next && val !== null) {
+          this.getProfile();
         }
       }
-      if (this.next && Cookies.get("auth") !== null) {
-        await this.getProfile();
-      }
     },
-    getProfile() {
-       this.$axios.get("pessoas-usuario", {
-          headers: { Authorization: `${Cookies.get("auth")}` }
+    mounted() {
+      Cookies.set("auth", null);
+    },
+    methods: {
+      EsqueciSenha() {
+        this.$router.push("/esqueciSenha");
+      },
+      goToRegister() {
+        this.$router.push("/register");
+      },
+      validEmail: function (email) {
+        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      },
+      async checkForm() {
+        this.errors = [];
+        if (!this.email) {
+          this.errors.push("O email é obrigatório.");
+        } else if (!this.validEmail(this.email)) {
+          this.errors.push("Utilize um e-mail válido.");
+        }
+        if (!this.senha) {
+          this.errors.push("A senha é obrigatória.");
+        }
+        if (this.errors.length === 0) {
+          return true;
+        }
+        return false;
+      },
+      async login() {
+        this.next = await this.checkForm();
+        if (this.next) {
+          try {
+            await this.$axios
+              .post("sign-in/", {
+                email: this.email,
+                senha: this.senha
+              })
+              .then(auth => {
+                // guarda token
+                Cookies.set("auth", auth.data);
+              });
+          } catch (err) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text:
+                err.response.status === 403
+                  ? "Email ou senha não encontrados"
+                  : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
+            });
+            this.next = false;
+          }
+        }
+        if (this.next && Cookies.get("auth") !== null) {
+          await this.getProfile();
+        }
+      },
+      getProfile() {
+        this.$axios.get("pessoas-usuario", {
+          headers: {Authorization: `${Cookies.get("auth")}`}
         })
-        .then(res => {
-          this.perfil = res.data;
-          Cookies.set("profile", this.perfil);
-        })
-        .then(res => {
-          this.$router.push(this.mapPerfil[this.perfil.tipo_usuario.nome]);
-        })
-        .catch(err => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.message
+          .then(res => {
+            this.perfil = res.data;
+            Cookies.set("profile", this.perfil);
+          })
+          .then(res => {
+            document.location.href = '/' + this.mapPerfil[this.perfil.tipo_usuario.nome];
+          })
+          .catch(err => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.response.message
+            });
           });
-        });
-    },
-    showModal() {
-      this.$refs["perfis"].show();
-    },
-    hideModal() {
-      this.$refs["perfis"].hide();
-    },
-    toggleModal() {
-      // We pass the ID of the button that we want to return focus to
-      // when the modal has hidden
-      this.$refs["perfis"].toggle("#toggle-btn");
+      },
+      showModal() {
+        this.$refs["perfis"].show();
+      },
+      hideModal() {
+        this.$refs["perfis"].hide();
+      },
+      toggleModal() {
+        // We pass the ID of the button that we want to return focus to
+        // when the modal has hidden
+        this.$refs["perfis"].toggle("#toggle-btn");
+      }
     }
-  }
-};
+  };
 </script>
 
 
 <style scoped>
-img {
-  max-width: 200px;
-}
+  img {
+    max-width: 200px;
+  }
 </style>

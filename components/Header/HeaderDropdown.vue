@@ -3,7 +3,7 @@
     <template slot="button-content">
       <img src="~static/img/avatars/10.png" class="img-avatar" />
     </template>
-    
+
     <b-dropdown-header tag="div"  class="text-center">
       <strong>Configurações</strong>
     </b-dropdown-header>
@@ -15,7 +15,7 @@
     <b-dropdown-item class="headerDropdownItem" @click="logout">
       <i class="fa fa-sign-out fa-fw"></i> Sair
     </b-dropdown-item>
-    
+
   </b-nav-item-dropdown>
 </template>
 
@@ -29,16 +29,18 @@ export default {
       if (this.$store.state.profile.tipo_usuario.nome === 'tutor')
         this.$router.push('/tutor/perfil');
       if (this.$store.state.profile.tipo_usuario.nome === 'petiano')
-        this.$router.push('/petiano/perfil');      
+        this.$router.push('/petiano/perfil');
       if (this.$store.state.profile.tipo_usuario.nome === 'comum')
         this.$router.push('/usuario/perfil');
-      
+
     },
     logout() {
       Cookies.set('auth', null);
-      //Cookies.remove('auth');
+      Cookies.set('profile', null);
+
       this.$store.commit('setAuth', null);
-      //this.$router.push('/');
+      this.$store.commit('setProfile', null);
+
       document.location.href = '/';
     }
   }
