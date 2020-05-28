@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <h2>
-            <i class="fa fa-user px-2"></i> Perfil
+            <i class="fa fa-user px-2"></i> Meus dados
           </h2>
         </b-col>
       </b-row>
@@ -32,7 +32,7 @@
         </b-form-group>
         
         <b-form-group label="Email">
-          <b-form-input :value="form.pessoa.usuario.email" type="email" required disabled></b-form-input>
+          <b-form-input :value="form.pessoa.usuario.email" type="email" required></b-form-input>
         </b-form-group>
 
         <b-form-group label="Área de interesse">
@@ -61,7 +61,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
-  layout: "menu/tutor",
+  layout: "menu/petiano",
   data() {
     return {
       isLoading: true,
@@ -90,9 +90,9 @@ export default {
         .catch(err => {
           Swal.fire({
             title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: "error"
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: "error"
           })
         });
     },

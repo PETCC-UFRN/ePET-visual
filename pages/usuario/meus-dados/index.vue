@@ -29,7 +29,7 @@
         </b-form-group>
 
         <b-form-group label="Email">
-          <b-form-input :value="profile.usuario.email" type="email" disabled></b-form-input>
+          <b-form-input :value="profile.usuario.email" type="email"></b-form-input>
         </b-form-group>
 
         <b-button class="float-left w-25 mt-2" type="submit" variant="primary"> Atualizar</b-button>
