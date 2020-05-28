@@ -30,7 +30,7 @@ export default {
                 },
                 {
                     name: 'Eventos inscritos',
-                    url: '/petiano/eventos/participantes',
+                    url: '/petiano/eventos-inscritos',
                     icon: 'icon-user-female',
                 },
                 {

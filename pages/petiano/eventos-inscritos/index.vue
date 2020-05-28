@@ -1,239 +1,136 @@
 <template>
-  <div class="animated fadeIn">
-    <div v-if="tableItems.length > 0">
-      <b-row>
-        <b-col md="12">
-          <b-card >
-            <template v-slot:header>
-              <h4>Petianos</h4>
+  <div>
+    <b-card>
+      <template v-slot:header>
+        <h3>Participantes cadastrados </h3>
+        <a
+          class="btn btn-sm btn-primary float-right"
+          style="color: white"
+          href="participantes/create"
+        ><i class="fa fa-plus" aria-hidden="true"></i>
+  Adicionar participante</a>
+      </template>
+      <b-card-body>
+        <div v-if="eventos.length > 0">
+
+        <b-input-group  class="mt-1 mb-3" >
+            <!-- Always bind the id to the input so that it can be focused when needed -->
+            <b-form-input
+              v-model="keyword"
+              placeholder="Busca"            
+              type="text"
+            ></b-form-input>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
+          </b-input-group-text>
+          </b-input-group>
+
+          <b-table
+            responsive="sm"
+            :items="items"
+            :current-page="currentPage"
+            :bordered="true"
+            :per-page="10"
+            :fields="fields"
+          >
+            <template v-slot:cell(confirmado)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.confirmado" disabled />
+              </div>
+            </template>
+            <template v-slot:cell(espera)="row">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" :checked="row.item.espera" disabled />
+              </div>
             </template>
 
-            <b-input-group  class="mb-3" >
-                <!-- Always bind the id to the input so that it can be focused when needed -->
-                <b-form-input
-                  v-model="keywordPetiano"
-                  placeholder="Busca"            
-                  type="text"
-                ></b-form-input>
-                <b-input-group-text slot="append">
-                  <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-              </b-input-group-text>
-              </b-input-group>
 
-
-            <b-table
-              class="mb-3"
-              outlined
-              striped hover 
-              responsive="sm"
-              :current-page="currentPage"
-              :items="itemsPetianos"
-              :fields="tableFieldsPetianos"
+            <template v-slot:cell(actions)="row">
+              <b-button
+                @click="confirmar(row.item.idParticipantes)"
+                class="btn btn-sm btn-success"
+                v-show="! row.item.ativo"
+              ><i class="fa fa-check" aria-hidden="true"></i>
+ Confirmar</b-button>
+              <b-button
+                @click="del(row.item.idParticipantes, row.index)"
+                class="btn btn-sm btn-danger"
+              ><i class="fa fa-trash-o fa-fw"></i> Deletar</b-button>
+            </template>
+          </b-table>
+          <nav>
+            <b-pagination
+              :total-rows="items.length"
               :per-page="10"
-            >
-              <template v-slot:cell(actions)="row">
-                <b-button class="btn btn-sm btn-danger"  
-                @click="removerPetiano(row.item.idPetiano)"><i class="fa fa-trash-o fa-fw"></i> Remover petiano</b-button>
-              </template>
-            </b-table>
-            <nav>
-              <b-pagination
-                :total-rows="itemsPetianos.length"
-                :per-page="10"
-                v-model="currentPage"
-                prev-text="Anterior"
-                next-text="Próximo"
-                hide-goto-end-buttons
-              />
-            </nav>
-          </b-card>
-          <b-card >
-            <template v-slot:header>
-              <h4>Usuários</h4>
-            </template>
-
-              <b-input-group  class="mb-3" >
-                  <!-- Always bind the id to the input so that it can be focused when needed -->
-                  <b-form-input
-                    v-model="keyword"
-                    placeholder="Busca"            
-                    type="text"
-                  ></b-form-input>
-                  <b-input-group-text slot="append">
-                    <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="keyword = ''"><i class="fa fa-remove"></i></b-btn>
-                </b-input-group-text>
-                </b-input-group>
-
-
-              <b-table
-                class="mb-3"
-                responsive="sm"
-                :current-page="currentPage"
-                :items="itemsUsuarios"
-                :fields="tableFields"
-                striped hover 
-                :per-page="10"
-                outlined
-              >
-                <template v-slot:cell(actions)="row">
-                  
-                  <b-button
-                    class="btn btn-sm btn-danger"
-                    @click="tornarPetiano(row.item.idPessoa)"
-                    v-if="row.item.petiano"
-                  ><i class="fa fa-trash-o fa-fw"></i>Remover petiano</b-button>
-                  <b-button
-                    class="btn btn-sm btn-warning" 
-                    @click="tornarPetiano(row.item.idPessoa)" 
-                    v-else
-                  ><i class="fa fa-check" aria-hidden="true"></i> Tornar petiano</b-button>
-                </template>
-              </b-table>
-              <nav>
-                <b-pagination
-                  :total-rows="itemsUsuarios.length"
-                  :per-page="10"
-                  v-model="currentPage"
-                  prev-text="Anterior"
-                  next-text="Próximo"
-                  hide-goto-end-buttons
-                />
-              </nav>
-            </b-card>
-        </b-col>
-      </b-row>
-    </div>
-    <div class="row" v-else>
-        <b-card
-    no-body
-    style="max-width: 20rem;"
-    img-src="https://img.r7.com/images/2014/04/11/6wao8iijic_687qho1a4h_file.jpg"
-    img-alt="Image"
-    img-top
-  >
-    <template v-slot:header>
-      <h6 class="mb-0">Nenhum usuário cadastrado...</h6>
-    </template>
-  </b-card>
-      
-      
-      </div>
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
+        </div>
+        <div v-else>Nenhum participante cadastrado</div>
+      </b-card-body>
+    </b-card>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import axios from "axios";
 
 export default {
-  //middleware: 'auth',
-  name: "admin",
+  name: "dashboard",
   layout: "menu/petiano",
-  components: {},
-  data: function() {
+  data() {
     return {
-      keywordPetiano: '',
       keyword: '',
+      eventos: [],
       currentPage: 1,
-      tableItemsPetianos: [],
-      tableItems: [],
-      tableFieldsPetianos: [
-        {key : "pessoa.nome", label: "Nome"},
-        {key: "actions", label: "Ações disponíveis"}
-      ],
-      tableFields: [
-        { key: "nome"},
-        { key: "cpf", label: "CPF" , formatter: (value) => { if (value != null) return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9, 11)}` }},
-        { key: "actions", label: "Ações disponíveis" }
+      fields: [
+        { key: "pessoa.nome", label: "Nome do usuário", sortable: true },
+        { key: "evento.titulo", label: "Nome do evento", sortable: true },
+        { key: "confirmado", sortable: true },
+        { key: "espera", sortable: true },
+        //{ key: "ativo", sortable: true },
+        { key: "actions", sortable: true, label: "Ações disponíveis" }
       ]
     };
   },
   computed: {
-    ...mapGetters(["loggedInUser"]),
-    
-    itemsUsuarios () {
+    items () {
       return this.keyword
-          ? this.tableItems.filter(item => item.nome.includes(this.keyword) || item.cpf.includes(this.keyword))
-          : this.tableItems
-    },
-    
-    itemsPetianos () {
-      return this.keywordPetiano
-          ? this.tableItemsPetianos.filter(item => item.pessoa.nome.includes(this.keyword))
-          : this.tableItemsPetianos
+          ? this.eventos.filter(item => item.evento.titulo.includes(this.keyword) || item.pessoa.nome.includes(this.keyword))
+          : this.eventos
     }
   },
   mounted() {
-    this.getPetianos();
-    this.getUsuarios();
-    
+    this.$axios.get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`).then(res => {
+      this.eventos = res.data.content;
+    });
   },
   methods: {
-    async atualizarTabelas(){
-      this.getPetianos();
-      this.getUsuarios();
-    },
-    async getUsuarios() {
-      await this.$axios
-       this.$axios.get("https://epet.imd.ufrn.br:8443/api/pessoas", {
-          auth: { username: "teste@gmail.com", password: "123456789" }
-        })
-        .then(res => {
-          let data = res.data.content;
-          let filtro = data.filter((pessoa) => {
-            let flag = true;
-            let e = null;
-            for(e of this.tableItemsPetianos){
-              console.log(e);
-              if(e.pessoa.idPessoa === pessoa.idPessoa){
-                flag = false;
-              }
-            }
-
-            return flag;
-          })
-          
-          this.tableItems = filtro;
-
-          console.log(this.tableItems)
-        })
-        .catch(er => console.log(er));
-    },
-    async getPetianos() {
-      await this.$axios
-       this.$axios.get("http://epet.imd.ufrn.br/service/api/petianos-atuais", {
-          auth: { username: "teste@gmail.com", password: "123456789" }
-        })
-        .then(res => {
-          this.tableItemsPetianos = res.data.content;
-        });
-    },
-    async removerPetiano(user){
-      await this.$axios.delete(`http://epet.imd.ufrn.br/service/api/petianos-remove/${user}`,
-      {
-        auth: {username: "teste@gmail.com", password: "123456789"}
-      }).then(res => {
-        console.log("Removido");
-        this.atualizarTabelas()
+    del(id, rowId) {
+      console.log(id);
+      this.$axios.delete("participantes-remove/" + id).then(() => {
+        this.eventos.splice(rowId, 1);
+        alert("Participante removido com sucesso");
       });
     },
-    async tornarPetiano(user) {
-
-      await this.$axios
-        .post(
-          `http://epet.imd.ufrn.br/api/petianos-cadastro/${user}`,
-          {data: {}},
-          {
-            auth: { username: "teste@gmail.com", password: "123456789" }
-          }
-        )
-        .then(res => {
-          console.log("FOI!");
-          this.atualizarTabelas()
-        });
+    confirmar(id) {
+      this.$axios.post("participantes-confirmar/" + id).then(() => {
+        // para não ter que atualizar os eventos em tempo real forçarei a página a atualizar
+        alert("Participante ativado com sucesso");
+        let vm = this;
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
+      });
     }
   }
 };
 </script>
 
-
+<style scoped>
+h3 {
+  text-align: center;
+}
+</style>
