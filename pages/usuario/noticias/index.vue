@@ -92,7 +92,7 @@ export default {
   methods: {
     getNoticias() {
       this.$axios
-      .get("noticia").then(res => {
+      .get("noticias-atuais").then(res => {
         this.noticias = res.data.content;
         this.isLoading = false;
       })

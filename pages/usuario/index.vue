@@ -150,7 +150,7 @@ export default {
       });
 
    this.$axios
-      .get("noticia/?page=0")
+      .get("noticias-atuais/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
         this.isLoading = false;
