@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: 'PET-CC UFRN - Tutor'
+      title: 'PET-CC UFRN | ePET - Permissão de tutor'
     }
   },
   computed: {
