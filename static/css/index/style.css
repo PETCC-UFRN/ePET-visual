@@ -1,4 +1,4 @@
-/* BEGIN INDEX 
+/* BEGIN INDEX
 Css custom da página inicial do site
 */
 
@@ -27,8 +27,7 @@ Css custom da página inicial do site
 #particles-js {
   /* position: absolute; */
   height: 400px;
-  background-image: url('https://static.vecteezy.com/system/resources/previews/000/640/127/non_2x/mixed-colors-triangulated-background-texture-vector.jpg');
-  /* background-image: url('~assets/backgroundLogo.jpg');  http://getwallpapers.com/wallpaper/full/2/2/a/71287.jpg  */
+  background-image: url('http://getwallpapers.com/wallpaper/full/2/2/a/71287.jpg');
   background-position: bottom;
   background-repeat: no-repeat;
   background-color: black;

@@ -20,7 +20,7 @@ export default {
     return {
       year: new Date().getFullYear()
     }
-  }, 
+  },
   components :{
     BottomBar
   }
@@ -32,8 +32,8 @@ export default {
   overflow: hidden;
   padding-bottom: 250px;
   position: relative;
-  margin-top: 45px;
   height: 0;
+  margin-top: 45px;
 }
 .map-container iframe {
   left: 0;
