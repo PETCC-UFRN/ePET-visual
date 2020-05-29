@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-check-circle px-2"></i>Minhas tutorias</h2>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias solicitadas</h2>
           </b-col>
         </b-row>
       </template>
@@ -53,7 +53,7 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhuma tutoria cadastrada ou ativa</h5> 
+          <h5>Nenhuma tutoria solicitada</h5> 
         </div>
       </div>
     </b-card>

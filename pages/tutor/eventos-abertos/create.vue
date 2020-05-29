@@ -8,7 +8,7 @@
           </b-col>
           <b-col>
             <div class="card-actions">
-              <nuxt-link  to="/tutor/eventos/eventos-cadastrados" class="btn btn-close btn-lg">
+              <nuxt-link  to="/tutor/eventos-abertos" class="btn btn-close btn-lg">
                 <i class="icon-close"></i>
               </nuxt-link>
             </div>

@@ -29,7 +29,7 @@ export default {
                 },
                 {
                     name: 'Tutorias solicitadas',
-                    url: '/usuario/minhas-tutorias',
+                    url: '/usuario/tutorias-solicitadas',
                     icon: 'icon-check'
                 }
             ]
