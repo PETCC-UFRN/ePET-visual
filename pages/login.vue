@@ -31,7 +31,7 @@
                   </b-input-group-prepend>
                   <input
                     required
-                    type="password"
+                    :type="passwordFieldType"
                     v-model="senha"
                     class="form-control"
                     placeholder="Senha"
@@ -42,15 +42,28 @@
                     <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                   </ul>
                 </b-alert>
-                <b-row>
-                  <b-col cols="8" class="text-left mb-2">
-                    <b-button to="/esqueciSenha" variant="link" class="px-0">Esqueceu sua senha?</b-button>
+                <b-row class="px-0">
+                  <b-col cols="6">
+                    <b-form-checkbox
+                      id="checkbox-1"
+                      class="mt-2 ml-2 text"
+                      v-model="mostrarSenha"
+                      @change="mudarVisibilidadeSenha"
+                    >
+                      Mostrar a senha
+                    </b-form-checkbox>                  
                   </b-col>
-                  <b-col cols="12">
+                  <b-col cols="6" class="text-right mb-2">
+                    <b-button to="/esqueciSenha" variant="link" >Esqueceu sua senha?</b-button>
+                  </b-col>
+                </b-row>
+                <b-row class="mt-3 ml-2 mr-2">
+                  <b-col>
                     <b-button block variant="success" class="px-4" @click="login()">
                       <i class="fa fa-user"></i> Login
                     </b-button>
                   </b-col>
+                 
                 </b-row>
               </b-card-body>
             </b-card>
@@ -71,6 +84,8 @@
     layout: "clean",
     data() {
       return {
+        mostrarSenha: false,
+        passwordFieldType: "password",
         email: "",
         senha: "",
         perfil: {},
@@ -100,6 +115,10 @@
       Cookies.set("auth", null);
     },
     methods: {
+      mudarVisibilidadeSenha() {
+        this.passwordFieldType =  this.passwordFieldType === "password"? "text" : "password";
+        this.mostrarSenha = !this.mostrarSenha;
+      },
       validEmail: function (email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
@@ -122,7 +141,18 @@
       async login() {
         this.next = await this.checkForm();
         if (this.next) {
-          try {
+          Swal.fire({
+            title: 'Carregando...',
+            text: 'Aguarde alguns instantes. Logo mais você' +
+            ' será redirecionado para o dentro do sistema.',
+            showCancelButton: false,
+            showConfirmButton: false,
+            onOpen: () => {
+              Swal.showLoading()
+            }
+          })
+                    
+                  
             await this.$axios
               .post("sign-in/", {
                 email: this.email,
@@ -131,18 +161,20 @@
               .then(auth => {
                 // guarda token
                 Cookies.set("auth", auth.data);
+              })
+           .catch(err =>{
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text:
+                  err.response.status === 403
+                    ? "Email ou senha não encontrados"
+                    : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
               });
-          } catch (err) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text:
-                err.response.status === 403
-                  ? "Email ou senha não encontrados"
-                  : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
-            });
-            this.next = false;
-          }
+              this.next = false;
+            })  
+                    
+                  
         }
         if (this.next && Cookies.get("auth") !== null) {
           await this.getProfile();
@@ -186,5 +218,9 @@
 <style scoped>
   img {
     max-width: 200px;
+  }
+
+  text {
+    color: gray;
   }
 </style>

@@ -91,7 +91,6 @@ export default {
   },
   methods: {
     async register(){
-      try{
         
         await this.$axios.post('sign-up/',{
           email: this.usuario.email,
@@ -99,26 +98,26 @@ export default {
           cpf: this.usuario.cpf,
           nome: this.usuario.nome
         }).then(res => {
-          this.usuario.email = "";
-          this.usuario.senha = "";
-          this.usuario.cpf = "";
-          this.usuario.nome = "";
           Swal.fire({
             icon: "info",
             title: "Falta pouco...",
             text: "Foi enviado para o seu email um link para que sua conta " + 
             "seja validada."
+          })
+          .then ( () => {
+            this.usuario.email = "";
+            this.usuario.senha = "";
+            this.usuario.cpf = "";
+            this.usuario.nome = "";
           });
-          
         })
-        // this.$router.push('/usuarios');
-      } catch(err){
+        .catch(err =>{
           Swal.fire({
             icon: "error",
             title: "Erro no cadastro...",
             text: err.message
           });
-      }
+        })
     }
   }
 }
