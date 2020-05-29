@@ -86,7 +86,7 @@ export default {
   },
   head () {
     return {
-      title: "Registrar - PET-CC UFRN"
+      title: "PET-CC UFRN | ePET - Registrar"
     }
   },
   methods: {

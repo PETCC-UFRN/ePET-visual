@@ -44,7 +44,7 @@
                 </b-alert>
                 <b-row>
                   <b-col cols="8" class="text-left mb-2">
-                    <b-button @click.prevent="EsqueciSenha()" variant="link" class="px-0">Esqueceu sua senha?</b-button>
+                    <b-button to="/esqueciSenha" variant="link" class="px-0">Esqueceu sua senha?</b-button>
                   </b-col>
                   <b-col cols="12">
                     <b-button block variant="success" class="px-4" @click="login()">
@@ -86,7 +86,7 @@
     },
     head() {
       return {
-        title: "Login - PET-CC UFRN"
+        title: "PET-CC UFRN | ePET - Login"
       };
     },
     watch: {
@@ -100,12 +100,6 @@
       Cookies.set("auth", null);
     },
     methods: {
-      EsqueciSenha() {
-        this.$router.push("/esqueciSenha");
-      },
-      goToRegister() {
-        this.$router.push("/register");
-      },
       validEmail: function (email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
