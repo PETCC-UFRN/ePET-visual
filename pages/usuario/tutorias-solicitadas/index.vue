@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-check-circle px-2"></i>Tutorias solicitadas</h2>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias marcadas</h2>
           </b-col>
         </b-row>
       </template>
@@ -27,7 +27,7 @@
             <template v-slot:cell(actions)="row">
               <b-button 
               
-              v-b-toggle="`collapse-${row.item.idTutoria}`"
+              v-b-toggle="`collapse-${row.item.idTutoriaMinistrada}`"
                         
                 class="btn btn-sm btn-info"
                 ><i class="fa fa-eye fa-fw"></i>
@@ -35,8 +35,8 @@
               </b-button>
 
               <b-collapse class="mt-3" 
-                      :id="`collapse-${row.item.idTutoria}`">
-                <b-card>{{row.item.petiano.pessoa.usuario.email}} </b-card>
+                      :id="`collapse-${row.item.idTutoriaMinistrada}`">
+                <b-card>{{row.item.tutoria.petiano.pessoa.usuario.email}} </b-card>
               </b-collapse>
 
             </template>
@@ -44,6 +44,64 @@
           <nav>
             <b-pagination
               :total-rows="tutorias.length"
+              :per-page="10"
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
+        </div>
+        <div v-else>
+          <h5>Nenhuma tutoria marcada</h5> 
+        </div>
+      </div>
+    </b-card>
+        <b-card>
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias solicitadas</h2>
+          </b-col>
+        </b-row>
+      </template>
+
+      <div v-if="isLoadingInativas === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+      </div>
+      <div v-else>
+        <div v-if="tutoriasInativas.length > 0">
+          
+          <b-table
+            responsive="sm"
+            :items="tutoriasInativas"
+            :current-page="currentPage"
+            :bordered="false"
+            striped   
+            :per-page="10"
+            :fields="fields"
+          >
+            <template v-slot:cell(actions)="row">
+              <b-button 
+              
+              v-b-toggle="`collapse-${row.item.idTutoriaMinistrada}`"
+                        
+                class="btn btn-sm btn-info"
+                ><i class="fa fa-eye fa-fw"></i>
+                Email do reponsável 
+              </b-button>
+
+              <b-collapse class="mt-3" 
+                      :id="`collapse-${row.item.idTutoriaMinistrada}`">
+                <b-card>{{row.item.tutoria.petiano.pessoa.usuario.email}} </b-card>
+              </b-collapse>
+
+            </template>
+          </b-table>
+          <nav>
+            <b-pagination
+              :total-rows="tutoriasInativas.length"
               :per-page="10"
               v-model="currentPage"
               prev-text="Anterior"
@@ -62,6 +120,7 @@
 
 <script>
 import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -69,21 +128,17 @@ export default {
   data() {
     return {
       isLoading: true,
-      selected: 'nomeCodigoDisciplina',
-      options: [
-        { text: 'Por nome ou código de disciplina', value: 'nomeCodigoDisciplina' },
-        { text: 'Por nome ou CPF do responsável', value: 'nomeCpfResponsavel' },
-      ],
-      keyword: '',
+      isLoadingInativas: true,
       nomeCodigoDisciplina: false,
       nomemCpfResponsavel: false,
       tutorias: [],
+      tutoriasInativas: [],
       currentPage: 1,
       fields: [
-        { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
-        { key: "disciplina.nome", sortable: true, label: "Disciplina" },
-        { key: "petiano.pessoa.nome", sortable: true, label: "Responsável" },
-        { key: "petiano.idPetiano", sortable: true, label: "Data da tutoria" },
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
+        { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
         { key: "actions", sortable: true, label: "Ações disponíveis"  }
       ]
     };
@@ -116,24 +171,33 @@ export default {
           }
         });
     },
-    solicitarTutoria(idTutoria) {
+    consumindoTutoriasMinistradasInativasApi() {
       this.$axios
-        .get(`tutorias-ministradas-cadastro/${this.$store.state.profile.idPessoa}/${idTutoria}`)
+        .get(`/pesquisar-pessoa-tutorias-ministradas-ina/${this.$store.state.profile.idPessoa}`)
         .then(res => {
-          Swal.fire({
-            title: "Tutoria solicitada",
-            text: "Sua solicitação foi enviada para o email do responsável. Aguarde a confirmação" + 
-            " de data e horário a ser enviada para o seu email que está cadastrado no sistema.",
-            icon: "success"
-          })
+          this.tutoriasInativas = res.data.content;
+          this.isLoadingInativas = false;
         })
-        .catch(err => {
-          Swal.fire({
-            title: "Tutoria não solicitada",
-            icon: "error"
-          })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma tutoria aguardando confirmacao",
+              icon: 'info',
+            })
+            .then( () => this.isLoadingInativas = false );
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            })
+            .then( () => this.isLoadingInativas = false );
+          }
         });
-    }
+    },
+    
   }
 };
 </script>

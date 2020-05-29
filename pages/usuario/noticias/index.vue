@@ -36,7 +36,8 @@
             responsive="sm"
             :items="noticias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >

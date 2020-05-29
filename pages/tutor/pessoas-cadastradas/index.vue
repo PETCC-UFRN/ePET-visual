@@ -28,7 +28,8 @@
             responsive="sm"
             :items="pessoas"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="20"
             :fields="fields"
           >

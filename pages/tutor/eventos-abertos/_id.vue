@@ -56,14 +56,6 @@
           </p>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1" @click.prevent="gerarCertificado()" block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          <strong>{{form.percentual}}%</strong> concluído
-        </b-tooltip>
-      </template>
     </b-card>
     <b-card header-tag="header">
       <template v-slot:header>
@@ -154,19 +146,6 @@ export default {
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
-    }
-  },
-  methods: {
-    gerarCertificado() {
-      if (this.form.percentual >= 75) {
-
-      } else {
-        Swal.fire({
-          title: "Certificado não gerado",
-          icon: "error",
-          text: "É necessário que se obtenha no mínimo 75% de participação para geração do certificado"
-        });
-      }
     }
   }
 };

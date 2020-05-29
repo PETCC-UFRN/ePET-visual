@@ -89,7 +89,8 @@
             responsive="sm"
             :items="disciplinas"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -155,7 +156,7 @@ export default {
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true },
-        { key: "actions", sortable: true, label: "Ações disponíveis" }
+        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },

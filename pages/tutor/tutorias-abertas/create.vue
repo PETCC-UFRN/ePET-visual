@@ -32,7 +32,8 @@
             responsive="sm"
             :items="disciplinas"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >

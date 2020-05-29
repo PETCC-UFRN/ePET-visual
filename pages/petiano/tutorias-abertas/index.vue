@@ -56,7 +56,8 @@
             responsive="sm"
             :items="tutorias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
@@ -121,7 +122,7 @@ export default {
         { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
         { key: "disciplina.nome", sortable: true, label: "Disciplina" },
         { key: "petiano.pessoa.nome", label:"Responsável", sortable: true },
-        { key: "actions", sortable: true, label:"Ações disponíveis" },
+        { key: "actions", label:"Ações disponíveis" },
       ]
     };
   },

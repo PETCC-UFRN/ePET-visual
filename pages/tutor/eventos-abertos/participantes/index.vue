@@ -57,7 +57,8 @@
             responsive="sm"
             :items="participantes"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             pills
             :fields="fields"
@@ -143,7 +144,7 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        { key: "actions", sortable: true, label: "Ações disponíveis" }
+        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },

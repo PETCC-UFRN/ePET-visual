@@ -19,16 +19,11 @@
             responsive="sm"
             :items="eventos"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(inicioFimInscricoes)="row">
-              {{ row.item.d_inscricao | moment }} - {{ row.item.d_inscricao | moment }} 
-            </template>
-            <template v-slot:cell(inicioFimEvento)="row">
-              {{ row.item.d_evento_inicio | moment }} - {{ row.item.d_evento_fim | moment }} 
-            </template>
             <template v-slot:cell(actions)="row">
               <nuxt-link
                   :to="`/usuario/eventos-abertos/${row.item.idEvento}`"
@@ -74,19 +69,16 @@ export default {
       currentPage: 1,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
-        { key: "inicioFimInscricoes",  label: "Perído de inscrições" },
-        { key: "inicioFimEvento",  label: "Perído do evento" },
+        { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
     this.consumindoEventosApi();
-  },
-  filters: {
-    moment: function (date) {
-      return moment(date).format('DD/MM/YYYY');
-    }
   },
   methods: {
     consumindoEventosApi() {

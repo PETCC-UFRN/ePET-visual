@@ -20,7 +20,8 @@
             responsive="sm"
             :items="tutorias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
@@ -81,11 +82,11 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código" },
         { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
         { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
-        { key: "actions", sortable: true, label: "Ações disponíveis"  }
+        { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },

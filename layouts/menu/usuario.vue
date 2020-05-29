@@ -5,7 +5,7 @@
       <Sidebar :navItems="nav" />
       <main class="main">
         <breadcrumb/>
-        <div class="container-fluid">
+        <div class="container">
           <nuxt />
         </div>
       </main>

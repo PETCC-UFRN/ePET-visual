@@ -56,7 +56,8 @@
             responsive="sm"
             :items="tutorias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
@@ -109,11 +110,10 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
+        { key: "disciplina.codigo", label:"Código", sortable: true },
         { key: "disciplina.nome", label:"Disciplina", sortable: true },
-        { key: "disciplina.codigo", label:"Código da Disciplina", sortable: true },
         { key: "petiano.pessoa.nome", label:"Responsável", sortable: true },
-        { key: "petiano.pessoa.cpf", label:"CPF", sortable: true },
-        { key: "actions", sortable: true, label:"Ações disponíveis" },
+        { key: "actions", label:"Ações disponíveis" },
       ]
     };
   },

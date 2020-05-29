@@ -137,9 +137,4 @@ h2 {
 strong {
   color: gray;
 }
-
-em {
-  color: gray;
-  font-weight: 500;
-}
 </style>
