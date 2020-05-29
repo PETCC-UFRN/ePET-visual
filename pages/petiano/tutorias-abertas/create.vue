@@ -32,7 +32,8 @@
             responsive="sm"
             :items="disciplinas"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
@@ -206,7 +207,7 @@ export default {
             title: "Disciplina tutorada cadastrada",
             icon: "success"
           }).then(() => {
-            this.$router.push("/tutor/tutorias/quadro-de-tutorias/");
+            this.$router.push("/petiano/tutorias-abertas");
           });
         })
         .catch(() => {

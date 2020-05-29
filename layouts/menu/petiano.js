@@ -20,27 +20,6 @@ export default {
             icon: 'icon-envelope-letter'
         },
         {
-            name: 'Eventos',
-            icon: 'icon-event',
-            children: [
-                {
-                    name: 'Eventos abertos',
-                    url: '/petiano/eventos-abertos',
-                    icon: 'icon-calendar'
-                },
-                {
-                    name: 'Eventos inscritos',
-                    url: '/petiano/eventos-inscritos',
-                    icon: 'icon-user-following'
-                },
-                {
-                    name: 'Eventos organizados',
-                    url: '/petiano/eventos-organizados',
-                    icon: 'icon-user-following'
-                }
-            ]
-        },
-        {
             name: 'Tutorias',
             icon: 'icon-notebook',
             children: [
@@ -61,7 +40,27 @@ export default {
                 }
             ]
         },
-
+        {
+            name: 'Eventos',
+            icon: 'icon-event',
+            children: [
+                {
+                    name: 'Eventos abertos',
+                    url: '/petiano/eventos-abertos',
+                    icon: 'icon-calendar'
+                },
+                {
+                    name: 'Eventos inscritos',
+                    url: '/petiano/eventos-inscritos',
+                    icon: 'icon-user-following'
+                },
+                {
+                    name: 'Eventos organizados',
+                    url: '/petiano/eventos-organizados',
+                    icon: 'icon-user-following'
+                }
+            ]
+        },
         {
             name: 'Configurações',
             url: '/petiano/configuracoes',

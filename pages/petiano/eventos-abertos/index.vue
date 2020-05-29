@@ -39,7 +39,8 @@
             responsive="sm"
             :items="eventos"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="20"
             :fields="fields"
           >
@@ -122,8 +123,8 @@ export default {
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "pages", sortable: true, label: "Páginas disponíveis"  },
-        { key: "actions", sortable: true, label: "Ações disponíveis"  }
+        { key: "pages", label: "Páginas disponíveis"  },
+        { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },

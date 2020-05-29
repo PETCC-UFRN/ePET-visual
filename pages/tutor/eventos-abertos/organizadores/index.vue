@@ -7,7 +7,6 @@
             <h3>
               <i class="fa fa-edit"></i> Cadastrar organizador
             </h3>
-            <h2><i class="fa fa-edit"></i> Cadastrar organizador</h2>
           </b-col>
         </b-row>
       </div>
@@ -59,7 +58,8 @@
             responsive="sm"
             :items="organizadores"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
@@ -125,7 +125,7 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        { key: "actions", sortable: true, label: "Ações disponíveis" }
+        { key: "actions",  label: "Ações disponíveis" }
       ]
     };
   },

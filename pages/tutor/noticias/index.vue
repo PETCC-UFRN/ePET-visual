@@ -39,7 +39,12 @@
         </b-input-group>
 
         <div v-if="noticias.length > 0">
-          <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
+          <b-table 
+            responsive="sm" 
+            :items="noticias" 
+            :bordered="false"
+            striped   
+            :fields="fields">
             <template v-slot:cell(actions)="row">
               <nuxt-link
                 :to="`/tutor/noticias/${row.item.idNoticia}`"

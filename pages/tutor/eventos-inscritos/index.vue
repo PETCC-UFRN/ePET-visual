@@ -20,13 +20,14 @@
             responsive="sm"
             :items="eventos"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/tutor/eventos-abertos/${row.item.evento.idEvento}`"
+                  :to="`/tutor/eventos-inscritos/${row.item.idParticipantes}`"
                   class="btn btn-sm btn-info"
                 ><i class="fa fa-eye" aria-hidden="true"></i>
                 Informações</nuxt-link>
@@ -66,7 +67,7 @@ export default {
       currentPage: 1,
       fields: [
         { key: "evento.titulo", sortable: true, label: "Título"  },
-        { key: "actions", sortable: true, label: "Ações disponíveis"  }
+        { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },

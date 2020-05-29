@@ -39,23 +39,28 @@
         </b-input-group>
 
         <div v-if="noticias.length > 0">
-          <b-table responsive="sm" :items="noticias" :bordered="true" :fields="fields">
+          <b-table 
+          responsive="sm" 
+          :items="noticias" 
+          :bordered="false"
+          striped   
+          :fields="fields">
             <template v-slot:cell(actions)="row">
               <nuxt-link
                 :to="`/petiano/noticias/${row.item.idNoticia}`"
-                class="btn btn-sm btn-cyan"
+                class="btn btn-sm btn-cyan mt-2"
               >
                 <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
               </nuxt-link>
               <nuxt-link
                 :to="`/petiano/noticias/edit/${row.item.idNoticia}`"
-                class="btn btn-sm btn-warning"
+                class="btn btn-sm btn-warning mt-2"
               >
                 <i class="fa fa-pencil fa-fw"></i> Editar
               </nuxt-link>
               <b-button 
                 @click.prevent="del(row.item.idNoticia, row.index)" 
-                class="btn btn-sm btn-danger"
+                class="btn btn-sm btn-danger mt-2"
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>

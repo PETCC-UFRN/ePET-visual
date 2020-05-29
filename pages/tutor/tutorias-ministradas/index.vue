@@ -15,7 +15,8 @@
           responsive="sm"
           :items="tutorias_ministradas"
           :current-page="currentPage"
-          :bordered="true"
+          :bordered="false"
+          striped   
           :per-page="10"
           :fields="fields"
         >
@@ -50,7 +51,7 @@ export default {
       tutorias_ministradas: [],
       currentPage: 1,
       fields: [
-        { key: "tutoria.disciplina.codigo", label:"Código da Disciplina", sortable: true },
+        { key: "tutoria.disciplina.codigo", label:"Código", sortable: true },
         { key: "tutoria.disciplina.nome", label:"Disciplina", sortable: true },
         { key: "data", label:"Data de ministração", sortable: true, formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') }  },
         { key: "tutoria.petiano.pessoa.nome", label:"Responsável", sortable: true },

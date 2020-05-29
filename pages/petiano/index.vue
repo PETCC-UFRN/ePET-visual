@@ -70,6 +70,8 @@
                   :items="petianosAtuais"
                   :current-page="currentPage"
                   hover="hover"  
+                  :bordered="false"
+                  striped   
                   responsive="sm-6"
                   :per-page="2"
                   :fields="fields"

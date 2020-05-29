@@ -40,13 +40,11 @@
             responsive="sm"
             :items="tutorias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(codigoNome)="row">
-              {{ row.item.disciplina.codigo }} - {{ row.item.disciplina.nome }} 
-            </template>
             <template v-slot:cell(actions)="row">
               <b-button
                   @click="solicitarTutoria(row.item.idTutoria)"
@@ -94,8 +92,9 @@ export default {
       tutorias: [],
       currentPage: 1,
       fields: [
-        { key: "codigoNome", label: "Código - Disciplina" },
-        { key: "petiano.pessoa.nome", label: "Responsável" },
+        { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };

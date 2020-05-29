@@ -21,15 +21,15 @@
     <div v-else>
       <b-form @submit.prevent="onSubmit">
 
-        <b-form-group for="nomeCompleto" label="Nome completo">
+        <b-form-group for="nomeCompleto" label="Nome completo" label-class="text-muted font-weight-bold pt-0">
           <b-form-input id="nomeCompleto" v-model="profile.nome" required></b-form-input>
           <b-form-text
             id="password-help-block"
           >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
         </b-form-group>
 
-        <b-form-group label="Email">
-          <b-form-input :value="profile.usuario.email" type="email"></b-form-input>
+        <b-form-group  for="email" label="Email" label-class="text-muted font-weight-bold pt-0">
+          <b-form-input id="email" :value="profile.usuario.email" type="email"></b-form-input>
         </b-form-group>
 
         <b-button class="float-left w-25 mt-2" type="submit" variant="primary"> Atualizar</b-button>
@@ -105,5 +105,10 @@ export default {
 h2,
 h4 {
   font-weight: 300;
+}
+
+.textcolor {
+  font-weight: bold;
+  color: gray !important;
 }
 </style>
