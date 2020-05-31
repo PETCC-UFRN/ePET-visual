@@ -13,23 +13,29 @@
           <div class="form-group">
             <label for="titulo"><strong>Título</strong></label>
             <input id="titulo"
-              type="text" class="form-control" 
-              required placeholder="Digite o título"
+              type="text" 
+              class="form-control" 
+              required 
+              placeholder="Digite o título"
               v-model="form.titulo" />
           </div>
           <div class="form-group">
             <label for="descricao"><strong>Descrição</strong></label>
             <b-form-textarea
               required id="descricao"
-              v-model="form.descricao" placeholder="Digite a descrição"
+              v-model="form.descricao" 
+              placeholder="Digite a descrição"
               rows="3" max-rows="10"
             ></b-form-textarea>
           </div>
           <div class="form-group">
             <label for="local"><strong>Local</strong></label>
-            <input required 
-              id="local" type="text" 
-              class="form-control" placeholder="Digite o local" 
+            <input 
+              required 
+              id="local" 
+              type="text" 
+              class="form-control" 
+              placeholder="Digite o local" 
               v-model="form.local" />
           </div>
           <div>
@@ -38,10 +44,13 @@
                 <div class="form-group">
                   <label for="inicioInscricoes"><strong>Início de inscrições</strong></label>
                   <b-form-datepicker
-                    id="inicioInscricoes" v-model="form.d_inscricao"
-                    class="mb-2" :min="minDate"
-                    locale="pt-br" placeholder="Escolha uma data"
-                    required=true
+                    id="inicioInscricoes" 
+                    v-model="form.d_inscricao"
+                    class="mb-2" 
+                    :min="minDate"
+                    locale="pt-br" 
+                    placeholder="Escolha uma data"
+                    required
                   ></b-form-datepicker>
                 </div>
               </b-col>
@@ -50,9 +59,13 @@
                   <label for="fimInscricoes"><strong>Fim de inscrições</strong></label>
                   <b-form-datepicker
                     id="fimInscricoes"
-                    v-model="form.d_inscricao_fim" :min="form.d_inscricao"
-                    class="mb-2" locale="pt-br" placeholder="Escolha uma data"
-                    required :disabled="disabledDataInscricao"
+                    v-model="form.d_inscricao_fim" 
+                    :min="form.d_inscricao"
+                    class="mb-2" 
+                    locale="pt-br" 
+                    placeholder="Escolha uma data"
+                    required 
+                    :disabled="disabledDataInscricao"
                   ></b-form-datepicker>
                 </div>
               </b-col>
@@ -62,9 +75,12 @@
                 <div class="form-group">
                   <label for="inicioEvento"><strong>Início do evento</strong></label>
                   <b-form-datepicker
-                    id="inicioEvento" v-model="form.d_evento_inicio"
-                    :min="minDate" class="mb-2"
-                    locale="pt-br" placeholder="Escolha uma data"
+                    id="inicioEvento" 
+                    v-model="form.d_evento_inicio"
+                    :min="form.fim_rolagem" 
+                    class="mb-2"
+                    locale="pt-br" 
+                    placeholder="Escolha uma data"
                   ></b-form-datepicker>
                 </div>
               </b-col>
@@ -72,9 +88,12 @@
                 <div class="form-group">
                   <label for="fimEvento"><strong>Fim do evento</strong></label>
                   <b-form-datepicker
-                    id="fimEvento" v-model="form.d_evento_fim"
-                    :min="form.d_evento_inicio" class="mb-2"
-                    locale="pt-br" placeholder="Escolha uma data"
+                    id="fimEvento" 
+                    v-model="form.d_evento_fim"
+                    :min="form.d_evento_inicio" 
+                    class="mb-2"
+                    locale="pt-br" 
+                    placeholder="Escolha uma data"
                     :disabled="disabledDataEvento"
                   ></b-form-datepicker>
                 </div>
@@ -84,18 +103,27 @@
               <b-col>
                 <div class="form-group">
                   <label for="cargaHoraria"><strong>Carga horária</strong> <em>(em horas)</em></label>
-                  <input id="cargaHoraria" placeholder="0" type="number" 
-                  class="form-control"  v-model="form.qtdCargaHoraria" required/>
+                  <input 
+                  id="cargaHoraria" 
+                  placeholder="0" 
+                  type="number" 
+                  class="form-control"  
+                  v-model="form.qtdCargaHoraria" 
+                  required/>
                 </div>
               </b-col>
               <b-col>
                 <div class="form-group">
                   <label for="qtdDias"><strong>Quantidade de dias</strong></label>
                   <input 
-                    id="qtdDias" type="number" 
-                    placeholder="0" min="0" 
-                    pattern="\d+" class="form-control" 
-                    v-model="form.qtdDias" required/>
+                    id="qtdDias" 
+                    type="number" 
+                    placeholder="0" 
+                    min="0" 
+                    pattern="\d+" 
+                    class="form-control" 
+                    v-model="form.qtdDias" 
+                    required/>
                 </div>
               </b-col>
             </b-row>
@@ -104,10 +132,14 @@
                 <div class="form-group">
                   <label for="qtdVagas"><strong>Quantidade de vagas</strong></label>
                   <input 
-                    id="qtdVagas" placeholder="0" 
-                    type="number" min="0" 
-                    pattern="\d+" class="form-control" 
-                    v-model="form.qtdVagas" required/>
+                    id="qtdVagas" 
+                    placeholder="0" 
+                    type="number" 
+                    min="0" 
+                    pattern="\d+" 
+                    class="form-control" 
+                    v-model="form.qtdVagas" 
+                    required/>
                 </div>
               </b-col>
               <b-col>
@@ -125,9 +157,13 @@
                 <div class="form-group">
                   <label for="inicioRolagem"><strong>Início da rolagem</strong></label>
                   <b-form-datepicker
-                    id="inicioRolagem" v-model="form.inicio_rolagem"
-                    class="mb-2" :min="minDate"
-                    locale="pt-br" placeholder="Escolha uma data" required
+                    id="inicioRolagem" 
+                    v-model="form.inicio_rolagem"
+                    class="mb-2" 
+                    :min="form.d_inscricao_fim"
+                    locale="pt-br" 
+                    placeholder="Escolha uma data" 
+                    required
                   ></b-form-datepicker>
                 </div>
               </b-col>
@@ -136,10 +172,13 @@
                   <label for="fimRolagem"><strong>Fim da rolagem</strong></label>
                   <b-form-datepicker
                     :disabled="disabledDataRolagem"
-                    id="fimRolagem" v-model="form.fim_rolagem"
-                    :min="form.inicio_rolagem" class="mb-2" locale="pt-br"
-                    placeholder="Escolha uma data"  required
-                  ></b-form-datepicker>
+                    id="fimRolagem" 
+                    v-model="form.fim_rolagem"
+                    :min="form.inicio_rolagem" 
+                    class="mb-2" 
+                    locale="pt-br"
+                    placeholder="Escolha uma data"  
+                    required></b-form-datepicker>
                 </div>
               </b-col>
             </b-row>
@@ -190,6 +229,7 @@
 <script>
 
 import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   layout: "menu/tutor",
@@ -218,13 +258,36 @@ export default {
         titulo: "",
         valor: "",
         ativo: false
-      }
+      },
+      minDate: null
     };
   },
   mounted(){
-    this.$axios.get('eventos/'+ this.$route.params.id).then((res) => {
+    this.minDate = moment().format("YYYY-MM-DD");
+    
+    this.$axios
+      .get('eventos/'+ this.$route.params.id)
+      .then((res) => {
         this.form = res.data;
-    });
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Evento não atualizado',
+          icon: 'error'
+        })
+      });
+  
+  },
+  computed: {
+    disabledDataRolagem() {
+      return this.form.inicio_rolagem === ''; 
+    },
+    disabledDataInscricao(){
+      return this.form.d_inscricao === ''; 
+    },
+    disabledDataEvento(){
+      return this.form.d_evento_inicio === ''; 
+    }
   },
   methods: {
     submitForm(e) {
@@ -235,17 +298,16 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            this.$router.push('/tutor/eventos/eventos-cadastrados');
+            this.$router.push('/tutor/eventos-abertos');
           });
         })
         .catch(err => {
           Swal.fire({
-            title: 'Erro na edição',
-            icon: 'warning',
-            text: err.response.status
+            title: 'Evento não atualizado',
+            icon: 'error'
           })
           .then( () => {
-            this.$router.push('/tutor/eventos/eventos-cadastrados');
+            this.$router.push('/tutor/eventos-abertos');
           });
         });
     }

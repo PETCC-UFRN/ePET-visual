@@ -20,26 +20,28 @@
             responsive="sm"
             :items="tutorias"
             :current-page="currentPage"
-            :bordered="true"
+            :bordered="false"
+            striped   
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(actions)="row">
-              <b-button 
-              
-              v-b-toggle="`collapse-${row.item.idTutoriaMinistrada}`"
-                        
-                class="btn btn-sm btn-info"
-                ><i class="fa fa-eye fa-fw"></i>
-                Email do reponsável 
-              </b-button>
-
-              <b-collapse class="mt-3" 
-                      :id="`collapse-${row.item.idTutoriaMinistrada}`">
-                <b-card>{{row.item.tutoria.petiano.pessoa.usuario.email}} </b-card>
-              </b-collapse>
-
+          <template v-slot:cell(actions)="row">
+             
+             <b-button  @click="row.toggleDetails" class="btn btn-sm btn-info">
+                {{ row.detailsShowing ? 'Esconder' : 'Mostrar'}} email do responsável
+              </b-button>              
             </template>
+
+            <template v-slot:row-details="row">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
+                  <b-col>{{ row.item.tutoria.petiano.pessoa.usuario.email }}</b-col>
+                </b-row>
+
+              </b-card>
+            </template>
+
           </b-table>
           <nav>
             <b-pagination
@@ -80,24 +82,25 @@
             :bordered="false"
             striped   
             :per-page="10"
-            :fields="fields"
+            :fields="fieldsInativa"
           >
             <template v-slot:cell(actions)="row">
-              <b-button 
-              
-              v-b-toggle="`collapse-${row.item.idTutoriaMinistrada}`"
-                        
-                class="btn btn-sm btn-info"
-                ><i class="fa fa-eye fa-fw"></i>
-                Email do reponsável 
-              </b-button>
-
-              <b-collapse class="mt-3" 
-                      :id="`collapse-${row.item.idTutoriaMinistrada}`">
-                <b-card>{{row.item.tutoria.petiano.pessoa.usuario.email}} </b-card>
-              </b-collapse>
-
+             
+             <b-button  @click="row.toggleDetails" class="btn btn-sm btn-info">
+                {{ row.detailsShowing ? 'Esconder' : 'Mostrar'}} email do responsável
+              </b-button>              
             </template>
+
+            <template v-slot:row-details="row">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
+                  <b-col>{{ row.item.tutoria.petiano.pessoa.usuario.email }}</b-col>
+                </b-row>
+
+              </b-card>
+            </template>
+
           </b-table>
           <nav>
             <b-pagination
@@ -139,12 +142,19 @@ export default {
         { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
         { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
-        { key: "actions", sortable: true, label: "Ações disponíveis"  }
+        { key: "actions", label: "Ações disponíveis"  }
+      ],
+      fieldsInativa: [
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
+        { key: "actions", label: "Ações disponíveis"  }
       ]
     };
   },
   mounted() {
     this.consumindoTutoriasMinistradasApi();
+    this.consumindoTutoriasMinistradasInativasApi();
   },
   methods: {
     consumindoTutoriasMinistradasApi() {

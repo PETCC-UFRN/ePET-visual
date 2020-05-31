@@ -73,7 +73,7 @@
               </b-button>
               
               <b-button
-                  @click.prevent="inscrever(row.item.idEvento)"
+                  @click.prevent="inscrever(row.item.idEvento, row.item.valor)"
                   class="btn btn-sm btn-success mt-1"
                 ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
@@ -193,22 +193,46 @@ export default {
           }
         });
     },
-    inscrever(idEvento) {
+    inscrever(idEvento, valor) {
       this.$axios
         .post(`participantes-cadastrar/${idEvento}/${this.$store.state.profile.idPessoa}`)
         .then(res => {
-          Swal.fire({
-            title: "Inscrição realizada",
-            icon: "success"
-          });
+          if (valor > 0) {
+            Swal.fire({
+              title: "Inscrição realizada",
+              icon: "success",
+              text: "A confirmação da inscrição será mediante ao pagamento. Acesse a " +
+              "página de eventos inscritos para finalizar o pagamento da inscrição."
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Inscrição realizada",
+              icon: "success",
+              text: "Sua inscrição também foi confirmada devido o evento ser gratuito." + 
+              " Preste atenção às datas e aproveite o evento."
+            });
+          }  
         })
         .catch( err => {
           if (err.response.status === 500) {
             if (err.response.data.message === "Essa pessoa já fez sua inscrição no evento!") {
-              Swal.fire({
-                title: "Inscrição já foi realizada",
-                icon: 'info',
-              });
+              if (valor > 0) {
+                Swal.fire({
+                  title: "Inscrição já foi realizada",
+                  icon: 'info',
+                  text: 'Verifique a situação da confirmação do pagamento da sua inscrição.' +
+                  ' Para isso, acesse a página eventos inscritos.',
+                });
+              }
+              else {
+                Swal.fire({
+                  title: "Inscrição já foi realizada",
+                  icon: 'info',
+                  text: "Sua inscrição também já foi confirmada devido o evento ser gratuito." + 
+                  " Preste atenção às datas e aproveite o evento."
+                });
+              }
             }
             else {
               Swal.fire({

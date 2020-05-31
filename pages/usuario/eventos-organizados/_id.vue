@@ -7,6 +7,12 @@
           <b-col>
             <h3>Informações</h3>
           </b-col>
+          <b-col v-if="form.evento.valor > 0">
+            <b-button
+              variant="teal"
+              class="btn btn-sm float-right mt-4"
+            ><i class="fa fa-info-circle px-2" aria-hidden="true"></i> Status do pagamento</b-button>
+          </b-col>
         </b-row>
       </template>
       <b-card-body>
@@ -28,7 +34,7 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
-            {{form.evento.qtdDia}} dia(s)
+            {{form.evento.qtdDias}} dia(s)
           </p>
           <p class="mt-0 mb-1">
             <strong>Carga horária:</strong>
@@ -56,7 +62,8 @@
         </div>  
       </b-card-body>
       <template v-slot:footer>
-        <b-button id="tooltip-target-1" @click.prevent="gerarCertificado()" block variant="success">
+        <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
+         @click.prevent="gerarCertificado()" block variant="success">
           <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
         </b-button>
         <b-tooltip target="tooltip-target-1" triggers="hover">
@@ -77,6 +84,7 @@ export default {
   data() {
     return {
       isLoading: true,
+      eventoTerminou: true,
       form: {  
         evento: { 
           titulo: "", 
@@ -107,7 +115,8 @@ export default {
     };
   },
   mounted() {
-   this.$axios.get(`organizadores/${this.$route.params.id}`)
+    this.$axios
+      .get(`organizadores/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
         this.isLoading = false;
@@ -119,12 +128,18 @@ export default {
           " tente novamente mais tarde.",
           icon: "error"
         })
+        .then(() => this.isLoading = false);
       });
   },
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
     }
+  },
+  computed: {
+    disabledBotaoCertificado() {
+      return !(moment(new Date().getDay()) > moment(this.d_inscricao_fim)); 
+    },
   },
   methods: {
     gerarCertificado() {

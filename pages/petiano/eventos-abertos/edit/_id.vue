@@ -235,7 +235,7 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            this.$router.push('/petiano/eventos/eventos-cadastrados');
+            this.$router.push('/petiano/eventos-abertos');
           });
         })
         .catch(err => {
@@ -244,7 +244,7 @@ export default {
             icon: 'error',
           })
           .then( () => {
-            this.$router.push('/petiano/eventos/eventos-cadastrados');
+            this.$router.push('/petiano/eventos-abertos');
           });
         });
     }
