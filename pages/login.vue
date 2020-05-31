@@ -30,6 +30,7 @@
                     </b-input-group-text>
                   </b-input-group-prepend>
                   <input
+                    id="password"
                     required
                     :type="passwordFieldType"
                     v-model="senha"
@@ -57,7 +58,7 @@
                     <b-button to="/esqueciSenha" variant="link" >Esqueceu sua senha?</b-button>
                   </b-col>
                 </b-row>
-                <b-row class="mt-3 ml-2 mr-2">
+                <b-row class="mt-3">
                   <b-col>
                     <b-button block variant="success" class="px-4" @click="login()">
                       <i class="fa fa-user"></i> Login
