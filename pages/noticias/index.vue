@@ -35,7 +35,6 @@
 
 <script>
   import Comum from "~/components/Comum";
-  import axios from "axios";
   import BottomBar from "~/components/anonymous/BottomBar";
 
   export default {
@@ -46,7 +45,7 @@
     },
     head() {
       return {
-        title: 'PET-CC UFRN - Notícias'
+        title: 'PET-CC UFRN | Notícias'
       }
     },
     data() {
@@ -68,9 +67,11 @@
       };
     },
     mounted() {
-      this.$axios.get("https://epet.imd.ufrn.br:8443/api/noticia").then(res => {
-        this.noticias = res.data.content;
-      });
+      this.$axios
+        .get("noticias-atuais")
+        .then(res => {
+          this.noticias = res.data.content;
+        });
     },
     methods: {
       mes(value) {

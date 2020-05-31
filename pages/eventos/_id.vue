@@ -16,37 +16,8 @@
 				<h3><i class="far fa-calendar-alt"></i>  Outros eventos</h3>
 				<b-card-group deck class="ml-1 mt-3 mr-1">
 					<b-row>
-						{{outrosEventos[0].valor}}
-						<a :href="'/eventos/' + eventos[0].idEvento"> 	
-							<b-card>
-								<b-card-title><h5>{{eventos[0].titulo}} </h5></b-card-title>
-								<!-- <hr>
-								<b-card-text class="small text-muted"> <em>Postado em 15-10-2018 </em></b-card-text>
-								<b-card-text>
-									<p class="mt-0 mb-0"><b>Período de inscrição:</b> {{outrosEventos[0].d_inscricao}} a {{outrosEventos[0].d_inscricao_fim}}.</p>
-									<p class="mt-0 mb-0"><b>Número de vagas:</b> {{outrosEventos[0].qtdVagas}}.</p>
-									<p class="mt-0 mb-0"><b>Local:</b> {{outrosEventos[0].local}}.</p>
-									<p class="mt-0 mb-0"><b>Carga horária:</b> {{outrosEventos[0].qtdCargaHoraria}}h.</p>
-									<p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{outrosEventos[0].valor}},00.</p>
-								</b-card-text> -->
-							</b-card> 
-						</a>	
 					</b-row>
 					<b-row class="mt-3">
-						<!-- <a :href="'/eventos/' + outrosEventos[1].idEvento"> 
-							<b-card>
-								<b-card-title><h5>{{outrosEventos[1].titulo}} </h5></b-card-title>
-								<hr>
-								<b-card-text class="small text-muted"> <em>Postado em 15-10-2018 </em></b-card-text>
-								<b-card-text>
-									<p class="mt-0 mb-0"><b>Período de inscrição:</b> {{outrosEventos[1].d_inscricao}} a {{outrosEventos[1].d_inscricao_fim}}.</p>
-									<p class="mt-0 mb-0"><b>Número de vagas:</b> {{outrosEventos[1].qtdVagas}}.</p>
-									<p class="mt-0 mb-0"><b>Local:</b> {{outrosEventos[1].local}}.</p>
-									<p class="mt-0 mb-0"><b>Carga horária:</b> {{outrosEventos[1].qtdCargaHoraria}}h.</p>
-									<p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{outrosEventos[1].valor}},00.</p>
-								</b-card-text>
-							</b-card>
-						</a>  -->
 					</b-row>  
 				</b-card-group>  
 			</b-col>
@@ -69,7 +40,7 @@ export default {
     },
 	head () {
 		return {
-			title: 'PET-CC UFRN - Eventos'
+			title: 'PET-CC UFRN | Eventos'
 		}
 	},
   	data() {

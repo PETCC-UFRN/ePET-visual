@@ -28,9 +28,20 @@
             <template v-slot:cell(actions)="row">
               <nuxt-link
                   :to="`/tutor/eventos-organizados/${row.item.idOrganizadores}`"
-                  class="btn btn-sm btn-info"
-                ><i class="fa fa-eye" aria-hidden="true"></i>
+                  class="btn btn-sm btn-info"><i class="fa fa-eye fa-fw"></i>
                 Informações</nuxt-link>
+              <b-button
+                class="btn btn-sm btn-success ml-2" ><i class="fa fa-check fa-fw"></i>
+              Registrar presenças</b-button>
+              <b-button
+                @click="modalShow = !modalShow"
+                class="btn btn-sm btn-success ml-2" ><i class="fa fa-check-circle fa-fw"></i>
+              Definir perído do evento</b-button>
+              
+              <nuxt-link
+                  :to="`/tutor/eventos-organizados/periodo-evento/${row.item.evento.idEvento}`"
+                class="btn btn-sm btn-warning ml-2"><i class="fa fa-pencil fa-fw"></i>
+              Gerenciar período do evento</nuxt-link>
             </template>
           </b-table>
           <nav>
@@ -49,6 +60,19 @@
         </div>
       </div>
     </b-card>
+
+    <b-modal v-model="modalShow" title="Informações adicionais" hide-footer no-close-on-backdrop>
+      <label for="data-ingresso">Perído do evento</label>
+      <b-form-datepicker
+        id="data-ingresso"
+        v-model="periodoEvento"
+        type="date"
+        required
+        locale="pt-br"
+        label-no-date-selected="Nenhuma data selecionada"
+      ></b-form-datepicker>
+      <b-button variant="primary" class="w-100 mt-2">OK</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -64,10 +88,12 @@ export default {
       keyword: '',
       eventos: [],
       currentPage: 1,
+      periodoEvento: '',
       fields: [
         { key: "evento.titulo", sortable: true, label: "Título"  },
         { key: "actions", label: "Ações disponíveis"  }
-      ]
+      ],
+      modalShow: false
     };
   },
   mounted() {
