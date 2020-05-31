@@ -8,34 +8,34 @@
 		<b-row class="mb-5">
 			<b-col cols="9">
 				<b-img class="mt-3 mb-3" v-bind="mainProps" src="https://hongkong.imd.ufrn.br/filemanagerportal/source/2020/Palestra_Wedson.png" fluid alt="Responsive image"></b-img>
-				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
+				<span id="corpo" class="mt-3 mb-1"> {{mes}}</span>
 				<h2>{{noticia.titulo}}</h2>
-				<p id="corpo" class="mt-3 mb-3">{{noticia.corpo}}</p>
+				<span id="corpo" class="mt-3 mb-3">{{noticia.corpo}}</span>
 			</b-col>
 			<b-col class="ml-3">
 				<h3><i class="far fa-newspaper"></i> Outras notícias</h3>
 				<b-card-group deck class="ml-1 mt-3 mr-1">
 					<b-row>
-						<a :href="'/noticias/' + outrasNoticias[0].idNoticia"> 	
+						<nuxt-link :to="`/noticias/${outrasNoticias[0].idNoticia}`"> 	
 							 <b-card >
-								<b-card-text class="small text-muted"> {{outrasNoticias[0].inicio_exibicao.substring(8,10)}} {{mesF(outrasNoticias[0].inicio_exibicao.substring(5,7))}}  {{outrasNoticias[0].inicio_exibicao.substring(0,4)}} </b-card-text>
-								<hr>
-								<b-card-title><h5>{{outrasNoticias[0].titulo}}</h5></b-card-title>
-								<b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
-								<b-card-text class="small text-muted">  <em>Publicado por  {{outrasNoticias[0].petiano.pessoa.nome}} </em></b-card-text>
+									<b-card-text class="small text-muted"> {{outrasNoticias[0].inicio_exibicao.substring(8,10)}} {{mesF(outrasNoticias[0].inicio_exibicao.substring(5,7))}}  {{outrasNoticias[0].inicio_exibicao.substring(0,4)}} </b-card-text>
+									<hr>
+									<b-card-title><h5>{{outrasNoticias[0].titulo}}</h5></b-card-title>
+									<b-card-text>{{outrasNoticias[0].corpo}}</b-card-text>
+									<b-card-text class="small text-muted">  <em>Publicado por  {{outrasNoticias[0].petiano.pessoa.nome}} </em></b-card-text>
 							</b-card>  
-						 </a> 
+						</nuxt-link> 
 					</b-row>
 					<b-row class="mt-3">
-						<a :href="'/noticias/' + outrasNoticias[1].idNoticia"> 
+						<nuxt-link :to="`/noticias/${outrasNoticias[1].idNoticia}`"> 
 							<b-card>
-								<b-card-text class="small text-muted"> {{outrasNoticias[1].inicio_exibicao.substring(8,10)}} {{mesF(outrasNoticias[1].inicio_exibicao.substring(5,7))}} {{outrasNoticias[1].inicio_exibicao.substring(0,4)}} </b-card-text>
-								<hr>
-								<b-card-title><h5>{{outrasNoticias[1].titulo}}</h5></b-card-title>
-								<b-card-text>This card has supporting text below as a natural lead-in to additional content.</b-card-text>
-								<b-card-text class="small text-muted">  <em>Publicado por  {{outrasNoticias[1].petiano.pessoa.nome}} </em></b-card-text>
+									<b-card-text class="small text-muted"> {{outrasNoticias[1].inicio_exibicao.substring(8,10)}} {{mesF(outrasNoticias[1].inicio_exibicao.substring(5,7))}} {{outrasNoticias[1].inicio_exibicao.substring(0,4)}} </b-card-text>
+									<hr>
+									<b-card-title><h5>{{outrasNoticias[1].titulo}}</h5></b-card-title>
+									<b-card-text>{{outrasNoticias[1].corpo}}</b-card-text>
+									<b-card-text class="small text-muted">  <em>Publicado por  {{outrasNoticias[1].petiano.pessoa.nome}} </em></b-card-text>
 							</b-card>
-						</a> 
+						</nuxt-link> 
 					</b-row>
 				</b-card-group>
 			</b-col>
@@ -58,7 +58,7 @@ export default {
 	},
 	head () {
 		return {
-			title: 'PET-CC UFRN - Notícias'
+			title: 'PET-CC UFRN | Notícias'
 		}
 	},
   	data() {
@@ -122,7 +122,8 @@ export default {
 					pessoa: {
 						nome:""
 					}
-				}},
+				}
+			},
 			mainProps: { width: 825, height: 523},
 			mesNomes: [
 				"JANEIRO", 
@@ -141,12 +142,13 @@ export default {
     	}
   },
   mounted(){
-    this.$axios.get('noticia/'+ this.$route.params.id).then((res) => {
-        this.noticia = res.data;
-	});
-	this.$axios.get("noticia").then(res => {
-      this.noticias = res.data.content;
-    });
+	this.$axios
+		.get('noticia/'+ this.$route.params.id)
+		.then((res) => this.noticia = res.data);
+
+	this.$axios
+		.get("noticias-atuais")
+		.then(res => this.noticias = res.data.content);
   },
   computed: {
 	 mes() {

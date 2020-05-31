@@ -19,6 +19,8 @@
             <b-button
               id="show-btn"
               size="lg"
+              block
+              class="mb-5"
               variant="success"
               @click="submit"
               v-b-modal.modalPopover

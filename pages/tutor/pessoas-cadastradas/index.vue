@@ -70,7 +70,7 @@
         locale="pt-br"
         label-no-date-selected="Nenhuma data selecionada"
       ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="float-right">OK</b-button>
+      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="w-100 mt-2">OK</b-button>
     </b-modal>
 
     <b-modal ref="modal-update" title="Informações adicionais" hide-footer no-close-on-backdrop>
@@ -83,7 +83,7 @@
         locale="pt-br"
         label-no-date-selected="Nenhuma data selecionada"
       ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="float-right">OK</b-button>
+      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="w-100 mt-2">OK</b-button>
     </b-modal>
   </div>
 </template>

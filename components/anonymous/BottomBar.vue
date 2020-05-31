@@ -32,10 +32,11 @@
                 <a class="mr-1" href="https://www.facebook.com/petccufrn/" target="_blank"><i
                   class="fab fa-facebook-square"></i></a>
                 <a class="mr-1" href="https://www.instagram.com/petccufrn/" target="_blank"><i
-                  class="fab fa-instagram"></i></a>
-                <a class="mr-1" href="https://github.com/PETCC-UFRN" target="_blank"><i class="fab fa-github"></i></a>
+                  class="fab fa-instagram-square"></i></a>
+                <a class="mr-1" href="https://github.com/PETCC-UFRN" target="_blank"><i 
+                class="fab fa-github-square"></i></a>
                 <a href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i
-                  class="fab fa-youtube"></i></a>
+                  class="fab fa-youtube-square"></i></a>
 
               </div>
 

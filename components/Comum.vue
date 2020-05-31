@@ -1,21 +1,17 @@
 <template>
   <div>
-      <AnonymousNav/>
-        <Particles/>
+      <AnonymousNav class="mb-5"/>
   </div>
 </template>
 
 <script>
-
 import AnonymousNav from "./anonymous/AnonymousNav";
-    import Particles from "./anonymous/Particles";
 
-    export default {
-        layout: 'index',
-        components: {
-            AnonymousNav,
-            Particles
-            }
-    }
+export default {
+  layout: 'index',
+  components: {
+    AnonymousNav,
+  }
+}
 </script>
 
