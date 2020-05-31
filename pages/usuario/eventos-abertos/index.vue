@@ -21,7 +21,7 @@
             :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="10"
+            :per-page="20"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -35,16 +35,13 @@
                 ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="eventos.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
+          <div>
+            <Pagination
+              :totalRows="numItems"
+              :perPage="perPage"
+              v-on:currentPage="setCurrentPage"
             />
-          </nav>
+          </div>
         </div>
         <div v-else>
           <h5>Nenhum evento aberto</h5>
@@ -57,16 +54,22 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+  components:{
+    Pagination
+  },
   data() {
     return {
       isLoading: true,
       keyword: '',
       eventos: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -77,16 +80,29 @@ export default {
       ]
     };
   },
+
   mounted() {
     this.consumindoEventosApi();
   },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
+  },
   methods: {
+    setCurrentPage(val){
+      this.currentPage = val;
+    },
     consumindoEventosApi() {
       this.$axios
         .get("eventos-abertos")
         .then(res => {
           this.eventos = res.data;
           this.isLoading = false;
+          this.numItems = res.data.length;
         })
         .catch( err => {
           if (err.response.status === 500) {

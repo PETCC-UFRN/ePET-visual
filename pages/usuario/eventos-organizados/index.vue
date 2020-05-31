@@ -33,16 +33,13 @@
                 Informações</nuxt-link>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="eventos.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
+          <div>
+            <Pagination
+              :totalRows="numItems"
+              :perPage="perPage"
+              v-on:currentPage="setCurrentPage"
             />
-          </nav>
+          </div>
         </div>
         <div v-else>
           <h5>Nenhum evento organizado</h5>
@@ -54,16 +51,23 @@
 
 <script>
 import Swal from "sweetalert2";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+    components: {
+    Pagination
+  },
+
   data() {
     return {
       isLoading: true,
       keyword: '',
       eventos: [],
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
         { key: "evento.titulo", sortable: true, label: "Título"  },
         { key: "actions", label: "Ações disponíveis"  }
@@ -73,6 +77,16 @@ export default {
   mounted() {
     this.consumindoEventosOrganizandoApi();
   },
+
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
+  },
+
   methods: {
     cancelSearch() {
       this.keyword = ''
@@ -106,6 +120,7 @@ export default {
         .then(res => {
           this.eventos = res.data;
           this.isLoading = false;
+          this.numItems = res.data.length;
         })
         .catch( err => {
           if (err.response.status === 404) {
