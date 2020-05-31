@@ -38,7 +38,7 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
-            {{form.qtdDia}} dia(s)
+            {{form.qtdDias}} dia(s)
           </p>
           <p class="mt-0 mb-1">
             <strong>Carga horária:</strong>

@@ -2,42 +2,49 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h3>Tutorias ministradas</h3>
-        <nuxt-link
-          class="btn btn-sm btn-primary float-right"
-          style="color: white"
-          to="tutorias-ministradas/create"
-        ><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Tutoria ministrada
-        </nuxt-link>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias ministradas</h2>
+          </b-col>
+        </b-row>
       </template>
 
-      <div v-if="tutorias_ministradas.length > 0">
-        <b-table
-          responsive="sm"
-          :items="tutorias_ministradas"
-          :current-page="currentPage"
-          :bordered="true"
-          :per-page="10"
-          :fields="fields"
-        >
-          <template v-slot:cell(actions)="row">
-            <b-button
-              :href="'/petiano/tutorias/tutorias-ministradas/' + row.item.idTutoria_ministrada"
-              variant="outline-warning"
-            ><i class="fa fa-eye" aria-hidden="true"></i> Visualizar
-            </b-button>
-            <b-button @click="del(row.item.idTutoria_ministrada, row.index)"
-                      variant="outline-danger"
-            ><i class="fa fa-trash-o fa-fw"></i> Remover
-            </b-button>
-          </template>
-        </b-table>
-        <div>
-          <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage"/>
-        </div>
-
+      <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
-      <div v-else>Nenhuma tutoria ministrada</div>
+      <div v-else>
+
+        <div v-if="tutorias_ministradas.length > 0">
+          <b-table
+            responsive="sm"
+            :items="tutorias_ministradas"
+            :current-page="currentPage"
+            :bordered="false"
+            striped   
+            :per-page="10"
+            :fields="fields"
+          >
+            <template v-slot:cell(actions)="">
+
+              <b-button
+                class="btn btn-sm btn-success"
+                @click.prevent="ativar()"
+              >
+                <i class="fa fa-check fa-fw"></i> Ativar
+              </b-button>
+              
+            </template>
+          </b-table>
+          <div>
+            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage"/>
+          </div>
+
+        </div>
+        <div v-else>
+          <h5>Nenhuma tutoria ministrada</h5>
+        </div>
+      </div>
     </b-card>
   </div>
 </template>
@@ -45,6 +52,8 @@
 <script>
   import Swal from "sweetalert2";
   import Pagination from "~/components/Pagination";
+
+  import moment from "moment";
 
   export default {
     name: "dashboard",
@@ -54,15 +63,19 @@
     },
     data() {
       return {
+        isLoading: true,
         tutorias_ministradas: [],
         currentPage: 0,
         numItems: 0,
         perPage: 20,
         fields: [
-          {key: "tutoria.disciplina.nome", label: "Nome da Disciplina", sortable: true},
-          {key: "tutoria.disciplina.codigo", label: "Código da Disciplina", sortable: true},
-          {key: "tutoria.petiano.pessoa.nome", label: "Nome do Petiano", sortable: true},
-          {key: "actions", sortable: true, label: "Ações disponíveis"},
+          {key: "tutoria.disciplina.codigo", label: "Código", sortable: true},
+          {key: "tutoria.disciplina.nome", label: "Disciplina", sortable: true},
+          {key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
+          {key: "tutoria.petiano.pessoa.nome", label: "Responsável", sortable: true},
+          {key: "pessoa.nome", label: "Ministrado", sortable: true},
+        { key: "actions", label: "Ações disponíveis"  }
+          
         ]
       };
     },
@@ -93,10 +106,31 @@
         });
       },
       getTutoriasMinistradas() {
-        this.$axios.get("tutorias-ministradas").then(res => {
-          this.tutorias_ministradas = res.data.content;
-          this.numItems = res.data.totalElements;
-        });
+        this.$axios
+          .get("pesquisar-petiano-tutoria-ministradas")
+          .then(res => {
+            this.tutorias_ministradas = res.data.content;
+            this.numItems = res.data.totalElements;
+            this.isLoading = false;
+          })
+          .catch( err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhuma tutoria ministrada",
+                icon: 'info',
+              })
+              .then( () => this.isLoading = false );
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error',
+              })
+              .then( () => this.isLoading = false );
+            }
+          });
       },
       setCurrentPage(val) {
         this.currentPage = val;
@@ -106,8 +140,3 @@
 </script>
 
 
-<style scoped>
-  h3 {
-    text-align: center;
-  }
-</style>

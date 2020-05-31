@@ -152,12 +152,6 @@ export default {
                 text: "Por favor, tente recarregar a página. Caso não dê certo," + 
                 " tente novamente mais tarde.",
                 icon: 'error',
-              })
-              .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
               });
             }  
         });
@@ -181,12 +175,6 @@ export default {
                 text: "Por favor, tente recarregar a página. Caso não dê certo," + 
                 " tente novamente mais tarde.",
                 icon: 'error',
-              })
-              .then( () => {
-                let vm = this;
-                setTimeout(function() {
-                  location.reload();
-                }, 1500);
               });
             }  
         });

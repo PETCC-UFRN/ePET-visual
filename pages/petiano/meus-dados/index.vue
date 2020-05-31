@@ -120,12 +120,12 @@ export default {
 
     submitAlert(withError) {
       let icon_ = "success";
-      let title_ = "Perfil atualizado";
+      let title_ = "Dados atualizados";
       let text_ = "";
 
       if (withError) {
         icon_ = "error";
-        title_ = "Perfil não atualizado";
+        title_ = "Dados não atualizados";
         text_ = "Por favor, tente novamente.";
       }
 
