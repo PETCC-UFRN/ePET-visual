@@ -139,4 +139,8 @@
   };
 </script>
 
-
+<style scoped>
+h2, h4 {
+  font-weight: 300;
+}
+</style>

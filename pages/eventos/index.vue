@@ -47,7 +47,7 @@ export default {
     },
 	head () {
 		return {
-			title: 'PET-CC UFRN - Eventos'
+			title: 'PET-CC UFRN | Eventos'
 		}
 	},
     data() {
@@ -83,14 +83,13 @@ export default {
 
 
 <style scoped>
-
 a {
 	color: #000000;
 	text-decoration: none;
  }
 
 h1 {
-  font-weight: bold;
+  font-weight: 300;
   font-size: 40px;
   text-align: center;
 }

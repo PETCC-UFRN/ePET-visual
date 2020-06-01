@@ -90,7 +90,7 @@
 
   h1 {
     text-align: center;
-    font-weight: bold;
+    font-weight: 300;
     font-size: 40px;
   }
 

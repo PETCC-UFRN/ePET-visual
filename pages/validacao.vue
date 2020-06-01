@@ -123,7 +123,7 @@ export default {
 .titulo {
   margin-top: 20px;
   margin-bottom: 10px;
-  font-weight: bold;
+  font-weight: 300;
   text-align: center;
   font-size: 36px;
   box-sizing: border-box;
