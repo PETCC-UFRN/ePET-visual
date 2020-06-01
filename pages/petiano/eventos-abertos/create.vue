@@ -87,7 +87,8 @@
                     id="inicioRolagem" 
                     v-model="form.inicio_rolagem"
                     class="mb-2" 
-                    :min="form.d_inscricao_fim"
+                    :max="form.d_inscricao_fim"
+                    :min="form.d_inscricao"
                     :disabled="disabledDataRolagemInicio"
                     locale="pt-br" 
                     placeholder="Escolha uma data" required
@@ -102,6 +103,7 @@
                     id="fimRolagem" 
                     v-model="form.fim_rolagem"
                     :min="form.inicio_rolagem" 
+                    :max="form.d_inscricao_fim"
                     class="mb-2" 
                     locale="pt-br"
                     placeholder="Escolha uma data"  required
@@ -172,9 +174,12 @@
                 <div class="form-group">
                   <label for="qtdVagas"><strong>Quantidade de vagas</strong></label>
                   <input 
-                    id="qtdVagas" placeholder="0" 
-                    type="number" min="0" 
-                    pattern="\d+" class="form-control" 
+                    id="qtdVagas" 
+                    placeholder="0" 
+                    type="number" 
+                    min="0" 
+                    pattern="\d+" 
+                    class="form-control" 
                     v-model="form.qtdVagas" required/>
                 </div>
               </b-col>
@@ -197,10 +202,14 @@
                 <div class="form-group">
                   <label for="diasCompensacao"><strong>Dias de compensação</strong></label>
                   <input 
-                    id="diasCompensacao" type="number" 
-                    min="0" pattern="\d+" 
-                    placeholder="0" class="form-control" 
-                    v-model="form.dias_compensacao" required/>
+                    id="diasCompensacao" 
+                    type="number" 
+                    min="0" 
+                    pattern="\d+" 
+                    placeholder="0" 
+                    class="form-control" 
+                    v-model="form.dias_compensacao" 
+                    required/>
                 </div>
               </b-col>
               <b-col>
@@ -218,9 +227,11 @@
           <div class="form-group">
             <label for="textoDeclaracao"><strong>Texto de declaração</strong></label>
             <b-form-textarea
-              id="textoDeclaracao" v-model="form.textoDeclaracaoEvento"
+              id="textoDeclaracao" 
+              v-model="form.textoDeclaracaoEvento"
               placeholder="Digite o texto de declaração do evento"
-              rows="3"  max-rows="6" 
+              rows="3"  
+              max-rows="6" 
             ></b-form-textarea>
           </div>
           <div class="form-group">
@@ -254,18 +265,18 @@ export default {
         d_inscricao: "",
         d_inscricao_fim: "",
         descricao: "",
-        dias_compensacao: "",
+        dias_compensacao: 0,
         fim_rolagem: "",
         inicio_rolagem: "",
         local: "",
         participante_anexos: false,
         percentual: 0,
         qtdCargaHoraria: "",
-        qtdDias: "",
-        qtdVagas: "",
+        qtdDias: 0,
+        qtdVagas: 0,
         textoDeclaracaoEvento: "",
         titulo: "",
-        valor: "",
+        valor: 0,
         ativo: false
       },
       minDate: null
@@ -315,23 +326,23 @@ export default {
     },
     onReset(evt) {
       evt.preventDefault()      
-      this.d_evento_fim = ""
-      this.d_evento_inicio = ""
-      this.d_inscricao = ""
-      this.d_inscricao_fim = ""
-      this.descricao = ""
-      this.dias_compensacao = ""
-      this.fim_rolagem = ""
-      this.inicio_rolagem = ""
-      this.local = ""
-      this.participante_anexos = false
-      this.qtdCargaHoraria = ""
-      this.qtdDias = ""
-      this.qtdVagas = ""
-      this.textoDeclaracaoEvento = ""
-      this.titulo = ""
-      this.valor = ""
-      this.ativo = false
+      this.d_evento_fim = "";
+      this.d_evento_inicio = "";
+      this.d_inscricao = "";
+      this.d_inscricao_fim = "";
+      this.descricao = "";
+      this.dias_compensacao = 0;
+      this.fim_rolagem = "";
+      this.inicio_rolagem = "";
+      this.local = "";
+      this.participante_anexos = false;
+      this.qtdCargaHoraria = 0;
+      this.qtdDias = 0;
+      this.qtdVagas = 0;
+      this.textoDeclaracaoEvento = "";
+      this.titulo = "";
+      this.valor = 0;
+      this.ativo = false;
     }
   }
 };

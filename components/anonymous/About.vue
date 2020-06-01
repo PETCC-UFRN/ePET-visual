@@ -9,7 +9,7 @@
       <nuxt-link class="btn btn-success btn-lg mt-3 mb-3" to="/sobre" style="color: white">Saber mais &raquo;</nuxt-link>
     </div>
     <div class="col-md-4 mb-5">
-      <h2>Contato</h2>
+      <h2 class="contato">Contato</h2>
       <hr>
       <address>
         <abbr title="Phone">Telefone:</abbr>
@@ -50,9 +50,11 @@ export default {
 
 
 <style scoped>
-.sobreTitulo {
+.sobreTitulo .contato{
   font-weight: 300;
   font-size: 30px;
+}
+.sobreTitulo {
   text-align: center;
 }
 p, address {
