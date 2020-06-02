@@ -46,7 +46,7 @@
                   :to="`/usuario/noticias/${row.item.idNoticia}`"
                   class="btn btn-sm btn-info"
                 >
-                  <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
+                  <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Detalhes
               </nuxt-link>
             </template>
           </b-table>

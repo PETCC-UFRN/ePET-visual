@@ -10,7 +10,7 @@
           <nuxt-link
             class="btn btn-sm btn-warning float-right mt-4"
             to="/tutor/configuracoes/edit" 
-          ><i class="fa fa-pencil fa-fw"></i> Editar informações</nuxt-link>
+          ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
           </b-col>
         </b-row>
 			</template>
@@ -18,41 +18,45 @@
 			<b-card-body>
         <b-row>
           <b-col cols="12">
-              
             <p class="mt-0 mb-1">
               <strong>Sobre o PET-CC:</strong>
               {{informacoes.sobre}}
             </p>
           </b-col>
-        </b-row>
-        <b-row class="mt-4">
           <b-col>
-            <p class="mt-0 mb-1">
-              <strong>Telefone:</strong> 
-              {{informacoes.telefone}}
-            </p>
-            <p class="mt-0 mb-1">
-              <strong>Endereço:</strong> 
+            <p class="mt-1 mb-1">
+              <strong>Endereço físico:</strong> 
               {{informacoes.endereco}}
             </p>
-            <p class="mt-0 mb-1">
-              <strong>Email:</strong> 
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+            <p class="mt-0 mb-2">
+              <strong><i class="fa fa-phone fa-lg"></i> </strong> 
+              {{informacoes.telefone}}
+            </p>
+            <p class="mt-1 mb-2">
+              <strong><i class="fa fa-envelope fa-lg"></i></strong> 
               {{informacoes.email}}
             </p>
-
+            <p class="mt-1 mb-1">
+              <strong><i class="fa fa-facebook-square fa-lg"></i></strong>
+                <a class="mr-1" :href="informacoes.facebook" target="_blank">petccufrn</a>
+            </p>
           </b-col>
           <b-col>
-            <p class="mt-0 mb-1">
-              <strong>Youtube:</strong> 
+            <p class="mt-0 mb-2">
+              <strong><i class="fa fa-youtube-square fa-lg"></i></strong>
+                <a :href="informacoes.youtube" target="_blank">PET Ciência da Computação UFRN</a>
             </p>
-            <p class="mt-0 mb-1">
-              <strong>Instagram:</strong> 
+            <p class="mt-1 mb-2">
+              <strong><i class="fa fa-instagram fa-lg"></i></strong>
+                <a class="mr-1" :href="informacoes.instagram" target="_blank">petccufrn</a>
             </p>
-            <p class="mt-0 mb-1">
-              <strong>Facebook:</strong> 
-            </p>
-            <p class="mt-0 mb-1">
-              <strong>Github:</strong> 
+            <p class="mt-1 mb-1">
+              <strong><i class="fa fa-github-square fa-lg"></i></strong>
+                <a class="mr-1" :href="informacoes.github" target="_blank">PETCC-UFRN</a>
             </p>
           </b-col>
         </b-row>
@@ -73,7 +77,11 @@ export default {
         sobre: "",
         telefone: "",
         endereco: "",
-        email: ""
+        email: "",
+        github: "",
+        facebook: "",
+        instagram: "",
+        youtube:""
       }
     };
   },
@@ -85,6 +93,7 @@ export default {
 };
 
 </script>
+
 
 
 <style scoped>

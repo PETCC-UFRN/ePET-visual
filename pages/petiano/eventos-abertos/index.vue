@@ -60,7 +60,7 @@
               <nuxt-link
                 class="btn btn-sm btn-cyan mt-2"
                 :to="`/petiano/eventos-abertos/${row.item.idEvento}`"
-              ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+              ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-2"
                 :to="`/petiano/eventos-abertos/edit/${row.item.idEvento}`"

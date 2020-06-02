@@ -28,22 +28,33 @@
             <template v-slot:cell(actions)="row">
               <nuxt-link
                   :to="`/tutor/eventos-organizados/${row.item.idOrganizadores}`"
-                  class="btn btn-sm btn-info ml-2"><i class="fa fa-eye fa-fw"></i>
-                Informações</nuxt-link>
+                  class="btn btn-sm btn-info"><i class="fa fa-eye fa-fw"></i>
+                Detalhes</nuxt-link>
               <b-button
                 disabled
-                class="btn btn-sm btn-success ml-2" ><i class="fa fa-check fa-fw"></i>
-              Registrar presenças</b-button>
+                class="btn btn-sm btn-success" ><i class="fa fa-check fa-fw"></i>
+              Lançar presenças</b-button>
+
+              <nuxt-link
+                :to="`/tutor/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
+                class="btn btn-sm btn-teal mt-2"
+                style="color: white" 
+              ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button
-                @click="cadastrarPeriodo(row.item.evento)"
-                class="btn btn-sm btn-success ml-2" ><i class="fa fa-check-circle fa-fw"></i>
-              Definir perído do evento</b-button>
-              
+                :to="`/tutor/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
+                class="btn btn-sm mt-2"
+                variant="secondary"
+              ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
+              <nuxt-link
+                class="btn btn-sm btn-warning"
+                :to="`/tutor/eventos-abertos/edit/${row.item.idEvento}`"              
+              ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
-                disabled
-                :to="`/tutor/eventos-organizados/periodo-evento/${row.item.evento.idEvento}`"
-                class="btn btn-sm btn-warning ml-2"><i class="fa fa-pencil fa-fw"></i>
-              Gerenciar período do evento</b-button>
+                @click.prevent="del(row.item.idEvento, row.index)"
+                class="btn btn-sm btn-danger"
+              >
+                <i class="fa fa-trash-o fa-fw"></i> Remover
+              </b-button>
             </template>
           </b-table>
           <nav>
