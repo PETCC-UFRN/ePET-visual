@@ -43,7 +43,7 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-					<p class="mt-3 mb-2">
+					<p class="mt-1 mb-1">
             <strong>Perído de exibição:</strong>
 						<span v-if="form.inicio_exibicao !== null && form.limite_exibicao !== null">
             	{{ this.form.inicio_exibicao | moment }} - {{ this.form.limite_exibicao | moment}}

@@ -6,7 +6,7 @@
       <h2 class="titulo">Validar Declaração</h2>
 
       <div class="col-8 mx-auto">
-        <b-form>
+        <b-form @submit.prevent="submitForm">
           <b-form-group
             id="input-group-1"
             label="Código de validação:"
@@ -20,20 +20,12 @@
               id="show-btn"
               size="lg"
               block
+              type="submit"
               class="mb-5"
               variant="success"
-              @click="submit"
               v-b-modal.modalPopover
             >Verificar</b-button>
           </div>
-          <!-- 
-                        <b-modal id="modalPopover" title="Resultado da verificação" ok-only ok-variant="success">
-                          <h4 style="text-align:center">{{resultadoVerificacao}}</h4>
-                          <b-img center :src="imgVerificacao" height='70' width='70' class="center"></b-img>
-                          <p v-html="dadosDeclaracao">
-                          </p>
-                      </b-modal>
-          -->
         </b-form>
       </div>
       <div>
@@ -46,10 +38,8 @@
 
 <script>
 import Comum from "../components/Comum";
-
 import BottomBar from "../components/anonymous/BottomBar";
 import Swal from "sweetalert2";
-//import '../node_modules/sweetalert2/src/sweetalert2.scss'
 
 export default {
   layout: "index",
@@ -66,53 +56,35 @@ export default {
     };
   },
   methods: {
-    submit: function() {
-      //codigoValidacao =  this.$refs.input1
-      //console.log(this.codigoValidacao)
-      var result = "1234"; //Verificar o código e pegar dados do dono da declaração de validação TODO
-
-      if (result === this.codigoValidacao) {
-        var nome = "Jhonattan Cabral";
-        var evento = "Curso de Python";
-        //this.imgVerificacao = "/_nuxt/assets/cert3.png"
-        this.resultadoVerificacao = "Declaração validada com sucesso!";
-        this.dadosDeclaracao =
-          "<br><b>Nome:</b> " + nome + "<br>" + "<b>Evento:</b> " + evento;
-        Swal.fire({
-          icon: "success",
-          title: "Resultado da verificação:",
-          html:
-            "<h4>Declaração validada com sucesso!</h4><br>" +
-            '<p align="left">' +
-            this.dadosDeclaracao +
-            "</p>",
-          confirmButtonColor: "#4DBD74"
+    submitForm() {
+      
+      this.$axios
+        .get(`certificado/validar/${this.codigoValidacao}`)
+        .then(res => {
+          this.resultadoVerificacao = res.data;
+          Swal.fire({
+            icon: "success",
+            title: "Resultado da verificação:",
+            html:"<h4>Declaração validada com sucesso!</h4><br>", 
+            confirmButtonColor: "#4DBD74"
+          });
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Certificado inválido",
+              icon: 'error',
+            })
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            })
+          }  
         });
-      } else if ("cabralitalosamuel" === this.codigoValidacao) {
-        Swal.fire({
-          title: 'Visit the "about" page!',
-          width: 600,
-          padding: "3em",
-          background: "#fff url(/images/trees.png)",
-          backdrop: `
-                rgba(0,0,123,0.4)
-                url("https://i.giphy.com/media/bjE9JbNSckM0w/source.gif")
-                left top
-                no-repeat
-              `
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Resultado da verificação:",
-          html: "<h4>Código inválido!</h4><br>",
-          confirmButtonColor: "#4DBD74"
-        });
-
-        //this.dadosDeclaracao = ""
-        //this.imgVerificacao = "/_nuxt/assets/cancel3.png"
-        //this.resultadoVerificacao = "Código inválido!"
-      }
     }
   }
 };

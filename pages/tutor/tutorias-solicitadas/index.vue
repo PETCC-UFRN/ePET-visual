@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-check-circle px-2"></i>Tutorias marcadas</h2>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias confirmadas</h2>
           </b-col>
         </b-row>
       </template>
@@ -55,11 +55,11 @@
           </nav>
         </div>
         <div v-else>
-          <h5>Nenhuma tutoria marcada</h5> 
+          <h5>Nenhuma tutoria confirmada</h5> 
         </div>
       </div>
     </b-card>
-        <b-card>
+    <b-card>
       <template v-slot:header>
         <b-row>
           <b-col>
@@ -117,6 +117,65 @@
           <h5>Nenhuma tutoria solicitada</h5> 
         </div>
       </div>
+    </b-card>    
+    <b-card>
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h2><i class="fa fa-check-circle px-2"></i>Tutorias concluídas</h2>
+          </b-col>
+        </b-row>
+      </template>
+
+      <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
+        <h4>Carregando...</h4>
+        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+      </div>
+      <div v-else>
+        <div v-if="tutorias.length > 0">
+          
+          <b-table
+            responsive="sm"
+            :items="tutorias"
+            :current-page="currentPage"
+            :bordered="false"
+            striped   
+            :per-page="10"
+            :fields="fields"
+          >
+          <template v-slot:cell(actions)="row">
+             
+             <b-button  @click="row.toggleDetails" class="btn btn-sm btn-info">
+                {{ row.detailsShowing ? 'Esconder' : 'Mostrar'}} email do responsável
+              </b-button>              
+            </template>
+
+            <template v-slot:row-details="row">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
+                  <b-col>{{ row.item.tutoria.petiano.pessoa.usuario.email }}</b-col>
+                </b-row>
+
+              </b-card>
+            </template>
+
+          </b-table>
+          <nav>
+            <b-pagination
+              :total-rows="tutorias.length"
+              :per-page="10"
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
+        </div>
+        <div v-else>
+          <h5>Nenhuma tutoria concluída</h5> 
+        </div>
+      </div>
     </b-card>
   </div>
 </template>
@@ -138,14 +197,14 @@ export default {
       tutoriasInativas: [],
       currentPage: 1,
       fields: [
-        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código" },
         { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
         { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
         { key: "actions", label: "Ações disponíveis"  }
       ],
       fieldsInativa: [
-        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código da disciplina" },
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código" },
         { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
         { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "actions", label: "Ações disponíveis"  }
@@ -167,7 +226,7 @@ export default {
         .catch( err => {
           if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhuma tutoria cadastrada",
+              title: "Nenhuma tutoria confirmada",
               icon: 'info',
             });
           }
@@ -191,7 +250,7 @@ export default {
         .catch( err => {
           if (err.response.status === 404) {
             Swal.fire({
-              title: "Nenhuma tutoria aguardando confirmacao",
+              title: "Nenhuma tutoria solicitada",
               icon: 'info',
             })
             .then( () => this.isLoadingInativas = false );

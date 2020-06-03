@@ -10,6 +10,12 @@
         <span v-else-if="item == 'configuracoes'">
           <nuxt-link :to="`/${item}`">{{"Configurações"}}</nuxt-link>  
         </span>
+        <span v-else-if="item == 'edit'">
+          <nuxt-link :to="`/${item}`">{{"Editar"}}</nuxt-link>  
+        </span>
+        <span v-else-if="item == 'create'">
+          <nuxt-link :to="`/${item}`">{{"Cadastrar"}}</nuxt-link>  
+        </span>
         <span v-else>
           <nuxt-link :to="`/${$route.path.split('/').slice(1).slice(0,index+1).join('/')}`">
           {{item.replace(/^\w/, c => c.toUpperCase()).replace(/-/gi, " ") }} </nuxt-link>  

@@ -6,7 +6,7 @@
       <p style="text-align: justify">
         {{informacoes.sobre}}
       </p>
-      <nuxt-link class="btn btn-success btn-lg mt-3 mb-3" to="/sobre" style="color: white">Saber mais &raquo;</nuxt-link>
+      <nuxt-link class="btn btn-success float-center w-100 btn-lg mt-3 mb-3" to="/sobre" style="color: white">Saber mais &raquo;</nuxt-link>
     </div>
     <div class="col-md-4 mb-5">
       <h2 class="contato">Contato</h2>

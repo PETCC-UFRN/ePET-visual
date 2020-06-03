@@ -63,7 +63,7 @@
           <input type="text" placeholder="Digite o endereço"  class="form-control" v-model="informacoes.endereco" />
         </div>
         <div class="form-group">
-          <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
+          <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar</b-button>
           <b-button to="/tutor/configuracoes" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
         </div>
       </form>
@@ -80,18 +80,16 @@ export default {
   layout: "menu/tutor",
   data: function() {
     return {
-      form: {
-        youtube: "",
-        facebook: "",
-        instagram: "",
-        github: ""
-      },
       informacoes:{
         idInformacao: 1,
         sobre: "",
         telefone: "",
         endereco: "",
-        email: ""
+        email: "",
+        youtube: "",
+        facebook: "",
+        instagram: "",
+        github: ""
       }
     };
   },
@@ -108,7 +106,7 @@ export default {
             title: 'Informações atualizadas',
             icon: 'success'
           }).then( () => {
-            this.$router.push('/petiano/configuracoes')
+            this.$router.push('/tutor/configuracoes')
           })
         })
         .catch(err => {
@@ -116,7 +114,7 @@ export default {
             title: 'Informações não atualizadas',
             icon: 'warning',
           }).then( () => {
-            this.$router.push('/petiano/configuracoes')
+            this.$router.push('/tutor/configuracoes')
           })
         })
     }

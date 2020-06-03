@@ -29,13 +29,13 @@
             <b-col>
               <h4 class="mt-3">Redes Sociais</h4>
               <div>
-                <a class="mr-1" href="https://www.facebook.com/petccufrn/" target="_blank"><i
+                <a class="mr-1" :href="informacoes.facebook" target="_blank"><i
                   class="fab fa-facebook-square"></i></a>
-                <a class="mr-1" href="https://www.instagram.com/petccufrn/" target="_blank"><i
+                <a class="mr-1" :href="informacoes.instagram" target="_blank"><i
                   class="fab fa-instagram-square"></i></a>
-                <a class="mr-1" href="https://github.com/PETCC-UFRN" target="_blank"><i 
+                <a class="mr-1" :href="informacoes.github" target="_blank"><i 
                 class="fab fa-github-square"></i></a>
-                <a href="https://www.youtube.com/channel/UC_1IEMXjN5YMaUFYhcx4JXQ" target="_blank"><i
+                <a :href="informacoes.youtube" target="_blank"><i
                   class="fab fa-youtube-square"></i></a>
 
               </div>
@@ -53,15 +53,29 @@
     </footer>
   </div>
 </template>
+
 <script>
-  export default {
+export default {
     name: 'c-footer',
     data() {
       return {
-        year: new Date().getFullYear()
+        year: new Date().getFullYear(),
+        informacoes: {
+          github:"",
+          youtube:"",
+          facebook:"",
+          instagram:""
+        }
       }
-    }
+    },
+  mounted() {
+    this.$axios
+      .get("informacoes")
+      .then(res => {
+        this.informacoes = res.data;
+      });
   }
+}
 </script>
 
 <style scoped>

@@ -16,13 +16,13 @@
 import BottomBar from "~/components/anonymous/BottomBar";
 export default {
   name: 'c-footer',
+  components :{
+    BottomBar
+  },
   data(){
     return {
       year: new Date().getFullYear()
     }
-  },
-  components :{
-    BottomBar
   }
 }
 </script>

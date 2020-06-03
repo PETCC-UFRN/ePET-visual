@@ -69,7 +69,7 @@
           
           <div class="form-group">
             <b-button type="submit" variant="primary">
-              <i class="fa fa-dot-circle-o"></i> Salvar modificações
+              <i class="fa fa-dot-circle-o"></i> Salvar
             </b-button>
             <b-button href="/tutor/noticias/" variant="danger">
               <i class="fa fa-ban"></i> Cancelar
@@ -87,10 +87,6 @@ import moment from "moment";
 
 export default {
   layout: "menu/tutor",
-  validate({ params }) {
-    // Id da rota deve ser um número
-    return /^\d+$/.test(params.id);
-  },
   data() {
     return {
       form: {
@@ -107,9 +103,9 @@ export default {
   mounted() {
     this.minDate = moment().format('YYYY-MM-DD');
 
-   this.$axios.get("noticia/" + this.$route.params.id)
+   this.$axios.get("pesquisar-noticia/" + this.$route.params.id)
       .then(res => {
-        this.form = res.data;
+        this.form = res.data.content[0];
       })
       .catch(err => {
         Swal.fire({
