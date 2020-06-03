@@ -214,8 +214,8 @@
             ></b-form-textarea>
           </div>
           <div class="form-group">
-            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-            <nuxt-link to="/tutor/eventos/eventos-cadastrados" 
+            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar</b-button>
+            <nuxt-link to="/usuario/eventos-organizados" 
               class="btn btn-danger">
               <i class="fa fa-ban"></i> Cancelar
             </nuxt-link>
@@ -232,7 +232,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 
 export default {
-  layout: "menu/tutor",
+  layout: "menu/usuario",
   validate ({ params }) {
     // Id da rota deve ser um número
     return /^\d+$/.test(params.id)
@@ -298,7 +298,7 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            this.$router.push('/tutor/eventos-abertos');
+            this.$router.push('/usuario/eventos-organizados');
           });
         })
         .catch(err => {
@@ -307,7 +307,7 @@ export default {
             icon: 'error'
           })
           .then( () => {
-            this.$router.push('/tutor/eventos-abertos');
+            this.$router.push('/usuario/eventos-organizados');
           });
         });
     }

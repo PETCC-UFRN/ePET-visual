@@ -46,7 +46,7 @@
                 .NumberFormat([], { style: 'currency', currency: 'BRL'})           
                 .format(form.valor) }}
           </p>
-          <p class="mt-0 mb-1">
+          <p class="mt-2 mb-1">
             <strong>Local do curso:</strong>
             {{form.local}}
           </p>
@@ -54,42 +54,8 @@
             <strong>Descrição:</strong>
             {{form.descricao}}
           </p>
+          
         </div>  
-      </b-card-body>
-    </b-card>
-    <b-card header-tag="header">
-      <template v-slot:header>
-        <b-row>
-          <b-col>
-            <h3>Outras informações</h3>
-          </b-col>
-        </b-row>
-      </template>
-      <b-card-body>
-        <div v-if="isLoading === true" class="d-flex justify-content-center">
-          <h4>Carregando...</h4>
-          <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
-        </div>
-        <div v-else>    
-          <p class="mt-0 mb-1">
-            <strong>Perído de rolagem:</strong>
-            <span v-if="this.form.inicio_rolagem !== ''">{{ this.form.inicio_rolagem | moment }}</span> -
-            <span v-if="this.form.fim_rolagem !== ''">{{ this.form.fim_rolagem | moment}}</span>
-          </p>
-          <p class="mt-0 mb-1">
-            <strong>Quantidade de dias de compensação:</strong>
-            {{form.dias_compensacao}} dia(s)
-          </p>
-          <p class="mt-0 mb-1">
-            <strong>Há anexo para os participantes:</strong>
-            <span v-if="form.participante_anexos === true ">Sim.</span>
-            <span v-else>Não.</span> 
-          </p>
-          <p class="mt-0 mb-0">
-            <strong>Texto de declaração:</strong>
-            {{form.textoDeclaracaoEvento}}
-          </p>
-        </div>
       </b-card-body>
     </b-card>
   </div>
@@ -112,16 +78,11 @@ export default {
         d_inscricao: "",
         d_inscricao_fim: "",
         descricao: "",
-        dias_compensacao: "",
-        fim_rolagem: "",
-        inicio_rolagem: "",
         local: "",
-        participante_anexos: false,
         percentual: 0,
         qtdCargaHoraria: "",
         qtdDias: "",
         qtdVagas: "",
-        textoDeclaracaoEvento: "",
         titulo: "",
         valor: "",
         ativo: false
@@ -139,7 +100,7 @@ export default {
           title: "Houve um problema...",
           text: "Por favor, tente recarregar a página. Caso não dê certo," + 
           " tente novamente mais tarde.",
-          icon: "error",
+          icon: "error"
         })
       });
   },

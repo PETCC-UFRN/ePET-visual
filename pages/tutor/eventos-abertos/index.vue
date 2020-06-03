@@ -154,7 +154,7 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos")
+      this.$axios.get("eventos-abertos-nao-organizo-inativos")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;

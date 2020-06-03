@@ -10,7 +10,7 @@
     </div>
     <div v-else>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
           <div class="row">
             <div class="col-md-12">
               <b-card header-tag="header" footer-tag="footer">
@@ -70,7 +70,7 @@
                   :items="petianosAtuais"
                   :current-page="currentPage"
                   hover="hover"  
-                  responsive="sm-6"
+                  responsive="sm"
                   :per-page="2"
                   :fields="fields"
                 >
@@ -90,7 +90,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <b-card
             header-tag="header"
             footer-tag="footer">
