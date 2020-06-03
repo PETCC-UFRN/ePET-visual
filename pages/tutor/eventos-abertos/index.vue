@@ -46,14 +46,14 @@
           >
             <template  v-slot:cell(actions)="row">
               <b-button
-                class="btn btn-sm btn-teal mt-2"
+                class="btn btn-sm btn-teal mt-1"
                 v-if="row.item.ativo === false"
                 @click.prevent="ativar(row.item.idEvento)"
               >
                 <i class="fa fa-check fa-fw"></i> Ativar
               </b-button>
               <nuxt-link
-                class="btn btn-sm btn-cyan mt-2"
+                class="btn btn-sm btn-cyan mt-1"
                 :to="`/tutor/eventos-abertos/${row.item.idEvento}`"
               ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
 

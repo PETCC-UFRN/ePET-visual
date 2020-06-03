@@ -3,14 +3,14 @@
         <Comum/>
         <div class="container">
 			<br>
-			<h1 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h1>
+			<h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
 			<hr>
 			<div v-if="eventos.length > 0">
 				<b-card-group columns class="cards">
 				<div v-for="evento in eventos" :key="evento.id">
 					<nuxt-link :to="'/eventos/' + evento.idEvento">
 						<b-card>
-							<b-card-title><h3>{{evento.titulo}} </h3></b-card-title>
+							<b-card-title><h5>{{evento.titulo}} </h5></b-card-title>
 							<hr>
 							<b-card-text class="small text-muted">  <em>Postado em 15-10-2018 </em></b-card-text>
 							<b-card-text>
@@ -88,7 +88,7 @@ a {
 	text-decoration: none;
  }
 
-h1 {
+h2 {
   font-weight: 300;
   font-size: 40px;
   text-align: center;
@@ -98,9 +98,6 @@ em{
 }
 h3 {
   font-size: 25px;
-}
-p {
-  font-size: 19px;
 }
 
 hr {

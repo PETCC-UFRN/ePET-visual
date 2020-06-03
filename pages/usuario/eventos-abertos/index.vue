@@ -105,7 +105,7 @@ export default {
             })
             .then(() => this.isLoading = false );
           }  
-      });
+        });
 
     },
     inscrever(idEvento, valor) {

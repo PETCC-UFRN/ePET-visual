@@ -3,7 +3,7 @@
     <Comum/>
     <div class="container">
       <br>
-      <h1 class="mt-3">Sobre o PET-CC</h1>
+      <h1 class="mt-3">Sobre o PET-CC </h1>
       <p class="mt-3 mb-3 ml-5 mr-5 about">
         O Programa de Educação Tutorial (<b>PET</b>) é um projeto nacional, organizado através
         de cursos de graduação das Instituições de Ensino Superior do Brasil. Diante disso,
@@ -89,15 +89,19 @@
       this.getPetianosAtuais();
     },
     methods: {
-      async getPetianosAtuais() {
-        this.$axios.get("petianos-atuais").then(res => {
-          this.petianosAtuais = res.data.content;
-        });
+      getPetianosAtuais() {
+        this.$axios
+          .get("petianos-atuais")
+          .then(res => {
+            this.petianosAtuais = res.data.content;
+          });
       },
-      async getPetianosAntigos() {
-        this.$axios.get("petianos-antigos").then(res => {
-          this.membrosEmeritos = res.data.content;
-        });
+      getPetianosAntigos() {
+        this.$axios
+          .get("petianos-antigos")
+          .then(res => {
+            this.membrosEmeritos = res.data.content;
+          });
       }
     },
     computed: {

@@ -3,23 +3,46 @@
     <Comum/>  
     <div class="container">
      	<br>
-        <h1 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h1>
+        <h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
         <hr>
         <b-row>
-			<b-col cols="9">
+			<b-col>
 				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
 				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
-				<h2>{{evento.titulo}}</h2>
-				<p id="corpo" class="mt-3 mb-3">{{evento.descricao}}</p>
-			</b-col>
-			<b-col class="ml-3">
-				<h3><i class="far fa-calendar-alt"></i>  Outros eventos</h3>
-				<b-card-group deck class="ml-1 mt-3 mr-1">
-					<b-row>
-					</b-row>
-					<b-row class="mt-3">
-					</b-row>  
-				</b-card-group>  
+				<h3>{{evento.titulo}}</h3>
+				<p class="mt-4 mb-1">
+					<strong>Perído de inscrições:</strong>
+					<span v-if="evento.d_inscricao !== ''">{{ this.evento.d_inscricao | moment }}</span> -
+					<span v-if="evento.d_inscricao_fim !== ''">{{ this.evento.d_inscricao_fim | moment}}</span>
+				</p>
+				<p class="mt-0 mb-1">
+					<strong>Perído de realização do evento:</strong>
+					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_inicio | moment }}</span> -
+					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_fim | moment}}</span>
+				</p>
+				<p class="mt-0 mb-1">
+					<strong>Quantidade de dias de evento:</strong>
+					{{evento.qtdDias}} dia(s)
+				</p>
+				<p class="mt-0 mb-1">
+					<strong>Carga horária:</strong>
+					{{evento.qtdCargaHoraria}} hora(s)
+				</p>
+				<p class="mt-0 mb-1">
+					<strong>Total de vagas:</strong>
+					{{evento.qtdVagas}}
+				</p>
+				<p class="mt-0 mb-1">
+					<strong>Valor da inscrição:</strong>
+					{{new Intl
+						.NumberFormat([], { style: 'currency', currency: 'BRL'})           
+						.format(evento.valor) }}
+				</p>
+				<p class="mt-0 mb-4">
+					<strong>Local do curso:</strong>
+					{{evento.local}}
+				</p>
+				<p class="mt-3 mb-5">{{evento.descricao}}</p>
 			</b-col>
 		</b-row>
     </div>
@@ -29,65 +52,35 @@
 
 <script>
 import Comum from "~/components/Comum";
-
+import moment from "moment";
 import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
-    layout: 'index',
-    components: {
-        Comum,
-        BottomBar
-    },
+  layout: 'index',
+  components: {
+      Comum,
+      BottomBar
+  },
 	head () {
 		return {
 			title: 'PET-CC UFRN | Eventos'
 		}
 	},
-  	data() {
+  data() {
 		return {
-            eventos: [
-                {
-					idEvento: 0,
-					titulo: "",
-					descricao: "",
-					local: "",
-					d_inscricao: "",
-					d_inscricao_fim: "",
-					ativo: true,
-					participante_anexos: false,
-					qtdVagas: 0,
-					qtdCargaHoraria: 0,
-					qtdDias: 0,
-					valor: 0.0																																																																																																					
-                },
-                {
-					idEvento: 0,
-					titulo: "",
-					descricao: "",
-					local: "",
-					d_inscricao: "",
-					d_inscricao_fim: "",
-					ativo: true,
-					participante_anexos: false,
-					qtdVagas: 0,
-					qtdCargaHoraria: 0,
-					qtdDias: 0,
-					valor: 0.0
-                }
-            ],
-            evento: {
+      evento: {
 				idEvento: 0,
-				titulo: "",
-				descricao: "",
-				local: "",
+				d_evento_fim: "",
+				d_evento_inicio: "",
 				d_inscricao: "",
 				d_inscricao_fim: "",
-				ativo: true,
-				participante_anexos: false,
-				qtdVagas: 0,
-				qtdCargaHoraria: 0,
-				qtdDias: 0,
-				valor: 0.0
+				descricao: "",
+				local: "",
+				qtdCargaHoraria: "",
+				qtdDias: "",
+				qtdVagas: "",
+				titulo: "",
+				valor: "", 
 			},
 			mainProps: { width: 425, height: 200},
 			mesNomes: [
@@ -104,16 +97,20 @@ export default {
 				"NOVEMBRO",
 				"DEZEMBRO"
 			]
-    	}
+    }
 	},
 	mounted(){
-		this.$axios.get('eventos/'+ this.$route.params.id).then((res) => {
-			this.evento = res.data;
-		});
-		this.$axios.get("eventos").then(res => {
-		this.eventos = res.data;
-		});
+		this.$axios
+			.get('eventos-abertos/'+ this.$route.params.id)
+			.then((res) => {
+				this.evento = res.data;
+			});
 	},
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
 	computed: {
 		mes() {
 			if (this.evento.d_inscricao != null) {
@@ -123,9 +120,6 @@ export default {
 			}
 			return "";
 		},
-		outrosEventos() {
-			return this.eventos.filter(evento => evento.idEvento != this.evento.idEvento).slice(0,2);
-		}
 	},
 	methods: {
 		mesF(value) {
@@ -139,24 +133,18 @@ export default {
 
 <style scoped>
 
-a { 
-	color: #000000; 
-}
-
-h1 {
-  font-weight: bold;
-  font-size: 40px;
-}
 
 h2 {
+  font-weight: 300;
   font-size: 32px;
 }
 
 h3 {
+  font-weight: 300;
   font-size: 25px;
 }
-#corpo{
-  font-size: 19px;
+div p {
+  font-size: 17px;
 }
 
 hr {

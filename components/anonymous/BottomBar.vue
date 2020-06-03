@@ -29,13 +29,13 @@
             <b-col>
               <h4 class="mt-3">Redes Sociais</h4>
               <div>
-                <a class="mr-1" :href="facebook" target="_blank"><i
+                <a class="mr-1" :href="informacoes.facebook" target="_blank"><i
                   class="fab fa-facebook-square"></i></a>
-                <a class="mr-1" :href="instagram" target="_blank"><i
+                <a class="mr-1" :href="informacoes.instagram" target="_blank"><i
                   class="fab fa-instagram-square"></i></a>
-                <a class="mr-1" :href="github" target="_blank"><i 
+                <a class="mr-1" :href="informacoes.github" target="_blank"><i 
                 class="fab fa-github-square"></i></a>
-                <a :href="youtube" target="_blank"><i
+                <a :href="informacoes.youtube" target="_blank"><i
                   class="fab fa-youtube-square"></i></a>
 
               </div>
