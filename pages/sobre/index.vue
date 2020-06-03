@@ -12,19 +12,32 @@
         nosso grupo é composto por <i>12</i> bolsistas e até <i>6</i> voluntários.
       </p>
       <hr>
+      <h2 class="mt-3 mb-5"><i class="fas fa-user"></i> Tutor</h2>
+      <div class="mt-5 mb-3 ml-5 mr-5" v-if="tutor.lenght != 0">
+        <b-row class="mx-auto" align-h="center">
+          <div v-for="petiano in tutor" :key="petiano.id">
+            <b-col class="mt-2 mb-4 ml-2 mr-2">
+              <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+              </b-avatar>
+              <b-row class="mt-2" align-h="center">
+                <p style="text-align: justify">{{petiano.pessoa.nome }}</p>
+              </b-row>
+            </b-col>
+          </div>
+        </b-row>
+      </div>
+      <hr>
       <h2 class="mt-3 mb-5"><i class="fas fa-users"></i> Membros ativos</h2>
       <div class="mt-5 mb-2 ml-5 mr-5" v-if="membrosAtivos.length > 0">
         <b-row class="mx-auto" align-h="center">
           <div v-for="petiano in membrosAtivos" :key="petiano.id">
-            <nuxt-link style="text-decoration:none" :to="`/sobre/${petiano.idPetiano}`">
-              <b-col class="mt-2 mb-4 ml-2 mr-2">
-                <b-img rounded alt="Rounded image" v-bind="mainProps" fluid
-                       src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4"></b-img>
-                <b-row class="mt-2" align-h="center">
-                  <p style="text-align: justify">{{petiano.pessoa.nome }}</p>
-                </b-row>
-              </b-col>
-            </nuxt-link>
+            <b-col class="mt-2 mb-4 ml-2 mr-2">
+              <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+              </b-avatar>
+              <b-row class="mt-2" align-h="center">
+                <p style="text-align: justify">{{petiano.pessoa.nome }}</p>
+              </b-row>
+            </b-col>
           </div>
         </b-row>
       </div>
@@ -33,20 +46,18 @@
       <div class="mt-5 mb-2 ml-5 mr-5" v-if="membrosEmeritos.length > 0">
         <b-row class="mx-auto" align-h="center">
           <div v-for="petiano in membrosEmeritos" :key="petiano.id">
-            <nuxt-link style="text-decoration:none" :to="`/sobre/${petiano.idPetiano}`">
-              <b-col class="mt-2 mb-4 ml-2 mr-2">
-                <b-img rounded alt="Rounded image" v-bind="mainProps" fluid
-                       src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4"></b-img>
-                <b-row class="mt-2" align-h="center">
-                  <p style="text-align: justify">{{petiano.pessoa.nome }}</p>
-                </b-row>
-              </b-col>
-            </nuxt-link>
+            <b-col class="mt-2 mb-4 ml-2 mr-2">
+              <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+              </b-avatar>
+              <b-row class="mt-2" align-h="center">
+                <p style="text-align: justify">{{petiano.pessoa.nome }}</p>
+              </b-row>
+            </b-col>
           </div>
         </b-row>
       </div>
       <div v-else class="mt-3 mb-5">
-        <h4  style="text-align: center" >Nenhum membro emérito cadastrado</h4>
+        <h4 style="text-align: center" >Nenhum membro emérito cadastrado</h4>
       </div>
     </div>
     <BottomBar/>
@@ -127,7 +138,7 @@
 
   h2 {
     text-align: center;
-    font-weight: bold;
+    font-weight: 300;
     font-size: 36px;
   }
 
@@ -146,7 +157,8 @@
   }
 
   p {
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 300;
   }
 
   hr {

@@ -101,11 +101,11 @@ ul {
   list-style: none;
   padding-left: 10px;
 }
-p {
-  font-size: 15px;
+p, a {
+  font-size: 17px;
 }
 strong {
-  font-size: 16px;
+  font-size: 19px;
 }
 h3, h4 {
   font-weight: 300;

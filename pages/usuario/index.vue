@@ -103,7 +103,7 @@
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
                     <small class="text-muted">{{noticia.inicio_exibicao | moment}}</small>
                   </div>
-                  <p class="mb-1">{{noticia.corpo}}</p>
+                  <p class="mb-1">{{noticia.corpo | cortarCorpo}}</p>
                   <small class="text-muted">
                     <em>Postado por {{noticia.petiano.pessoa.nome}}</em>
                   </small>
@@ -176,6 +176,9 @@ export default {
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
+    },
+    cortarCorpo(mensagem) {
+      return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
     }
   },
   computed: {

@@ -104,6 +104,14 @@ export default {
       currentPage: 1,
       fields: [
         { key: "nome", sortable: true },
+        {
+          key: "tipo_usuario",
+          sortable: true,
+          label: "Tipo de usuário",
+          formatter: value => {
+            return value.nome;
+          }
+        },
         { key: "cpf", sortable: false, label: "CPF",
           formatter: value => {
             if (value != null)
@@ -111,14 +119,6 @@ export default {
                 3,
                 6
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
-          }
-        },
-        {
-          key: "tipo_usuario",
-          sortable: true,
-          label: "Tipo de usuário",
-          formatter: value => {
-            return value.nome;
           }
         },
         {
