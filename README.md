@@ -52,10 +52,11 @@ $ npm run build
 $ npm start
 ```
 ## Referências
-- [Nuxt.js - Documentação](https://nuxtjs.org/guide)
-- [CoreUI - Demo](https://nuxt-coreui.netlify.app/)
-- [CoreUI - Repositório no Github](https://github.com/muhibbudins/nuxt-coreui)
-- [BootstrapVue - Documentação](https://bootstrap-vue.org/docs)
+- [Nuxt.js - Documentação (Inglês)](https://nuxtjs.org/guide)
+- [Nuxt.js - Overview (Português) ](https://www.youtube.com/watch?v=6hDsWDKZ9oE)
+- [CoreUI - Demo (Inglês)](https://nuxt-coreui.netlify.app/)
+- [CoreUI - Repositório no Github (Inglês)](https://github.com/muhibbudins/nuxt-coreui)
+- [BootstrapVue - Documentação (Inglês)](https://bootstrap-vue.org/docs)
 
 
 ## Contribuidores
