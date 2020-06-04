@@ -1,31 +1,5 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">
-        <b-row>
-          <b-col>
-            <h3>
-              <i class="fa fa-edit"></i> Cadastrar participante
-            </h3>
-          </b-col>
-        </b-row>
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="exampleFormControlInput1">
-            <h5>Usuário</h5>
-          </label>
-          <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
-        </div>
-        <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <b-button block type="submit" variant="success">
-              <i class="fa fa-check"></i> Confirmar cadastrado de participante
-            </b-button>
-          </div>
-        </form>
-      </div>
-    </div>
     <b-card>
       <template v-slot:header>
         <b-row>
@@ -63,32 +37,6 @@
             pills
             :fields="fields"
           >
-            <template v-slot:cell(confirmado)="row">
-              <div class="form-check">
-                <b-form-checkbox size="lg" v-model="row.item.confirmado" disabled></b-form-checkbox>
-              </div>
-            </template>
-            <template v-slot:cell(espera)="row">
-              <div class="form-check">
-                <b-form-checkbox size="lg" v-model="row.item.espera" disabled></b-form-checkbox>
-              </div>
-            </template>
-
-            <template v-slot:cell(actions)="row">
-              <b-button
-                @click="confirmar(row.item.idParticipantes)"
-                class="btn btn-sm btn-success"
-                v-if="row.item.confirmado === false"
-              >
-                <i class="fa fa-check" aria-hidden="true"></i> Confirmar
-              </b-button>
-              <b-button
-                @click="del(row.item.idParticipantes, row.index)"
-                class="btn btn-sm btn-danger"
-              >
-                <i class="fa fa-trash-o fa-fw"></i> Remover
-              </b-button>
-            </template>
           </b-table>
           <nav>
             <b-pagination
@@ -112,14 +60,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import PessoasSelect from "~/components/selects/PessoasSelect";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components: {
-    "v-pessoas": PessoasSelect
-  },
   data() {
     return {
       form: {
@@ -144,7 +88,6 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },
@@ -184,69 +127,7 @@ export default {
           }
         });
     },
-    submitForm(e) {
-      e.preventDefault();
-      this.$axios
-        .post(
-          `participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
-        )
-        .then(res => {
-          Swal.fire({
-            title: "Participante cadastrado",
-            icon: "success"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-            this.consumirParticipantesApi();
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Participante não cadastrado",
-            icon: "error"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-          });
-        });
-    },
-    del(id, rowId) {
-      this.$axios
-        .delete("participantes-remove/" + id)
-        .then(() => {
-          Swal.fire({
-            title: "Participante removido",
-            icon: "success"
-          }).then(() => {
-            this.participantes.splice(rowId, 1);
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            title: "Participante não removido",
-            icon: "error"
-          });
-        });
-    },
-    confirmar(id) {
-      this.$axios.post(`participantes-confirmar/${id}`).then(() => {
-        Swal.fire({
-          title: "Participante confirmado",
-          icon: "success"
-        })
-          .then(() => {
-            this.consumirParticipantesApi();
-          })
-          .catch(() => {
-            Swal.fire({
-              title: "Participante não confirmado",
-              icon: "error"
-            });
-          });
-      });
-    }
+    
   }
 };
 </script>

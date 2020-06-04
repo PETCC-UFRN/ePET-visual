@@ -15,14 +15,15 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Nuxt CoreUI',
+    title: 'ePET',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Unofficial Nuxt + CoreUI project, free to use boilerplate for every need.' }
+      { hid: 'description', name: 'description', content: 'Plataforma do PET-CC UFRN' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
 
@@ -59,6 +60,7 @@ module.exports = {
   */
   plugins: [
     '~/plugins/axios.js',
+    { src: '~/plugins/vcalendar.js', ssr: false },
   ],
 
   /*
@@ -103,6 +105,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    // transpile: ['vcalendar'],
     extractCSS: true,
     /*
     ** You can extend webpack config here

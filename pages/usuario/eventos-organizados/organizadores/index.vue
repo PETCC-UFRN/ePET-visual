@@ -1,32 +1,5 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">
-        <b-row>
-          <b-col>
-            <h3>
-              <i class="fa fa-edit"></i> Cadastrar organizador
-            </h3>
-          </b-col>
-        </b-row>
-      </div>
-      <div class="card-body">
-        <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">
-              <h5>Participante</h5>
-            </label>
-            
-            <v-pessoas label="nome" :idEvento="this.$route.query.idEvento" v-model="form.pessoa"></v-pessoas>
-          </div>
-          <div class="form-group">
-            <b-button block type="submit" variant="success">
-              <i class="fa fa-check"></i> Confirmar cadastrado de organizador
-            </b-button>
-          </div>
-        </form>
-      </div>
-    </div>
     <b-card>
       <template v-slot:header>
         <b-row>
@@ -64,14 +37,6 @@
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(actions)="row">
-              <b-button
-                @click="del(row.item.idOrganizadores, row.index)"
-                class="btn btn-sm btn-danger"
-              >
-                <i class="fa fa-trash-o fa-fw"></i> Remover
-              </b-button>
-            </template>
           </b-table>
           <nav>
             <b-pagination
@@ -95,14 +60,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import ParticipantesSelect from "~/components/selects/ParticipantesSelect";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
-  components: {
-    "v-pessoas": ParticipantesSelect
-  },
   data() {
     return {
       form: {
@@ -127,7 +88,6 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        { key: "actions",  label: "Ações disponíveis" }
       ]
     };
   },
@@ -169,52 +129,6 @@ export default {
               icon: "error"
             });
           }
-        });
-    },
-    del(id, rowId) {
-      this.$axios
-        .delete("organizadores-remove/" + id)
-        .then(() => {
-          Swal.fire({
-            title: "Organizador removido",
-            icon: "success"
-          }).then(() => {
-            this.organizadores.splice(rowId, 1);
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Organizador não removido",
-            icon: "error"
-          });
-        });
-    },
-    submitForm(e) {
-      e.preventDefault();
-      this.$axios
-        .post(
-          `organizadores-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
-        )
-        .then(res => {
-          Swal.fire({
-            title: "Organizador cadastrado",
-            icon: "success"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-            this.consumirOrganizadoresApi();
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Organizador não cadastrado",
-            icon: "error"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-          });
         });
     }
   }

@@ -14,7 +14,7 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="exampleFormControlInput1">
-              <h5>Participante</h5>
+              <h5>Nome</h5>
             </label>
             
             <v-pessoas label="nome" :idEvento="this.$route.query.idEvento" v-model="form.pessoa"></v-pessoas>

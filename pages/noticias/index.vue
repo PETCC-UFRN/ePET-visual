@@ -15,10 +15,7 @@
                 </b-card-text>
                 <hr>
                 <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
-                <b-card-text>This card has supporting text below as a natural lead-in to additional content.
-                </b-card-text>
-                <b-card-text class="small text-muted"><em>Publicado por {{noticia.petiano.pessoa.nome}} </em>
-                </b-card-text>
+                <b-card-text> {{noticia.corpo | cortarCorpo }} </b-card-text>
               </b-card>
             </nuxt-link>
           </div>
@@ -34,52 +31,57 @@
 </template>
 
 <script>
-  import Comum from "~/components/Comum";
-  import BottomBar from "~/components/anonymous/BottomBar";
+import Comum from "~/components/Comum";
+import BottomBar from "~/components/anonymous/BottomBar";
 
-  export default {
-    layout: 'index',
-    components: {
-      Comum,
-      BottomBar
-    },
-    head() {
-      return {
-        title: 'PET-CC UFRN | Notícias'
-      }
-    },
-    data() {
-      return {
-        noticias: [],
-        mesNomes: [
-          "JANEIRO",
-          "FEVEREIRO",
-          "MARÇO",
-          "ABRIL",
-          "MAIO",
-          "JUNHO",
-          "JULHO",
-          "AGOSTO",
-          "SETEMBRO",
-          "OUTUBRO",
-          "NOVEMBRO",
-          "DEZEMBRO"]
-      };
-    },
-    mounted() {
-      this.$axios
-        .get("noticias-atuais")
-        .then(res => {
-          this.noticias = res.data.content;
-        });
-    },
-    methods: {
-      mes(value) {
-        if (value != null)
-          return this.mesNomes[parseInt(value, 10)];
-      }
+export default {
+  layout: 'index',
+  components: {
+    Comum,
+    BottomBar
+  },
+  head() {
+    return {
+      title: 'PET-CC UFRN | Notícias'
+    }
+  },
+  data() {
+    return {
+      noticias: [],
+      mesNomes: [
+        "JANEIRO",
+        "FEVEREIRO",
+        "MARÇO",
+        "ABRIL",
+        "MAIO",
+        "JUNHO",
+        "JULHO",
+        "AGOSTO",
+        "SETEMBRO",
+        "OUTUBRO",
+        "NOVEMBRO",
+        "DEZEMBRO"]
+    };
+  },
+  mounted() {
+    this.$axios
+      .get("noticias-atuais")
+      .then(res => {
+        this.noticias = res.data.content;
+      });
+  },
+  filters: {
+    cortarCorpo(mensagem) {
+      return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    }
+  },
+  methods: {
+    mes(value) {
+      if (value != null)
+        return this.mesNomes[parseInt(value, 10)];
     }
   }
+}
 </script>
 
 <style scoped>
