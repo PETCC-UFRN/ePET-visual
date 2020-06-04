@@ -54,6 +54,9 @@ $ npm start
 ## Referências
 - [Nuxt.js - Documentação (Inglês)](https://nuxtjs.org/guide)
 - [Nuxt.js - Overview (Português) ](https://www.youtube.com/watch?v=6hDsWDKZ9oE)
+- [Nuxt.js - Curso gratuito (Inglês)](https://vueschool.io/courses/nuxtjs-fundamentals)
+- [Nuxt.js - Página oficial de links relacionados (Inglês)](https://github.com/nuxt-community/awesome-nuxt)
+- [Nuxt.js - Guia prático (Inglês)](https://medium.com/@onlykiosk/the-complete-nuxt-guide-940751e1a6a5)
 - [CoreUI - Demo (Inglês)](https://nuxt-coreui.netlify.app/)
 - [CoreUI - Repositório no Github (Inglês)](https://github.com/muhibbudins/nuxt-coreui)
 - [BootstrapVue - Documentação (Inglês)](https://bootstrap-vue.org/docs)
