@@ -9,7 +9,7 @@
           <b-col>
           <nuxt-link
             class="btn btn-sm btn-warning float-right mt-4"
-            to="/tutor/configuracoes/edit" 
+            to="/petiano/configuracoes/edit" 
           ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
           </b-col>
         </b-row>
@@ -101,11 +101,11 @@ ul {
   list-style: none;
   padding-left: 10px;
 }
-p {
-  font-size: 15px;
+p, a {
+  font-size: 17px;
 }
 strong {
-  font-size: 16px;
+  font-size: 19px;
 }
 h3, h4 {
   font-weight: 300;

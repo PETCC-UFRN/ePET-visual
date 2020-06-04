@@ -4,14 +4,7 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h2><i class="fa fa-edit"></i> Cadastrar evento</h2>
-          </b-col>
-          <b-col>
-            <div class="card-actions">
-              <nuxt-link  to="/petiano/eventos-abertos" class="btn btn-close btn-lg">
-                <i class="icon-close"></i>
-              </nuxt-link>
-            </div>
+            <h2><i class="fa fa-edit"></i> Editando evento</h2>
           </b-col>
         </b-row>
       </div>
@@ -215,14 +208,10 @@
             ></b-form-textarea>
           </div>
           <div class="form-group">
-            <b-form-checkbox
-              v-model="form.ativo"
-            > Eu quero ativar o evento durante a criação. 
-            </b-form-checkbox>
-          </div>
-          <div class="form-group">
-            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Enviar</b-button>
-            <b-button type="reset" variant="danger"><i class="fa fa-ban"></i> Limpar</b-button>
+            <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar</b-button>
+            <nuxt-link to="/tutor/eventos-organizados" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Cancelar
+            </nuxt-link>
           </div>
         </form>
       </div>
@@ -236,7 +225,11 @@ import Swal from "sweetalert2";
 import moment from "moment";
 
 export default {
-  layout: "menu/petiano",
+  layout: "menu/tutor",
+  validate ({ params }) {
+    // Id da rota deve ser um número
+    return /^\d+$/.test(params.id)
+  },
   data() {
     return {
       form: {
@@ -261,16 +254,23 @@ export default {
       minDate: null
     };
   },
-  mounted() {
+  mounted(){
     this.minDate = moment().format("YYYY-MM-DD");
+    
+    this.$axios
+      .get('eventos/'+ this.$route.params.id)
+      .then((res) => {
+        this.form = res.data;
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Evento não atualizado',
+          icon: 'error'
+        })
+      });
+  
   },
   computed: {
-    disabledDataRolagemInicio() {
-      return this.form.d_inscricao_fim === ''
-    },
-    disabledDataEventoInicio(){
-      return this.form.fim_rolagem === ''; 
-    },
     disabledDataRolagem() {
       return this.form.inicio_rolagem === ''; 
     },
@@ -286,42 +286,22 @@ export default {
       this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           Swal.fire({
-            title: 'Evento cadastrado',
+            title: 'Evento atualizado',
             icon: 'success',
           })
           .then( () => {
-            this.$router.push('/petiano/eventos-abertos');
+            this.$router.push('/tutor/eventos-organizados');
           });
         })
         .catch(err => {
           Swal.fire({
-            title: 'Evento não cadastrado',
+            title: 'Evento não atualizado',
             icon: 'error'
           })
           .then( () => {
-            this.$router.push('/petiano/eventos-abertos');
+            this.$router.push('/tutor/eventos-organizados');
           });
         });
-    },
-    onReset(evt) {
-      evt.preventDefault()      
-      this.d_evento_fim = "";
-      this.d_evento_inicio = "";
-      this.d_inscricao = "";
-      this.d_inscricao_fim = "";
-      this.descricao = "";
-      this.dias_compensacao = 0;
-      this.fim_rolagem = "";
-      this.inicio_rolagem = "";
-      this.local = "";
-      this.participante_anexos = false;
-      this.qtdCargaHoraria = 0;
-      this.qtdDias = 0;
-      this.qtdVagas = 0;
-      this.textoDeclaracaoEvento = "";
-      this.titulo = "";
-      this.valor = 0;
-      this.ativo = false;
     }
   }
 };

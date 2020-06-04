@@ -47,7 +47,7 @@
                 Detalhes</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-1"
-                :to="`/tutor/eventos-abertos/edit/${row.item.idEvento}`"              
+                :to="`/tutor/eventos-organizados/edit/${row.item.evento.idEvento}`"              
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
                 @click.prevent="del(row.item.idEvento, row.index)"

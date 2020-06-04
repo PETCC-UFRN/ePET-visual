@@ -41,8 +41,11 @@
 				<p class="mt-0 mb-4">
 					<strong>Local do curso:</strong>
 					{{evento.local}}
-				</p>
-				<p class="mt-3 mb-5">{{evento.descricao}}</p>
+				</p><p class="mt-3 mb-2">{{evento.descricao}}</p>
+				<p class="mt-3 mb-5"><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
+				a plataforma de gerenciamento de eventos e tutorias do PET-CC, o ePET. Caso não possua ainda cadastro,
+				é possível realizar o cadastro nessa <nuxt-link to="/register">página web</nuxt-link>. Porém, caso já tenha, 
+				faça login através dessa outra <nuxt-link to="/login">página web</nuxt-link>.</p>
 			</b-col>
 		</b-row>
     </div>
@@ -133,6 +136,9 @@ export default {
 
 <style scoped>
 
+a {
+	color: blue;
+}
 
 h2 {
   font-weight: 300;

@@ -44,33 +44,11 @@
             :per-page="20"
             :fields="fields"
           >
-            <template v-slot:cell(pages)="row">
-              <nuxt-link
-                :to="`/petiano/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm btn-teal"
-                style="color: white"
-              ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
-              <b-button
-                :to="`/petiano/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm mt-2"
-                variant="secondary"
-              ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
-            </template>
             <template  v-slot:cell(actions)="row">
               <nuxt-link
                 class="btn btn-sm btn-cyan mt-2"
                 :to="`/petiano/eventos-abertos/${row.item.idEvento}`"
               ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
-              <nuxt-link
-                class="btn btn-sm btn-warning mt-2"
-                :to="`/petiano/eventos-abertos/edit/${row.item.idEvento}`"
-              ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
-              <b-button
-                @click.prevent="del(row.item.idEvento, row.index)"
-                class="btn btn-sm btn-danger mt-2"
-              >
-                <i class="fa fa-trash-o fa-fw"></i> Remover
-              </b-button>
               
               <b-button
                   @click.prevent="inscrever(row.item.idEvento, row.item.valor)"
@@ -123,7 +101,6 @@ export default {
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "pages", label: "Páginas disponíveis"  },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };
@@ -170,7 +147,7 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos")
+      this.$axios.get("eventos-abertos-nao-organizo-ativos")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
@@ -249,31 +226,6 @@ export default {
               icon: 'error',
             });
           }  
-        });
-    },
-    del(id, rowId) {
-      this.$axios.delete(`eventos-remove/${id}`)
-        .then( () => {
-          Swal.fire({
-            title: 'Evento removido',
-            icon: 'success',
-          })
-          .then( () => this.consumindoEventosApi() );
-        })
-        .catch(err => {
-          if (err.response.status === 500) {
-            Swal.fire({
-              title: 'Evento não removido',
-              text: 'Não é possível remover eventos com participantes ou organizadores, remova-os antes.',
-              icon: 'error'
-            })
-          }
-          else {
-            Swal.fire({
-              title: 'Evento não removido',
-              icon: 'error'
-            })
-          }
         });
     }
   }

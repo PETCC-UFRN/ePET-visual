@@ -154,7 +154,7 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos")
+      this.$axios.get("eventos-abertos-nao-organizo-inativos")
         .then(res => {
           console.log(res.data.content.length);
           console.log(res.data.totalElements);

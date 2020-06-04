@@ -26,8 +26,7 @@
 
         <b-form-group for="nome" label="Nome completo">
           <b-form-input id="nome" v-model="form.pessoa.nome" required></b-form-input>
-          <b-form-text
-            id="password-help-block"
+          <b-form-text id="password-help-block"
           >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
         </b-form-group>
         
@@ -48,7 +47,7 @@
         </b-form-group>
 
         <b-button class="float-left  w-25" type="submit" variant="primary">Atualizar</b-button>
-        <b-button class="float-right w-25" type="reset" variant="danger">Resetar</b-button>
+        <b-button class="float-right w-25" type="reset" variant="danger">Limpar</b-button>
       </b-form>
     </div>
     

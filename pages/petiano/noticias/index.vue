@@ -110,7 +110,7 @@ export default {
         {
           key: "limite_exibicao",
           sortable: true,
-          label: "Início de exibição",
+          label: "Fim de exibição",
           formatter: value => {
             if (value != null) return moment(value).format("DD/MM/Y");
           }

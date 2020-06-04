@@ -1,53 +1,61 @@
 <template>
-  <div>
-    <b-card
-      v-if="loaded"
-      header-tag="header"
-      :title="evento.titulo"
-    >
-    		<template v-slot:header>
+  <div class="col-md-12">
+
+    <b-card>
+      <template v-slot:header>
         <b-row>
           <b-col>
-            <h2>Informações</h2>
+            <h3>Informações públicas</h3>
           </b-col>
         </b-row>
-			</template>
+      </template>
       <b-card-body>
-        <div>
-          <p class="mt-0 mb-1">
-            <strong>Local do curso:</strong>
-            {{evento.local}}
-          </p>
-          <p class="mt-0 mb-1">
+        <div v-if="isLoading === true" class="d-flex justify-content-center">
+          <h4>Carregando...</h4>
+          <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        </div>
+        <div v-else>
+          <spain class="mt-0 mb-2">
+            <h5>Título:</h5> <h6> {{form.titulo}}</h6>
+          </spain>
+          <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
-            <span v-if="evento.d_inscricao !== ''">{{ this.evento.d_inscricao | moment }}</span> -
-            <span v-if="evento.d_inscricao_fim !== ''">{{ this.evento.d_inscricao_fim | moment}}</span>
+            <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
+            <span v-if="form.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_inicio | moment }}</span> -
-            <span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_fim | moment}}</span>
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
-            {{evento.qtdDias}} dia(s)
+            {{form.qtdDias}} dia(s)
           </p>
           <p class="mt-0 mb-1">
             <strong>Carga horária:</strong>
-            {{evento.qtdCargaHoraria}} hora(s)
+            {{form.qtdCargaHoraria}} hora(s)
           </p>
           <p class="mt-0 mb-1">
             <strong>Total de vagas:</strong>
-            {{evento.qtdVagas}}
+            {{form.qtdVagas}}
           </p>
-          <p class="mt-0 mb-4">
+          <p class="mt-0 mb-1">
             <strong>Valor da inscrição:</strong>
             {{new Intl
                 .NumberFormat([], { style: 'currency', currency: 'BRL'})           
-                .format(evento.valor) }}
+                .format(form.valor) }}
           </p>
-        </div>
-        <span  v-html="evento.descricao"></span>
+          <p class="mt-2 mb-1">
+            <strong>Local do curso:</strong>
+            {{form.local}}
+          </p>
+          <p class="mt-3 mb-2">
+            <strong>Descrição:</strong>
+            {{form.descricao}}
+          </p>
+          
+        </div>  
       </b-card-body>
     </b-card>
   </div>
@@ -58,68 +66,68 @@
 import Swal from "sweetalert2";
 import moment from "moment";
 
-
 export default {
-  name: "dashboard",
   layout: "menu/usuario",
   data() {
-    return { 
-      evento: {
-       idEvento: 0,
+    return {
+      isLoading: true,
+      form: {
+        idEvento: 0,
         d_evento_fim: "",
         d_evento_inicio: "",
         d_inscricao: "",
         d_inscricao_fim: "",
         descricao: "",
         local: "",
+        percentual: 0,
         qtdCargaHoraria: "",
         qtdDias: "",
         qtdVagas: "",
         titulo: "",
-        valor: "",      
-      }, 
-      loaded: false 
+        valor: "",
+        ativo: false
+      }
     };
+  },
+  mounted() {
+   this.$axios.get(`eventos/${this.$route.params.id}`)
+      .then(res => {
+        this.form = res.data;
+        this.isLoading = false;
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
+      });
   },
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
     }
-  },
-  mounted() {
-    this.$axios
-      .get("eventos/" + this.$route.params.id)
-      .then(res => {
-        this.evento = res.data;
-        this.loaded = true;
-      })
-      .catch( err => {
-        if (err.response.status === 500) {
-          Swal.fire({
-            title: "Nenhum evento aberto",
-            icon: 'info',
-          })
-        }
-        else {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: 'error',
-          })
-        }  
-      });
-
   }
 };
 </script>
 
-
 <style scoped>
-h2, h4, h6 {
+ul {
+  list-style: none;
+  padding-left: 10px;
+}
+p {
+  font-size: 15px;
+}
+strong {
+  font-size: 16px;
+}
+h3, h4 {
   font-weight: 300;
 }
-h6 {
-  font-size: 80%;
+h5, h6 {
+  display: inline;
+  font-size: 18px;
 }
 </style>

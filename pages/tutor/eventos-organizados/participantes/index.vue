@@ -13,7 +13,7 @@
       <div class="card-body">
         <div class="form-group">
           <label for="exampleFormControlInput1">
-            <h5>Pessoa:</h5>
+            <h5>Nome</h5>
           </label>
           <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
         </div>
@@ -253,11 +253,13 @@ export default {
 
 <style scoped>
 
-h2, h4 {
-  text-align: center;
+h3, h4 {
   font-weight: 300;
 }
 
+h4 {
+  text-align: center;
+}
 strong {
   font-size: 18px;
 }

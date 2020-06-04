@@ -64,12 +64,51 @@
       <template v-slot:footer>
         <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
          @click.prevent="gerarCertificado()" block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
+          <i class="fa fa-certificate mr-1"></i>Emitir certificado de organização
         </b-button>
         <b-tooltip target="tooltip-target-1" triggers="hover">
           <strong>{{form.evento.percentual}}%</strong> concluído
         </b-tooltip>
       </template>
+    </b-card>
+    <b-card header-tag="header">
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h3>Outras informações</h3>
+          </b-col>
+        </b-row>
+      </template>
+      <b-card-body>
+        <div v-if="isLoading === true" class="d-flex justify-content-center">
+          <h4>Carregando...</h4>
+          <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        </div>
+        <div v-else>    
+          <p class="mt-0 mb-1">
+            <strong>Perído de rolagem:</strong>
+            <span v-if="this.form.inicio_rolagem !== ''">{{ this.form.inicio_rolagem | moment }}</span> -
+            <span v-if="this.form.fim_rolagem !== ''">{{ this.form.fim_rolagem | moment}}</span>
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Quantidade de dias de compensação:</strong>
+            {{form.evento.dias_compensacao}} dia(s)
+          </p>
+          <p class="mt-0 mb-1">
+            <strong>Há anexo para os participantes:</strong>
+            <span v-if="form.participante_anexos === true ">Sim.</span>
+            <span v-else>Não.</span> 
+          </p>
+          <p class="mt-3 mb-2">
+            <strong>Texto de declaração do participante:</strong>
+            {{form.evento.textoDeclaracaoEvento}}
+          </p>
+          <p class="mt-2 mb-1">
+            <strong>Texto de declaração do organizador:</strong>
+            {{form.evento.textoDeclaracaoEventoOrganizador}}
+          </p>
+        </div>
+      </b-card-body>
     </b-card>
   </div>
 </template>
@@ -105,7 +144,8 @@ export default {
           qtdCargaHoraria: 2, 
           qtdDias: 5, 
           valor: 0, 
-          textoDeclaracaoEvento: "" 
+          textoDeclaracaoEvento: "", 
+          textoDeclaracaoEventoOrganizador: "" 
         }, 
         data_maxima: "", 
         confirmado: true, 

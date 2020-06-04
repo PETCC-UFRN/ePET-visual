@@ -16,7 +16,7 @@
             <b-col cols="4">
               <div class="form-group">
                 <label for="codigo">
-                  <strong>Código:</strong>
+                  <strong>Código</strong>
                 </label>
                 <the-mask
                   id="codigo"
@@ -32,7 +32,7 @@
             <b-col>
               <div class="form-group">
                 <label for="nome">
-                  <strong>Nome:</strong>
+                  <strong>Nome</strong>
                 </label>
                 <input
                   id="nome"

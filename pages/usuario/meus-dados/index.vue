@@ -33,7 +33,7 @@
         </b-form-group>
 
         <b-button class="float-left w-25 mt-2" type="submit" variant="primary"> Atualizar</b-button>
-        <b-button class="float-right w-25 mt-2" type="reset" variant="danger">Resetar</b-button>
+        <b-button class="float-right w-25 mt-2" type="reset" variant="danger">Limpar</b-button>
       </b-form>
     </div>
   </b-card>

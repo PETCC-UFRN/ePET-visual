@@ -98,9 +98,9 @@ export default {
     },
     consumindoEventosApi() {
       this.$axios
-        .get("eventos-abertos")
+        .get("eventos-abertos-nao-organizo-ativos")
         .then(res => {
-          this.eventos = res.data;
+          this.eventos = res.data.content;
           this.isLoading = false;
           this.numItems = res.data.length;
         })

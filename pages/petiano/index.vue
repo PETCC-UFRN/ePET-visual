@@ -10,7 +10,43 @@
     </div>
     <div v-else>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-12">
+              <b-card
+              header-tag="header"
+              footer-tag="footer">
+              <div slot="header">
+                <b-row>
+                  <b-col>
+                    <h3><i class="fa fa-group fa-fw"></i> Minhas tutorias</h3> 
+                  </b-col>
+                </b-row>
+              </div>
+                <b-table
+                  :items="petianosTutoriasMinistradas"
+                  :current-page="currentPage"
+                  hover="hover"  
+                  :bordered="false"
+                  striped   
+                  responsive="sm"
+                  :per-page="2"
+                  :fields="fieldsPetianoTutorias"
+                >
+                </b-table>
+                <nav>
+                  <b-pagination
+                    :total-rows="petianosTutoriasMinistradas.length"
+                    :per-page="2"
+                    v-model="currentPage"
+                    prev-text="Anterior"
+                    next-text="Próximo"
+                    hide-goto-end-buttons
+                  />
+                </nav>
+              </b-card>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-12">
               <b-card header-tag="header" footer-tag="footer">
@@ -54,44 +90,8 @@
               </b-card>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <b-card
-              header-tag="header"
-              footer-tag="footer">
-              <div slot="header">
-                <b-row>
-                  <b-col>
-                    <h3><i class="fa fa-group fa-lg mt-4"></i> Petianos atuais</h3> 
-                  </b-col>
-                </b-row>
-              </div>
-                <b-table
-                  :items="petianosAtuais"
-                  :current-page="currentPage"
-                  hover="hover"  
-                  :bordered="false"
-                  striped   
-                  responsive="sm-6"
-                  :per-page="2"
-                  :fields="fields"
-                >
-                </b-table>
-                <nav>
-                  <b-pagination
-                    :total-rows="petianosAtuais.length"
-                    :per-page="2"
-                    v-model="currentPage"
-                    prev-text="Anterior"
-                    next-text="Próximo"
-                    hide-goto-end-buttons
-                  />
-                </nav>
-              </b-card>
-            </div>
-          </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <b-card
             header-tag="header"
             footer-tag="footer">
@@ -110,7 +110,7 @@
                     <small class="text-muted">{{noticia.inicio_exibicao}}</small>
                   </div>
                   <p class="mb-1">
-                    {{noticia.corpo}}
+                    {{noticia.corpo | cortarCorpo}}
                   </p>
                   <small class="text-muted"><em>Postado por {{noticia.petiano.pessoa.nome}}</em></small>
                 </b-list-group-item>
@@ -127,6 +127,7 @@
 <script>
 
 import style from "~/assets/css/loading.css";
+import moment from "moment";
 
 export default {
   name: "dashboard",
@@ -136,10 +137,16 @@ export default {
       isLoading: true,
       noticias: [], // requisicao de noticias
       eventos: [],
-      petianosAtuais: [],
+      petianosTutoriasMinistradas: [],
       currentPage: 1,
       fields: [
         { key: "pessoa.nome", sortable: true, label: "Nome" },  
+        { key: "pessoa.usuario.email", sortable: true, label: "Email" },
+      ],
+      fieldsPetianoTutorias: [
+        { key: "pessoa.nome", sortable: true, label: "Nome" },
+        { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina"},    
+        { key: "data", sortable: true, label: "Data", formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },  
         { key: "pessoa.usuario.email", sortable: true, label: "Email" },
       ]
     };
@@ -154,9 +161,14 @@ export default {
       this.eventos = res.data;
     });
 
-    this.$axios.get("petianos-atuais").then(res => {
-      this.petianosAtuais = res.data.content;
+    this.$axios.get("pesquisar-petiano-tutoria-ministradas").then(res => {
+      this.petianosTutoriasMinistradas = res.data.content;
     });
+  },
+  filters: {
+    cortarCorpo(mensagem) {
+      return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    }
   },
   computed: {
     resNoticias: function() {
