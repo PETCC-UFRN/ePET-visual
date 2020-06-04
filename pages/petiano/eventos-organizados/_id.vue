@@ -64,7 +64,7 @@
       <template v-slot:footer>
         <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
          @click.prevent="gerarCertificado()" block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
+          <i class="fa fa-certificate mr-1"></i>Emitir certificado de organização
         </b-button>
         <b-tooltip target="tooltip-target-1" triggers="hover">
           <strong>{{form.evento.percentual}}%</strong> concluído

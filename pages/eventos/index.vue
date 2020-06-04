@@ -26,7 +26,7 @@
 				</b-card-group>
           	</div>
 			<div v-else>
-				<h2>Não existe evento cadastrado.</h2>
+ 				<h5>Não existe evento aberto.</h5>
 				<br>
 			</div>
         </div>
