@@ -28,7 +28,7 @@
               <nuxt-link
                   :to="`/usuario/eventos-abertos/${row.item.idEvento}`"
                   class="btn btn-sm btn-info mt-1"
-                ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
+                ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
               <b-button
                   @click.prevent="inscrever(row.item.idEvento, row.item.valor)"
                   class="btn btn-sm btn-success mt-1"
@@ -121,7 +121,7 @@ export default {
             })
             .then(() => this.isLoading = false );
           }  
-      });
+        });
 
     },
     inscrever(idEvento, valor) {

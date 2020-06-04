@@ -50,7 +50,7 @@
                 :to="`/petiano/noticias/${row.item.idNoticia}`"
                 class="btn btn-sm btn-cyan mt-2"
               >
-                <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
+                <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Detalhes
               </nuxt-link>
               <nuxt-link
                 :to="`/petiano/noticias/edit/${row.item.idNoticia}`"

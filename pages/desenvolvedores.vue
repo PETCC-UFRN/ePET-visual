@@ -9,12 +9,12 @@
                 <b-row class="mx-auto" align-h="center">
                   <div v-for="i in devs" :key="i.id">
                     <b-col class="mt-2 mb-2 ml-4 mr-4">
-                        <a :href="i[1]" target="_blank">
+                        <a style="text-decoration:none" :href="i[1]" target="_blank">
                             <b-row>
                                 <b-img id="image" rounded alt="Rounded image" v-bind="mainProps" fluid :src="i[2]" ></b-img> 
                             </b-row>
                             <b-row class="mt-1" align-h="center">
-                                <h3>{{i[0]}}</h3>
+                                <h3 style="text-align: justify">{{i[0]}}</h3>
                             </b-row>
                         </a>
                     </b-col> 
@@ -44,12 +44,12 @@ export default {
                 width: 200, height: 200 
             },
             devs: [
-                ['Abraão','https://github.com/Confuzo', 'https://avatars1.githubusercontent.com/u/21036371?s=460&v=4'],
-                ['Daniel','https://github.com/Danhfg', 'https://avatars2.githubusercontent.com/u/17724218?s=400&v=4'],     
-                ['Henrique','https://github.com/henriquedavid', 'https://avatars3.githubusercontent.com/u/26661794?s=460&v=4'],
-                ['Jhonattan','https://github.com/Jhon3', 'https://avatars3.githubusercontent.com/u/26605942?s=460&v=4'],
-                ['Ítalo','https://github.com/itepifanio', 'https://avatars0.githubusercontent.com/u/6730205?s=400&v=4'],
-                ['Samuel','https://github.com/Samuellucas97', 'https://avatars2.githubusercontent.com/u/26898930?s=460&v=4']
+                ['Abraão Dantas','https://github.com/Confuzo', 'https://avatars1.githubusercontent.com/u/21036371?s=460&v=4'],
+                ['Daniel Henrique','https://github.com/Danhfg', 'https://avatars2.githubusercontent.com/u/17724218?s=400&v=4'],     
+                ['Henrique David','https://github.com/henriquedavid', 'https://avatars3.githubusercontent.com/u/26661794?s=460&v=4'],
+                ['Jhonattan Cabral','https://github.com/Jhon3', 'https://avatars3.githubusercontent.com/u/26605942?s=460&v=4'],
+                ['Ítalo Epifânio','https://github.com/itepifanio', 'https://avatars0.githubusercontent.com/u/6730205?s=400&v=4'],
+                ['Samuel Lucas','https://github.com/Samuellucas97', 'https://avatars2.githubusercontent.com/u/26898930?s=460&v=4']
             ]
         };
     },

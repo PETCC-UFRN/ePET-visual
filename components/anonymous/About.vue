@@ -1,32 +1,64 @@
 <template>
   <div class="row" style="margin-top: 45px">
-    <div class="col-md-8 mb-5">
-      <h2>Sobre o PET-CC</h2>
+    <div class="col-md-8 mb-1">
+      <h2 class="sobreTitulo">Sobre o PET-CC</h2>
       <hr>
       <p style="text-align: justify">
-        O Programa de Educação Tutorial (<b>PET</b>) é um projeto nacional, organizado através
-        de cursos de graduação das Instituições de Ensino Superior do Brasil. Diante disso,
-        nosso grupo está relacionado ao curso de Ciência da Computação (<b>CC</b>) da universidade
-        federal do Rio grande do Norte (<b>UFRN</b>). Além disso, assim como cada PET, somos orientados por um tutor,
-        atualmente o professor Umberto Costa e nosso grupo é composto por <i>12</i> bolsistas e até <i>6</i> voluntários.
+        {{informacoes.sobre}}
       </p>
-      <a class="btn btn-success btn-lg mt-3" href="/sobre" style="color: white">Saber mais &raquo;</a>
+      <nuxt-link class="btn btn-success float-center w-100 btn-lg mt-3 mb-3" to="/sobre" style="color: white">Saber mais &raquo;</nuxt-link>
     </div>
     <div class="col-md-4 mb-5">
-      <h2>Contato</h2>
+      <h2 class="contato">Contato</h2>
       <hr>
       <address>
         <abbr title="Phone">Telefone:</abbr>
-        +55 84 3333-3333
-        <br>
+        {{informacoes.telefone}}
+        <br class="mb-1">
         <abbr title="Address">Endereço físico:</abbr>
-        Departamento de Informática e Matemática Aplicada (DIMAp) - UFRN
-        <br>
+        {{informacoes.endereco}}
+        <br  class="mb-1">
         <abbr title="Email">Email:</abbr>
-        <a href="mailto:#">petcc@dimap.ufrn.br</a>
+        <a href="mailto:#">{{informacoes.email}}</a>
       </address>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      informacoes: {
+        email:"",
+        endereco:"",
+        telefone:"",
+        sobre:""
+      }
+    };
+  },
+  mounted() {
+    this.$axios
+      .get("informacoes")
+      .then(res => {
+        this.informacoes = res.data;
+      });
+  },
+}
+</script>
+
+
+
+<style scoped>
+.sobreTitulo .contato{
+  font-weight: 300;
+  font-size: 30px;
+}
+.sobreTitulo {
+  text-align: center;
+}
+p, address {
+  font-size: 16px;
+}
+</style>
 

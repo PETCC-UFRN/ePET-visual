@@ -20,10 +20,10 @@
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/eventos">Eventos</a>
+              <nuxt-link class="nav-link" to="/eventos">Eventos</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/noticias">Notícias</a>
+              <nuxt-link class="nav-link" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/validacao">Validar certificado</a>
@@ -38,8 +38,8 @@
                 aria-expanded="false"
               >Área do usuário</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="/login"><i class="icon-login"></i> Login</a>
-                <a class="dropdown-item" href="/register"><i class="icon-user-follow"></i> Registrar</a>
+                <nuxt-link class="dropdown-item" to="/login"><i class="icon-login"></i> Login</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/register"><i class="icon-user-follow"></i> Registrar</nuxt-link>
               </div>
             </li>
           </ul>

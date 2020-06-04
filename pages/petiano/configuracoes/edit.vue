@@ -63,8 +63,8 @@
           <input type="text" placeholder="Digite o endereço"  class="form-control" v-model="informacoes.endereco" />
         </div>
         <div class="form-group">
-          <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar modificações</b-button>
-          <b-button @click.prevent="cancelForm()" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
+          <b-button type="submit" variant="primary"><i class="fa fa-dot-circle-o"></i> Salvar</b-button>
+          <b-button to="/petiano/configuracoes" variant="danger"><i class="fa fa-ban"></i> Cancelar</b-button>
         </div>
       </form>
     </b-card>
@@ -80,18 +80,16 @@ export default {
   layout: "menu/petiano",
   data: function() {
     return {
-      form: {
-        youtube: "",
-        facebook: "",
-        instagram: "",
-        github: ""
-      },
       informacoes:{
         idInformacao: 1,
         sobre: "",
         telefone: "",
         endereco: "",
-        email: ""
+        email: "",
+        youtube: "",
+        facebook: "",
+        instagram: "",
+        github: ""
       }
     };
   },
@@ -101,9 +99,6 @@ export default {
     });
   },
   methods: {
-    cancelForm(){
-      this.$router.push('/petiano/configuracoes')      
-    },
     submitForm(e) {
       this.$axios.post("informacoes-cadastro", this.informacoes)
         .then(res => {
@@ -111,7 +106,7 @@ export default {
             title: 'Informações atualizadas',
             icon: 'success'
           }).then( () => {
-            this.$router.push('/petiano/configuracoes')
+            this.$router.push('/tutor/configuracoes')
           })
         })
         .catch(err => {
@@ -119,7 +114,7 @@ export default {
             title: 'Informações não atualizadas',
             icon: 'warning',
           }).then( () => {
-            this.$router.push('/petiano/configuracoes')
+            this.$router.push('/tutor/configuracoes')
           })
         })
     }
@@ -136,5 +131,10 @@ h2 {
 
 strong {
   color: gray;
+}
+
+em {
+  color: gray;
+  font-weight: 500;
 }
 </style>

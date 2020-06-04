@@ -1,19 +1,24 @@
 <template>
   <div>
     <b-card>
-
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-newspaper-o px-2"></i>Notícias</h2>
+            <h2>
+              <i class="fa fa-newspaper-o px-2"></i>Notícias
+            </h2>
           </b-col>
-        </b-row>                
+        </b-row>
       </template>
-
 
       <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
-        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        <b-spinner
+          style="width: 3rem; height: 3rem;"
+          type="grow"
+          variant="primary"
+          label="Large Spinner"
+        ></b-spinner>
       </div>
       <div v-else>
         <div v-if="noticias.length > 0">
@@ -25,10 +30,20 @@
               v-on:keyup.enter="search"
             ></b-form-input>
             <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search">
+                <i class="fa fa-search"></i>
+              </b-btn>
             </b-input-group-text>
             <b-input-group-text slot="append">
-              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
+              <b-btn
+                class="p-0"
+                :disabled="!keyword"
+                variant="link"
+                size="sm"
+                @click="cancelSearch"
+              >
+                <i class="fa fa-remove"></i>
+              </b-btn>
             </b-input-group-text>
           </b-input-group>
 
@@ -37,32 +52,25 @@
             :items="noticias"
             :current-page="currentPage"
             :bordered="false"
-            striped   
+            striped
             :per-page="10"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/usuario/noticias/${row.item.idNoticia}`"
-                  class="btn btn-sm btn-info"
-                >
-                  <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Informações
+                :to="`/usuario/noticias/${row.item.idNoticia}`"
+                class="btn btn-sm btn-info"
+              >
+                <i class="fa fa-eye fa-fw" aria-hidden="true"></i> Detalhes
               </nuxt-link>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="noticias.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <div>
+            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+          </div>
         </div>
         <div v-else>
-          <h5>Nenhuma notícia cadastrada</h5> 
+          <h5>Nenhuma notícia cadastrada</h5>
         </div>
       </div>
     </b-card>
@@ -71,47 +79,57 @@
 
 <script>
 import Swal from "sweetalert2";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+  components: {
+    Pagination
+  },
+
   data() {
     return {
       isLoading: true,
       noticias: [],
       keyword: "",
-      currentPage: 1,
+      currentPage: 0,
+      numItems: 0,
+      perPage: 10,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
-        { key: "actions", label: "Ações disponíveis"},
-      ],
+        { key: "actions", label: "Ações disponíveis" }
+      ]
     };
   },
   mounted() {
     this.getNoticias();
   },
   methods: {
+    setCurrentPage(val) {
+      this.currentPage = val;
+    },
     getNoticias() {
       this.$axios
-      .get("noticias-atuais").then(res => {
-        this.noticias = res.data.content;
-        this.isLoading = false;
-      })
-      .catch( err => {
+        .get("noticias-atuais")
+        .then(res => {
+          this.noticias = res.data.content;
+          this.isLoading = false;
+          this.numItems = res.data.totalElements;
+        })
+        .catch(err => {
           if (err.response.status === 404) {
             Swal.fire({
               title: "Nenhuma notícia cadastrada",
-              icon: 'info',
-            })
-            .then(() => this.isLoading = false );
-          }
-          else {
+              icon: "info"
+            }).then(() => (this.isLoading = false));
+          } else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
-              icon: 'error',
-            })
-            .then(() => this.isLoading = false );
+              text:
+                "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              icon: "error"
+            }).then(() => (this.isLoading = false));
           }
         });
     },
@@ -126,19 +144,19 @@ export default {
           this.noticias = res.data.content;
           this.numItems = res.data.totalElements;
         })
-        .catch( err => {
+        .catch(err => {
           if (err.response.status === 404) {
             Swal.fire({
               title: "Nenhuma notícia encontrada",
-              icon: 'info',
+              icon: "info"
             });
-          }
-          else {
+          } else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
-              icon: 'error',
-            })
+              text:
+                "Por favor, tente recarregar a página. Caso não dê certo, tente novamente mais tarde.",
+              icon: "error"
+            });
           }
         });
     }
@@ -149,7 +167,9 @@ export default {
 
 
 <style scoped>
-h2, h4, h5 {
+h2,
+h4,
+h5 {
   font-weight: 300;
 }
 </style>

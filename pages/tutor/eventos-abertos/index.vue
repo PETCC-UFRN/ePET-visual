@@ -44,40 +44,18 @@
             :per-page="20"
             :fields="fields"
           >
-            <template v-slot:cell(pages)="row">
-              <nuxt-link
-                :to="`/tutor/eventos-abertos/organizadores/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm btn-teal mt-2"
-                style="color: white" 
-              ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
-              <b-button
-                :to="`/tutor/eventos-abertos/participantes/?idEvento=${row.item.idEvento}`"
-                class="btn btn-sm mt-2"
-                variant="secondary"
-              ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
-            </template>
             <template  v-slot:cell(actions)="row">
               <b-button
-                class="btn btn-sm btn-success mt-2"
+                class="btn btn-sm btn-teal mt-1"
                 v-if="row.item.ativo === false"
                 @click.prevent="ativar(row.item.idEvento)"
               >
                 <i class="fa fa-check fa-fw"></i> Ativar
               </b-button>
               <nuxt-link
-                class="btn btn-sm btn-cyan mt-2"
+                class="btn btn-sm btn-cyan mt-1"
                 :to="`/tutor/eventos-abertos/${row.item.idEvento}`"
-              ><i class="fa fa-eye fa-fw"></i> Informações</nuxt-link>
-              <nuxt-link
-                class="btn btn-sm btn-warning mt-2"
-                :to="`/tutor/eventos-abertos/edit/${row.item.idEvento}`"              
-              ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
-              <b-button
-                @click.prevent="del(row.item.idEvento, row.index)"
-                class="btn btn-sm btn-danger mt-2"
-              >
-                <i class="fa fa-trash-o fa-fw"></i> Remover
-              </b-button>
+              ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
 
               <b-button
                   @click.prevent="inscrever(row.item.idEvento, row.item.valor)"
@@ -130,7 +108,6 @@ export default {
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
-        { key: "pages", label: "Páginas disponíveis"  },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };

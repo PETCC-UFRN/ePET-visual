@@ -53,16 +53,9 @@
                 Solicitar tutoria</b-button>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="tutorias.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <div>
+            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+          </div>
         </div>
         <div v-else>
           <h5>Nenhuma tutoria cadastrada ou ativa</h5> 
@@ -74,12 +67,20 @@
 
 <script>
 import Swal from "sweetalert2";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+    components: {
+    Pagination
+  },
+
   data() {
     return {
+      currentPage: 0,
+      numItems: 0,
+      perPage: 10,
       isLoading: true,
       selected: 'nomeCodigoDisciplina',
       options: [
@@ -90,7 +91,6 @@ export default {
       nomeCodigoDisciplina: false,
       nomemCpfResponsavel: false,
       tutorias: [],
-      currentPage: 1,
       fields: [
         { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
         { key: "disciplina.nome", sortable: true, label: "Disciplina" },
@@ -103,6 +103,10 @@ export default {
     this.consumindoTutoriasApi();
   },
   methods: {
+        setCurrentPage(val) {
+      this.currentPage = val;
+    },
+
     cancelSearch() {
       this.keyword = ''
       this.consumindoTutoriasApi()
@@ -167,6 +171,7 @@ export default {
         .then(res => {
           this.tutorias = res.data.content;
           this.isLoading = false;
+          this.numItems = res.data.totalElements;
         })
         .catch( err => {
           if (err.response.status === 404) {
