@@ -8,7 +8,7 @@
           </b-col>
           <b-col>
             <div class="card-actions">
-              <nuxt-link  to="/tutor/eventos-abertos" class="btn btn-close btn-lg">
+              <nuxt-link  to="/petiano/eventos-abertos" class="btn btn-close btn-lg">
                 <i class="icon-close"></i>
               </nuxt-link>
             </div>
@@ -114,58 +114,14 @@
             <b-row>
               <b-col>
                 <div class="form-group">
-                  <label for="inicioEvento"><strong>Início do evento</strong></label>
-                  <b-form-datepicker
-                    id="inicioEvento" 
-                    v-model="form.d_evento_inicio"
-                    :min="form.fim_rolagem" 
-                    class="mb-2"
-                    locale="pt-br" 
-                    placeholder="Escolha uma data"
-                    :disabled="disabledDataEventoInicio"
-                    required
-                  ></b-form-datepicker>
-                </div>
-              </b-col>
-              <b-col>
-                <div class="form-group">
-                  <label for="fimEvento"><strong>Fim do evento</strong></label>
-                  <b-form-datepicker
-                    id="fimEvento" 
-                    v-model="form.d_evento_fim"
-                    :min="form.d_evento_inicio" 
-                    class="mb-2"
-                    locale="pt-br" 
-                    placeholder="Escolha uma data"
-                    :disabled="disabledDataEvento"
-                    required
-                  ></b-form-datepicker>
-                </div>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <div class="form-group">
-                  <label for="cargaHoraria"><strong>Carga horária</strong> <em>(em horas)</em></label>
-                  <input 
-                    id="cargaHoraria" 
-                    placeholder="0" 
-                    type="number" 
-                    class="form-control"  
-                    v-model="form.qtdCargaHoraria" required/>
-                </div>
-              </b-col>
-              <b-col>
-                <div class="form-group">
-                  <label for="qtdDias"><strong>Quantidade de dias</strong></label>
-                  <input 
-                    id="qtdDias" 
-                    type="number" 
-                    placeholder="0" 
-                    min="0" 
-                    pattern="\d+" 
-                    class="form-control" 
-                    v-model="form.qtdDias" required/>
+                  <label for="inicioEvento"><strong>Datas das sessões</strong></label>
+                  <v-date-picker
+                    mode='multiple'
+                    v-model='form.periodo_evento'
+                     :input-props='{
+                      placeholder: "Selecione as datas",
+                    }'
+                  />
                 </div>
               </b-col>
             </b-row>
@@ -212,6 +168,20 @@
                     required/>
                 </div>
               </b-col>
+
+              <b-col>
+                <div class="form-group">
+                  <label for="cargaHoraria"><strong>Carga horária</strong> <em>(em horas)</em></label>
+                  <input 
+                    id="cargaHoraria" 
+                    placeholder="0" 
+                    type="number" 
+                    class="form-control"  
+                    v-model="form.qtdCargaHoraria" required/>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row>
               <b-col>
                 <label for="anexoParticipantes"><strong>Anexos pelos participantes</strong></label>
                 <div class="form-group">
@@ -225,11 +195,21 @@
             </b-row>
           </div>          
           <div class="form-group">
-            <label for="textoDeclaracao"><strong>Texto de declaração</strong></label>
+            <label for="textoDeclaracao"><strong>Texto de declaração de participante</strong></label>
             <b-form-textarea
               id="textoDeclaracao" 
               v-model="form.textoDeclaracaoEvento"
-              placeholder="Digite o texto de declaração do evento"
+              placeholder="Digite o texto de declaração de participante do evento"
+              rows="3"  
+              max-rows="6" 
+            ></b-form-textarea>
+          </div>          
+          <div class="form-group">
+            <label for="textoDeclaracao"><strong>Texto de declaração de organizador</strong></label>
+            <b-form-textarea
+              id="textoDeclaracao" 
+              v-model="form.textoDeclaracaoEventoOrganizador"
+              placeholder="Digite o texto de declaração de organizador do evento"
               rows="3"  
               max-rows="6" 
             ></b-form-textarea>
@@ -260,8 +240,7 @@ export default {
   data() {
     return {
       form: {
-        d_evento_fim: "",
-        d_evento_inicio: "",
+        periodo_evento: [],
         d_inscricao: "",
         d_inscricao_fim: "",
         descricao: "",
@@ -272,9 +251,9 @@ export default {
         participante_anexos: false,
         percentual: 0,
         qtdCargaHoraria: "",
-        qtdDias: 0,
         qtdVagas: 0,
         textoDeclaracaoEvento: "",
+        textoDeclaracaoEventoOrganizador: "",
         titulo: "",
         valor: 0,
         ativo: false
@@ -311,7 +290,7 @@ export default {
             icon: 'success',
           })
           .then( () => {
-            this.$router.push('/tutor/eventos-abertos');
+            this.$router.push('/petiano/eventos-abertos');
           });
         })
         .catch(err => {
@@ -320,7 +299,7 @@ export default {
             icon: 'error'
           })
           .then( () => {
-            this.$router.push('/tutor/eventos-abertos');
+            this.$router.push('/petiano/eventos-abertos');
           });
         });
     },

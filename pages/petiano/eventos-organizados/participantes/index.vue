@@ -13,7 +13,7 @@
       <div class="card-body">
         <div class="form-group">
           <label for="exampleFormControlInput1">
-            <h5>Usuário</h5>
+            <h5>Nome</h5>
           </label>
           <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
         </div>
