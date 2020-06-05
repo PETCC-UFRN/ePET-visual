@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-12">
-
     <b-card>
       <template v-slot:header>
         <b-row>
@@ -159,6 +158,7 @@ export default {
       .get(`organizadores/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
       })
       .catch(err => {

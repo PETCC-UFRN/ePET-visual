@@ -4,14 +4,18 @@
       <div class="card-header">
         <b-row>
           <b-col>
-            <h2><i class="fa fa-edit"></i> Editando notícia</h2>
+            <h2>
+              <i class="fa fa-edit"></i> Editando notícia
+            </h2>
           </b-col>
         </b-row>
       </div>
       <div class="card-body">
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="titulo"><strong>Título</strong></label>
+            <label for="titulo">
+              <strong>Título</strong>
+            </label>
             <input
               id="titulo"
               type="text"
@@ -22,7 +26,9 @@
             />
           </div>
           <div class="form-group">
-            <label for="descricao"><strong>Descrição</strong></label>
+            <label for="descricao">
+              <strong>Descrição</strong>
+            </label>
             <b-form-textarea
               id="descricao"
               v-model="form.corpo"
@@ -33,13 +39,17 @@
             ></b-form-textarea>
           </div>
           <b-form-group>
-            <label for="anexo"><strong>Anexo</strong></label>
+            <label for="anexo">
+              <strong>Anexo</strong>
+            </label>
             <b-form-file placeholder="Nenhum arquivo" browse-text="Fazer upload" id="anexo"></b-form-file>
           </b-form-group>
           <b-row>
             <b-col>
               <div class="form-group">
-                <label for="inicioExibicao"><strong>Início de exibição</strong></label>
+                <label for="inicioExibicao">
+                  <strong>Início de exibição</strong>
+                </label>
                 <b-form-datepicker
                   id="inicioExibicao"
                   v-model="form.inicio_exibicao"
@@ -53,7 +63,9 @@
             </b-col>
             <b-col>
               <div class="form-group">
-                <label><strong>Fim de exibição</strong></label>
+                <label>
+                  <strong>Fim de exibição</strong>
+                </label>
                 <b-form-datepicker
                   :disabled="disabledDataExibicao"
                   v-model="form.limite_exibicao"
@@ -65,8 +77,8 @@
                 ></b-form-datepicker>
               </div>
             </b-col>
-          </b-row>   
-          
+          </b-row>
+
           <div class="form-group">
             <b-button type="submit" variant="primary">
               <i class="fa fa-dot-circle-o"></i> Salvar
@@ -81,7 +93,6 @@
   </div>
 </template>
 <script>
-
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -94,40 +105,45 @@ export default {
         corpo: "",
         inicio_exibicao: null,
         limite_exibicao: null,
-        ativo: false,
+        ativo: false
       },
       errors: [],
-      minDate: null,
+      minDate: null
     };
   },
   mounted() {
-    this.minDate = moment().format('YYYY-MM-DD');
+    this.minDate = moment().format("YYYY-MM-DD");
 
-   this.$axios.get("pesquisar-noticia/" + this.$route.params.id)
+    this.$axios
+      .get("noticia/" + this.$route.params.id)
       .then(res => {
-        this.form = res.data.content[0];
+        this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
         Swal.fire({
           title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-          " tente novamente mais tarde.",
+          text:
+            "Por favor, tente recarregar a página. Caso não dê certo," +
+            " tente novamente mais tarde.",
           icon: "error"
         });
       });
   },
   computed: {
     disabledDataExibicao() {
-      return this.form.inicio_exibicao === ''; 
+      return this.form.inicio_exibicao === "";
     }
   },
   methods: {
     async submitForm() {
       if (this.checkForm()) {
         let idPetiano = 1;
-        await this.$axios.get('petianos-pessoa/' + this.$store.state.profile.idPessoa).then(res => {
-          idPetiano = res.data.idPetiano;
-        });
+        await this.$axios
+          .get("petianos-pessoa/" + this.$store.state.profile.idPessoa)
+          .then(res => {
+            idPetiano = res.data.idPetiano;
+          });
 
         await this.$axios
           .post("noticia-cadastro/" + idPetiano, this.form)
@@ -135,18 +151,16 @@ export default {
             Swal.fire({
               title: "Notícia editada",
               icon: "success"
-            })
-            .then( () =>{
-              this.$router.push('/tutor/noticias');
+            }).then(() => {
+              this.$router.push("/tutor/noticias");
             });
           })
           .catch(err => {
             Swal.fire({
-              title: 'Notícia não editada',
+              title: "Notícia não editada",
               icon: "error"
-            })
-            .then( () =>{
-              this.$router.push('/tutor/noticias');
+            }).then(() => {
+              this.$router.push("/tutor/noticias");
             });
           });
       } else {
@@ -190,5 +204,4 @@ strong {
   color: gray;
   font-size: 16px;
 }
-
 </style>

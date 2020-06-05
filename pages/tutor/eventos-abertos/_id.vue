@@ -93,6 +93,7 @@ export default {
    this.$axios.get(`eventos/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.titulo);
         this.isLoading = false;
       })
       .catch(err => {
