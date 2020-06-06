@@ -94,6 +94,7 @@ export default {
       .then(res => {
         this.form = res.data;
         this.isLoading = false;
+        this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
         Swal.fire({

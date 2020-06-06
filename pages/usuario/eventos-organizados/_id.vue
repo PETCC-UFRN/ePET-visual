@@ -159,6 +159,7 @@ export default {
       .get(`organizadores/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
       })
       .catch(err => {
