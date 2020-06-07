@@ -55,12 +55,6 @@
                 class="btn btn-sm btn-warning mt-1"
                 :to="`/usuario/eventos-organizados/edit/${row.item.evento.idEvento}`"              
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
-              <b-button
-                @click.prevent="del(row.item.idEvento, row.index)"
-                class="btn btn-sm btn-danger mt-1"
-              >
-                <i class="fa fa-trash-o fa-fw"></i> Remover
-              </b-button>
             </template>
           </b-table>
           <div>
