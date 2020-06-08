@@ -28,7 +28,7 @@
             :current-page="currentPage"
             :bordered="false"
             striped
-            :per-page="10"
+            :perPage="perPage" 
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">

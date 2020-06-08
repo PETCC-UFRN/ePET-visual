@@ -156,8 +156,6 @@ export default {
     consumindoEventosApi() {
       this.$axios.get("eventos-abertos-nao-organizo-inativos")
         .then(res => {
-          console.log(res.data.content.length);
-          console.log(res.data.totalElements);
           this.eventos = res.data.content;
           this.eventosLoading = false;
           this.numItems = res.data.totalElements;
