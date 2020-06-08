@@ -161,17 +161,6 @@ export default {
         }
       });
     
-    // this.$axios
-    //   .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
-    //   .then(res => {
-    //     this.tutorias = res.data.content.slice(0, 3);
-    //     this.isLoading = false;
-    //   })
-    //   .catch(err => {
-    //     if (err.response.status) {
-    //       this.isLoading = false;
-    //     }
-    //   });
   },
   filters: {
     moment: function (date) {

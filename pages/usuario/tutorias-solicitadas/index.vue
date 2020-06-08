@@ -43,16 +43,9 @@
             </template>
 
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="tutorias.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <div>
+            <Pagination :totalRows="numItemsTutoria" :perPage="perPage" v-on:currentPage="setCurrentPageTutoria" />
+          </div>
         </div>
         <div v-else>
           <h5>Nenhuma tutoria confirmada</h5> 
@@ -183,12 +176,16 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
   data() {
     return {
+      currentPageTutoria: 0,
+      numItemsTutoria: 0,
+      perPage: 10,
       isLoading: true,
       isLoadingInativas: true,
       nomeCodigoDisciplina: false,
@@ -216,12 +213,17 @@ export default {
     this.consumindoTutoriasMinistradasInativasApi();
   },
   methods: {
+      setCurrentPageTutoria(val) {
+      this.currentPageTutoria = val;
+    },
     consumindoTutoriasMinistradasApi() {
       this.$axios
         .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.tutorias = res.data.content;
           this.isLoading = false;
+          this.numItemsTutoria = res.data.totalElements;
+
         })
         .catch( err => {
           if (err.response.status === 404) {

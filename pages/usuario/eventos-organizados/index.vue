@@ -4,24 +4,30 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos organizados</h2>
+            <h2>
+              <i class="fa fa-calendar-check-o px-2"></i>Eventos organizados
+            </h2>
           </b-col>
         </b-row>
       </template>
 
       <div v-if="isLoading" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>
-        <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
+        <b-spinner
+          style="width: 3rem; height: 3rem;"
+          type="grow"
+          variant="primary"
+          label="Large Spinner"
+        ></b-spinner>
       </div>
       <div v-else>
-        <div v-if="eventos.length > 0">  
-
+        <div v-if="eventos.length > 0">
           <b-table
             responsive="sm"
             :items="eventos"
             :current-page="currentPage"
             :bordered="false"
-            striped   
+            striped
             :per-page="10"
             :fields="fields"
           >
@@ -51,102 +57,82 @@
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
             </template>
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="eventos.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <div>
+            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
+          </div>
         </div>
         <div v-else>
           <h5>Nenhum evento organizado</h5>
         </div>
       </div>
     </b-card>
-
-    <b-modal v-model="modalShow" title="Informações adicionais" hide-footer no-close-on-backdrop>
-      <label for="data-ingresso">Perído do evento</label>
-      <b-form-datepicker
-        id="data-ingresso"
-        v-model="form.periodoEvento"
-        type="date"
-        required
-        locale="pt-br"
-        label-no-date-selected="Nenhuma data selecionada"
-      ></b-form-datepicker>
-      <b-button variant="primary" class="w-100 mt-2">OK</b-button>
-    </b-modal>
   </div>
 </template>
 
 <script>
 import Swal from "sweetalert2";
-
+import Pagination from "~/components/Pagination";
 export default {
   name: "dashboard",
   layout: "menu/usuario",
+  components: {
+    Pagination
+  },
   data() {
     return {
       isLoading: true,
+      keyword: "",
       eventos: [],
-      eventoPeriodo: [],
-      currentPage: 1,
-      periodoDefinido: false,
-      form: {
-        periodoEvento: '',
-        evento: {
-          idEvento: 0,
-        }
-      },
+      currentPage: 0,
+      numItems: 0,
+      perPage: 20,
       fields: [
-        { key: "evento.titulo", sortable: true, label: "Título"  },
-        { key: "actions", label: "Ações disponíveis"  }
-      ],
-      modalShow: false
+        { key: "evento.titulo", sortable: true, label: "Título" },
+        { key: "actions", label: "Ações disponíveis" }
+      ]
     };
   },
   mounted() {
     this.consumindoEventosOrganizandoApi();
   },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("eventos?page=" + val).then(res => {
+        this.eventos = res.data.content;
+        this.numPages = res.data.totalElements;
+      });
+    }
+  },
   methods: {
-    cadastrar() {
+    setCurrentPage(val) {
+      this.currentPage = val;
+    },
+    cancelSearch() {
+      this.keyword = "";
+      this.consumindoEventosOrganizandoApi();
+    },
+    search() {
       this.$axios
-        .post(`periodo-evento-cadastrar/${this.form.evento.idEvento}`, this.form)
+        .get(`pesquisar-evento/${this.keyword}`)
         .then(res => {
-          Swal.fire({
-            title: "Perído do evento cadastrado",
-            icon: 'success',
-          })
+          this.eventos = res.data.content;
         })
-        .catch( err => {
-          Swal.fire({
-            title: "Perído do evento não cadastrado",
-            icon: 'error',
-          })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhum evento organizando",
+              icon: "info"
+            });
+          } else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text:
+                "Por favor, tente recarregar a página. Caso não dê certo," +
+                " tente novamente mais tarde.",
+              icon: "error"
+            });
+          }
         });
-    },
-    cadastrarPeriodo(evento) {
-      this.modalShow = !this.modalShow
-      this.form.evento = evento
-
-      if (this.form.periodoEvento !== "") {
-        this.form.evento =  evento
-      } 
-    },
-    consumirPeriodoEventoApi(idEvento){
-      this.$axios
-        .get(`periodo-evento-buscar/${idEvento}`)
-        .then(res => {
-          this.form.periodoEvento = res.data;
-          this.periodoDefinido = true;
-        })
-        .catch(() =>  {
-          this.periodoDefinido = false;
-        })
     },
     consumindoEventosOrganizandoApi() {
       this.$axios
@@ -154,34 +140,33 @@ export default {
         .then(res => {
           this.eventos = res.data;
           this.isLoading = false;
-          this.eventoPeriodos = res
+          this.numItems = res.data.length;
         })
-        .catch( err => {
+        .catch(err => {
           if (err.response.status === 404) {
             Swal.fire({
               title: "Nenhum evento organizando",
-              icon: 'info',
-            })
-            .then(() => this.isLoading = false );
-          }
-          else {
+              icon: "info"
+            }).then(() => (this.isLoading = false));
+          } else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-              " tente novamente mais tarde.",
-              icon: 'error',
-            })
-            .then(() => this.isLoading = false );            
-          }  
-      });
-
+              text:
+                "Por favor, tente recarregar a página. Caso não dê certo," +
+                " tente novamente mais tarde.",
+              icon: "error"
+            }).then(() => (this.isLoading = false));
+          }
+        });
     }
   }
 };
 </script>
 
 <style scoped>
-h2, h4, h5 {
+h2,
+h4,
+h5 {
   font-weight: 300;
 }
 </style>
