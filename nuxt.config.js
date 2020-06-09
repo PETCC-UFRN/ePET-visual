@@ -105,7 +105,15 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    // transpile: ['vcalendar'],
+      analyze: true,
+      extend (config, ctx) {
+        if (ctx && ctx.isClient) {
+          config.optimization.splitChunks.maxSize = 64000
+        }
+      },
+    filenames: {
+      chunk: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js'
+    },
     extractCSS: true,
     /*
     ** You can extend webpack config here
