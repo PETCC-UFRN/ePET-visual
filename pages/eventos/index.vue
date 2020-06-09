@@ -114,6 +114,6 @@ a {
 
 .container {
   /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: calc(100vh - 256px - 400px);
+  min-height: calc(95vh - 256px);
 }
 </style>

@@ -3,9 +3,8 @@
     <Comum />
     <div class="container" id="verify">
       <br />
-      <h2 class="titulo">Validar Declaração</h2>
-
       <div class="col-8 mx-auto">
+        <h2 class="titulo">Validar Declaração</h2>
         <b-form @submit.prevent="submitForm">
           <b-form-group
             id="input-group-1"
@@ -91,7 +90,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .titulo {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -105,6 +104,14 @@ export default {
 p {
   margin: 0px 0px 0px;
 }
+
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: calc(95vh - 256px);
+  display: flex;
+  align-items :center;
+}
+
 </style>
 
  

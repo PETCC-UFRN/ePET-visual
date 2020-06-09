@@ -1,21 +1,26 @@
 <template>
   <div>
-    <Comum/>
+    <Comum />
     <div class="container">
-      <br>
-      <h1 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h1>
-      <hr>
+      <br />
+      <h1 class="mt-3 mb-0">
+        <i class="far fa-newspaper"></i> Notícias
+      </h1>
+      <hr />
       <div v-if="noticias.length > 0">
         <b-card-group columns class="cards">
           <div v-for="noticia in noticias" :key="noticia.id">
             <nuxt-link :to="'/noticias/' + noticia.idNoticia">
               <b-card>
-                <b-card-text class="small text-muted"> {{noticia.inicio_exibicao.substring(8,10)}}
+                <b-card-text class="small text-muted">
+                  {{noticia.inicio_exibicao.substring(8,10)}}
                   {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
                 </b-card-text>
-                <hr>
-                <b-card-title><h5>{{noticia.titulo}}</h5></b-card-title>
-                <b-card-text> {{noticia.corpo | cortarCorpo }} </b-card-text>
+                <hr />
+                <b-card-title>
+                  <h5>{{noticia.titulo}}</h5>
+                </b-card-title>
+                <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
               </b-card>
             </nuxt-link>
           </div>
@@ -23,10 +28,10 @@
       </div>
       <div v-else>
         <h2>Não existe notícia cadastrada.</h2>
-        <br>
+        <br />
       </div>
     </div>
-    <BottomBar/>
+    <BottomBar />
   </div>
 </template>
 
@@ -35,15 +40,15 @@ import Comum from "~/components/Comum";
 import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
-  layout: 'index',
+  layout: "index",
   components: {
     Comum,
     BottomBar
   },
   head() {
     return {
-      title: 'PET-CC UFRN | Notícias'
-    }
+      title: "PET-CC UFRN | Notícias"
+    };
   },
   data() {
     return {
@@ -60,59 +65,59 @@ export default {
         "SETEMBRO",
         "OUTUBRO",
         "NOVEMBRO",
-        "DEZEMBRO"]
+        "DEZEMBRO"
+      ]
     };
   },
   mounted() {
-    this.$axios
-      .get("noticias-atuais")
-      .then(res => {
-        this.noticias = res.data.content;
-      });
+    this.$axios.get("noticias-atuais").then(res => {
+      this.noticias = res.data.content;
+    });
   },
   filters: {
     cortarCorpo(mensagem) {
-      return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+      return mensagem.length > 120
+        ? `${mensagem.substring(0, 120)}...`
+        : mensagem;
     }
   },
   methods: {
     mes(value) {
-      if (value != null)
-        return this.mesNomes[parseInt(value, 10)];
+      if (value != null) return this.mesNomes[parseInt(value, 10)];
     }
   }
-}
+};
 </script>
 
 <style scoped>
-  a {
-    text-decoration: none;
-    color: #000000;
-  }
+a {
+  text-decoration: none;
+  color: #000000;
+}
 
-  h1 {
-    text-align: center;
-    font-weight: 300;
-    font-size: 40px;
-  }
+h1 {
+  text-align: center;
+  font-weight: 300;
+  font-size: 40px;
+}
 
-  .cards {
-    margin-bottom: 20px;
-  }
+.cards {
+  margin-bottom: 20px;
+}
 
-  hr {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
+hr {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 
-  a {
-    color: inherit;
-  }
+a {
+  color: inherit;
+}
 
-  .container {
-    /* Tamanho da tela menos o footer e o container com o logo */
-    min-height: calc(100vh - 256px - 400px);
-  }
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: calc(95vh - 256px);
+}
 </style>
 
 

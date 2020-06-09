@@ -269,6 +269,7 @@ export default {
       .get('eventos/'+ this.$route.params.id)
       .then((res) => {
         this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
         Swal.fire({
