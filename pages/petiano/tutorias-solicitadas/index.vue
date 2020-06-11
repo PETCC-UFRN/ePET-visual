@@ -43,16 +43,9 @@
             </template>
 
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="tutorias.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <div>
+            <Pagination :totalRows="numItemsTutoria" :perPage="perPage" v-on:currentPage="setCurrentPageTutoria" />
+          </div>
         </div>
         <div v-else>
           <h5>Nenhuma tutoria confirmada</h5> 
@@ -102,16 +95,7 @@
             </template>
 
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="tutoriasInativas.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+          <Pagination :totalRows="numItemsTutoriasInativas" :perPage="perPageInativas" v-on:currentPage="setCurrentPageTutoriasInativas" />
         </div>
         <div v-else>
           <h5>Nenhuma tutoria solicitada</h5> 
@@ -132,16 +116,16 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <div v-if="tutorias.length > 0">
+        <div v-if="tutoriasConcluidas.length > 0">
           
           <b-table
             responsive="sm"
-            :items="tutorias"
-            :current-page="currentPage"
+            :items="tutoriasConcluidas"
+            :current-page="currentPageTutoriasConcluidas"
             :bordered="false"
             striped   
             :per-page="10"
-            :fields="fields"
+            :fields="fieldsConcluidas"
           >
           <template v-slot:cell(actions)="row">
              
@@ -161,16 +145,7 @@
             </template>
 
           </b-table>
-          <nav>
-            <b-pagination
-              :total-rows="tutorias.length"
-              :per-page="10"
-              v-model="currentPage"
-              prev-text="Anterior"
-              next-text="Próximo"
-              hide-goto-end-buttons
-            />
-          </nav>
+            <Pagination :totalRows="numItemsTutoriaConcluidas" :perPage="perPageC" v-on:currentPage="setCurrentPageTutoriasConcluidas" />
         </div>
         <div v-else>
           <h5>Nenhuma tutoria concluída</h5> 
@@ -183,17 +158,28 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
+import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
   data() {
     return {
+      currentPageTutoria: 0,
+      currentPageTutoriasConcluidas: 0,
+      numItemsTutoria: 0,
+      numItemsTutoriaConcluidas: 0, 
+      numItemsTutoriasInativas: 0,
+      perPage: 20,
+      perPageConcluidas: 20,
+      perPageInativas: 20,
       isLoading: true,
+      isLoadingConluidas: true,
       isLoadingInativas: true,
       nomeCodigoDisciplina: false,
       nomemCpfResponsavel: false,
       tutorias: [],
+      tutoriasConcluidas: [],
       tutoriasInativas: [],
       currentPage: 1,
       fields: [
@@ -202,6 +188,12 @@ export default {
         { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
         { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
         { key: "actions", label: "Ações disponíveis"  }
+      ],
+      fieldsConcluidas: [
+        { key: "tutoria.disciplina.codigo", sortable: true, label: "Código" },
+        { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina" },
+        { key: "tutoria.petiano.pessoa.nome", sortable: true, label: "Responsável" },
+        { key: "data", sortable: true, label: "Data da tutoria", formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY')}  },
       ],
       fieldsInativa: [
         { key: "tutoria.disciplina.codigo", sortable: true, label: "Código" },
@@ -213,15 +205,52 @@ export default {
   },
   mounted() {
     this.consumindoTutoriasMinistradasApi();
+    this.consumindoTutoriasMinistradasConcluidasApi();
     this.consumindoTutoriasMinistradasInativasApi();
   },
   methods: {
+    setCurrentPageTutoria(val) {
+      this.currentPageTutoria = val;
+    },
+    setCurrentPageTutoriasConcluidas(val) {
+      this.currentPageTutoriasConcluidas = val;
+    },
+    setCurrentPageTutoriasInativas (val) {
+      this.setCurrentPageTutoriasInativas = val;
+    },
+    consumindoTutoriasMinistradasConcluidasApi() {
+      this.$axios
+        .get(`/pesquisar-pessoa-tutorias-ministradas-concluidas/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          this.tutoriasConcluidas = res.data.content;
+          this.isLoadingConluidas = false;
+          this.numItemsTutoriaConcluidas = res.data.totalElements;
+        })
+        .catch( err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: "Nenhuma tutoria confirmada",
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            })
+          }
+        });
+    },
     consumindoTutoriasMinistradasApi() {
       this.$axios
         .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.tutorias = res.data.content;
           this.isLoading = false;
+          this.numItemsTutoria = res.data.totalElements;
+
         })
         .catch( err => {
           if (err.response.status === 404) {
