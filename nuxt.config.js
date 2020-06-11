@@ -61,6 +61,7 @@ module.exports = {
   plugins: [
     '~/plugins/axios.js',
     { src: '~/plugins/vcalendar.js', ssr: false },
+    { src: '~/plugins/particles.js', ssr: false},
   ],
 
   /*
