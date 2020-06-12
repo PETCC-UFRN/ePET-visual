@@ -82,10 +82,18 @@
                 <b-progress v-if="file.length != 0" :value="progressValue" :max="100" show-progress animated></b-progress>
                 <template v-slot:footer>
                   <b-button block
+                    v-if="!wasUploaded"
                     @click="fazerUploadAnexo(row.item.idNoticia)"
                     class="btn btn-sm btn-success mt-2">
                     Fazer upload do anexo
                   </b-button>
+                  <b-button block
+                    v-if="wasUploaded"
+                    @click="enviarAnexo(row.item)"
+                    class="btn btn-sm btn-warning mt-2">
+                    Confirmar envio do anexo
+                  </b-button>
+                  
                 </template>
               </b-card>
             </template>
@@ -115,6 +123,7 @@ export default {
   },
   data() {
     return {
+      wasUploaded: false,
       file:[],
       progressValue: 0,
       isLoading: true,
@@ -157,7 +166,33 @@ export default {
     }
   },
   methods: {
-    fazerUploadAnexo (idNoticia) {
+    enviarAnexo(noticia) {
+
+      delete noticia["_showDetails"]
+
+      const formData = new FormData()
+      formData.append("file", this.file)
+
+      this.$axios
+        .post(`anexos-noticia-upload/${noticia.idNoticia}`, {
+            anexos: formData,
+            noticia: noticia
+          }
+        )
+        .then(res => {
+          Swal.fire({
+            title: "Anexo da notícia enviado",
+            icon: "success"
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Anexo da notícia não enviado",
+            icon: "error"
+          });
+        });
+    },
+    fazerUploadAnexo(idNoticia) {
 
       const formData = new FormData()
       formData.append("file", this.file)
@@ -175,7 +210,7 @@ export default {
             icon: "success"
           })
           .then( () => {
-            
+            this.wasUploaded = true
           });
         })
         .catch(err => {
