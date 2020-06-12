@@ -46,6 +46,11 @@
             striped   
             :fields="fields">
             <template v-slot:cell(actions)="row">
+            
+               <b-button  @click="row.toggleDetails" class="btn btn-sm btn-teal mt-2">
+                {{ row.detailsShowing ? 'Não anexar' : 'Anexar'}} arquivo
+              </b-button>              
+            
               <nuxt-link
                 :to="`/tutor/noticias/${row.item.idNoticia}`"
                 class="btn btn-sm btn-cyan mt-2"
@@ -64,6 +69,25 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+            </template>
+
+            <template v-slot:row-details="row">
+              <b-card>
+                
+                <b-form-file 
+                  v-model="file"
+                  placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
+                <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
+
+                <b-progress v-if="file.length != 0" :value="progressValue" :max="100" show-progress animated></b-progress>
+                <template v-slot:footer>
+                  <b-button block
+                    @click="fazerUploadAnexo(row.item.idNoticia)"
+                    class="btn btn-sm btn-success mt-2">
+                    Fazer upload do anexo
+                  </b-button>
+                </template>
+              </b-card>
             </template>
           </b-table>
           <div>
@@ -91,6 +115,8 @@ export default {
   },
   data() {
     return {
+      file:[],
+      progressValue: 0,
       isLoading: true,
       keyword: "",
       noticias: [],
@@ -131,6 +157,35 @@ export default {
     }
   },
   methods: {
+    fazerUploadAnexo (idNoticia) {
+
+      const formData = new FormData()
+      formData.append("file", this.file)
+
+      this.$axios
+        .post(`anexos-noticia-upload/${idNoticia}`, formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          Swal.fire({
+            title: "Upload do anexo concluído",
+            text: "Confirme o envio clicando no botão de enviar anexo",
+            icon: "success"
+          })
+          .then( () => {
+            
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Upload do anexo não concluído",
+            icon: "error"
+          });
+        });
+
+    },
     del(id, rowId) {
       this.$axios
         .delete("noticia-remove/" + id)
