@@ -1,9 +1,8 @@
 <template>
   	<div >
-        <Comum/>
-        <div class="container">
+      <div class="container">
 			<br>
-			<h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
+			<h2 class="mt-5 mb-0">Eventos</h2>
 			<hr>
 			<div v-if="eventos.length > 0">
 				<b-card-group columns class="cards">
@@ -30,21 +29,14 @@
 				<br>
 			</div>
         </div>
-        <BottomBar/>
   	</div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
-import BottomBar from "~/components/anonymous/BottomBar";
 
 
 export default {
-    layout: 'index',
-    components: {
-        Comum,
-        BottomBar
-    },
+  layout: 'index',
 	head () {
 		return {
 			title: 'PET-CC UFRN | Eventos'
@@ -88,10 +80,12 @@ a {
 	text-decoration: none;
  }
 
+
 h2 {
   font-weight: 300;
-  font-size: 40px;
+  font-size: 50px;
   text-align: center;
+  color: white;
 }
 em{
   font-size: 16px;
@@ -103,6 +97,7 @@ h3 {
 hr {
   margin-top: 10px;
   margin-bottom: 20px;
+  background-color:white;
 }
 
 .cards {

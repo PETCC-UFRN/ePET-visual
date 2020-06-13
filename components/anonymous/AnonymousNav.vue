@@ -2,7 +2,7 @@
   <div>
     <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
       <div class="container">
-        <a class="navbar-brand m" href="/">PET-CC UFRN</a>
+        <nuxt-link class="navbar-brand petcc" to="/">PET-CC UFRN</nuxt-link>
         <button
           class="navbar-toggler navbar-toggler-right"
           type="button"
@@ -16,21 +16,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle subtopic"
+                href="#"
+                id="navbarDropdownBlog"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >Sobre</a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <nuxt-link class="dropdown-item" to="/login">Sobre o PET-CC</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/register">Agradecimentos</nuxt-link>
+              </div>
             <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
+              <nuxt-link class="nav-link subtopic" to="/eventos">Eventos</nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link" to="/eventos">Eventos</nuxt-link>
+              <nuxt-link class="nav-link subtopic" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link" to="/noticias">Notícias</nuxt-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/validacao">Validar certificado</a>
+              <a class="nav-link subtopic" href="/validacao">Validar certificado</a>
             </li>
             <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                class="nav-link dropdown-toggle subtopic"
                 href="#"
                 id="navbarDropdownBlog"
                 data-toggle="dropdown"
@@ -38,8 +48,8 @@
                 aria-expanded="false"
               >Área do usuário</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <nuxt-link class="dropdown-item" to="/login"><i class="icon-login"></i> Login</nuxt-link>
-                <nuxt-link class="dropdown-item" to="/register"><i class="icon-user-follow"></i> Registrar</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/login">Acessar</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/register">Registrar</nuxt-link>
               </div>
             </li>
           </ul>
@@ -53,41 +63,30 @@
 a {
   border-radius: 0px !important;
 }
-.m{
-  font-weight: bold;
-  font-size: 24px; 
-}
-.icon-user-follow {
-  font-size:17px;
+
+#navbarDropdownBlog{
+  color: #e098b1;
 }
 
-.icon-login {
-  font-size:15px;
+.cor{
+  /* background-color: #89023e; */
+  background-color: transparent;
+}
+
+@media(max-width: 500px){
+  .cor {
+    background-color: #89023e;    
+  }
+}  
+.petcc {
+  font-size: 24px;
+  font-weight: 600;
+  border-color: white;
+}
+
+.subtopic {
+  font-size: 19px;
+  font-weight: 350;
+  color: #e098b1;
 }
 </style>
-
-<script>
-export default {
-  mounted() {
-      let fontawesome = document.createElement('script')
-      fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
-      document.head.appendChild(fontawesome)
-      this.$nextTick(function(){
-        window.addEventListener("scroll", function(){
-          var navbar = document.getElementById("nav");
-          var nav_classes = navbar.classList;
-          if(document.documentElement.scrollTop >= 50) {
-            if (nav_classes.contains("shrink") === false) {
-              nav_classes.toggle("shrink");
-            }
-          }
-          else {
-            if (nav_classes.contains("shrink") === true) {
-              nav_classes.toggle("shrink");
-            }
-          }
-        })
-      })
-    },
-}
-</script>

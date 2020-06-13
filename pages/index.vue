@@ -1,28 +1,17 @@
 <template>
   <div>
-    <Comum/>
-    <!-- <Particles/> -->
-    <div class="container">
-      <About/>
-    </div>
-    <Footer/>
+    <Particles/>
     <nuxt/>
   </div>
 </template>
 
 <script>
-  // import Particles from "../components/anonymous/Particles";
-  import Comum from "../components/Comum";
-  import About from "../components/anonymous/About";
-  import Footer from "../components/anonymous/Footer";
+  import Particles from "../components/anonymous/Particles";
 
   export default {
-    layout: 'clean',
+    layout: 'index',
     components: {
-      // Particles,
-      Comum,
-      About,
-      Footer,
+      Particles,
     }
   }
 </script>
