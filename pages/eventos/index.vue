@@ -4,8 +4,7 @@
 			<br>
       <div class="col-12 mx-auto mt-5">
 
-        <h1 class="mb-0 text-white">Eventos</h1>
-        <hr class="bg-white">
+        <h1 class="mb-3 text-white">Eventos</h1>
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">

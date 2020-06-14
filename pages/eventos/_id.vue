@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <Comum/>  
-    <div class="container">
-     	<br>
-        <h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
-        <hr>
-        <b-row>
+  <div class="container">
+    <br>
+    <h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
+    <hr>
+    <b-row>
 			<b-col>
 				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
 				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
@@ -48,22 +46,14 @@
 				faça login através dessa outra <nuxt-link to="/login">página web</nuxt-link>.</p>
 			</b-col>
 		</b-row>
-    </div>
-    <BottomBar/>
   </div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
 import moment from "moment";
-import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
   layout: 'index',
-  components: {
-      Comum,
-      BottomBar
-  },
 	head () {
 		return {
 			title: 'PET-CC UFRN | Eventos'

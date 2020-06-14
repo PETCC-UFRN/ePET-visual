@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Comum/>  
     <div class="container">
      	<br>
       <h2 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h2>
@@ -14,21 +13,13 @@
         </b-col>
       </b-row>
     </div>
-    <BottomBar/>
   </div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
-
-import BottomBar from "~/components/anonymous/BottomBar";
 
 export default {
   layout: 'index',
-  components: {
-    Comum,
-    BottomBar
-  },
 	head () {
 		return {
 			title: 'PET-CC UFRN | Notícias'
