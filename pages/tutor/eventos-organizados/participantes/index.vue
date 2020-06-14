@@ -12,7 +12,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <label for="exampleFormControlInput1">
+          <label>
             <h5>Nome</h5>
           </label>
           <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
@@ -58,7 +58,7 @@
             :items="participantes"
             :current-page="currentPage"
             :bordered="false"
-            striped   
+            striped
             :per-page="10"
             pills
             :fields="fields"
@@ -89,6 +89,14 @@
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
             </template>
+            <template v-slot:cell(frequencias)="row">
+              <b-row>
+                <div v-if="row.item.confirmado === true">
+                  <input type="checkbox" v-for="(item, index) in (participantes[0].evento.qtdDias || 0)" :key="index"
+                         class="m-2">
+                </div>
+              </b-row>
+            </template>
           </b-table>
           <nav>
             <b-pagination
@@ -111,156 +119,158 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
-import PessoasSelect from "~/components/selects/PessoasSelect";
+  import Swal from "sweetalert2";
+  import PessoasSelect from "~/components/selects/PessoasSelect";
 
-export default {
-  name: "dashboard",
-  layout: "menu/tutor",
-  components: {
-    "v-pessoas": PessoasSelect
-  },
-  data() {
-    return {
-      form: {
-        pessoa: 0
-      },
-      pessoas: {},
-      participantes: [],
-      keyword: "",
-      eventos: [],
-      currentPage: 1,
-      fields: [
-        { key: "pessoa.nome", label: "Nome", sortable: true },
-        {
-          key: "pessoa.cpf",
-          label: "CPF",
-          sortable: true,
-          formatter: value => {
-            if (value != null)
-              return `${value.substring(0, 3)}.${value.substring(
-                3,
-                6
-              )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
-          }
+  export default {
+    name: "dashboard",
+    layout: "menu/tutor",
+    components: {
+      "v-pessoas": PessoasSelect
+    },
+    data() {
+      return {
+        form: {
+          pessoa: 0
         },
-        { key: "actions", label: "Ações disponíveis" }
-      ]
-    };
-  },
-  computed: {
-    items() {
-      return this.keyword
-        ? this.eventos.filter(item => {
+        pessoas: {},
+        participantes: [],
+        keyword: "",
+        eventos: [],
+        currentPage: 1,
+        fields: [
+          {key: "pessoa.nome", label: "Nome", sortable: true},
+          {
+            key: "pessoa.cpf",
+            label: "CPF",
+            sortable: true,
+            formatter: value => {
+              if (value != null)
+                return `${value.substring(0, 3)}.${value.substring(
+                  3,
+                  6
+                )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
+            }
+          },
+          {key: "actions", label: "Ações disponíveis"},
+          {key: "frequencias", label: "Frequência em dias"},
+        ]
+      };
+    },
+    computed: {
+      items() {
+        return this.keyword
+          ? this.eventos.filter(item => {
             item.evento.titulo.includes(this.keyword) ||
-              item.pessoa.nome.includes(this.keyword);
+            item.pessoa.nome.includes(this.keyword);
           })
-        : this.eventos;
-    }
-  },
-  mounted() {
-    this.consumirParticipantesApi();
-  },
-  methods: {
-    consumirParticipantesApi() {
-      this.$axios
-        .get(`participantes-evento/${this.$route.query.idEvento}`)
-        .then(res => {
-          this.participantes = res.data.content;
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
+          : this.eventos;
+      }
+    },
+    mounted() {
+      this.consumirParticipantesApi();
+    },
+    methods: {
+      consumirParticipantesApi() {
+        this.$axios
+          .get(`participantes-evento/${this.$route.query.idEvento}`)
+          .then(res => {
+            this.participantes = res.data.content;
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhum pessoa cadastrada",
+                icon: "info"
+              });
+            } else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," +
+                  " tente novamente mais tarde.",
+                icon: "error"
+              })
+            }
+          });
+      },
+      submitForm(e) {
+        e.preventDefault();
+        this.$axios
+          .post(
+            `participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
+          )
+          .then(res => {
             Swal.fire({
-              title: "Nenhum pessoa cadastrada",
-              icon: "info"
+              title: "Participante cadastrado",
+              icon: "success"
+            }).then(() => {
+              this.form = Object.entries(this.form).map(item => {
+                return (item = "");
+              });
+              this.consumirParticipantesApi();
             });
-          } else {
+          })
+          .catch(err => {
             Swal.fire({
-              title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-              " tente novamente mais tarde.",
+              title: "Participante não cadastrado",
               icon: "error"
-            })
-          }
-        });
-    },
-    submitForm(e) {
-      e.preventDefault();
-      this.$axios
-        .post(
-          `participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
-        )
-        .then(res => {
-          Swal.fire({
-            title: "Participante cadastrado",
-            icon: "success"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-            this.consumirParticipantesApi();
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Participante não cadastrado",
-            icon: "error"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
+            }).then(() => {
+              this.form = Object.entries(this.form).map(item => {
+                return (item = "");
+              });
             });
           });
-        });
-    },
-    del(id, rowId) {
-      this.$axios
-        .delete("participantes-remove/" + id)
-        .then(() => {
-          Swal.fire({
-            title: "Participante removido",
-            icon: "success"
-          }).then(() => {
-            this.participantes.splice(rowId, 1);
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            title: "Participante não removido",
-            icon: "error"
-          });
-        });
-    },
-    confirmar(id) {
-      this.$axios.post(`participantes-confirmar/${id}`).then(() => {
-        Swal.fire({
-          title: "Participante confirmado",
-          icon: "success"
-        })
+      },
+      del(id, rowId) {
+        this.$axios
+          .delete("participantes-remove/" + id)
           .then(() => {
-            this.consumirParticipantesApi();
+            Swal.fire({
+              title: "Participante removido",
+              icon: "success"
+            }).then(() => {
+              this.participantes.splice(rowId, 1);
+            });
           })
           .catch(() => {
             Swal.fire({
-              title: "Participante não confirmado",
+              title: "Participante não removido",
               icon: "error"
             });
           });
-      });
+      },
+      confirmar(id) {
+        this.$axios.post(`participantes-confirmar/${id}`).then(() => {
+          Swal.fire({
+            title: "Participante confirmado",
+            icon: "success"
+          })
+            .then(() => {
+              this.consumirParticipantesApi();
+            })
+            .catch(() => {
+              Swal.fire({
+                title: "Participante não confirmado",
+                icon: "error"
+              });
+            });
+        });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
 
-h3, h4 {
-  font-weight: 300;
-}
+  h3, h4 {
+    font-weight: 300;
+  }
 
-h4 {
-  text-align: center;
-}
-strong {
-  font-size: 18px;
-}
+  h4 {
+    text-align: center;
+  }
+
+  strong {
+    font-size: 18px;
+  }
 </style>
