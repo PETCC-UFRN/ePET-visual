@@ -16,6 +16,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <nuxt-link class="nav-link subtopic" to="/">Início</nuxt-link>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle subtopic"
@@ -26,8 +29,8 @@
                 aria-expanded="false"
               >Sobre</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <nuxt-link class="dropdown-item" to="/login">Sobre o PET-CC</nuxt-link>
-                <nuxt-link class="dropdown-item" to="/register">Agradecimentos</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/sobre">Sobre o PET-CC</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/desenvolvedores">Desenvolvedores</nuxt-link>
               </div>
             <li class="nav-item">
               <nuxt-link class="nav-link subtopic" to="/eventos">Eventos</nuxt-link>
@@ -36,7 +39,7 @@
               <nuxt-link class="nav-link subtopic" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link subtopic" href="/validacao">Validar certificado</a>
+              <nuxt-link class="nav-link subtopic" to="/noticias">Contato</nuxt-link>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -50,6 +53,8 @@
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
                 <nuxt-link class="dropdown-item" to="/login">Acessar</nuxt-link>
                 <nuxt-link class="dropdown-item" to="/register">Registrar</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/validacao">Validar certificado</nuxt-link>
+                
               </div>
             </li>
           </ul>

@@ -1,7 +1,7 @@
 {
   "name": "epet-frontend",
   "version": "1.0.0",
-  "description": "Implementacao do front-end da plataforma do PET",
+  "description": "Plataforma do PET-CC UFRN",
   "author": "Italo, Samuel, Henrique e Jhonattan",
   "private": true,
   "scripts": {

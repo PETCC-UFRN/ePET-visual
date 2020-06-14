@@ -8,9 +8,9 @@
 
 <style scoped>
 
-* {
+body, html {
     margin: 0;
-    padding:0;
+    height: 100%;
 }
 
 /* para garantir que estes elementos ocuparão toda a tela */
@@ -18,13 +18,12 @@
 .tema {
   height: 100vh;
   background-image: url('https://i.imgur.com/YXwU87x.jpg');
-  background-position: bottom;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  margin-right: 0;
-
-    position: relative; /* posição fixa para que a possível rolagem da tela não revele espaços em branco */
-    width: 100%;
+  background-attachment: fixed;
+    /* position: relative; posição fixa para que a possível rolagem da tela não revele espaços em branco */
+    /* width: 100%; */
 }
 </style>
 

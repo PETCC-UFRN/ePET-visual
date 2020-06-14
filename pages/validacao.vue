@@ -1,15 +1,16 @@
 <template>
   <div>
-    <Comum />
-    <div class="container" id="verify">
+    <div class="container-fluid pt-5" id="verify">
       <br />
-      <div class="col-8 mx-auto">
-        <h2 class="titulo">Validar Declaração</h2>
+      <div class="col-8 mx-auto mt-5">
+        <h1 class="text-white">Validar declaração</h1>
         <b-form @submit.prevent="submitForm">
           <b-form-group
+            class="mt-5"
             id="input-group-1"
             label="Código de validação:"
             label-for="input-1"
+            label-class="text-black"
             description="Disponível na sua declaração."
           >
             <b-form-input id="input-1" type="text" ref="input1" required v-model="codigoValidacao"></b-form-input>
@@ -31,21 +32,14 @@
         <br />
       </div>
     </div>
-    <BottomBar />
   </div>
 </template>
 
 <script>
-import Comum from "../components/Comum";
-import BottomBar from "../components/anonymous/BottomBar";
 import Swal from "sweetalert2";
 
 export default {
   layout: "index",
-  components: {
-    Comum,
-    BottomBar
-  },
   data() {
     return {
       codigoValidacao: "",
@@ -94,12 +88,24 @@ export default {
 .titulo {
   margin-top: 20px;
   margin-bottom: 10px;
-  font-weight: 300;
-  text-align: center;
-  font-size: 36px;
   box-sizing: border-box;
   margin: 0.67em 0;
 }
+
+h1 {
+  font-weight: 300;
+  text-align: center;
+  font-size: 50px;
+  text-shadow: #000 2px 3px 2px;
+
+  
+}
+
+@media(max-width: 500px){
+  h1 {
+    font-size: 40px;
+  }
+} 
 
 p {
   margin: 0px 0px 0px;

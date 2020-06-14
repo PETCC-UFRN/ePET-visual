@@ -1,50 +1,44 @@
 <template>
   <div>
-    <Comum />
-    <div class="container">
-      <br />
-      <h1 class="mt-3 mb-0">
-        <i class="far fa-newspaper"></i> Notícias
-      </h1>
-      <hr />
-      <div v-if="noticias.length > 0">
-        <b-card-group columns class="cards">
-          <div v-for="noticia in noticias" :key="noticia.id">
-            <nuxt-link :to="'/noticias/' + noticia.idNoticia">
-              <b-card>
-                <b-card-text class="small text-muted">
-                  {{noticia.inicio_exibicao.substring(8,10)}}
-                  {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
-                </b-card-text>
-                <hr />
-                <b-card-title>
-                  <h5>{{noticia.titulo}}</h5>
-                </b-card-title>
-                <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
-              </b-card>
-            </nuxt-link>
-          </div>
-        </b-card-group>
+    <div class="container pt-5">
+      <div class="col-12 mx-auto mt-5">
+        <h1 class="mt-5 mb-0 text-white">
+          <i class="far fa-newspaper"></i> Notícias
+        </h1>
+        <hr class="bg-white"/>
+        <div v-if="noticias.length > 0">
+          <b-card-group columns class="cards">
+            <div v-for="noticia in noticias" :key="noticia.id">
+              <nuxt-link :to="'/noticias/' + noticia.idNoticia">
+                <b-card>
+                  <b-card-text class="small text-muted">
+                    {{noticia.inicio_exibicao.substring(8,10)}}
+                    {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
+                  </b-card-text>
+                  <hr />
+                  <b-card-title>
+                    <h5>{{noticia.titulo}}</h5>
+                  </b-card-title>
+                  <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
+                </b-card>
+              </nuxt-link>
+            </div>
+          </b-card-group>
+        </div>
+        <div v-else>
+          <h2>Não existe notícia cadastrada.</h2>
+          <br />
+        </div>
       </div>
-      <div v-else>
-        <h2>Não existe notícia cadastrada.</h2>
-        <br />
-      </div>
+        
     </div>
-    <BottomBar />
   </div>
 </template>
 
-<script>
-import Comum from "~/components/Comum";
-import BottomBar from "~/components/anonymous/BottomBar";
 
+<script>
 export default {
   layout: "index",
-  components: {
-    Comum,
-    BottomBar
-  },
   head() {
     return {
       title: "PET-CC UFRN | Notícias"
@@ -98,9 +92,16 @@ a {
 h1 {
   text-align: center;
   font-weight: 300;
-  font-size: 40px;
+  font-size: 50px;
+  text-shadow: #000 2px 3px 2px;
+
 }
 
+@media(max-width: 500px){
+  h1 {
+    font-size: 40px;
+  }
+} 
 .cards {
   margin-bottom: 20px;
 }
