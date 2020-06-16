@@ -79,19 +79,12 @@
                   placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
                 <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
 
-                <b-progress v-if="file.length != 0" :value="progressValue" :max="100" show-progress animated></b-progress>
+                <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
                 <template v-slot:footer>
                   <b-button block
-                    v-if="!wasUploaded"
-                    @click="fazerUploadAnexo(row.item.idNoticia)"
+                    @click="fazerUploadAnexo(row.item)"
                     class="btn btn-sm btn-success mt-2">
-                    Fazer upload do anexo
-                  </b-button>
-                  <b-button block
-                    v-if="wasUploaded"
-                    @click="enviarAnexo(row.item)"
-                    class="btn btn-sm btn-warning mt-2">
-                    Confirmar envio do anexo
+                    Anexar arquivo
                   </b-button>
                   
                 </template>
@@ -123,7 +116,6 @@ export default {
   },
   data() {
     return {
-      wasUploaded: false,
       file:[],
       progressValue: 0,
       isLoading: true,
@@ -166,56 +158,50 @@ export default {
     }
   },
   methods: {
-    enviarAnexo(noticia) {
-
-      delete noticia["_showDetails"]
+    fazerUploadAnexo(noticia) {
 
       const formData = new FormData()
       formData.append("file", this.file)
 
       this.$axios
-        .post(`anexos-noticia-upload/${noticia.idNoticia}`, {
-            anexos: formData,
-            noticia: noticia
-          }
-        )
-        .then(res => {
-          Swal.fire({
-            title: "Anexo da notícia enviado",
-            icon: "success"
-          })
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Anexo da notícia não enviado",
-            icon: "error"
-          });
-        });
-    },
-    fazerUploadAnexo(idNoticia) {
-
-      const formData = new FormData()
-      formData.append("file", this.file)
-
-      this.$axios
-        .post(`anexos-noticia-upload/${idNoticia}`, formData, {
+        .post(`anexos-noticia-upload/${noticia.idNoticia}`, formData, {
           onUploadProgress: uploadEvent => {
             this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
           }
         })
         .then(res => {
-          Swal.fire({
-            title: "Upload do anexo concluído",
-            text: "Confirme o envio clicando no botão de enviar anexo",
-            icon: "success"
-          })
-          .then( () => {
-            this.wasUploaded = true
-          });
+          delete noticia["_showDetails"]
+          
+          this.$axios
+            .post(`anexos-noticia-cadastro/${noticia.idNoticia}`, {
+                anexos: res.data.anexos,
+                idAnexo: res.data.idAnexo,
+                noticia: noticia
+              }
+            )
+            .then(res => {
+              Swal.fire({
+                title: "Anexo da notícia enviado",
+                icon: "success"
+              })
+              .then( () => {
+                this.progressValue = 0
+                noticia["_showDetails"] = true
+                this.file = []
+              });
+            })
+            .catch(err => {
+              Swal.fire({
+                title: "Anexo da notícia não enviado",
+                text: "Tente novamente em outro momento.",
+                icon: "error"
+              });
+            });
         })
         .catch(err => {
           Swal.fire({
             title: "Upload do anexo não concluído",
+            text: "Tente novamente em outro momento.",
             icon: "error"
           });
         });
