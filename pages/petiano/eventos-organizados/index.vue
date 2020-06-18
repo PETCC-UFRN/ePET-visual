@@ -31,6 +31,10 @@
                 class="btn btn-sm btn-success mt-1" ><i class="fa fa-check fa-fw"></i>
               Lançar presenças</b-button>
 
+              <b-button  @click="row.toggleDetails" class="btn btn-sm btn-indigo mt-1">
+                {{ row.detailsShowing ? 'Não anexar' : 'Anexar'}} arquivo
+              </b-button>   
+
               <nuxt-link
                 :to="`/petiano/eventos-organizados/organizadores/?idEvento=${row.item.evento.idEvento}`"
                 class="btn btn-sm btn-teal mt-1"
@@ -55,6 +59,23 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+            </template>
+            <template v-slot:row-details="row">
+              <b-card>
+                <b-form-file 
+                  v-model="file"
+                  placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
+                <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
+
+                <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
+                <template v-slot:footer>
+                  <b-button block
+                    @click="fazerUploadAnexo(row.item.evento)"
+                    class="btn btn-sm btn-success mt-2">
+                    Anexar arquivo
+                  </b-button>
+                </template>
+              </b-card>
             </template>
           </b-table>
           <nav>
@@ -97,6 +118,8 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
+      file:[],
+      progressValue: 0,
       isLoading: true,
       eventos: [],
       eventoPeriodo: [],
@@ -119,6 +142,52 @@ export default {
     this.consumindoEventosOrganizandoApi();
   },
   methods: {
+    fazerUploadAnexo(evento) {
+      const formData = new FormData()
+      formData.append("file", this.file)
+      this.$axios
+        .post(`anexos-evento-upload/${evento.idEvento}`, formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          delete evento["_showDetails"]
+          
+          this.$axios
+            .post(`anexos-evento-cadastro/${evento.idEvento}`, {
+                anexos: res.data.anexos,
+                idAnexo: res.data.idAnexo,
+                evento: evento
+              }
+            )
+            .then(res => {
+              Swal.fire({
+                title: "Anexo do evento enviado",
+                icon: "success"
+              })
+              .then( () => {
+                this.progressValue = 0
+                evento["_showDetails"] = true
+                this.file = []
+              });
+            })
+            .catch(err => {
+              Swal.fire({
+                title: "Anexo do evento não enviado",
+                text: "Tente novamente em outro momento.",
+                icon: "error"
+              });
+            });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Upload do anexo não concluído",
+            text: "Tente novamente em outro momento.",
+            icon: "error"
+          });
+        });
+    },
     cadastrar() {
       this.$axios
         .post(`periodo-evento-cadastrar/${this.form.evento.idEvento}`, this.form)
