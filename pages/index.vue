@@ -55,7 +55,7 @@
       </div>
     </section>
     <section class="contact mb-5">
-      <h1 class="text-center pt-3 pb-5">Contato</h1>
+      <h1 class="text-center pt-3 pb-3">Contato</h1>
       <b-row class="mx-auto" align-h="center">
         <b-col class="contact-dados" cols="5">
             <p><strong> Endereço físico:</strong>
@@ -66,6 +66,18 @@
             </p>
             <p><strong>Email:</strong>
               <a href="mailto:#">{{informacoes.email}}</a>
+            </p>
+            <p class="mt-1 mb-2">
+              <a class="mr-1" :href="informacoes.facebook" target="_blank"><i class="fa fa-facebook-square fa-lg text-black"></i> petccufrn</a>
+            </p>
+            <p class="mt-1 mb-2">
+                <a :href="informacoes.youtube" target="_blank"><i class="fa fa-youtube-square fa-lg"></i> PET Ciência da Computação UFRN</a>
+            </p>
+            <p class="mt-1 mb-2">
+              <a class="mr-1" :href="informacoes.instagram" target="_blank"><i class="fa fa-instagram fa-lg"></i> petccufrn</a>
+            </p>
+            <p class="mt-1 mb-1">
+              <a class="mr-1" :href="informacoes.github" target="_blank"><i class="fa fa-github-square fa-lg"></i> PETCC-UFRN</a>
             </p>
         </b-col>
         <b-col class="contact-imagem">
@@ -80,13 +92,19 @@
         </b-col>
       </b-row>
     </section>
+   <BottomBarHome/> 
   </div>
 </template>
 
 <script>
 
+import BottomBarHome from "../components/anonymous/BottomBarHome"
+
 export default {
   layout: 'index',
+  components : {
+    BottomBarHome
+  },
   data() {
     return {
       informacoes: {
@@ -133,6 +151,14 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
+a i {
+  color:black !important;
+}
+
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;

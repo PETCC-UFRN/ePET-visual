@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav :class="{change_color: scrollPosition > 50}" id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
+    <nav :class="{change_color: scrollPosition > 50}" id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
         <nuxt-link class="navbar-brand petcc" to="/">PET-CC UFRN</nuxt-link>
         <button
@@ -92,7 +92,7 @@ a {
 }
 
 #navbarDropdownBlog{
-  color: #e098b1;
+  color: white;
 }
 
 .cor{
@@ -101,7 +101,7 @@ a {
 }
 
 @media(max-width: 500px){
-  .cor {
+  #nav {
     background-color: #89023e;    
   }
 }  
