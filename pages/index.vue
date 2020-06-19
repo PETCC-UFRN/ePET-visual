@@ -20,12 +20,7 @@
           <div class="col-xs-12 pt-2">
             <h1 id="sobre" class="text-center pt-5">Sobre o PET-CC</h1>
             <p class="text-center pt-4 pr-2 pl-2"> 
-              O Programa de Educação Tutorial (PET) é um projeto nacional, organizado 
-              através de cursos de graduação das Instituições de Ensino Superior do Brasil. 
-              Diante disso, nosso grupo está relacionado ao curso de Ciência da Computação (CC) 
-              da universidade federal do Rio grande do Norte (UFRN). Além disso, assim como cada PET, 
-              somos orientados por um tutor, atualmente o professor Umberto Costa e nosso grupo é 
-              composto por 12 bolsistas e até 6 voluntários.
+              {{informacoes.sobre}}
             </p>
             <h1 class="mt-5 mb-2 text-center"><i class="fa fa-user"></i> Tutor</h1>
             <div class="pt-5" v-if="tutor.length > 0">
@@ -59,8 +54,31 @@
         </div>
       </div>
     </section>
-    <section class="contact">
-      <h1 class="text-center pt-3">Contato</h1>
+    <section class="contact mb-5">
+      <h1 class="text-center pt-3 pb-5">Contato</h1>
+      <b-row class="mx-auto" align-h="center">
+        <b-col class="contact-dados" cols="5">
+            <p><strong> Endereço físico:</strong>
+              {{informacoes.endereco}}
+            </p>
+            <p><strong>Telefone:</strong>
+              {{informacoes.telefone}}
+            </p>
+            <p><strong>Email:</strong>
+              <a href="mailto:#">{{informacoes.email}}</a>
+            </p>
+        </b-col>
+        <b-col class="contact-imagem">
+          <div id="map-container-google-1" class="z-depth-1-half map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.0994332567075!2d-35.20050558520093!3d-5.841607859200002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b2ff75fe0da203%3A0x779ce70a2e19eceb!2sDepartamento%20de%20Inform%C3%A1tica%20e%20Matem%C3%A1tica%20Aplicada%20-%20Lagoa%20Nova%2C%20Natal%20-%20RN!5e0!3m2!1sen!2sbr!4v1576003314468!5m2!1sen!2sbr"
+              frameborder="0"
+              style="border-radius:2px;"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </b-col>
+      </b-row>
     </section>
   </div>
 </template>
@@ -71,6 +89,12 @@ export default {
   layout: 'index',
   data() {
     return {
+      informacoes: {
+        email:"",
+        endereco:"",
+        telefone:"",
+        sobre:""
+      },
       mainProps: {width: 100, height: 100},
       mainPropsTutor: {width: 100, height: 100},
       petianosAtuais: []
@@ -78,7 +102,8 @@ export default {
   },
     
   mounted() {
-    this.getPetianosAtuais();  
+    this.getPetianosAtuais();
+    this.getInformacoes();  
   },
   methods: {
     getPetianosAtuais() {
@@ -88,6 +113,13 @@ export default {
           this.petianosAtuais = res.data.content;
         })
     },
+    getInformacoes() {
+      this.$axios
+        .get("informacoes")
+        .then(res => {
+          this.informacoes = res.data;
+        });
+    }
   },
   computed: {
     tutor() {
@@ -163,12 +195,41 @@ p {
 
 .contact {
   background: white;
+  padding-bottom: 70px; 
 }
 
 @media(min-width: 500px){
   .contact {
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 130px;
+    margin-right: 130px;
+  }
+
+  .contact-dados {
+    padding-left: 40px;
+    padding-top: 30px;
+    
+  }
+  .contact-imagem {
+    padding-right: 40px;
   }
 } 
+
+@media(max-width: 500px){
+  .contact-dados p {
+      font-size: 16px;
+    }
+}
+.map-container {
+  overflow: hidden;
+  padding-bottom: 350px;
+  position: relative;
+  height: 0;
+}
+.map-container iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
 </style>
