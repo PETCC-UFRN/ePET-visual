@@ -1,27 +1,9 @@
 <template>
-  <div class="tema">
+  <div>
     <AnonymousNav/>
     <nuxt />
   </div>
-    
 </template>
-
-<style scoped>
-
-/* para garantir que estes elementos ocuparão toda a tela */
-
-.tema {
-  height: 300vh;
-  background-image: url('https://i.imgur.com/YXwU87x.jpg');
-  background-attachment: fixed;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
-    /* position: relative; posição fixa para que a possível rolagem da tela não revele espaços em branco */
-    /* width: 100%; */ 
-    
-}
-</style>
 
 
 <script>
@@ -47,7 +29,6 @@ export default {
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js' },
       { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js' },
       { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js' },
-      { src: '/js/index/particles.js' },
     ]
   },
 }

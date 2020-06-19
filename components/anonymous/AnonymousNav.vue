@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
+    <nav :class="{change_color: scrollPosition > 50}" id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
       <div class="container">
         <nuxt-link class="navbar-brand petcc" to="/">PET-CC UFRN</nuxt-link>
         <button
@@ -63,8 +63,30 @@
     </nav>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return{
+      scrollPosition: null
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.updateScroll);
+  },
+  methods: {
+    updateScroll() {
+       this.scrollPosition = window.scrollY
+    }
+  }
+}
+</script>
+
 
 <style scoped>
+.change_color {
+  background-color:#89023e;
+}
+
 a {
   border-radius: 0px !important;
 }
