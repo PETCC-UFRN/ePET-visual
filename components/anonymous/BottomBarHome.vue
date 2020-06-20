@@ -10,6 +10,11 @@
 <script>
 export default {
     name: 'c-footer',
+    data() {
+      return {
+        year: new Date().getFullYear(),
+      }
+    },
 }
 </script>
 

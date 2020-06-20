@@ -8,7 +8,7 @@
             <h1 class="text-white text-center petcc">Programa de Educação Tutorial</h1>
             <h2 class="text-center mb-2">Ciência da Computação</h2>            
             <p class="text-center">
-              <button href="#sobre" class="mt-5 btn btn-outline-info btn-circle btn-xl"><i class="fa fa-arrow-down text-white"></i></button>
+              <button href="#sobre" class="mt-5 btn btn-info btn-circle btn-xl"><i class="fa fa-arrow-down text-white"></i></button>
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@
       </div>
     </section>
     <section class="contact mb-5">
-      <h1 class="text-center pt-3 pb-3">Contato</h1>
+      <h1 class="text-center pt-3 pb-3" id="#contato">Contato</h1>
       <b-row class="mx-auto" align-h="center">
         <b-col class="contact-dados" cols="5">
             <p><strong> Endereço físico:</strong>

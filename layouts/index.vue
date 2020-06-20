@@ -15,7 +15,7 @@ export default {
   },
    
   head: {
-    title: 'PET-CC UFRN',
+    title: 'PET-CC UFRN | Início',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

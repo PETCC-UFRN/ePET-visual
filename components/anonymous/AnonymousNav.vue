@@ -29,7 +29,7 @@
                 aria-expanded="false"
               >Sobre</a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <nuxt-link class="dropdown-item" to="/sobre">Sobre o PET-CC</nuxt-link>
+                <nuxt-link class="dropdown-item" to="/sobre">Membros eméritos</nuxt-link>
                 <nuxt-link class="dropdown-item" to="/desenvolvedores">Desenvolvedores</nuxt-link>
               </div>
             <li class="nav-item">
@@ -39,7 +39,7 @@
               <nuxt-link class="nav-link subtopic" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link subtopic" to="/noticias">Contato</nuxt-link>
+              <nuxt-link class="nav-link subtopic" to="/#contato">Contato</nuxt-link>
             </li>
             <li class="nav-item dropdown">
               <a
