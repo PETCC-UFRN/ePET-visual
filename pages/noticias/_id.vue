@@ -7,7 +7,7 @@
       <hr>
       <b-row class="mb-5">
         <b-col>
-  				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
+  				<b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1"> {{mes}}</p>
           <h3>{{noticia.titulo}}</h3>
           <p class="mt-3 mb-3">{{noticia.corpo}}</p>
@@ -30,7 +30,8 @@ export default {
 		return {
 			noticia: {
 				titulo: "",
-				corpo: "",
+        corpo: "",
+        imagem: "", 
 				petiano: {
 					pessoa: {
 						nome:""
@@ -102,6 +103,11 @@ div p {
 hr {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: 91.7vh;
 }
 
 </style>

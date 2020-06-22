@@ -169,7 +169,7 @@ a i {
 
 .header-site {
   background-image: url('https://i.imgur.com/YXwU87x.jpg');
-  background-position: center top;
+  background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

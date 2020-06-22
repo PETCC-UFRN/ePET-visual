@@ -2,15 +2,14 @@
   <div>
     <div class="container pt-5">
       <div class="mx-auto mt-5">
-        <h1 class="mt-5 mb-0 text-center">
-          <i class="fa fa-newspaper"></i> Notícias
+        <h1 class="mt-5 mb-3 text-center">
+          <i class="fa fa-newspaper-o"></i> Notícias
         </h1>
-        <hr class="bg-white"/>
         <div v-if="noticias.length > 0">
           <b-card-group columns class="cards">
             <div v-for="noticia in noticias" :key="noticia.id">
               <nuxt-link :to="'/noticias/' + noticia.idNoticia">
-                <b-card>
+                <b-card class="pr-4">
                   <b-card-text class="small text-muted">
                     {{noticia.inicio_exibicao.substring(8,10)}}
                     {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
@@ -114,15 +113,6 @@ p.card-text {
 } 
 .cards {
   margin-bottom: 20px;
-}
-
-hr {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-a {
-  color: inherit;
 }
 
 .container {

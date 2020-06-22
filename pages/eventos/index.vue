@@ -1,9 +1,8 @@
 <template>
   <div >
     <div class="container pt-5">
-			<br>
-      <div class="col-12 mx-auto mt-3">
-        <h1 class="mb-3">Eventos</h1>
+      <div class="mx-auto mt-5">
+        <h1 class="mt-5 mb-3 text-center"><i class="fa fa-calendar-check-o"></i> Eventos</h1>
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">
@@ -11,13 +10,19 @@
               <b-card>
                 <b-card-title><h5>{{evento.titulo}} </h5></b-card-title>
                 <hr>
-                <b-card-text class="small text-muted">  <em>Postado em 15-10-2018 </em></b-card-text>
                 <b-card-text>
-                <p  class="mt-0 mb-0"><b>Período de inscrição:</b> {{evento.d_inscricao}} a {{evento.d_inscricao_fim}}.</p>
-                <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}.</p>
-                <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}.</p>
-                <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h.</p>
-                <p class="mt-0 mb-0"><b>Valor da inscrição:</b> R$ {{evento.valor}},00.</p>
+                <p class="mt-0 mb-0"><b>Período de inscrição:</b> 	
+                  <span v-if="evento.d_inscricao !== ''">{{ evento.d_inscricao | moment }}</span> -
+                  <span v-if="evento.d_inscricao_fim !== ''">{{ evento.d_inscricao_fim | moment}}</span>
+                </p>
+                <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
+                <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}</p>
+                <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h</p>
+                <p class="mt-0 mb-0"><b>Valor da inscrição:</b> 
+                  {{new Intl
+                    .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                    .format(evento.valor) }}
+                </p>
                 </b-card-text>
               </b-card>
             </nuxt-link>
@@ -34,7 +39,7 @@
 </template>
 
 <script>
-
+import moment from "moment";
 
 export default {
   layout: 'index',
@@ -66,6 +71,11 @@ export default {
       this.eventos = res.data;
     });
   },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
   computed: {
     filterEventos() {
       return this.eventos.filter(evento => evento.ativo == true)
@@ -85,33 +95,33 @@ a {
 h1 {
   font-weight: 300;
   font-size: 50px;
-  text-align: center;
-
 }
 
+h5 {
+  font-size: 20px;
+}
 
+p.card-text {
+  font-size: 17px;
+}
 @media(max-width: 500px){
   h1 {
     font-size: 40px;
+  }
+
+  h5 {
+    font-size: 17.5px;
+  }
+  p.card-text {
+    font-size: 15px;
   }
 } 
 em{
   font-size: 16px;
 }
-h3 {
-  font-size: 25px;
-}
-
-hr {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
 
 .cards {
   margin-bottom: 20px;
-}
-a {
-  color: inherit;
 }
 
 .container {

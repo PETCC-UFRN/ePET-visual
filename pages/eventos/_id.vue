@@ -1,11 +1,12 @@
 <template>
   <div class="container pt-5">
     <br>
-    <h1 class="mt-3 mb-0"><i class="fa fa-calendar-alt"></i> Eventos</h1>
-    <hr>
+    <h1 class="mt-3 mb-0"><nuxt-link to="/eventos"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar ao eventos</nuxt-link></h1>
+      <hr>
     <b-row>
 			<b-col>
-				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
+				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`${this.evento.imagem}`" fluid alt="Imagem do evento"></b-img>
 				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
 				<h3>{{evento.titulo}}</h3>
 				<p class="mt-4 mb-1">
@@ -127,20 +128,19 @@ export default {
 <style scoped>
 
 a {
-	color: blue;
+  text-decoration: none;
 }
 
 h1 {
   font-weight: 300;
-  font-size: 40px;
-
+  font-size: 30px;
 }
-
 
 h3 {
   font-weight: 300;
   font-size: 25px;
 }
+
 div p {
   font-size: 17px;
 }
@@ -150,6 +150,10 @@ hr {
   margin-bottom: 20px;
 }
 
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: 91.7vh;
+}
 </style>
 
  
