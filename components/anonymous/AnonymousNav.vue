@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav :class="{change_color: scrollPosition > 50}" id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
+    <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
         <nuxt-link class="navbar-brand petcc" to="/">PET-CC UFRN</nuxt-link>
         <button
@@ -39,7 +39,7 @@
               <nuxt-link class="nav-link subtopic" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link subtopic" to="/#contato">Contato</nuxt-link>
+              <nuxt-link class="nav-link subtopic" :to="{ path: '/',hash:'contato'}" v-scroll-to="{el: '#contato'}">Contato</nuxt-link>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -63,29 +63,8 @@
     </nav>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return{
-      scrollPosition: null
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.updateScroll);
-  },
-  methods: {
-    updateScroll() {
-       this.scrollPosition = window.scrollY
-    }
-  }
-}
-</script>
-
 
 <style scoped>
-.change_color {
-  background-color:#89023e;
-}
 
 a {
   border-radius: 0px !important;
@@ -95,16 +74,10 @@ a {
   color: white;
 }
 
-.cor{
-  /* background-color: #89023e; */
-  background-color: transparent;
+#nav {
+  background-color: #89023e;    
 }
 
-@media(max-width: 500px){
-  #nav {
-    background-color: #89023e;    
-  }
-}  
 .petcc {
   font-size: 24px;
   font-weight: 600;

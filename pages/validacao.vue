@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="container-fluid pt-5" id="verify">
+    <div class="container-fluid pt-5">
       <br />
       <div class="col-8 mx-auto mt-5">
-        <h1 class="text-white">Validar declaração</h1>
+        <h1 class="text-center">Validar declaração</h1>
         <b-form @submit.prevent="submitForm">
           <b-form-group
             class="mt-5"
             id="input-group-1"
-            label="Código de validação:"
+            label="Código de validação"
             label-for="input-1"
             label-class="text-black"
+            label-size="lg"
             description="Disponível na sua declaração."
           >
             <b-form-input id="input-1" type="text" ref="input1" required v-model="codigoValidacao"></b-form-input>
@@ -85,20 +86,9 @@ export default {
 
 
 <style scoped>
-.titulo {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  margin: 0.67em 0;
-}
-
 h1 {
   font-weight: 300;
-  text-align: center;
-  font-size: 50px;
-  text-shadow: #000 2px 3px 2px;
-
-  
+  font-size: 50px;  
 }
 
 @media(max-width: 500px){
@@ -111,11 +101,9 @@ p {
   margin: 0px 0px 0px;
 }
 
-.container {
+.container-fluid {
   /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: calc(95vh - 256px);
-  display: flex;
-  align-items :center;
+  min-height: 91.7vh;
 }
 
 </style>

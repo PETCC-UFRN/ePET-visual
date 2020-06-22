@@ -2,9 +2,8 @@
   <div >
     <div class="container pt-5">
 			<br>
-      <div class="col-12 mx-auto mt-5">
-
-        <h1 class="mb-3 text-white">Eventos</h1>
+      <div class="col-12 mx-auto mt-3">
+        <h1 class="mb-3">Eventos</h1>
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">
@@ -87,7 +86,6 @@ h1 {
   font-weight: 300;
   font-size: 50px;
   text-align: center;
-  text-shadow: #000 2px 3px 2px;
 
 }
 
@@ -114,6 +112,11 @@ hr {
 }
 a {
   color: inherit;
+}
+
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: 91.7vh;
 }
 
 </style>

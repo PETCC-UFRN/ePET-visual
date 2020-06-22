@@ -3,13 +3,10 @@
     <section class="header-site">
       <div class="container pt-5">
         <div class="row justify-content-center d-flex  align-items-center">
-          <div class="col-xs-12 pt-5">
+          <div class="col-xs-12 pt-5 pb-5">
             <b-img center src="/img/logo.svg" alt="Center image"></b-img>
             <h1 class="text-white text-center petcc">Programa de Educação Tutorial</h1>
             <h2 class="text-center mb-2">Ciência da Computação</h2>            
-            <p class="text-center">
-              <button href="#sobre" class="mt-5 btn btn-info btn-circle btn-xl"><i class="fa fa-arrow-down text-white"></i></button>
-            </p>
           </div>
         </div>
       </div>
@@ -27,7 +24,7 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in tutor" :key="petiano.id">
                   <b-col class="mt-2 mb-4 ml-2 mr-2">
-                    <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+                    <b-avatar size="190px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
                     </b-avatar>
                     <b-row class="mt-2" align-h="center">
                       <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
@@ -41,7 +38,7 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in membrosAtivos" :key="petiano.id">
                   <b-col class="mt-2 mb-2 ml-2 mr-2">
-                    <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+                    <b-avatar size="190px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
                     </b-avatar>
                     <b-row class="mt-2" align-h="center">
                       <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
@@ -54,18 +51,16 @@
         </div>
       </div>
     </section>
-    <section class="contact mb-5">
-      <h1 class="text-center pt-3 pb-3" id="#contato">Contato</h1>
-      <b-row class="mx-auto" align-h="center">
+    <section class="contact mb-5" id="contato">
+      <b-row class="mx-auto pt-5" align-h="center">
         <b-col class="contact-dados" cols="5">
-            <p><strong> Endereço físico:</strong>
-              {{informacoes.endereco}}
+            <h1 class="pb-1" >Contato</h1>
+            
+            <p><strong>Email:</strong>
+              <a :href="`mailto:${informacoes.email}`">{{informacoes.email}}</a>
             </p>
             <p><strong>Telefone:</strong>
               {{informacoes.telefone}}
-            </p>
-            <p><strong>Email:</strong>
-              <a href="mailto:#">{{informacoes.email}}</a>
             </p>
             <p class="mt-1 mb-2">
               <a class="mr-1" :href="informacoes.facebook" target="_blank"><i class="fa fa-facebook-square fa-lg text-black"></i> petccufrn</a>
@@ -92,19 +87,13 @@
         </b-col>
       </b-row>
     </section>
-   <BottomBarHome/> 
   </div>
 </template>
 
 <script>
 
-import BottomBarHome from "../components/anonymous/BottomBarHome"
-
 export default {
   layout: 'index',
-  components : {
-    BottomBarHome
-  },
   data() {
     return {
       informacoes: {
@@ -183,7 +172,6 @@ a i {
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
   background-attachment: fixed;
 }
 
@@ -226,17 +214,17 @@ p {
 
 @media(min-width: 500px){
   .contact {
-    margin-left: 130px;
-    margin-right: 130px;
+    margin-left: 150px;
+    margin-right: 150px;
   }
 
   .contact-dados {
-    padding-left: 40px;
+    padding-left: 50px;
     padding-top: 30px;
     
   }
   .contact-imagem {
-    padding-right: 40px;
+    padding-right: 50px;
   }
 } 
 

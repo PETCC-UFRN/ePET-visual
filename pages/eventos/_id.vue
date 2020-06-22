@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container pt-5">
     <br>
-    <h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
+    <h1 class="mt-3 mb-0"><i class="fa fa-calendar-alt"></i> Eventos</h1>
     <hr>
     <b-row>
 			<b-col>
@@ -130,10 +130,12 @@ a {
 	color: blue;
 }
 
-h2 {
+h1 {
   font-weight: 300;
-  font-size: 32px;
+  font-size: 40px;
+
 }
+
 
 h3 {
   font-weight: 300;

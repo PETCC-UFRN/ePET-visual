@@ -2,16 +2,18 @@
   <div>
     <AnonymousNav/>
     <nuxt />
+   <BottomBarHome/> 
   </div>
 </template>
 
 
 <script>
 import AnonymousNav from "../components/anonymous/AnonymousNav";
-
+import BottomBarHome from "../components/anonymous/BottomBarHome"
 export default {
   components: {
     AnonymousNav,
+    BottomBarHome 
   },
    
   head: {

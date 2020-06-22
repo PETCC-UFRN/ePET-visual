@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container pt-5">
-      <div class="col-12 mx-auto mt-5">
-        <h1 class="mt-5 mb-0 text-white">
-          <i class="far fa-newspaper"></i> Notícias
+      <div class="mx-auto mt-5">
+        <h1 class="mt-5 mb-0 text-center">
+          <i class="fa fa-newspaper"></i> Notícias
         </h1>
         <hr class="bg-white"/>
         <div v-if="noticias.length > 0">
@@ -90,16 +90,26 @@ a {
 }
 
 h1 {
-  text-align: center;
   font-weight: 300;
   font-size: 50px;
-  text-shadow: #000 2px 3px 2px;
-
+}
+h5 {
+  font-size: 20px;
 }
 
+p.card-text {
+  font-size: 17px;
+}
 @media(max-width: 500px){
   h1 {
     font-size: 40px;
+  }
+
+  h5 {
+    font-size: 17.5px;
+  }
+  p.card-text {
+    font-size: 15px;
   }
 } 
 .cards {
@@ -117,8 +127,9 @@ a {
 
 .container {
   /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: calc(95vh - 256px);
+  min-height: 91.7vh;
 }
+
 </style>
 
 

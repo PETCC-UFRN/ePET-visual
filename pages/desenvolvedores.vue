@@ -2,22 +2,25 @@
   <div > 
     <div class="container pt-5">
       <br>
-      <h1 class="mt-3 text-white">Desenvolvedores</h1>
-      <hr>
+      <h1 class="mt-4 mb-2 text-center"><i class="fa fa-users"></i> Desenvolvedores</h1>
+      <p class="text-center pt-2 pb-2">*Programadores que participaram no desenvolvimento do website. </p>
       <div>
         <b-row class="mx-auto" align-h="center">
-          <div v-for="i in devs" :key="i.id">
-            <b-col class="ml-4 mr-4">
-              <a style="text-decoration:none" :href="i[1]" target="_blank">
-                <b-row>
-                  <b-img id="image" rounded alt="Rounded image" v-bind="mainProps" fluid :src="i[2]" ></b-img> 
-                </b-row>
-                <b-row class="mt-1" align-h="center">
-                  <h3 style="text-align: justify">{{i[0]}}</h3>
-                </b-row>
-              </a>
-            </b-col> 
-          </div>
+          <div class="pt-1" v-if="devs.length > 0">
+              <b-row class="mx-auto" align-h="center">
+                <div v-for="dev in devs" :key="dev.id">
+                  <b-col class="mt-2 mb-2 ml-2 mr-2">
+                    <a style="text-decoration:none" :href="dev[1]" target="_blank">
+                      <b-avatar size="180px" :src="dev[2]">
+                      </b-avatar>
+                      <b-row class="mt-2" align-h="center">
+                        <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{dev[0]}}</p>
+                      </b-row>
+                    </a>
+                  </b-col>
+                </div>
+              </b-row>
+            </div>
         </b-row>
       </div>
     </div>
@@ -48,7 +51,12 @@ export default {
 
 
 <style scoped>
-
+.nome {
+  font-size: 17px;
+  font-weight: 300;
+  background: white;
+  border-radius: 5px;
+}
 i.fab {
   font-size:50px;
   padding-right:20px;
@@ -63,13 +71,14 @@ a {
 	color: #000000; 
 }
 
+p {
+  font-size: 17px;
+}
 
 h1 {
   text-align: center;
   font-weight: 300;
   font-size: 50px;
-  text-shadow: #000 2px 3px 2px;
-
 }
 
 @media(max-width: 500px){

@@ -22,6 +22,9 @@ export default {
 .flex-fill {
   flex: 1 1 auto;
 }
+a {
+  text-decoration: none;
+}
 
 footer {
   background-color: #89023e;

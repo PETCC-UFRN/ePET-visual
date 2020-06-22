@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container pt-5">
      	<br>
-      <h2 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h2>
+      <h1 class="mt-3 mb-0"><nuxt-link to="/noticias"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar às notícias</nuxt-link></h1>
       <hr>
       <b-row class="mb-5">
         <b-col>
@@ -80,10 +81,13 @@ export default {
 
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 
-h2 {
+h1 {
   font-weight: 300;
-  font-size: 32px;
+  font-size: 30px;
 }
 
 h3 {
