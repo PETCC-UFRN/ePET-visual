@@ -3,6 +3,13 @@
     <AnonymousNav/>
     <nuxt />
    <BottomBarHome/> 
+    <client-only>
+      <cookie-law theme="dark-lime" buttonText="Eu aceito">
+        <div slot="message">
+          Este site usa cookies para garantir que você obtenha a melhor experiência em nosso site.
+        </div>
+      </cookie-law>  
+    </client-only>
   </div>
 </template>
 
@@ -10,12 +17,12 @@
 <script>
 import AnonymousNav from "../components/anonymous/AnonymousNav";
 import BottomBarHome from "../components/anonymous/BottomBarHome"
+  
 export default {
   components: {
     AnonymousNav,
-    BottomBarHome 
+    BottomBarHome
   },
-   
   head: {
     title: 'PET-CC UFRN | Início',
     meta: [
