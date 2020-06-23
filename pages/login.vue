@@ -3,8 +3,7 @@
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="6">
-          <b-card-group>
-            <b-card no-body class="p-4">
+            <b-card no-body class="p-4 mx-auto">
               <b-card-body>
                 <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
                 <h1>Login</h1>
@@ -68,7 +67,6 @@
                 </b-row>
               </b-card-body>
             </b-card>
-          </b-card-group>
         </b-col>
       </b-row>
     </div>
