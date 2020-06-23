@@ -38,7 +38,7 @@
               <nuxt-link class="nav-link subtopic" to="/noticias">Notícias</nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link subtopic" :to="{ path: '/',hash:'#contato'}" >Contato</nuxt-link>
+              <a class="nav-link subtopic" href ="#contato" >Contato</a>
             </li>
             <li class="nav-item dropdown">
               <a
