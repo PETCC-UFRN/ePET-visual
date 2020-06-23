@@ -30,7 +30,7 @@
           </b-card-group>
               </div>
         <div v-else>
-          <h5>Não existe evento aberto.</h5>
+          <h5 class="text-center">Não há evento aberto disponível.</h5>
           <br>
         </div>
       </div>

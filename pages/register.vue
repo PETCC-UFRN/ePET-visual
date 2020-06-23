@@ -59,9 +59,9 @@
 </template>
 
 <script>
-
 import {TheMask} from 'vue-the-mask';
 import Swal from "sweetalert2";
+
 export default {
   name: 'Register',
   layout: 'clean',
@@ -124,7 +124,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 img {

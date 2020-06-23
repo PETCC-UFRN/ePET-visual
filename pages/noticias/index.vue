@@ -25,11 +25,9 @@
           </b-card-group>
         </div>
         <div v-else>
-          <h2>Não existe notícia cadastrada.</h2>
-          <br />
+          <h5 class="text-center">Não há notícia nova disponível.</h5>
         </div>
-      </div>
-        
+      </div>        
     </div>
   </div>
 </template>

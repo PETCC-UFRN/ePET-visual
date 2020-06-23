@@ -24,7 +24,7 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in tutor" :key="petiano.id">
                   <b-col class="mt-2 mb-4 ml-2 mr-2">
-                    <b-avatar size="190px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+                    <b-avatar size="190px" :src="`${petiano.foto}`">
                     </b-avatar>
                     <b-row class="mt-2" align-h="center">
                       <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
@@ -38,7 +38,7 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in membrosAtivos" :key="petiano.id">
                   <b-col class="mt-2 mb-2 ml-2 mr-2">
-                    <b-avatar size="190px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
+                    <b-avatar size="190px" :src="`${petiano.foto}`">
                     </b-avatar>
                     <b-row class="mt-2" align-h="center">
                       <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
@@ -60,7 +60,7 @@
               <a :href="`mailto:${informacoes.email}`">{{informacoes.email}}</a>
             </p>
             <p><strong>Telefone:</strong>
-              {{informacoes.telefone}}
+              <a :href="`tel:${informacoes.telefone}`">{{informacoes.telefone}}</a>
             </p>
             <p class="mt-1 mb-2">
               <a class="mr-1" :href="informacoes.facebook" target="_blank"><i class="fa fa-facebook-square fa-lg text-black"></i> petccufrn</a>

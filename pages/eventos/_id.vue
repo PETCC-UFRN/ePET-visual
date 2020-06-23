@@ -2,7 +2,7 @@
   <div class="container pt-5">
     <br>
     <h1 class="mt-3 mb-0"><nuxt-link to="/eventos"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
- Voltar ao eventos</nuxt-link></h1>
+ Voltar aos eventos</nuxt-link></h1>
       <hr>
     <b-row>
 			<b-col>
@@ -15,13 +15,16 @@
 					<span v-if="evento.d_inscricao_fim !== ''">{{ this.evento.d_inscricao_fim | moment}}</span>
 				</p>
 				<p class="mt-0 mb-1">
-					<strong>Perído de realização do evento:</strong>
-					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_inicio | moment }}</span> -
-					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_fim | moment}}</span>
-				</p>
-				<p class="mt-0 mb-1">
-					<strong>Quantidade de dias de evento:</strong>
-					{{evento.qtdDias}} dia(s)
+					<strong>Dias de realização do evento:</strong>
+          
+					<span v-for="(dia, index) in evento.periodo_evento" v-bind:key="(dia, index)">
+            <span v-if="index == evento.periodo_evento.length - 1">
+              {{ dia | moment }}
+            </span>
+            <span v-else>
+              {{ dia | moment }},
+            </span>
+          </span> 
 				</p>
 				<p class="mt-0 mb-1">
 					<strong>Carga horária:</strong>
@@ -64,14 +67,12 @@ export default {
 		return {
       evento: {
 				idEvento: 0,
-				d_evento_fim: "",
-				d_evento_inicio: "",
 				d_inscricao: "",
 				d_inscricao_fim: "",
 				descricao: "",
 				local: "",
-				qtdCargaHoraria: "",
-				qtdDias: "",
+        qtdCargaHoraria: "",
+        periodo_evento: [],
 				qtdVagas: "",
 				titulo: "",
 				valor: "", 

@@ -19,10 +19,9 @@
             <li class="nav-item">
               <nuxt-link class="nav-link subtopic" to="/">Início</nuxt-link>
             </li>
-            <li class="nav-item dropdown">
+             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle subtopic"
-                href="#"
                 id="navbarDropdownBlog"
                 data-toggle="dropdown"
                 aria-haspopup="true"
@@ -44,7 +43,6 @@
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle subtopic"
-                href="#"
                 id="navbarDropdownBlog"
                 data-toggle="dropdown"
                 aria-haspopup="true"
