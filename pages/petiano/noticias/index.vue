@@ -40,12 +40,17 @@
 
         <div v-if="noticias.length > 0">
           <b-table 
-          responsive="sm" 
-          :items="noticias" 
-          :bordered="false"
-          striped   
-          :fields="fields">
+            responsive="sm" 
+            :items="noticias" 
+            :bordered="false"
+            striped   
+            :fields="fields">
             <template v-slot:cell(actions)="row">
+            
+               <b-button  @click="row.toggleDetails" class="btn btn-sm btn-teal mt-2">
+                {{ row.detailsShowing ? 'Não anexar' : 'Anexar'}} arquivo
+              </b-button>              
+            
               <nuxt-link
                 :to="`/petiano/noticias/${row.item.idNoticia}`"
                 class="btn btn-sm btn-cyan mt-2"
@@ -64,6 +69,26 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+            </template>
+
+            <template v-slot:row-details="row">
+              <b-card>
+                
+                <b-form-file 
+                  v-model="file"
+                  placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
+                <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
+
+                <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
+                <template v-slot:footer>
+                  <b-button block
+                    @click="fazerUploadAnexo(row.item)"
+                    class="btn btn-sm btn-success mt-2">
+                    Anexar arquivo
+                  </b-button>
+                  
+                </template>
+              </b-card>
             </template>
           </b-table>
           <div>
@@ -91,6 +116,8 @@ export default {
   },
   data() {
     return {
+      file:[],
+      progressValue: 0,
       isLoading: true,
       keyword: "",
       noticias: [],
@@ -110,7 +137,7 @@ export default {
         {
           key: "limite_exibicao",
           sortable: true,
-          label: "Fim de exibição",
+          label: "Início de exibição",
           formatter: value => {
             if (value != null) return moment(value).format("DD/MM/Y");
           }
@@ -131,6 +158,55 @@ export default {
     }
   },
   methods: {
+    fazerUploadAnexo(noticia) {
+
+      const formData = new FormData()
+      formData.append("file", this.file)
+
+      this.$axios
+        .post(`anexos-noticia-upload/${noticia.idNoticia}`, formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          delete noticia["_showDetails"]
+          
+          this.$axios
+            .post(`anexos-noticia-cadastro/${noticia.idNoticia}`, {
+                anexos: res.data.anexos,
+                idAnexo: res.data.idAnexo,
+                noticia: noticia
+              }
+            )
+            .then(res => {
+              Swal.fire({
+                title: "Anexo da notícia enviado",
+                icon: "success"
+              })
+              .then( () => {
+                this.progressValue = 0
+                noticia["_showDetails"] = true
+                this.file = []
+              });
+            })
+            .catch(err => {
+              Swal.fire({
+                title: "Anexo da notícia não enviado",
+                text: "Tente novamente em outro momento.",
+                icon: "error"
+              });
+            });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Upload do anexo não concluído",
+            text: "Tente novamente em outro momento.",
+            icon: "error"
+          });
+        });
+
+    },
     del(id, rowId) {
       this.$axios
         .delete("noticia-remove/" + id)
