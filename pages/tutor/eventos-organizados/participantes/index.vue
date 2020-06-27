@@ -266,7 +266,8 @@
           this.frequenciasCadastradas = res.data.content.map(frequencia => {
             return {
               idParticipante: frequencia.participante.idParticipantes,
-              idPeriodo: frequencia.periodo_evento.idPeriodo_Evento
+              idPeriodo: frequencia.periodo_evento.idPeriodo_Evento,
+              idFrequencia: frequencia.idFrequencia,
             }
           });
         })
@@ -286,7 +287,8 @@
             })
           });
         }else{
-          this.$axios.post(`frequencia-remove/${idPeriodo}/${idParticipante}`, {}).catch(res => {
+          let frequencia = this.frequenciasCadastradas.find(i => i.idParticipante === idParticipante && i.idPeriodo === idPeriodo);
+          this.$axios.delete(`frequencia-remove/${frequencia.idFrequencia}`).catch(res => {
             Swal.fire({
               title: "Não foi possível cadastrar a frequência",
               text: "Tente novamente mais tarde.",
