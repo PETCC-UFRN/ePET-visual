@@ -92,8 +92,9 @@
             <template v-slot:cell(frequencias)="row">
               <b-row>
                 <div v-if="row.item.confirmado === true">
-                  <input type="checkbox" v-for="(item, index) in (participantes[0].evento.qtdDias || 0)" :key="index"
-                         class="m-2">
+                  <input type="checkbox" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
+                         class="m-2" @change="criaOuRemoveFrequencia(idPeriodo, row.item.idParticipantes, $event)"
+                         :checked="frequenciasCadastradas.find(i => i.idParticipante === row.item.idParticipantes && i.idPeriodo === idPeriodo)">
                 </div>
               </b-row>
             </template>
@@ -134,6 +135,8 @@
           pessoa: 0
         },
         pessoas: {},
+        eventoPeriodos: {},
+        frequenciasCadastradas: [],
         participantes: [],
         keyword: "",
         eventos: [],
@@ -169,6 +172,8 @@
     },
     mounted() {
       this.consumirParticipantesApi();
+      this.getEventoPeriodos();
+      this.getFrequenciasCadastradas();
     },
     methods: {
       consumirParticipantesApi() {
@@ -255,6 +260,40 @@
               });
             });
         });
+      },
+      getFrequenciasCadastradas() {
+        this.$axios.get('frequencia-evento/' + this.$route.query.idEvento).then(res => {
+          this.frequenciasCadastradas = res.data.content.map(frequencia => {
+            return {
+              idParticipante: frequencia.participante.idParticipantes,
+              idPeriodo: frequencia.periodo_evento.idPeriodo_Evento
+            }
+          });
+        })
+      },
+      getEventoPeriodos() {
+        this.$axios.get('periodo-evento-buscar/' + this.$route.query.idEvento).then(res => {
+          this.eventoPeriodos = res.data.content.map(periodo => periodo.idPeriodo_Evento);
+        });
+      },
+      criaOuRemoveFrequencia(idPeriodo, idParticipante, e) {
+        if (e.target.checked) {
+          this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {}).catch(res => {
+            Swal.fire({
+              title: "Não foi possível cadastrar a frequência",
+              text: "Tente novamente mais tarde.",
+              icon: "error"
+            })
+          });
+        }else{
+          this.$axios.post(`frequencia-remove/${idPeriodo}/${idParticipante}`, {}).catch(res => {
+            Swal.fire({
+              title: "Não foi possível cadastrar a frequência",
+              text: "Tente novamente mais tarde.",
+              icon: "error"
+            })
+          });
+        }
       }
     }
   };
