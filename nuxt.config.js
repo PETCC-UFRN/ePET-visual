@@ -52,7 +52,8 @@ module.exports = {
     /* Import Bootstrap Vue Styles */
     '~/node_modules/bootstrap-vue/dist/bootstrap-vue.css',
     /* Import Core SCSS */
-    { src: '~/assets/scss/style.scss', lang: 'scss' }
+    { src: '~/assets/scss/style.scss', lang: 'scss' },
+    '~/static/css/index/style.css'
   ],
 
   /*

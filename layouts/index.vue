@@ -14,6 +14,7 @@
 </template>
 
 <style scoped>
+
 .site {
   display: flex;
   min-height: 100vh;
