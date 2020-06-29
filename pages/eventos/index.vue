@@ -40,6 +40,7 @@
 
 <script>
 import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   layout: 'index',
@@ -67,9 +68,27 @@ export default {
       };
   },
   mounted() {
-    this.$axios.get("eventos-abertos").then(res => {
-      this.eventos = res.data;
-    });
+    this.$axios
+      .get("eventos-abertos")
+      .then(res => {
+        this.eventos = res.data;
+      })
+      .catch( err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: "Nenhum evento aberto",
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: 'error',
+          })
+        }
+      });
   },
   filters: {
     moment: function (date) {
@@ -79,7 +98,7 @@ export default {
   computed: {
     filterEventos() {
       return this.eventos.filter(evento => evento.ativo == true)
-	}
+	  } 
   }
 }
 </script>

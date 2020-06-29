@@ -7,7 +7,7 @@
       <hr>
       <b-row class="mb-5">
         <b-col>
-  				<b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
+  				<b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${noticia.imagem}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1"> {{mes}}</p>
           <h3>{{noticia.titulo}}</h3>
           <p class="mt-3 mb-3">{{noticia.corpo}}</p>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 
 export default {
   layout: 'index',
@@ -58,7 +59,15 @@ export default {
   mounted(){
     this.$axios
       .get('noticia/'+ this.$route.params.id)
-      .then((res) => this.noticia = res.data);
+      .then(res => this.noticia = res.data)
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      });
 
   },
   computed: {

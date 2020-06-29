@@ -55,6 +55,7 @@
 
 <script>
 import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   layout: 'index',
@@ -99,7 +100,16 @@ export default {
 			.get('eventos-abertos/'+ this.$route.params.id)
 			.then((res) => {
 				this.evento = res.data;
-			});
+      })
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      
+      });
 	},
   filters: {
     moment: function (date) {

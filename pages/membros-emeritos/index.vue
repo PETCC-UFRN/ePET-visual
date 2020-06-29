@@ -22,30 +22,44 @@
   </div>
 </template>
 
-<script>
-  
-  export default {
-    layout: 'index',
-    data() {
-      return {
-        mainProps: {width: 100, height: 100},
-        mainPropsTutor: {width: 100, height: 100},
-        membrosEmeritos: []
-      };
-    },
-    mounted() {
-      this.getPetianosAntigos();
-    },
-    methods: {
-      getPetianosAntigos() {
-        this.$axios
-          .get("petianos-antigos")
-          .then(res => {
-            this.membrosEmeritos = res.data.content;
-          });
-      }
+<script>  
+import Swal from "sweetalert2";
+
+export default {
+  layout: 'index',
+  head () {
+    return {
+      title: 'PET-CC UFRN | Membros eméritos'
+    }
+  },
+  data() {
+    return {
+      mainProps: {width: 100, height: 100},
+      mainPropsTutor: {width: 100, height: 100},
+      membrosEmeritos: []
+    };
+  },
+  mounted() {
+    this.getPetianosAntigos();
+  },
+  methods: {
+    getPetianosAntigos() {
+      this.$axios
+        .get("petianos-antigos")
+        .then(res => {
+          this.membrosEmeritos = res.data.content;
+        })
+        .catch( err => {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: 'error',
+          })
+        });
     }
   }
+}
 </script>
 
 

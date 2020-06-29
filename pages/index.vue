@@ -24,11 +24,13 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in tutor" :key="petiano.id">
                   <b-col class="mt-2 mb-4 ml-2 mr-2">
-                    <b-avatar size="190px" :src="`${petiano.foto}`">
-                    </b-avatar>
-                    <b-row class="mt-2" align-h="center">
-                      <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
-                    </b-row>
+                    <nuxt-link :to="`/membro/${petiano.idPetiano}`">
+                      <b-avatar size="190px" :src="`${petiano.foto}`">
+                      </b-avatar>
+                      <b-row class="mt-2" align-h="center">
+                        <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
+                      </b-row>
+                    </nuxt-link>
                   </b-col>
                 </div>
               </b-row>
@@ -38,11 +40,13 @@
               <b-row class="mx-auto" align-h="center">
                 <div v-for="petiano in membrosAtivos" :key="petiano.id">
                   <b-col class="mt-2 mb-2 ml-2 mr-2">
-                    <b-avatar size="190px" :src="`${petiano.foto}`">
-                    </b-avatar>
-                    <b-row class="mt-2" align-h="center">
-                      <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
-                    </b-row>
+                    <nuxt-link :to="`/membro/${petiano.idPetiano}`">
+                      <b-avatar size="190px" :src="`${petiano.foto}`">
+                      </b-avatar>
+                      <b-row class="mt-2" align-h="center">
+                        <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
+                      </b-row>
+                    </nuxt-link>
                   </b-col>
                 </div>
               </b-row>

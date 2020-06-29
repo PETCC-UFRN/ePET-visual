@@ -32,8 +32,9 @@
   </div>
 </template>
 
-
 <script>
+import Swal from "sweetalert2";
+
 export default {
   layout: "index",
   head() {
@@ -61,9 +62,19 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get("noticias-atuais").then(res => {
-      this.noticias = res.data.content;
-    });
+    this.$axios
+      .get("noticias-atuais")
+      .then(res => {
+        this.noticias = res.data.content;
+      })
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      });
   },
   filters: {
     cortarCorpo(mensagem) {
