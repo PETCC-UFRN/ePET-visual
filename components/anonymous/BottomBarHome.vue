@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div>
     <footer>
       <div class="text-center pb-3 pt-3 text-white"> {{ year }} &copy; PET-CC UFRN - Desenvolvido com 
         <i class="fa fa-heart text-white"></i> <a href="https://nuxtjs.org">Nuxt.JS</a></div>
@@ -31,5 +31,4 @@ footer {
   font-size: 16px;
 }
 
-  
 </style>

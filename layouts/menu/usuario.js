@@ -10,7 +10,7 @@ export default {
         },
         {
             name: 'Início',
-            url: '/usuario',
+            url: '/usuario#',
             icon: 'icon-home'
         },
         {

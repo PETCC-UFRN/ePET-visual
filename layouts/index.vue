@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="site">
     <AnonymousNav/>
-    <nuxt />
+    <nuxt class="Site-content"/>
    <BottomBarHome/> 
     <client-only>
       <cookie-law theme="dark-lime" buttonText="Eu aceito">
@@ -13,6 +13,18 @@
   </div>
 </template>
 
+<style scoped>
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
+</style>
 
 <script>
 import AnonymousNav from "../components/anonymous/AnonymousNav";

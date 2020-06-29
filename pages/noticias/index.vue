@@ -113,11 +113,6 @@ p.card-text {
   margin-bottom: 20px;
 }
 
-.container {
-  /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: 91.7vh;
-}
-
 </style>
 
 

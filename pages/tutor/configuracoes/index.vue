@@ -9,7 +9,7 @@
           <b-col>
           <nuxt-link
             class="btn btn-sm btn-warning float-right mt-4"
-            to="/petiano/configuracoes/edit" 
+            to="/tutor/configuracoes/edit" 
           ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
           </b-col>
         </b-row>

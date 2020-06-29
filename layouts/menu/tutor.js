@@ -11,7 +11,7 @@ export default {
         },
         {
             name: 'Início',
-            url: '/tutor', 
+            url: '/tutor#', 
             icon: 'icon-home'
         },
         {

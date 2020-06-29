@@ -101,11 +101,6 @@ p {
   margin: 0px 0px 0px;
 }
 
-.container-fluid {
-  /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: 91.7vh;
-}
-
 </style>
 
  
