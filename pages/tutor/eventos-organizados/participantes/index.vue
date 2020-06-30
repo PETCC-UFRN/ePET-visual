@@ -89,14 +89,17 @@
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
             </template>
-            <template v-slot:cell(frequencias)="row">
-              <b-row>
+            <template v-slot:cell(frequencias)="row" v-if="frequenciasCadastradas !== []" class="col-md-4">
+<!--              <b-row>-->
                 <div v-if="row.item.confirmado === true">
-                  <input type="checkbox" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
-                         class="m-2" @change="criaOuRemoveFrequencia(idPeriodo, row.item.idParticipantes, $event)"
-                         :checked="frequenciasCadastradas.find(i => i.idParticipante === row.item.idParticipantes && i.idPeriodo === idPeriodo)">
+                  <b-row>
+                    <input type="text" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
+                           class="m-2 form-control col-md-1"
+                           @keydown="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
+                           :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
+                  </b-row>
                 </div>
-              </b-row>
+<!--              </b-row>-->
             </template>
           </b-table>
           <nav>
@@ -263,11 +266,13 @@
       },
       getFrequenciasCadastradas() {
         this.$axios.get('frequencia-evento/' + this.$route.query.idEvento).then(res => {
+          console.log(res);
           this.frequenciasCadastradas = res.data.content.map(frequencia => {
             return {
               idParticipante: frequencia.participante.idParticipantes,
               idPeriodo: frequencia.periodo_evento.idPeriodo_Evento,
               idFrequencia: frequencia.idFrequencia,
+              assiduidade: frequencia.assiduidade,
             }
           });
         })
@@ -277,18 +282,11 @@
           this.eventoPeriodos = res.data.content.map(periodo => periodo.idPeriodo_Evento);
         });
       },
-      criaOuRemoveFrequencia(idPeriodo, idParticipante, e) {
-        if (e.target.checked) {
-          this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {}).catch(res => {
-            Swal.fire({
-              title: "Não foi possível cadastrar a frequência",
-              text: "Tente novamente mais tarde.",
-              icon: "error"
-            })
-          });
-        }else{
-          let frequencia = this.frequenciasCadastradas.find(i => i.idParticipante === idParticipante && i.idPeriodo === idPeriodo);
-          this.$axios.delete(`frequencia-remove/${frequencia.idFrequencia}`).catch(res => {
+      criaFrequencia(idPeriodo, idParticipante, e) {
+        if (!isNaN(e.key)) {
+          this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {
+            assiduidade: e.key
+          }).catch(res => {
             Swal.fire({
               title: "Não foi possível cadastrar a frequência",
               text: "Tente novamente mais tarde.",
@@ -296,6 +294,10 @@
             })
           });
         }
+      },
+      acharAssiduidade(idParticipante, idPeriodo) {
+        let maybeFind = this.frequenciasCadastradas.find(i => i.idParticipante === idParticipante && i.idPeriodo === idPeriodo);
+        return (typeof maybeFind !== 'undefined') ? maybeFind.assiduidade : 0;
       }
     }
   };
