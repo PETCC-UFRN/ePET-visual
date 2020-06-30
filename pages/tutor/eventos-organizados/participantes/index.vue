@@ -93,9 +93,9 @@
 <!--              <b-row>-->
                 <div v-if="row.item.confirmado === true">
                   <b-row>
-                    <input type="text" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
-                           class="m-2 form-control col-md-1"
-                           @keydown="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
+                    <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
+                           class="m-2 form-control col-md-1" min="0"
+                           @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
                            :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
                   </b-row>
                 </div>
@@ -283,9 +283,9 @@
         });
       },
       criaFrequencia(idPeriodo, idParticipante, e) {
-        if (!isNaN(e.key)) {
+        if (!isNaN(e.target.value)) {
           this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {
-            assiduidade: e.key
+            assiduidade: e.target.value
           }).catch(res => {
             Swal.fire({
               title: "Não foi possível cadastrar a frequência",
