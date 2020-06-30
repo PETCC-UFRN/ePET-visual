@@ -89,17 +89,18 @@
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
             </template>
-            <template v-slot:cell(frequencias)="row" v-if="frequenciasCadastradas !== []" class="col-md-4">
-<!--              <b-row>-->
+            <template v-slot:cell(frequencias)="row" v-if="frequenciasCadastradas !== []">
+              <b-row>
                 <div v-if="row.item.confirmado === true">
-                  <b-row>
-                    <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
-                           class="m-2 form-control col-md-1" min="0"
-                           @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
-                           :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
-                  </b-row>
+                  <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
+                         class="m-2 form-control" min="0"
+                         @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
+                         :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
                 </div>
-<!--              </b-row>-->
+              </b-row>
+              <b-row>
+                Assiduidade: {{ evento.percentual }}
+              </b-row>
             </template>
           </b-table>
           <nav>
@@ -142,8 +143,8 @@
         frequenciasCadastradas: [],
         participantes: [],
         keyword: "",
-        eventos: [],
         currentPage: 1,
+        evento: {},
         fields: [
           {key: "pessoa.nome", label: "Nome", sortable: true},
           {
@@ -163,16 +164,6 @@
         ]
       };
     },
-    computed: {
-      items() {
-        return this.keyword
-          ? this.eventos.filter(item => {
-            item.evento.titulo.includes(this.keyword) ||
-            item.pessoa.nome.includes(this.keyword);
-          })
-          : this.eventos;
-      }
-    },
     mounted() {
       this.consumirParticipantesApi();
       this.getEventoPeriodos();
@@ -183,6 +174,7 @@
         this.$axios
           .get(`participantes-evento/${this.$route.query.idEvento}`)
           .then(res => {
+            this.evento = res.data.content.length > 0 ? res.data.content[0].evento : {};
             this.participantes = res.data.content;
           })
           .catch(err => {
@@ -266,7 +258,6 @@
       },
       getFrequenciasCadastradas() {
         this.$axios.get('frequencia-evento/' + this.$route.query.idEvento).then(res => {
-          console.log(res);
           this.frequenciasCadastradas = res.data.content.map(frequencia => {
             return {
               idParticipante: frequencia.participante.idParticipantes,
