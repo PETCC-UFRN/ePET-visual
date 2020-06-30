@@ -3,9 +3,9 @@
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="6">
-          <b-card-group>
-            <b-card no-body class="p-4">
-              <b-card-body>
+          <b-card no-body class="p-4 mx-auto">
+            <b-card-body>
+              <form @submit.prevent="login">        
                 <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
                 <h1>Login</h1>
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
@@ -38,11 +38,6 @@
                     placeholder="Senha"
                   />
                 </b-input-group>
-                <b-alert show variant="danger" v-if="errors.length !== 0">
-                  <ul>
-                    <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-                  </ul>
-                </b-alert>
                 <b-row class="px-0">
                   <b-col cols="6">
                     <b-form-checkbox
@@ -60,15 +55,14 @@
                 </b-row>
                 <b-row class="mt-3">
                   <b-col>
-                    <b-button block variant="success" class="px-4" @click="login()">
+                    <b-button type="submit" block variant="success" class="px-4">
                       <i class="fa fa-user"></i> Login
                     </b-button>
-                  </b-col>
-                 
+                  </b-col> 
                 </b-row>
-              </b-card-body>
-            </b-card>
-          </b-card-group>
+              </form>
+            </b-card-body>
+          </b-card>
         </b-col>
       </b-row>
     </div>
@@ -76,152 +70,126 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
-  import Cookies from "js-cookie";
-  import Swal from "sweetalert2";
-
-  export default {
-    name: "Login",
-    layout: "clean",
-    data() {
-      return {
-        mostrarSenha: false,
-        passwordFieldType: "password",
-        email: "",
-        senha: "",
-        perfil: {},
-        errors: [],
-        mapPerfil: {
-          tutor: "tutor",
-          petiano: "petiano",
-          comum: "usuario"
-        },
-        cookie: null,
-        next: true
-      };
-    },
-    head() {
-      return {
-        title: "PET-CC UFRN | ePET - Login"
-      };
-    },
-    watch: {
-      cookie: function (val) {
-        if (next && val !== null) {
-          this.getProfile();
-        }
-      }
-    },
-    mounted() {
-      Cookies.set("auth", null);
-    },
-    methods: {
-      mudarVisibilidadeSenha() {
-        this.passwordFieldType =  this.passwordFieldType === "password"? "text" : "password";
-        this.mostrarSenha = !this.mostrarSenha;
+export default {
+  name: "Login",
+  layout: "clean",
+  data() {
+    return {
+      mostrarSenha: false,
+      passwordFieldType: "password",
+      email: "",
+      senha: "",
+      perfil: {},
+      errors: [],
+      mapPerfil: {
+        tutor: "tutor",
+        petiano: "petiano",
+        comum: "usuario"
       },
-      validEmail: function (email) {
-        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-      },
-      async checkForm() {
-        this.errors = [];
-        if (!this.email) {
-          this.errors.push("O email é obrigatório.");
-        } else if (!this.validEmail(this.email)) {
-          this.errors.push("Utilize um e-mail válido.");
-        }
-        if (!this.senha) {
-          this.errors.push("A senha é obrigatória.");
-        }
-        if (this.errors.length === 0) {
-          return true;
-        }
-        return false;
-      },
-      async login() {
-        this.next = await this.checkForm();
-        if (this.next) {
-          Swal.fire({
-            title: 'Carregando...',
-            text: 'Aguarde alguns instantes. Logo mais você' +
-            ' será redirecionado para o dentro do sistema.',
-            showCancelButton: false,
-            showConfirmButton: false,
-            onOpen: () => {
-              Swal.showLoading()
-            }
-          })
-                    
-                  
-            await this.$axios
-              .post("sign-in/", {
-                email: this.email,
-                senha: this.senha
-              })
-              .then(auth => {
-                // guarda token
-                Cookies.set("auth", auth.data);
-              })
-           .catch(err =>{
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text:
-                  err.response.status === 403
-                    ? "Email ou senha não encontrados"
-                    : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
-              });
-              this.next = false;
-            })  
-                    
-                  
-        }
-        if (this.next && Cookies.get("auth") !== null) {
-          await this.getProfile();
-        }
-      },
-      getProfile() {
-        this.$axios.get("pessoas-usuario", {
-          headers: {Authorization: `${Cookies.get("auth")}`}
-        })
-          .then(res => {
-            this.perfil = res.data;
-            Cookies.set("profile", this.perfil);
-          })
-          .then(res => {
-            document.location.href = '/' + this.mapPerfil[this.perfil.tipo_usuario.nome];
-          })
-          .catch(err => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: err.response.message
-            });
-          });
-      },
-      showModal() {
-        this.$refs["perfis"].show();
-      },
-      hideModal() {
-        this.$refs["perfis"].hide();
-      },
-      toggleModal() {
-        // We pass the ID of the button that we want to return focus to
-        // when the modal has hidden
-        this.$refs["perfis"].toggle("#toggle-btn");
+      cookie: null,
+      next: true
+    };
+  },
+  head() {
+    return {
+      title: "PET-CC UFRN | Login"
+    };
+  },
+  watch: {
+    cookie: function (val) {
+      if (next && val !== null) {
+        this.getProfile();
       }
     }
-  };
+  },
+  mounted() {
+    Cookies.set("auth", null);
+  },
+  methods: {
+    mudarVisibilidadeSenha() {
+      this.passwordFieldType =  this.passwordFieldType === "password"? "text" : "password";
+      this.mostrarSenha = !this.mostrarSenha;
+    },
+    async login() {
+      Swal.fire({
+        title: 'Carregando...',
+        text: 'Aguarde alguns instantes. Logo mais você' +
+        ' será redirecionado para dentro do sistema.',
+        showCancelButton: false,
+        showConfirmButton: false,
+        onOpen: () => {
+          Swal.showLoading()
+        }
+      })
+                
+      await this.$axios
+        .post("sign-in/", {
+          email: this.email,
+          senha: this.senha
+        })
+        .then(auth => {
+          // guarda token
+          Cookies.set("auth", auth.data);
+        })
+        .catch(err =>{
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              err.response.status === 403
+                ? "Email ou senha não encontrados"
+                : "Aconteceu algum problema com seu login, tente novamente mais tarde!"
+          });
+        })                    
+                
+      if (Cookies.get("auth") !== null) {
+        await this.getProfile();
+      }
+    },
+    getProfile() {
+      this.$axios.get("pessoas-usuario", {
+        headers: {Authorization: `${Cookies.get("auth")}`}
+      })
+        .then(res => {
+          this.perfil = res.data;
+          Cookies.set("profile", this.perfil);
+        })
+        .then(res => {
+          document.location.href = '/' + this.mapPerfil[this.perfil.tipo_usuario.nome];
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.message
+          });
+        });
+    },
+    showModal() {
+      this.$refs["perfis"].show();
+    },
+    hideModal() {
+      this.$refs["perfis"].hide();
+    },
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+      this.$refs["perfis"].toggle("#toggle-btn");
+    }
+  }
+};
 </script>
 
 
 <style scoped>
-  img {
-    max-width: 200px;
-  }
+img {
+  max-width: 200px;
+}
 
-  text {
-    color: gray;
-  }
+text {
+  color: gray;
+}
 </style>

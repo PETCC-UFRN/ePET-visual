@@ -22,7 +22,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Plataforma do PET-CC UFRN' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/svg/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
@@ -52,7 +52,8 @@ module.exports = {
     /* Import Bootstrap Vue Styles */
     '~/node_modules/bootstrap-vue/dist/bootstrap-vue.css',
     /* Import Core SCSS */
-    { src: '~/assets/scss/style.scss', lang: 'scss' }
+    { src: '~/assets/scss/style.scss', lang: 'scss' },
+    '~/static/css/index/style.css'
   ],
 
   /*
@@ -61,6 +62,7 @@ module.exports = {
   plugins: [
     '~/plugins/axios.js',
     { src: '~/plugins/vcalendar.js', ssr: false },
+    {src: '@/plugins/cookie-law', mode: 'client'}
   ],
 
   /*

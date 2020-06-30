@@ -1,50 +1,42 @@
 <template>
   <div>
-    <Comum />
-    <div class="container">
-      <br />
-      <h1 class="mt-3 mb-0">
-        <i class="far fa-newspaper"></i> Notícias
-      </h1>
-      <hr />
-      <div v-if="noticias.length > 0">
-        <b-card-group columns class="cards">
-          <div v-for="noticia in noticias" :key="noticia.id">
-            <nuxt-link :to="'/noticias/' + noticia.idNoticia">
-              <b-card>
-                <b-card-text class="small text-muted">
-                  {{noticia.inicio_exibicao.substring(8,10)}}
-                  {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
-                </b-card-text>
-                <hr />
-                <b-card-title>
-                  <h5>{{noticia.titulo}}</h5>
-                </b-card-title>
-                <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
-              </b-card>
-            </nuxt-link>
-          </div>
-        </b-card-group>
-      </div>
-      <div v-else>
-        <h2>Não existe notícia cadastrada.</h2>
-        <br />
-      </div>
+    <div class="container pt-5">
+      <div class="mx-auto mt-5">
+        <h1 class="mt-5 mb-3 text-center">
+          <i class="fa fa-newspaper-o"></i> Notícias
+        </h1>
+        <div v-if="noticias.length > 0">
+          <b-card-group columns class="cards">
+            <div v-for="noticia in noticias" :key="noticia.id">
+              <nuxt-link :to="'/noticias/' + noticia.idNoticia">
+                <b-card class="pr-4">
+                  <b-card-text class="small text-muted">
+                    {{noticia.inicio_exibicao.substring(8,10)}}
+                    {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
+                  </b-card-text>
+                  <hr />
+                  <b-card-title>
+                    <h5>{{noticia.titulo}}</h5>
+                  </b-card-title>
+                  <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
+                </b-card>
+              </nuxt-link>
+            </div>
+          </b-card-group>
+        </div>
+        <div v-else>
+          <h5 class="text-center">Não há notícia nova disponível.</h5>
+        </div>
+      </div>        
     </div>
-    <BottomBar />
   </div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
-import BottomBar from "~/components/anonymous/BottomBar";
+import Swal from "sweetalert2";
 
 export default {
   layout: "index",
-  components: {
-    Comum,
-    BottomBar
-  },
   head() {
     return {
       title: "PET-CC UFRN | Notícias"
@@ -70,9 +62,19 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get("noticias-atuais").then(res => {
-      this.noticias = res.data.content;
-    });
+    this.$axios
+      .get("noticias-atuais")
+      .then(res => {
+        this.noticias = res.data.content;
+      })
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      });
   },
   filters: {
     cortarCorpo(mensagem) {
@@ -96,28 +98,32 @@ a {
 }
 
 h1 {
-  text-align: center;
   font-weight: 300;
-  font-size: 40px;
+  font-size: 50px;
+}
+h5 {
+  font-size: 20px;
 }
 
+p.card-text {
+  font-size: 17px;
+}
+@media(max-width: 500px){
+  h1 {
+    font-size: 40px;
+  }
+
+  h5 {
+    font-size: 17.5px;
+  }
+  p.card-text {
+    font-size: 15px;
+  }
+} 
 .cards {
   margin-bottom: 20px;
 }
 
-hr {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-a {
-  color: inherit;
-}
-
-.container {
-  /* Tamanho da tela menos o footer e o container com o logo */
-  min-height: calc(95vh - 256px);
-}
 </style>
 
 

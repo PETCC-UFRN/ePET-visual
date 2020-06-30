@@ -1,12 +1,8 @@
 <template>
   <b-nav-item-dropdown right no-caret >
     <template slot="button-content">
-      <img src="~static/img/avatars/10.png" class="img-avatar" />
+      <b-avatar variant="warning" class="align-center"></b-avatar>
     </template>
-
-    <b-dropdown-header tag="div"  class="text-center">
-      <strong>Configurações</strong>
-    </b-dropdown-header>
 
     <b-dropdown-item class="headerDropdownItem" @click.prevent="perfilUsuario">
       <i class="fa fa-user fa-fw"></i> Meus dados
