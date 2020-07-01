@@ -93,13 +93,13 @@
               <b-row>
                 <div v-if="row.item.confirmado === true">
                   <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
-                         class="m-2 form-control" min="0"
+                         :class="'m-2 form-control freq-' + row.item.idParticipantes" min="0"
                          @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
                          :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
                 </div>
               </b-row>
               <b-row>
-                Assiduidade: {{ evento.percentual }}
+                Assiduidade: <span :class="'span-freq-' + row.item.idParticipantes"></span>
               </b-row>
             </template>
           </b-table>
@@ -168,6 +168,7 @@
       this.consumirParticipantesApi();
       this.getEventoPeriodos();
       this.getFrequenciasCadastradas();
+      console.log(this.$el.getElementsByClassName('freq-' + 52))
     },
     methods: {
       consumirParticipantesApi() {
@@ -259,6 +260,7 @@
       getFrequenciasCadastradas() {
         this.$axios.get('frequencia-evento/' + this.$route.query.idEvento).then(res => {
           this.frequenciasCadastradas = res.data.content.map(frequencia => {
+            this.updateDomAssiduidadeSpan(frequencia.participante.idParticipantes);
             return {
               idParticipante: frequencia.participante.idParticipantes,
               idPeriodo: frequencia.periodo_evento.idPeriodo_Evento,
@@ -288,7 +290,13 @@
       },
       acharAssiduidade(idParticipante, idPeriodo) {
         let maybeFind = this.frequenciasCadastradas.find(i => i.idParticipante === idParticipante && i.idPeriodo === idPeriodo);
+        this.updateDomAssiduidadeSpan(idParticipante);
         return (typeof maybeFind !== 'undefined') ? maybeFind.assiduidade : 0;
+      },
+      updateDomAssiduidadeSpan(idParticipante){
+        let total = [...this.$el.getElementsByClassName('freq-' + idParticipante)].reduce((c, i) => i.value + c, 0);
+        let dom   = this.$el.getElementsByClassName('span-freq-' + idParticipante);
+        dom[0] ? dom[0].innerHTML = total : '';
       }
     }
   };

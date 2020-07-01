@@ -19,11 +19,11 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="titulo"><strong>Título</strong></label>
-            <input 
+            <input
               id="titulo"
-              type="text" 
-              class="form-control" 
-              required 
+              type="text"
+              class="form-control"
+              required
               placeholder="Digite o título"
               v-model="form.titulo" />
           </div>
@@ -31,20 +31,20 @@
             <label for="descricao"><strong>Descrição</strong></label>
             <b-form-textarea
               required id="descricao"
-              v-model="form.descricao" 
+              v-model="form.descricao"
               placeholder="Digite a descrição"
-              rows="3" 
+              rows="3"
               max-rows="10"
             ></b-form-textarea>
           </div>
           <div class="form-group">
             <label for="local"><strong>Local</strong></label>
-            <input 
-              required 
-              id="local" 
-              type="text" 
-              class="form-control" 
-              placeholder="Digite o local" 
+            <input
+              required
+              id="local"
+              type="text"
+              class="form-control"
+              placeholder="Digite o local"
               v-model="form.local" />
           </div>
           <div>
@@ -53,11 +53,11 @@
                 <div class="form-group">
                   <label for="inicioInscricoes"><strong>Início de inscrições</strong></label>
                   <b-form-datepicker
-                    id="inicioInscricoes" 
+                    id="inicioInscricoes"
                     v-model="form.d_inscricao"
-                    class="mb-2" 
+                    class="mb-2"
                     :min="minDate"
-                    locale="pt-br" 
+                    locale="pt-br"
                     placeholder="Escolha uma data"
                     required
                   ></b-form-datepicker>
@@ -68,12 +68,12 @@
                   <label for="fimInscricoes"><strong>Fim de inscrições</strong></label>
                   <b-form-datepicker
                     id="fimInscricoes"
-                    v-model="form.d_inscricao_fim" 
+                    v-model="form.d_inscricao_fim"
                     :min="form.d_inscricao"
-                    class="mb-2" 
-                    locale="pt-br" 
+                    class="mb-2"
+                    locale="pt-br"
                     placeholder="Escolha uma data"
-                    required 
+                    required
                     :disabled="disabledDataInscricao"
                   ></b-form-datepicker>
                 </div>
@@ -84,13 +84,13 @@
                 <div class="form-group">
                   <label for="inicioRolagem"><strong>Início da rolagem</strong></label>
                   <b-form-datepicker
-                    id="inicioRolagem" 
+                    id="inicioRolagem"
                     v-model="form.inicio_rolagem"
-                    class="mb-2" 
+                    class="mb-2"
                     :max="form.d_inscricao_fim"
                     :min="form.d_inscricao"
                     :disabled="disabledDataRolagemInicio"
-                    locale="pt-br" 
+                    locale="pt-br"
                     placeholder="Escolha uma data" required
                   ></b-form-datepicker>
                 </div>
@@ -100,17 +100,17 @@
                   <label for="fimRolagem"><strong>Fim da rolagem</strong></label>
                   <b-form-datepicker
                     :disabled="disabledDataRolagem"
-                    id="fimRolagem" 
+                    id="fimRolagem"
                     v-model="form.fim_rolagem"
-                    :min="form.inicio_rolagem" 
+                    :min="form.inicio_rolagem"
                     :max="form.d_inscricao_fim"
-                    class="mb-2" 
+                    class="mb-2"
                     locale="pt-br"
                     placeholder="Escolha uma data"  required
                   ></b-form-datepicker>
                 </div>
               </b-col>
-            </b-row>           
+            </b-row>
             <b-row>
               <b-col>
                 <div class="form-group">
@@ -129,26 +129,26 @@
               <b-col>
                 <div class="form-group">
                   <label for="qtdVagas"><strong>Quantidade de vagas</strong></label>
-                  <input 
-                    id="qtdVagas" 
-                    placeholder="0" 
-                    type="number" 
-                    min="0" 
-                    pattern="\d+" 
-                    class="form-control" 
+                  <input
+                    id="qtdVagas"
+                    placeholder="0"
+                    type="number"
+                    min="0"
+                    pattern="\d+"
+                    class="form-control"
                     v-model="form.qtdVagas" required/>
                 </div>
               </b-col>
               <b-col>
                 <div class="form-group">
                   <label for="valorInscricoes"><strong>Valor da inscrição</strong> <em>(em reais)</em></label>
-                  <input 
-                    id="valorInscricoes" 
-                    placeholder="0" 
-                    type="number" 
-                    min="0" 
-                    pattern="\d+" 
-                    class="form-control" 
+                  <input
+                    id="valorInscricoes"
+                    placeholder="0"
+                    type="number"
+                    min="0"
+                    pattern="\d+"
+                    class="form-control"
                     v-model="form.valor" required/>
                 </div>
               </b-col>
@@ -157,27 +157,38 @@
               <b-col>
                 <div class="form-group">
                   <label for="diasCompensacao"><strong>Dias de compensação</strong></label>
-                  <input 
-                    id="diasCompensacao" 
-                    type="number" 
-                    min="0" 
-                    pattern="\d+" 
-                    placeholder="0" 
-                    class="form-control" 
-                    v-model="form.dias_compensacao" 
+                  <input
+                    id="diasCompensacao"
+                    type="number"
+                    min="0"
+                    pattern="\d+"
+                    placeholder="0"
+                    class="form-control"
+                    v-model="form.dias_compensacao"
                     required/>
                 </div>
               </b-col>
-
               <b-col>
                 <div class="form-group">
                   <label for="cargaHoraria"><strong>Carga horária</strong> <em>(em horas)</em></label>
-                  <input 
-                    id="cargaHoraria" 
-                    placeholder="0" 
-                    type="number" 
-                    class="form-control"  
+                  <input
+                    id="cargaHoraria"
+                    placeholder="0"
+                    type="number"
+                    class="form-control"
                     v-model="form.qtdCargaHoraria" required/>
+                </div>
+              </b-col>
+              <b-col>
+                <div class="form-group">
+                  <label for="percentual"><strong>Percentual</strong> <em>(em horas)</em></label>
+                  <input
+                    id="percentual"
+                    placeholder="0"
+                    type="number"
+                    class="form-control"
+                    v-model="form.percentual" required/>
+                  <small class="text-muted">Percentual mínimo para o participante ganhar certificado</small>
                 </div>
               </b-col>
             </b-row>
@@ -188,36 +199,36 @@
                   <b-form-checkbox
                     id="anexoParticipantes"
                     v-model="form.participante_anexos"
-                  > Sim, será necessário. 
+                  > Sim, será necessário.
                   </b-form-checkbox>
                 </div>
               </b-col>
             </b-row>
-          </div>          
+          </div>
           <div class="form-group">
             <label for="textoDeclaracao"><strong>Texto de declaração de participante</strong></label>
             <b-form-textarea
-              id="textoDeclaracao" 
+              id="textoDeclaracao"
               v-model="form.textoDeclaracaoEvento"
               placeholder="Digite o texto de declaração de participante do evento"
-              rows="3"  
-              max-rows="6" 
+              rows="3"
+              max-rows="6"
             ></b-form-textarea>
-          </div>          
+          </div>
           <div class="form-group">
             <label for="textoDeclaracao"><strong>Texto de declaração de organizador</strong></label>
             <b-form-textarea
-              id="textoDeclaracao" 
+              id="textoDeclaracao"
               v-model="form.textoDeclaracaoEventoOrganizador"
               placeholder="Digite o texto de declaração de organizador do evento"
-              rows="3"  
-              max-rows="6" 
+              rows="3"
+              max-rows="6"
             ></b-form-textarea>
           </div>
           <div class="form-group">
             <b-form-checkbox
               v-model="form.ativo"
-            > Eu quero ativar o evento durante a criação. 
+            > Eu quero ativar o evento durante a criação.
             </b-form-checkbox>
           </div>
           <div class="form-group">
@@ -269,16 +280,16 @@ export default {
       return this.form.d_inscricao_fim === ''
     },
     disabledDataEventoInicio(){
-      return this.form.fim_rolagem === ''; 
+      return this.form.fim_rolagem === '';
     },
     disabledDataRolagem() {
-      return this.form.inicio_rolagem === ''; 
+      return this.form.inicio_rolagem === '';
     },
     disabledDataInscricao(){
-      return this.form.d_inscricao === ''; 
+      return this.form.d_inscricao === '';
     },
     disabledDataEvento(){
-      return this.form.d_evento_inicio === ''; 
+      return this.form.d_evento_inicio === '';
     }
   },
   methods: {
@@ -304,7 +315,7 @@ export default {
         });
     },
     onReset(evt) {
-      evt.preventDefault()      
+      evt.preventDefault()
       this.d_evento_fim = "";
       this.d_evento_inicio = "";
       this.d_inscricao = "";
