@@ -30,26 +30,23 @@
               <h4 class="mt-3">Redes Sociais</h4>
               <div>
                 <a class="mr-1" :href="informacoes.facebook" target="_blank"><i
-                  class="fab fa-facebook-square"></i></a>
+                  class="fa fa-facebook-square"></i></a>
                 <a class="mr-1" :href="informacoes.instagram" target="_blank"><i
-                  class="fab fa-instagram-square"></i></a>
+                  class="fa fa-instagram"></i></a>
                 <a class="mr-1" :href="informacoes.github" target="_blank"><i 
-                class="fab fa-github-square"></i></a>
+                class="fa fa-github-square"></i></a>
                 <a :href="informacoes.youtube" target="_blank"><i
-                  class="fab fa-youtube-square"></i></a>
-
+                  class="fa fa-youtube-square"></i></a>
               </div>
-
             </b-col>
-
           </b-row>
         </b-col>
         <b-col>
         </b-col>
       </b-row>
       <hr>
-      <div class="text-center pb-3"> {{ year }} &copy; PET-CC UFRN - Template por <a
-        href="http://coreui.io">CoreUI</a></div>
+      <div class="text-center pb-3 pt-1"> {{ year }} &copy; PET-CC UFRN - Desenvolvido com 
+        <i class="fa fa-heart text-white" style="font-size: 14px;"></i> <a href="https://nuxtjs.org">Nuxt.JS</a></div>
     </footer>
   </div>
 </template>
@@ -91,9 +88,6 @@ export default {
     font-size: 24px;
   }
 
-  a {
-    color: white !important;
-  }
 
   h4 {
     font-weight: bold;

@@ -79,16 +79,10 @@ export default {
     SidebarNavItem,
     SidebarNavLabel
   },
-  methods: {
-    handleClick (e) {
-      e.preventDefault()
-      e.target.parentElement.classList.toggle('open')
-    }
-  }
 }
 </script>
 
-<style lang="css">
+<style lang="css" >
 
   .nav-link {
     cursor:pointer;

@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <Comum/>  
-    <div class="container">
-     	<br>
-        <h2 class="mt-3 mb-0"><i class="far fa-calendar-alt"></i> Eventos</h2>
-        <hr>
-        <b-row>
+  <div class="container pt-5">
+    <br>
+    <h1 class="mt-3 mb-0"><nuxt-link to="/eventos"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar aos eventos</nuxt-link></h1>
+      <hr>
+    <b-row>
 			<b-col>
-				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
+				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`${this.evento.imagem}`" fluid alt="Imagem do evento"></b-img>
 				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
 				<h3>{{evento.titulo}}</h3>
 				<p class="mt-4 mb-1">
@@ -16,13 +15,16 @@
 					<span v-if="evento.d_inscricao_fim !== ''">{{ this.evento.d_inscricao_fim | moment}}</span>
 				</p>
 				<p class="mt-0 mb-1">
-					<strong>Perído de realização do evento:</strong>
-					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_inicio | moment }}</span> -
-					<span v-if="evento.d_evento_inicio !== ''">{{ this.evento.d_evento_fim | moment}}</span>
-				</p>
-				<p class="mt-0 mb-1">
-					<strong>Quantidade de dias de evento:</strong>
-					{{evento.qtdDias}} dia(s)
+					<strong>Dias de realização do evento:</strong>
+          
+					<span v-for="(dia, index) in evento.periodo_evento" v-bind:key="(dia, index)">
+            <span v-if="index == evento.periodo_evento.length - 1">
+              {{ dia | moment }}
+            </span>
+            <span v-else>
+              {{ dia | moment }},
+            </span>
+          </span> 
 				</p>
 				<p class="mt-0 mb-1">
 					<strong>Carga horária:</strong>
@@ -48,22 +50,15 @@
 				faça login através dessa outra <nuxt-link to="/login">página web</nuxt-link>.</p>
 			</b-col>
 		</b-row>
-    </div>
-    <BottomBar/>
   </div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
 import moment from "moment";
-import BottomBar from "~/components/anonymous/BottomBar";
+import Swal from "sweetalert2";
 
 export default {
   layout: 'index',
-  components: {
-      Comum,
-      BottomBar
-  },
 	head () {
 		return {
 			title: 'PET-CC UFRN | Eventos'
@@ -73,14 +68,12 @@ export default {
 		return {
       evento: {
 				idEvento: 0,
-				d_evento_fim: "",
-				d_evento_inicio: "",
 				d_inscricao: "",
 				d_inscricao_fim: "",
 				descricao: "",
 				local: "",
-				qtdCargaHoraria: "",
-				qtdDias: "",
+        qtdCargaHoraria: "",
+        periodo_evento: [],
 				qtdVagas: "",
 				titulo: "",
 				valor: "", 
@@ -107,7 +100,16 @@ export default {
 			.get('eventos-abertos/'+ this.$route.params.id)
 			.then((res) => {
 				this.evento = res.data;
-			});
+      })
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      
+      });
 	},
   filters: {
     moment: function (date) {
@@ -137,18 +139,19 @@ export default {
 <style scoped>
 
 a {
-	color: blue;
+  text-decoration: none;
 }
 
-h2 {
+h1 {
   font-weight: 300;
-  font-size: 32px;
+  font-size: 30px;
 }
 
 h3 {
   font-weight: 300;
   font-size: 25px;
 }
+
 div p {
   font-size: 17px;
 }
@@ -158,6 +161,10 @@ hr {
   margin-bottom: 20px;
 }
 
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: 91.7vh;
+}
 </style>
 
  

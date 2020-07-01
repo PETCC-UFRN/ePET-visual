@@ -1,34 +1,27 @@
 <template>
   <div>
-    <Comum/>  
-    <div class="container">
+    <div class="container pt-5">
      	<br>
-      <h2 class="mt-3 mb-0"><i class="far fa-newspaper"></i> Notícias</h2>
+      <h1 class="mt-3 mb-0"><nuxt-link to="/noticias"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar às notícias</nuxt-link></h1>
       <hr>
       <b-row class="mb-5">
         <b-col>
-  				<b-img center class="mt-3 mb-5" v-bind="mainProps" src="https://i.ytimg.com/vi/TISxP_iW9IU/hqdefault.jpg" fluid alt="Responsive image"></b-img>
+  				<b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${noticia.imagem}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1"> {{mes}}</p>
           <h3>{{noticia.titulo}}</h3>
           <p class="mt-3 mb-3">{{noticia.corpo}}</p>
         </b-col>
       </b-row>
     </div>
-    <BottomBar/>
   </div>
 </template>
 
 <script>
-import Comum from "~/components/Comum";
-
-import BottomBar from "~/components/anonymous/BottomBar";
+import Swal from "sweetalert2";
 
 export default {
   layout: 'index',
-  components: {
-    Comum,
-    BottomBar
-  },
 	head () {
 		return {
 			title: 'PET-CC UFRN | Notícias'
@@ -38,7 +31,8 @@ export default {
 		return {
 			noticia: {
 				titulo: "",
-				corpo: "",
+        corpo: "",
+        imagem: "", 
 				petiano: {
 					pessoa: {
 						nome:""
@@ -65,7 +59,15 @@ export default {
   mounted(){
     this.$axios
       .get('noticia/'+ this.$route.params.id)
-      .then((res) => this.noticia = res.data);
+      .then(res => this.noticia = res.data)
+      .catch( err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: 'error',
+        })
+      });
 
   },
   computed: {
@@ -89,10 +91,13 @@ export default {
 
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 
-h2 {
+h1 {
   font-weight: 300;
-  font-size: 32px;
+  font-size: 30px;
 }
 
 h3 {
@@ -107,6 +112,11 @@ div p {
 hr {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.container {
+  /* Tamanho da tela menos o footer e o container com o logo */
+  min-height: 91.7vh;
 }
 
 </style>

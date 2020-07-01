@@ -11,7 +11,7 @@ export default {
         },
         {
             name: 'Início',
-            url: '/petiano',
+            url: '/petiano#',
             icon: 'icon-home'
         },
         {

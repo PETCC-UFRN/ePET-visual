@@ -1,93 +1,65 @@
 <template>
-  <div>
-    <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark cor fixed-top">
-      <div class="container">
-        <a class="navbar-brand m" href="/">PET-CC UFRN</a>
-        <button
-          class="navbar-toggler navbar-toggler-right"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/eventos">Eventos</nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link class="nav-link" to="/noticias">Notícias</nuxt-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/validacao">Validar certificado</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownBlog"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >Área do usuário</a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <nuxt-link class="dropdown-item" to="/login"><i class="icon-login"></i> Login</nuxt-link>
-                <nuxt-link class="dropdown-item" to="/register"><i class="icon-user-follow"></i> Registrar</nuxt-link>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
+<div>
+  <b-navbar toggleable="lg" type="dark" class="fixed-top ">
+    <b-navbar-brand class="petcc " to="/#">PET-CC UFRN</b-navbar-brand>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item id="subtopic" to="/#" >Início</b-nav-item>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Sobre</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/membros-emeritos">Membros eméritos</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/desenvolvedores">Desenvolvedores</b-dropdown-item>
+         </b-nav-item-dropdown>
+        <b-nav-item id="subtopic" to="/eventos" >Eventos</b-nav-item>
+        <b-nav-item id="subtopic" to="/noticias" >Notícias</b-nav-item>
+        <b-nav-item-dropdown id="subtopic" right>
+          <!-- Using 'button-content' slot -->
+          <template v-slot:button-content>
+           <span>Área do usuário</span> 
+          </template>
+          <b-dropdown-item class="drop" to="/login">Entrar</b-dropdown-item>
+          <b-dropdown-item to="/register">Cadastrar</b-dropdown-item>
+          <b-dropdown-item to="/validacao">Validar certificado</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+</div>
 </template>
 
 <style scoped>
-a {
+span {
+  color: rgba(255,255,255,0.5) !important;
+}
+
+#drop {
   border-radius: 0px !important;
 }
-.m{
-  font-weight: bold;
-  font-size: 24px; 
-}
-.icon-user-follow {
-  font-size:17px;
+
+nav {
+  background-color: #89023e;  ;  
 }
 
-.icon-login {
-  font-size:15px;
+.petcc {
+  font-size: 24px;
+  font-weight: 600;
+  border-color: white;
+  padding-left: 20px;
 }
+
+
+@media(max-width: 500px){
+  .petcc {
+    padding-left: 0px;
+  }
+}  
+
+#subtopic {
+  font-size: 19px;
+  font-weight: 350;
+  }
 </style>
-
-<script>
-export default {
-  mounted() {
-      let fontawesome = document.createElement('script')
-      fontawesome.setAttribute('src', 'https://kit.fontawesome.com/a076d05399.js')
-      document.head.appendChild(fontawesome)
-      this.$nextTick(function(){
-        window.addEventListener("scroll", function(){
-          var navbar = document.getElementById("nav");
-          var nav_classes = navbar.classList;
-          if(document.documentElement.scrollTop >= 50) {
-            if (nav_classes.contains("shrink") === false) {
-              nav_classes.toggle("shrink");
-            }
-          }
-          else {
-            if (nav_classes.contains("shrink") === true) {
-              nav_classes.toggle("shrink");
-            }
-          }
-        })
-      })
-    },
-}
-</script>
