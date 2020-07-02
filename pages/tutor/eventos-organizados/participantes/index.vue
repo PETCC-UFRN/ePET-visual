@@ -279,7 +279,9 @@
         if (!isNaN(e.target.value)) {
           this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {
             assiduidade: e.target.value
-          }).catch(res => {
+          }).then(() =>{
+            this.updateDomAssiduidadeSpan(idParticipante);
+          }).catch(() => {
             Swal.fire({
               title: "Não foi possível cadastrar a frequência",
               text: "Tente novamente mais tarde.",
@@ -293,10 +295,19 @@
         this.updateDomAssiduidadeSpan(idParticipante);
         return (typeof maybeFind !== 'undefined') ? maybeFind.assiduidade : 0;
       },
-      updateDomAssiduidadeSpan(idParticipante){
-        let total = [...this.$el.getElementsByClassName('freq-' + idParticipante)].reduce((c, i) => i.value + c, 0);
-        let dom   = this.$el.getElementsByClassName('span-freq-' + idParticipante);
-        dom[0] ? dom[0].innerHTML = total : '';
+      updateDomAssiduidadeSpan(idParticipante) {
+        let total = [...this.$el.getElementsByClassName('freq-' + idParticipante)].reduce((c, i) => i.valueAsNumber + c, 0);
+        let dom = this.$el.getElementsByClassName('span-freq-' + idParticipante);
+
+        if (dom[0] && this.evento) {
+          let percentual = (total * 100 / this.evento.qtdCargaHoraria);
+          dom[0].textContent = percentual + '%';
+          if(percentual < this.evento.percentual){
+            dom[0].style.color = 'red';
+          }else{
+            dom[0].style.color = 'green';
+          }
+        }
       }
     }
   };
