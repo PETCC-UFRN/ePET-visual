@@ -46,6 +46,21 @@ $ npm run dev
 
 Em seguida, abra o navegador e acesse o seguinte endereço [http://localhost:3000](http://localhost:3000).
 
+#### Mudando endereço da API do back-end
+
+O consumo da API do back-end pelo front-end é feito por meio do plugin **Axios**. Caso deseje modificar o endereço da API que será consumida, basta modificar o campo `baseURL` no arquivo _nuxt.config.js_.
+
+ ```
+...
+axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: "https://epet.imd.ufrn.br:8443/api"
+  },
+...
+ ```
+Atualmente, a API do backend consumida é a [https://epet.imd.ufrn.br:8443/api](https://epet.imd.ufrn.br:8443/api).
+
+
 ### Produção
 
 Em estágio de produção, aconselha-se a usar o programa no modo de produção. Diante disso, execute os seguintes comandos:
