@@ -58,7 +58,7 @@ axios: {
   },
 ...
  ```
-Atualmente, a API do backend consumida é a [https://epet.imd.ufrn.br:8443/api](https://epet.imd.ufrn.br:8443/api).
+Atualmente, a API do backend consumida está em [https://epet.imd.ufrn.br:8443/api](https://epet.imd.ufrn.br:8443/api).
 
 
 ### Produção
