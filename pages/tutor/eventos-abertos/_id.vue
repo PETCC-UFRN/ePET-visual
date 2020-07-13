@@ -15,9 +15,9 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-          <spain class="mt-0 mb-2">
+          <span class="mt-0 mb-2">
             <h5>Título:</h5> <h6> {{form.titulo}}</h6>
-          </spain>
+          </span>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
@@ -43,7 +43,7 @@
           <p class="mt-0 mb-1">
             <strong>Valor da inscrição:</strong>
             {{new Intl
-                .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                .NumberFormat([], { style: 'currency', currency: 'BRL'})
                 .format(form.valor) }}
           </p>
           <p class="mt-2 mb-1">
@@ -54,8 +54,8 @@
             <strong>Descrição:</strong>
             {{form.descricao}}
           </p>
-          
-        </div>  
+
+        </div>
       </b-card-body>
     </b-card>
   </div>
@@ -99,7 +99,7 @@ export default {
       .catch(err => {
         Swal.fire({
           title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          text: "Por favor, tente recarregar a página. Caso não dê certo," +
           " tente novamente mais tarde.",
           icon: "error"
         })
