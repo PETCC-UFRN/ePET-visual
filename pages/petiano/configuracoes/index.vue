@@ -60,18 +60,45 @@
             </p>
           </b-col>
         </b-row>
+        <b-row class="mt-4">
+          <b-col>
+            <b-card header-tag="header">
+              <template v-slot:header>
+                <b-row>
+                  <b-col>
+                    <h4>Modificar PDF template dos certificados</h4>
+                  </b-col>
+                </b-row>
+              </template>
+              <b-form-file
+                v-model="file"
+                placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
+              <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>
+              
+              <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
+              <template v-slot:footer>
+                <b-button block @click="fazerUploadPDFTemplate"
+                  class="btn btn-sm btn-success mt-2">
+                  Atualizar arquivo
+                </b-button>
+              </template>
+            </b-card>      
+          </b-col>
+        </b-row>
 			</b-card-body> 
     </b-card>
   </div>
 </template>
 
 <script>
-
+import Swal from "sweetalert2";
 
 export default {
   layout: "menu/petiano",
   data: function() {
     return {
+      file:[],
+      progressValue: 0,
       informacoes:{
         idInformacao: 1,
         sobre: "",
@@ -89,6 +116,39 @@ export default {
     this.$axios.get("informacoes").then(res => {
       this.informacoes = res.data;
     });
+  },
+  methods: {
+    fazerUploadPDFTemplate(evento) {
+      const formData = new FormData()
+      formData.append("file", this.file)
+      this.$axios
+        .post(`certificado/mudarTemplate/`, formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          Swal.fire({
+            title: "PDF de template atualizado",
+            icon: "success"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "PDF de template não atualizado",
+            text: "Tente novamente em outro momento.",
+            icon: "error"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        });
+    },
   }
 };
 
