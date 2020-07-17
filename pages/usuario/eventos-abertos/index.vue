@@ -102,7 +102,7 @@ export default {
         .then(res => {
           this.eventos = res.data.content;
           this.isLoading = false;
-          this.numItems = res.data.length;
+          this.numItems = res.data.content.length;
         })
         .catch( err => {
           if (err.response.status === 500) {

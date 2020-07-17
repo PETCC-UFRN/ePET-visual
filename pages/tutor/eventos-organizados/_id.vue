@@ -6,12 +6,6 @@
           <b-col>
             <h3>Informações</h3>
           </b-col>
-          <b-col v-if="form.evento.valor > 0">
-            <b-button
-              variant="teal"
-              class="btn btn-sm float-right mt-4"
-            ><i class="fa fa-info-circle px-2" aria-hidden="true"></i> Status do pagamento</b-button>
-          </b-col>
         </b-row>
       </template>
       <b-card-body>
