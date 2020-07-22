@@ -28,14 +28,14 @@
         </div> 
 
         <b-form-file
-              v-model="file"
-              placeholder="Nenhuma foto selecionada" browse-text="Selecionar foto" id="anexo"></b-form-file>
-            <b-form-text class="mb-1"> O tamanho máximo da foto é de 10 megabytes. </b-form-text>
-            <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
-            <b-button block @click="fazerUploadImagem" 
-              class="btn btn-sm btn-success mt-2 mb-4">
-              Carregar foto
-            </b-button> 
+          v-model="file"
+          placeholder="Nenhuma foto selecionada" browse-text="Selecionar foto" id="anexo"></b-form-file>
+        <b-form-text class="mb-1"> O tamanho máximo da foto é de 10 megabytes. </b-form-text>
+        <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
+        <b-button block @click="fazerUploadImagem" 
+          class="btn btn-sm btn-success mt-2 mb-4">
+          Carregar foto
+        </b-button> 
 
         <b-form-group for="nome" label="Nome completo">
           <b-form-input id="nome" v-model="form.pessoa.nome" required></b-form-input>
@@ -114,7 +114,8 @@ export default {
           this.form.foto = res.data;
 
           Swal.fire({
-            title: "PDF de template atualizado",
+            title: "Foto carregada",
+            text: "Não se esqueça de clicar no botão de atualizar.",
             icon: "success"
           })
           .then( () => {
@@ -124,7 +125,7 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: "PDF de template não atualizado",
+            title: "Foto na carregada",
             text: "Tente novamente em outro momento.",
             icon: "error"
           })
@@ -150,7 +151,6 @@ export default {
           })
         });
     },
-
     onSubmit() {
       this.$axios
         .post("pessoas-atualizar/", {
@@ -171,7 +171,6 @@ export default {
 
       this.submitAlert(false);
     },
-
     submitAlert(withError) {
       let icon_ = "success";
       let title_ = "Perfil atualizado";
