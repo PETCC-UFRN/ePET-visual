@@ -12,7 +12,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <label for="exampleFormControlInput1">
+          <label>
             <h5>Nome</h5>
           </label>
           <v-pessoas label="nome" v-model="form.pessoa"></v-pessoas>
@@ -58,7 +58,7 @@
             :items="participantes"
             :current-page="currentPage"
             :bordered="false"
-            striped   
+            striped
             :per-page="10"
             pills
             :fields="fields"
@@ -89,6 +89,19 @@
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
             </template>
+            <template v-slot:cell(frequencias)="row" v-if="frequenciasCadastradas !== []">
+              <b-row>
+                <div v-if="row.item.confirmado === true">
+                  <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
+                         :class="'m-2 form-control freq-' + row.item.idParticipantes" min="0"
+                         @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
+                         :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
+                </div>
+              </b-row>
+              <b-row>
+                Assiduidade: <span :class="'span-freq-' + row.item.idParticipantes"></span>
+              </b-row>
+            </template>
           </b-table>
           <nav>
             <b-pagination
@@ -111,156 +124,206 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
-import PessoasSelect from "~/components/selects/PessoasSelect";
+  import Swal from "sweetalert2";
+  import PessoasSelect from "~/components/selects/PessoasSelect";
 
-export default {
-  name: "dashboard",
-  layout: "menu/petiano",
-  components: {
-    "v-pessoas": PessoasSelect
-  },
-  data() {
-    return {
-      form: {
-        pessoa: 0
-      },
-      pessoas: {},
-      participantes: [],
-      keyword: "",
-      eventos: [],
-      currentPage: 1,
-      fields: [
-        { key: "pessoa.nome", label: "Nome", sortable: true },
-        {
-          key: "pessoa.cpf",
-          label: "CPF",
-          sortable: true,
-          formatter: value => {
-            if (value != null)
-              return `${value.substring(0, 3)}.${value.substring(
-                3,
-                6
-              )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
-          }
+  export default {
+    name: "dashboard",
+    layout: "menu/tutor",
+    components: {
+      "v-pessoas": PessoasSelect
+    },
+    data() {
+      return {
+        form: {
+          pessoa: 0
         },
-        { key: "actions", label: "Ações disponíveis" }
-      ]
-    };
-  },
-  computed: {
-    items() {
-      return this.keyword
-        ? this.eventos.filter(item => {
-            item.evento.titulo.includes(this.keyword) ||
-              item.pessoa.nome.includes(this.keyword);
+        pessoas: {},
+        eventoPeriodos: {},
+        frequenciasCadastradas: [],
+        participantes: [],
+        keyword: "",
+        currentPage: 1,
+        evento: {},
+        fields: [
+          {key: "pessoa.nome", label: "Nome", sortable: true},
+          {
+            key: "pessoa.cpf",
+            label: "CPF",
+            sortable: true,
+            formatter: value => {
+              if (value != null)
+                return `${value.substring(0, 3)}.${value.substring(
+                  3,
+                  6
+                )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
+            }
+          },
+          {key: "actions", label: "Ações disponíveis"},
+          {key: "frequencias", label: "Frequência em dias"},
+        ]
+      };
+    },
+    mounted() {
+      this.consumirParticipantesApi();
+      this.getEventoPeriodos();
+      this.getFrequenciasCadastradas();
+      console.log(this.$el.getElementsByClassName('freq-' + 52))
+    },
+    methods: {
+      consumirParticipantesApi() {
+        this.$axios
+          .get(`participantes-evento/${this.$route.query.idEvento}`)
+          .then(res => {
+            this.evento = res.data.content.length > 0 ? res.data.content[0].evento : {};
+            this.participantes = res.data.content;
           })
-        : this.eventos;
-    }
-  },
-  mounted() {
-    this.consumirParticipantesApi();
-  },
-  methods: {
-    consumirParticipantesApi() {
-      this.$axios
-        .get(`participantes-evento/${this.$route.query.idEvento}`)
-        .then(res => {
-          this.participantes = res.data.content;
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: "Nenhum pessoa cadastrada",
+                icon: "info"
+              });
+            } else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," +
+                  " tente novamente mais tarde.",
+                icon: "error"
+              })
+            }
+          });
+      },
+      submitForm(e) {
+        e.preventDefault();
+        this.$axios
+          .post(
+            `participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
+          )
+          .then(res => {
             Swal.fire({
-              title: "Nenhum pessoa cadastrada",
-              icon: "info"
+              title: "Participante cadastrado",
+              icon: "success"
+            }).then(() => {
+              this.form = Object.entries(this.form).map(item => {
+                return (item = "");
+              });
+              this.consumirParticipantesApi();
             });
-          } else {
+          })
+          .catch(err => {
             Swal.fire({
-              title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-              " tente novamente mais tarde.",
+              title: "Participante não cadastrado",
               icon: "error"
-            })
-          }
-        });
-    },
-    submitForm(e) {
-      e.preventDefault();
-      this.$axios
-        .post(
-          `participantes-cadastrar/${this.$route.query.idEvento}/${this.form.pessoa}`
-        )
-        .then(res => {
-          Swal.fire({
-            title: "Participante cadastrado",
-            icon: "success"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
-            });
-            this.consumirParticipantesApi();
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Participante não cadastrado",
-            icon: "error"
-          }).then(() => {
-            this.form = Object.entries(this.form).map(item => {
-              return (item = "");
+            }).then(() => {
+              this.form = Object.entries(this.form).map(item => {
+                return (item = "");
+              });
             });
           });
-        });
-    },
-    del(id, rowId) {
-      this.$axios
-        .delete("participantes-remove/" + id)
-        .then(() => {
-          Swal.fire({
-            title: "Participante removido",
-            icon: "success"
-          }).then(() => {
-            this.participantes.splice(rowId, 1);
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            title: "Participante não removido",
-            icon: "error"
-          });
-        });
-    },
-    confirmar(id) {
-      this.$axios.post(`participantes-confirmar/${id}`).then(() => {
-        Swal.fire({
-          title: "Participante confirmado",
-          icon: "success"
-        })
+      },
+      del(id, rowId) {
+        this.$axios
+          .delete("participantes-remove/" + id)
           .then(() => {
-            this.consumirParticipantesApi();
+            Swal.fire({
+              title: "Participante removido",
+              icon: "success"
+            }).then(() => {
+              this.participantes.splice(rowId, 1);
+            });
           })
           .catch(() => {
             Swal.fire({
-              title: "Participante não confirmado",
+              title: "Participante não removido",
               icon: "error"
             });
           });
-      });
+      },
+      confirmar(id) {
+        this.$axios.post(`participantes-confirmar/${id}`).then(() => {
+          Swal.fire({
+            title: "Participante confirmado",
+            icon: "success"
+          })
+            .then(() => {
+              this.consumirParticipantesApi();
+            })
+            .catch(() => {
+              Swal.fire({
+                title: "Participante não confirmado",
+                icon: "error"
+              });
+            });
+        });
+      },
+      getFrequenciasCadastradas() {
+        this.$axios.get('frequencia-evento/' + this.$route.query.idEvento).then(res => {
+          this.frequenciasCadastradas = res.data.content.map(frequencia => {
+            this.updateDomAssiduidadeSpan(frequencia.participante.idParticipantes);
+            return {
+              idParticipante: frequencia.participante.idParticipantes,
+              idPeriodo: frequencia.periodo_evento.idPeriodo_Evento,
+              idFrequencia: frequencia.idFrequencia,
+              assiduidade: frequencia.assiduidade,
+            }
+          });
+        })
+      },
+      getEventoPeriodos() {
+        this.$axios.get('periodo-evento-buscar/' + this.$route.query.idEvento).then(res => {
+          this.eventoPeriodos = res.data.content.map(periodo => periodo.idPeriodo_Evento);
+        });
+      },
+      criaFrequencia(idPeriodo, idParticipante, e) {
+        if (!isNaN(e.target.value)) {
+          this.$axios.post(`frequencia-cadastrar/${idPeriodo}/${idParticipante}`, {
+            assiduidade: e.target.value
+          }).then(() =>{
+            this.updateDomAssiduidadeSpan(idParticipante);
+          }).catch(() => {
+            Swal.fire({
+              title: "Não foi possível cadastrar a frequência",
+              text: "Tente novamente mais tarde.",
+              icon: "error"
+            })
+          });
+        }
+      },
+      acharAssiduidade(idParticipante, idPeriodo) {
+        let maybeFind = this.frequenciasCadastradas.find(i => i.idParticipante === idParticipante && i.idPeriodo === idPeriodo);
+        this.updateDomAssiduidadeSpan(idParticipante);
+        return (typeof maybeFind !== 'undefined') ? maybeFind.assiduidade : 0;
+      },
+      updateDomAssiduidadeSpan(idParticipante) {
+        let total = [...this.$el.getElementsByClassName('freq-' + idParticipante)].reduce((c, i) => i.valueAsNumber + c, 0);
+        let dom = this.$el.getElementsByClassName('span-freq-' + idParticipante);
+
+        if (dom[0] && this.evento) {
+          let percentual = (total * 100 / this.evento.qtdCargaHoraria);
+          dom[0].textContent = percentual + '%';
+          if(percentual < this.evento.percentual){
+            dom[0].style.color = 'red';
+          }else{
+            dom[0].style.color = 'green';
+          }
+        }
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
 
-h3, h4 {
-  font-weight: 300;
-}
+  h3, h4 {
+    font-weight: 300;
+  }
 
-h4 {
-  text-align: center;
-}
-strong {
-  font-size: 18px;
-}
+  h4 {
+    text-align: center;
+  }
+
+  strong {
+    font-size: 18px;
+  }
 </style>

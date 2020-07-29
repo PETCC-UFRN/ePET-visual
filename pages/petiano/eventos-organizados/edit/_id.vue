@@ -272,14 +272,20 @@ export default {
   
   },
   computed: {
+    disabledDataRolagemInicio() {
+      return this.form.d_inscricao_fim === ''
+    },
+    disabledDataEventoInicio(){
+      return this.form.fim_rolagem === '';
+    },
     disabledDataRolagem() {
-      return this.form.inicio_rolagem === ''; 
+      return this.form.inicio_rolagem === '';
     },
     disabledDataInscricao(){
-      return this.form.d_inscricao === ''; 
+      return this.form.d_inscricao === '';
     },
     disabledDataEvento(){
-      return this.form.d_evento_inicio === ''; 
+      return this.form.d_evento_inicio === '';
     }
   },
   methods: {
