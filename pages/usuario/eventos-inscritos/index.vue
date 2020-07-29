@@ -123,7 +123,7 @@ export default {
     },
     consumindoEventosParticipandoApi() {
       this.$axios
-        .get(`participantes-evento/${this.$store.state.profile.idPessoa}`)
+        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.eventos = res.data.content;
           this.isLoading = false;

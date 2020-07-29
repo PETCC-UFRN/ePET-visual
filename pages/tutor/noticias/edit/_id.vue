@@ -39,10 +39,18 @@
             ></b-form-textarea>
           </div>
           <b-form-group>
-            <label for="anexo">
-              <strong>Anexo</strong>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
             </label>
-            <b-form-file placeholder="Nenhum arquivo" browse-text="Fazer upload" id="anexo"></b-form-file>
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text>
+            <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
+            <b-button block @click="fazerUploadImagem" 
+              class="btn btn-sm btn-success mt-2 mb-4">
+              Carregar imagem
+            </b-button> 
           </b-form-group>
           <b-row>
             <b-col>
@@ -78,7 +86,6 @@
               </div>
             </b-col>
           </b-row>
-
           <div class="form-group">
             <b-button type="submit" variant="primary">
               <i class="fa fa-dot-circle-o"></i> Salvar
@@ -90,6 +97,25 @@
         </form>
       </div>
     </div>
+    <b-card>
+      <template v-slot:header>
+        <b-row>
+          <b-col>
+            <h3>Remover anexos</h3>
+          </b-col>
+        </b-row>
+      </template>
+      <b-card-body>
+                <b-form-checkbox-group id="checkbox-group-2" 
+                size="lg" v-model="selected" name="flavour-2">
+                  <b-form-checkbox value="orange">Orange</b-form-checkbox>
+                  <b-form-checkbox value="apple">Apple</b-form-checkbox>
+                  <b-form-checkbox value="pineapple">Pineapple</b-form-checkbox>
+                  <b-form-checkbox value="grape">Grape</b-form-checkbox>
+                </b-form-checkbox-group>
+            
+      </b-card-body>
+    </b-card>
   </div>
 </template>
 <script>
@@ -100,9 +126,13 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+      selected: [],
+      file:[],
+      progressValue: 0,
       form: {
         titulo: "",
         corpo: "",
+        imagem: "",
         inicio_exibicao: null,
         limite_exibicao: null,
         ativo: false
@@ -173,6 +203,39 @@ export default {
         });
       }
     },
+    fazerUploadImagem(evento) {
+      const formData = new FormData()
+      formData.append("file", this.file)
+      this.$axios
+        .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          this.form.imagem = res.data;
+          Swal.fire({
+            title: "Foto carregada",
+            text: "Não se esqueça de clicar no botão de atualizar.",
+            icon: "success"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Foto na carregada",
+            text: "Tente novamente em outro momento.",
+            icon: "error"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        });
+    },
     checkForm() {
       this.errors = [];
 
@@ -196,7 +259,7 @@ export default {
 
 
 <style scoped>
-h2 {
+h2, h3 {
   font-weight: 300;
 }
 

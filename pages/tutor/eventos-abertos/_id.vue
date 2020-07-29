@@ -18,6 +18,7 @@
           <span class="mt-0 mb-2">
             <h5>Título:</h5> <h6> {{form.titulo}}</h6>
           </span>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${form.imagem}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
@@ -80,13 +81,15 @@ export default {
         descricao: "",
         local: "",
         percentual: 0,
+        imagem: "",
         qtdCargaHoraria: "",
         qtdDias: "",
         qtdVagas: "",
         titulo: "",
         valor: "",
         ativo: false
-      }
+      },
+			mainProps: { width: 425, height: 200},
     };
   },
   mounted() {

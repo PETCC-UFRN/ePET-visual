@@ -16,6 +16,7 @@
         </span>
         <span v-else-if="item == 'edit'">Editar</span>
         <span v-else-if="item == 'create'">Cadastrar</span>
+        <span v-else-if="item == 'gerenciar-anexos'">Gerenciar anexos</span>
         <span v-else>
           <nuxt-link
             :to="`/${$route.path.split('/').slice(1).slice(0,index+1).join('/')}`"

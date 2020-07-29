@@ -90,7 +90,7 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Há anexo para os participantes:</strong>
-            <span v-if="form.participante_anexos === true ">Sim.</span>
+            <span v-if="form.evento.participante_anexos === true ">Sim.</span>
             <span v-else>Não.</span> 
           </p>
           <p class="mt-3 mb-2">

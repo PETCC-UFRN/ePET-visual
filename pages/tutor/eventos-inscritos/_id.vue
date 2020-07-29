@@ -24,13 +24,13 @@
           <h5>Título:</h5> <h6> {{form.evento.titulo}}</h6>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
-            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
-            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
+            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
+            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.evento.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_inicio | moment }}</span> -
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>

@@ -52,6 +52,10 @@
             {{form.evento.descricao}}
           </p>
           
+          <span>
+            <b-button class="btn btn-indigo mt-1 float-right"
+                style="color: white"><i class="fa fa-file-archive-o fa-fw"></i> Anexo</b-button>
+          </span>
         </div>  
       </b-card-body>
       <template v-slot:footer>
@@ -89,9 +93,9 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Há anexo para os participantes:</strong>
-            <span v-if="form.participante_anexos === true ">Sim.</span>
+            <span v-if="form.evento.participante_anexos === true ">Sim.</span>
             <span v-else>Não.</span> 
-          </p>
+          </p> 
           <p class="mt-3 mb-2">
             <strong>Texto de declaração do participante:</strong>
             {{form.evento.textoDeclaracaoEvento}}
@@ -163,6 +167,28 @@ export default {
           icon: "error"
         })
         .then(() => this.isLoading = false);
+      });
+
+    this.$axios
+      .get('anexos-evento/'+ this.$route.params.id)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        if (err.response.status === 404) {
+          Swal.fire({
+            title: 'Anexo não encontrado',
+            icon: 'info',
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: 'error'
+          })
+        }
       });
   },
   filters: {
