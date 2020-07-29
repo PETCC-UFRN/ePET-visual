@@ -7,7 +7,6 @@
     <b-row>
 			<b-col>
 				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`${this.evento.imagem}`" fluid alt="Imagem do evento"></b-img>
-				<p id="corpo" class="mt-3 mb-1"> {{mes}}</p>
 				<h3>{{evento.titulo}}</h3>
 				<p class="mt-4 mb-1">
 					<strong>Perído de inscrições:</strong>
@@ -44,10 +43,18 @@
 					<strong>Local do curso:</strong>
 					{{evento.local}}
 				</p><p class="mt-3 mb-2">{{evento.descricao}}</p>
-				<p class="mt-3 mb-5"><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
+				<p class="mt-3 mb-2"><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
 				a plataforma de gerenciamento de eventos e tutorias do PET-CC, o ePET. Caso não possua ainda cadastro,
 				é possível realizar o cadastro nessa <nuxt-link to="/register">página web</nuxt-link>. Porém, caso já tenha, 
 				faça login através dessa outra <nuxt-link to="/login">página web</nuxt-link>.</p>
+          
+        <span class="mb-5" v-for="anexo in anexos" :key="anexo.id" >
+          <b-button class="btn btn-indigo mt-2 mb-2 float-right mr-2"
+            @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+            style="color: white"> <i class="fa fa-download fa-fw"></i> 
+            {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+          </b-button>
+        </span>
 			</b-col>
 		</b-row>
   </div>
@@ -66,6 +73,8 @@ export default {
 	},
   data() {
 		return {
+      anexos: [],
+      quantidadeAnexos: 0,
       evento: {
 				idEvento: 0,
 				d_inscricao: "",
@@ -79,27 +88,36 @@ export default {
 				valor: "", 
 			},
 			mainProps: { width: 425, height: 200},
-			mesNomes: [
-				"JANEIRO", 
-				"FEVEREIRO", 
-				"MARÇO", 
-				"ABRIL", 
-				"MAIO",
-				"JUNHO",
-				"JULHO", 
-				"AGOSTO", 
-				"SETEMBRO", 
-				"OUTUBRO", 
-				"NOVEMBRO",
-				"DEZEMBRO"
-			]
     }
 	},
 	mounted(){
 		this.$axios
 			.get('eventos-abertos/'+ this.$route.params.id)
 			.then((res) => {
-				this.evento = res.data;
+        this.evento = res.data;
+        
+        this.$axios
+          .get(`anexos-evento/${this.evento.idEvento}`)
+          .then(res => {
+            this.quantidadeAnexos = res.data.length;
+            this.anexos = res.data; 
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: 'Evento não possui anexos',
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
       })
       .catch( err => {
         Swal.fire({
@@ -112,25 +130,43 @@ export default {
       });
 	},
   filters: {
-    moment: function (date) {
-      return moment(date).format('DD/MM/YYYY');
+    moment: function(date) {
+      return moment(date).format("DD/MM/YYYY");
     }
   },
-	computed: {
-		mes() {
-			if (this.evento.d_inscricao != null) {
-				return "" + this.evento.d_inscricao.substring(8,10) + " " + 
-				this.mesNomes[parseInt(this.evento.d_inscricao.substring(5,7) , 10)] + " "+ 
-				this.evento.d_inscricao.substring(0,4);
-			}
-			return "";
-		},
-	},
 	methods: {
-		mesF(value) {
-		if (value != null)
-			return this.mesNomes[parseInt(value, 10)];
-		}
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
+    }
 	}
 };
 </script>
@@ -166,5 +202,3 @@ hr {
   min-height: 91.7vh;
 }
 </style>
-
- 
