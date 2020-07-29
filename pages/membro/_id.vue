@@ -17,7 +17,7 @@
             </b-row>
             <b-row>
               <b-col class="mt-1 mb-1" cols="12">
-                <span><strong>Data de ingresso:</strong> {{data_ingresso | moment}} </span>
+                <span v-if="petiano.data_ingresso !== null"><strong>Data de ingresso:</strong> {{petiano.data_ingresso | moment}} </span>
               </b-col>
               <b-col class="mt-0 mb-1" cols="12">
                 <span><strong>Email:</strong> <a :href="`mailto:${petiano.pessoa.usuario.email}`">  {{petiano.pessoa.usuario.email}}</a> </span>
