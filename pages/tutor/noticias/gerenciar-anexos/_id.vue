@@ -43,12 +43,12 @@
           <template v-slot:cell(actions)="row">
             <b-button 
                 @click.prevent="fazerDowloadAnexo(row.item.anexos)" 
-              class="btn btn-sm btn-success">
+              class="btn btn-sm btn-success mt-2">
               <i class="fa fa-download fa-fw"></i> Download
             </b-button>
             <b-button 
                 @click.prevent="removeAnexo(row.item.idAnexo)" 
-              class="btn btn-sm btn-danger">
+              class="btn btn-sm btn-danger mt-2">
               <i class="fa fa-trash-o fa-fw"></i> Remover
             </b-button>
           </template>
