@@ -14,31 +14,30 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <div v-if="eventos.length > 0">  
+        <div v-if="eventos.length > 0">
 
           <b-table
             responsive="sm"
             :items="eventos"
             :current-page="currentPage"
             :bordered="false"
-            striped   
+            striped
             :per-page="10"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
-              <b-button
-                disabled
-                class="btn btn-sm btn-success mt-1" ><i class="fa fa-check fa-fw"></i>
-              Lançar presenças</b-button>
-
-              <b-button  @click="row.toggleDetails" class="btn btn-sm btn-indigo mt-1">
-                {{ row.detailsShowing ? 'Não anexar' : 'Anexar'}} arquivo
-              </b-button>   
+              <nuxt-link
+                :to="`/petiano/eventos-organizados/gerenciar-anexos/${row.item.evento.idEvento}`"
+                class="btn btn-sm btn-indigo mt-2"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Gerenciar anexos
+              </nuxt-link>
+              
 
               <nuxt-link
                 :to="`/petiano/eventos-organizados/organizadores/?idEvento=${row.item.evento.idEvento}`"
                 class="btn btn-sm btn-teal mt-1"
-                style="color: white" 
+                style="color: white"
               ><i class="fa fa-group fa-fw"></i> Organizadores</nuxt-link>
               <b-button
                 :to="`/petiano/eventos-organizados/participantes/?idEvento=${row.item.evento.idEvento}`"
@@ -51,7 +50,7 @@
                 Detalhes</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-1"
-                :to="`/petiano/eventos-organizados/edit/${row.item.evento.idEvento}`"              
+                :to="`/petiano/eventos-organizados/edit/${row.item.evento.idEvento}`"
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
                 @click.prevent="del(row.item.idEvento, row.index)"
@@ -59,23 +58,6 @@
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
-            </template>
-            <template v-slot:row-details="row">
-              <b-card>
-                <b-form-file 
-                  v-model="file"
-                  placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
-                <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
-
-                <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
-                <template v-slot:footer>
-                  <b-button block
-                    @click="fazerUploadAnexo(row.item.evento)"
-                    class="btn btn-sm btn-success mt-2">
-                    Anexar arquivo
-                  </b-button>
-                </template>
-              </b-card>
             </template>
           </b-table>
           <nav>
@@ -142,52 +124,6 @@ export default {
     this.consumindoEventosOrganizandoApi();
   },
   methods: {
-    fazerUploadAnexo(evento) {
-      const formData = new FormData()
-      formData.append("file", this.file)
-      this.$axios
-        .post(`anexos-evento-upload/${evento.idEvento}`, formData, {
-          onUploadProgress: uploadEvent => {
-            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
-          }
-        })
-        .then(res => {
-          delete evento["_showDetails"]
-          
-          this.$axios
-            .post(`anexos-evento-cadastro/${evento.idEvento}`, {
-                anexos: res.data.anexos,
-                idAnexo: res.data.idAnexo,
-                evento: evento
-              }
-            )
-            .then(res => {
-              Swal.fire({
-                title: "Anexo do evento enviado",
-                icon: "success"
-              })
-              .then( () => {
-                this.progressValue = 0
-                evento["_showDetails"] = true
-                this.file = []
-              });
-            })
-            .catch(err => {
-              Swal.fire({
-                title: "Anexo do evento não enviado",
-                text: "Tente novamente em outro momento.",
-                icon: "error"
-              });
-            });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Upload do anexo não concluído",
-            text: "Tente novamente em outro momento.",
-            icon: "error"
-          });
-        });
-    },
     cadastrar() {
       this.$axios
         .post(`periodo-evento-cadastrar/${this.form.evento.idEvento}`, this.form)
@@ -210,7 +146,7 @@ export default {
 
       if (this.form.periodoEvento !== "") {
         this.form.evento =  evento
-      } 
+      }
     },
     consumirPeriodoEventoApi(idEvento){
       this.$axios
@@ -242,12 +178,12 @@ export default {
           else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              text: "Por favor, tente recarregar a página. Caso não dê certo," +
               " tente novamente mais tarde.",
               icon: 'error',
             })
-            .then(() => this.isLoading = false );            
-          }  
+            .then(() => this.isLoading = false );
+          }
       });
 
     }

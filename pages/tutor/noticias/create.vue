@@ -40,8 +40,18 @@
             ></b-form-textarea>
           </div>
           <b-form-group>
-            <label for="anexo"><strong>Anexo</strong></label>
-            <b-form-file placeholder="Nenhum arquivo" browse-text="Fazer upload" id="anexo"></b-form-file>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text>
+            <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
+            <b-button block @click="fazerUploadImagem" 
+              class="btn btn-sm btn-success mt-2 mb-4">
+              Carregar imagem
+            </b-button> 
           </b-form-group>
           <b-row>
             <b-col>
@@ -98,12 +108,14 @@ export default {
   data() {
     return {
       form: {
+        file:[],
+        progressValue: 0,
         titulo: "",
         corpo: "",
         inicio_exibicao: "",
         limite_exibicao: "",
         ativo: false,
-        foto: ""
+        imagem: ""
       },
       minDate: null
     };
@@ -155,6 +167,39 @@ export default {
             .replace(",", "")
         });
       }
+    },
+    fazerUploadImagem(evento) {
+      const formData = new FormData()
+      formData.append("file", this.file)
+      this.$axios
+        .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+          onUploadProgress: uploadEvent => {
+            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+          }
+        })
+        .then(res => {
+          this.form.imagem = res.data;
+          Swal.fire({
+            title: "Foto carregada",
+            text: "Não se esqueça de clicar no botão de atualizar.",
+            icon: "success"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Foto não carregada",
+            text: "Tente novamente em outro momento.",
+            icon: "error"
+          })
+          .then( () => {
+            this.progressValue = 0
+            this.file = []
+          });
+        });
     },
     clearForm() {
       this.form = Object.entries(this.form).map(item => {

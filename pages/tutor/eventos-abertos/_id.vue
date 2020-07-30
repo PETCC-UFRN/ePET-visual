@@ -16,21 +16,24 @@
         </div>
         <div v-else>
           <span class="mt-0 mb-2">
-            <h5>Título:</h5> <h6> {{form.titulo}}</h6>
+            <h5>{{form.titulo}}</h5> 
           </span>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${form.imagem}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
             <span v-if="form.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
-            <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
-          </p>
-          <p class="mt-0 mb-1">
-            <strong>Quantidade de dias de evento:</strong>
-            {{form.qtdDias}} dia(s)
+            <strong>Dias de realização do evento:</strong>
+            <span v-for="(dia, index) in form.periodo_evento" v-bind:key="(dia, index)">
+              <span v-if="index == form.periodo_evento.length - 1">
+                {{ dia | moment }}
+              </span>
+              <span v-else>
+                {{ dia | moment }},
+              </span>
+            </span> 
           </p>
           <p class="mt-0 mb-1">
             <strong>Carga horária:</strong>
@@ -54,7 +57,13 @@
             <strong>Descrição:</strong>
             {{form.descricao}}
           </p>
-
+          <span v-for="anexo in anexos" :key="anexo.id" >
+            <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+              style="color: white"> <i class="fa fa-download fa-fw"></i> 
+              {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+            </b-button>
+          </span>
         </div>
       </b-card-body>
     </b-card>
@@ -71,22 +80,21 @@ export default {
   data() {
     return {
       isLoading: true,
+      anexos: [],
+      quantidadeAnexos: 0,
       form: {
-        idEvento: 0,
-        d_evento_fim: "",
-        d_evento_inicio: "",
-        d_inscricao: "",
-        d_inscricao_fim: "",
-        descricao: "",
-        local: "",
-        percentual: 0,
+				idEvento: 0,
+				d_inscricao: "",
+				d_inscricao_fim: "",
+				descricao: "",
+				local: "",
         qtdCargaHoraria: "",
-        qtdDias: "",
-        qtdVagas: "",
-        titulo: "",
-        valor: "",
-        ativo: false
-      }
+        periodo_evento: [],
+				qtdVagas: "",
+				titulo: "",
+				valor: "", 
+      },
+			mainProps: { width: 425, height: 200},
     };
   },
   mounted() {
@@ -95,6 +103,29 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
         this.isLoading = false;
+
+        this.$axios
+          .get(`anexos-evento/${this.form.idEvento}`)
+          .then(res => {
+            this.quantidadeAnexos = res.data.length;
+            this.anexos = res.data; 
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: 'Evento não possui anexos',
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
       })
       .catch(err => {
         Swal.fire({
@@ -109,6 +140,40 @@ export default {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
     }
+  },
+  methods: {
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
+    },
   }
 };
 </script>
@@ -124,11 +189,10 @@ p {
 strong {
   font-size: 16px;
 }
-h3, h4 {
+h3, h4, h5 {
   font-weight: 300;
 }
-h5, h6 {
-  display: inline;
+h5{
   font-size: 18px;
 }
 </style>

@@ -24,13 +24,13 @@
           <h5>Título:</h5> <h6> {{form.evento.titulo}}</h6>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
-            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
-            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
+            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
+            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.evento.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_inicio | moment }}</span> -
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
@@ -59,6 +59,13 @@
             {{form.evento.descricao}}
           </p>
           
+          <span v-for="anexo in anexos" :key="anexo.id" >
+            <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+              style="color: white"> <i class="fa fa-download fa-fw"></i> 
+              {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+            </b-button>
+          </span>
         </div>  
       </b-card-body>
       <template v-slot:footer>
@@ -87,6 +94,8 @@ export default {
     return {
       isLoading: true,
       eventoTerminou: true,
+      anexos: [],
+      quantidadeAnexos: 0,
       form: {  
         evento: { 
           titulo: "", 
@@ -122,6 +131,29 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
+
+        this.$axios
+          .get(`anexos-evento/${this.form.evento.idEvento}`)
+          .then(res => {
+            this.quantidadeAnexos = res.data.length;
+            this.anexos = res.data; 
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: 'Evento não possui anexos',
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
       })
       .catch(err => {
         Swal.fire({
@@ -143,6 +175,38 @@ export default {
     },
   },
   methods: {
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
+    },
     realizarPagamento() {
       this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
         .then(res => {

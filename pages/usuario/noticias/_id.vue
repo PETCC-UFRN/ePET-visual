@@ -5,8 +5,8 @@
       header-tag="header"
       :sub-title="`Postada em: ${moment(noticia.inicio_exibicao)}`"
       sub-title-tag="h6"
-      :footer="`Adicionada por: ${noticia.petiano.pessoa.nome}`"
       :title="noticia.titulo"
+      title-tag="h4"
     >
 			<template v-slot:header>
         <b-row>
@@ -22,7 +22,15 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <span v-html="noticia.corpo"></span>
+        <span class="noticiaCorpo" v-html="noticia.corpo"></span>
+        
+        <span v-for="anexo in anexos" :key="anexo.id" >
+          <b-button class="btn btn-indigo mt-2 float-right mr-2"
+            @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+            style="color: white"> <i class="fa fa-download fa-fw"></i> 
+            {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+          </b-button>
+        </span>
       </div>
       </b-card-body>
     </b-card>
@@ -38,6 +46,8 @@ export default {
   layout: "menu/usuario",
   data() {
     return { 
+      anexos: [],
+      quantidadeAnexos: 0,
       noticia: {
 				titulo: "",
 				corpo: "",
@@ -58,6 +68,8 @@ export default {
       .then(res => {
         this.noticia = res.data;
         this.loaded = true;
+
+        this.$nuxt.$emit("changeCrumbs", this.noticia.titulo);
       })
       .catch( err => {
         if (err.response.status === 404) {
@@ -75,26 +87,83 @@ export default {
           });
         }
       });
+
+      this.$axios
+        .get(`anexos-noticias/${this.$route.params.id}`)
+        .then(res => {
+          this.quantidadeAnexos = res.data.length;
+          this.anexos = res.data; 
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Notícia não possui anexos',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
   },
   methods: {
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
+    },    
     moment: function (date) {
       if (date !== null & date !== '')
-        return moment(date).format('DD/MM/YYYY');
+        return moment(date).format("LL");
       else   
         return '';
-
     }
   }
 };
 </script>
-
-
 <style scoped>
 h2, h4, h6 {
   font-weight: 300;
 }
-
+h4 {
+  font-size: 24px;
+}
 h6 {
-  font-size: 80%;
+  font-size: 18px;
+}
+.noticiaCorpo {
+  font-size: 19px;
 }
 </style>

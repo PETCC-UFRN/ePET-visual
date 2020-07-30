@@ -12,10 +12,14 @@
           <nuxt-link :to="`/${item}`">{{"Início"}}</nuxt-link>
         </span>
         <span v-else-if="item == 'configuracoes'">
-          <nuxt-link :to="`/${item}`">{{"Configurações"}}</nuxt-link>
+          <nuxt-link :to="`/${$route.path.split('/').slice(1).slice(0,index+1).join('/')}`">
+          {{"Configurações"}}</nuxt-link>
         </span>
         <span v-else-if="item == 'edit'">Editar</span>
+        <span v-else-if="item == 'participantes'">Participantes</span>
+        <span v-else-if="item == 'organizadores'">Organizadores</span>
         <span v-else-if="item == 'create'">Cadastrar</span>
+        <span v-else-if="item == 'gerenciar-anexos'">Gerenciar anexos</span>
         <span v-else>
           <nuxt-link
             :to="`/${$route.path.split('/').slice(1).slice(0,index+1).join('/')}`"

@@ -14,7 +14,7 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-          <h5>Título:</h5> <h6> {{form.evento.titulo}}</h6>
+          <h5>{{form.evento.titulo}}</h5>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.evento.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
@@ -51,7 +51,14 @@
             <strong>Descrição:</strong>
             {{form.evento.descricao}}
           </p>
-          
+
+          <span v-for="anexo in anexos" :key="anexo.id" >
+            <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+              style="color: white"> <i class="fa fa-download fa-fw"></i> 
+              {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+            </b-button>
+          </span>
         </div>  
       </b-card-body>
       <template v-slot:footer>
@@ -89,9 +96,9 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Há anexo para os participantes:</strong>
-            <span v-if="form.participante_anexos === true ">Sim.</span>
+            <span v-if="form.evento.participante_anexos === true ">Sim.</span>
             <span v-else>Não.</span> 
-          </p>
+          </p> 
           <p class="mt-3 mb-2">
             <strong>Texto de declaração do participante:</strong>
             {{form.evento.textoDeclaracaoEvento}}
@@ -117,6 +124,8 @@ export default {
     return {
       isLoading: true,
       eventoTerminou: true,
+      anexos: [],
+      quantidadeAnexos: 0,
       form: {  
         evento: { 
           titulo: "", 
@@ -154,6 +163,29 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
+
+        this.$axios
+          .get(`anexos-evento/${this.form.evento.idEvento}`)
+          .then(res => {
+            this.quantidadeAnexos = res.data.length;
+            this.anexos = res.data; 
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: 'Evento não possui anexos',
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
       })
       .catch(err => {
         Swal.fire({
@@ -176,6 +208,38 @@ export default {
     },
   },
   methods: {
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            })
+          }
+        });
+    },
     gerarCertificado() {
       if (this.form.percentual >= 75) {
 
@@ -202,11 +266,10 @@ p {
 strong {
   font-size: 16px;
 }
-h3, h4 {
+h3, h4, h5 {
   font-weight: 300;
 }
-h5, h6 {
-  display: inline;
-  font-size: 18px;
+h5 {
+  font-size: 22px;
 }
 </style>

@@ -36,8 +36,8 @@
                 :to="`/usuario/eventos-inscritos/${row.item.idParticipantes}`"
                 class="btn btn-sm btn-info"
               >
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                Informações
+                <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                Detalhes
               </nuxt-link>
             </template>
           </b-table>
@@ -123,7 +123,7 @@ export default {
     },
     consumindoEventosParticipandoApi() {
       this.$axios
-        .get(`participantes-evento/${this.$store.state.profile.idPessoa}`)
+        .get(`participantes-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.eventos = res.data.content;
           this.isLoading = false;
