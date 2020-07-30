@@ -107,6 +107,11 @@ export default {
       return moment(date).format("DD/MM/YYYY");
     }
   },
+  methods: {
+    dowloadAnexo() {
+        
+    }
+  },
   mounted() {
     this.$axios
       .get(`noticia/${this.$route.params.id}`)
@@ -115,7 +120,7 @@ export default {
         this.isLoading = false;
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       });
-    
+      
     this.$axios
       .get(`anexos-noticias/${this.$route.params.id}`)
       .then(res => {
