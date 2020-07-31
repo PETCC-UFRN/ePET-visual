@@ -9,7 +9,7 @@
         <b-col>
   				<p class="mt-3 mb-1"> {{noticia.inicio_exibicao | moment}}</p>
           <h3>{{noticia.titulo}}</h3>
-          <b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${noticia.imagem}`" fluid alt="Responsive image"></b-img>
+          <b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-3">{{noticia.corpo}}</p>
 
           <span v-for="anexo in anexos" :key="anexo.id" >
@@ -39,6 +39,7 @@ export default {
   data() {
 		return {
       anexos: [],
+      imageData: "",
       quantidadeAnexos: 0,
 			noticia: {
 				titulo: "",
@@ -56,7 +57,18 @@ export default {
   mounted(){
     this.$axios
       .get('noticia/'+ this.$route.params.id)
-      .then(res => this.noticia = res.data)
+      .then(res => {
+        this.noticia = res.data;
+
+        if (res.data.imagem !== "" && res.data.imagem !== null) {
+          const reader = new FileReader();
+         
+          reader.onload = (e) => {
+              this.imageData = e.target.result;
+          }
+          reader.readAsDataURL("teste_imagens/a.png");
+        }
+      })
       .catch( err => {
         Swal.fire({
           title: "Houve um problema...",

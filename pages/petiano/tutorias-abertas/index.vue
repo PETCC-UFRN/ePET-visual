@@ -107,6 +107,7 @@ export default {
   layout: "menu/petiano",
   data() {
     return {
+      idPessoa: this.$store.state.profile.idPessoa,
       isLoading: true,
       selected: 'nomeCodigoDisciplina',
       options: [
@@ -214,7 +215,7 @@ export default {
     },
     solicitarTutoria(idTutoria) {
       this.$axios
-        .get(`tutorias-ministradas-cadastro/${this.$store.state.profile.idPessoa}/${idTutoria}`)
+        .get(`tutorias-ministradas-cadastro/${this.idPessoa}/${idTutoria}`)
         .then(res => {
           Swal.fire({
             title: "Tutoria solicitada",

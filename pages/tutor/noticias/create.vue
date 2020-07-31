@@ -8,7 +8,7 @@
           </b-col>
           <b-col>
             <div class="card-actions">
-              <nuxt-link  to="/tutor/noticias/" class="btn btn-close btn-lg">
+              <nuxt-link to="/tutor/noticias/" class="btn btn-close btn-lg">
                 <i class="icon-close"></i>
               </nuxt-link>
             </div>
@@ -28,31 +28,28 @@
               required
             />
           </div>
+          <b-form-group>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text>
+           
+          </b-form-group>
           <div class="form-group">
             <label for="descricao"><strong>Descrição</strong></label>
             <b-form-textarea
               id="descricao"
               v-model="form.corpo"
               placeholder="Digite a descrição"
-              rows="3"
-              max-rows="6"
+              rows="10"
+              max-rows="10"
               required
             ></b-form-textarea>
           </div>
-          <b-form-group>
-            <label for="imagem">
-              <strong>Imagem de capa</strong>
-            </label>
-            <b-form-file
-              v-model="file" accept=".jpg, .png, .gif"
-              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
-            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text>
-            <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
-            <b-button block @click="fazerUploadImagem" 
-              class="btn btn-sm btn-success mt-2 mb-4">
-              Carregar imagem
-            </b-button> 
-          </b-form-group>
           <b-row>
             <b-col>
               <div class="form-group">
@@ -107,6 +104,8 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+      mainProps: { width: 425, height: 200},
+      imageData: "",
       form: {
         file:[],
         progressValue: 0,
@@ -129,7 +128,51 @@ export default {
     }
   },
   methods: {
-    async submitForm() {
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    submitForm() {
+      
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.imagem = res.data;
+            this.progressValue = 0
+            this.file = []
+            this.criar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto não carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.criar();
+      }      
+    },
+    async criar(){
       if (this.checkForm()) {
         let idPetiano = 1;
         await this.$axios
@@ -167,39 +210,6 @@ export default {
             .replace(",", "")
         });
       }
-    },
-    fazerUploadImagem(evento) {
-      const formData = new FormData()
-      formData.append("file", this.file)
-      this.$axios
-        .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
-          onUploadProgress: uploadEvent => {
-            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
-          }
-        })
-        .then(res => {
-          this.form.imagem = res.data;
-          Swal.fire({
-            title: "Foto carregada",
-            text: "Não se esqueça de clicar no botão de atualizar.",
-            icon: "success"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Foto não carregada",
-            text: "Tente novamente em outro momento.",
-            icon: "error"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        });
     },
     clearForm() {
       this.form = Object.entries(this.form).map(item => {

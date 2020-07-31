@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-progress height="2px" :value="crumbsList.length" max="4"></b-progress>
     <ol class="breadcrumb">
       <li
         class="breadcrumb-item"
