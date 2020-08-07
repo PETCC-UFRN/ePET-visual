@@ -25,6 +25,17 @@
               required
             />
           </div>
+          <b-form-group>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+       
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text> 
+          </b-form-group>
           <div class="form-group">
             <label for="descricao">
               <strong>Descrição</strong>
@@ -33,25 +44,11 @@
               id="descricao"
               v-model="form.corpo"
               placeholder="Digite a descrição"
-              rows="3"
-              max-rows="6"
+              rows="10"
+              max-rows="10"
               required
             ></b-form-textarea>
           </div>
-          <b-form-group>
-            <label for="imagem">
-              <strong>Imagem de capa</strong>
-            </label>
-            <b-form-file
-              v-model="file" accept=".jpg, .png, .gif"
-              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
-            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text>
-            <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
-            <b-button block @click="fazerUploadImagem" 
-              class="btn btn-sm btn-success mt-2 mb-4">
-              Carregar imagem
-            </b-button> 
-          </b-form-group>
           <b-row>
             <b-col>
               <div class="form-group">
@@ -90,34 +87,16 @@
             <b-button type="submit" variant="primary">
               <i class="fa fa-dot-circle-o"></i> Salvar
             </b-button>
-            <b-button href="/tutor/noticias/" variant="danger">
+            <b-button to="/tutor/noticias/" variant="danger">
               <i class="fa fa-ban"></i> Cancelar
             </b-button>
           </div>
         </form>
       </div>
     </div>
-    <b-card>
-      <template v-slot:header>
-        <b-row>
-          <b-col>
-            <h3>Remover anexos</h3>
-          </b-col>
-        </b-row>
-      </template>
-      <b-card-body>
-                <b-form-checkbox-group id="checkbox-group-2" 
-                size="lg" v-model="selected" name="flavour-2">
-                  <b-form-checkbox value="orange">Orange</b-form-checkbox>
-                  <b-form-checkbox value="apple">Apple</b-form-checkbox>
-                  <b-form-checkbox value="pineapple">Pineapple</b-form-checkbox>
-                  <b-form-checkbox value="grape">Grape</b-form-checkbox>
-                </b-form-checkbox-group>
-            
-      </b-card-body>
-    </b-card>
   </div>
 </template>
+
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
@@ -126,8 +105,10 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+			mainProps: { width: 425, height: 200},
       selected: [],
       file:[],
+      imageData: "",
       progressValue: 0,
       form: {
         titulo: "",
@@ -166,7 +147,51 @@ export default {
     }
   },
   methods: {
-    async submitForm() {
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    submitForm() {
+
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.imagem = res.data;
+            this.progressValue = 0
+            this.file = []
+            this.atualizar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto não carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.atualizar();
+      }      
+    },
+    async atualizar(){
       if (this.checkForm()) {
         let idPetiano = 1;
         await this.$axios
@@ -202,39 +227,6 @@ export default {
             .replace(",", "")
         });
       }
-    },
-    fazerUploadImagem(evento) {
-      const formData = new FormData()
-      formData.append("file", this.file)
-      this.$axios
-        .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
-          onUploadProgress: uploadEvent => {
-            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
-          }
-        })
-        .then(res => {
-          this.form.imagem = res.data;
-          Swal.fire({
-            title: "Foto carregada",
-            text: "Não se esqueça de clicar no botão de atualizar.",
-            icon: "success"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Foto na carregada",
-            text: "Tente novamente em outro momento.",
-            icon: "error"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        });
     },
     checkForm() {
       this.errors = [];

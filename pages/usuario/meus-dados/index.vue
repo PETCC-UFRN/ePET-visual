@@ -1,4 +1,5 @@
 <template>
+<div class="col-md-8">
   <b-card>
     <template v-slot:header>
       <b-row>
@@ -37,10 +38,10 @@
       </b-form>
     </div>
   </b-card>
+</div>  
 </template>
 
 <script>
-
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 

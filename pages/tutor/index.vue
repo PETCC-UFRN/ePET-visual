@@ -62,7 +62,7 @@
               <div slot="header">
                 <b-row>
                   <b-col>
-                    <h3><i class="fa fa-group mt-2"></i> Petianos atuais</h3> 
+                    <h3><i class="fa fa-group mt-2"></i> Membros ativos</h3> 
                   </b-col>
                 </b-row>
               </div>
@@ -140,8 +140,7 @@ export default {
       petianosAtuais: [],
       currentPage: 1,
       fields: [
-        { key: "pessoa.nome", sortable: true, label: "Nome" },  
-        { key: "pessoa.usuario.email", sortable: true, label: "Email" },
+        { key: "pessoa.nome", label: "Nome" },  
       ]
     };
   },

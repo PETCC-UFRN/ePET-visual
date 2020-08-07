@@ -47,7 +47,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>
@@ -59,7 +59,7 @@
                         block
                         href="#"
                         v-b-toggle="'accordion' + evento.idEvento"
-                        variant="primary"
+                        variant="teal"
                       >{{evento.titulo}}</b-btn>
                     </b-card-header>
                     <b-collapse
@@ -75,7 +75,7 @@
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
                           :to="`usuario/eventos-abertos/${evento.idEvento}`"
-                          >Ver mais informações</nuxt-link>      
+                          >Ver detalhes</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>
@@ -129,7 +129,7 @@ export default {
   data: function() {
     return {
       isLoading: true,
-      noticias: [], // requisicao de noticias
+      noticias: [], 
       tutorias: [],
       eventos: [],
       eventos_abertos:[],

@@ -1,4 +1,5 @@
 <template>
+<div class="col-md-8">
   <b-card>
     <template v-slot:header>
       <b-row>
@@ -25,19 +26,16 @@
           <b>{{form.data_ingresso | moment}}</b> - <b v-if="form.data_egresso != null">{{form.data_egresso | moment}}</b> 
         </div>
         <div class="row justify-content-center d-flex  align-items-center mb-3">
-            <b-avatar :src="`${form.foto}`" class="mb-3" size="10em"></b-avatar>
+          <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
+          <b-avatar v-else src="/teste_imagens/2020_07_30-19_47_33-index.png" class="mb-3" size="10em"></b-avatar>
         </div> 
 
         <b-form-file
           v-model="file"
+          @change="previewImage" accept="image/*"
           placeholder="Nenhuma foto selecionada" browse-text="Selecionar foto" id="anexo"></b-form-file>
-        <b-form-text class="mb-1"> O tamanho máximo da foto é de 10 megabytes. </b-form-text>
-        <b-progress :value="progressValue" :max="100"  show-progress animated></b-progress>
-        <b-button block @click="fazerUploadImagem" 
-          class="btn btn-sm btn-success mt-2 mb-4">
-          Carregar foto
-        </b-button> 
-
+        <b-form-text class="mb-3"> Recomenda-se que a foto tenha com dimensões de 300x300. </b-form-text>
+            
         <b-form-group for="nome" label="Nome completo">
           <b-form-input id="nome" v-model="form.pessoa.nome" required></b-form-input>
           <b-form-text id="password-help-block"
@@ -64,8 +62,8 @@
         <b-button class="float-right w-25" type="reset" variant="danger">Limpar</b-button>
       </b-form>
     </div>
-    
   </b-card>
+</div>
 </template>
 
 <script>
@@ -79,6 +77,7 @@ export default {
   data() {
     return {
       file:[],
+      imageData: "",
       progressValue: 0,
       isLoading: true,
       form: {
@@ -101,39 +100,51 @@ export default {
     this.getInfo();
   },
   methods: {
-    fazerUploadImagem(evento) {
-      const formData = new FormData()
-      formData.append("file", this.file)
-      this.$axios
-        .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
-          onUploadProgress: uploadEvent => {
-            this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
-          }
-        })
-        .then(res => {
-          this.form.foto = res.data;
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    onSubmit() {
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.foto = res.data;
+            this.progressValue = 0
+            this.file = [];
+            
+            this.atualizar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto na carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.atualizar();
+      }
 
-          Swal.fire({
-            title: "Foto carregada",
-            text: "Não se esqueça de clicar no botão de atualizar.",
-            icon: "success"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Foto na carregada",
-            text: "Tente novamente em outro momento.",
-            icon: "error"
-          })
-          .then( () => {
-            this.progressValue = 0
-            this.file = []
-          });
-        });
+      this.submitAlert(false);
     },
     getInfo() {
        this.$axios
@@ -151,8 +162,7 @@ export default {
           })
         });
     },
-
-    onSubmit() {
+    atualizar() {
       this.$axios
         .post("pessoas-atualizar/", {
           ...this.$store.state.profile,

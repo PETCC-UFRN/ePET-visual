@@ -4,7 +4,7 @@
       <template v-slot:header>
         <b-row>
           <b-col>
-            <h2><i class="fa fa-calendar-plus-o px-2"></i>Eventos abertos</h2>
+            <h2><i class="fa fa-calendar-check-o px-2"></i>Eventos abertos</h2>
           </b-col>
         </b-row>
       </template>
