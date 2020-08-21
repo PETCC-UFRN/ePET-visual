@@ -70,7 +70,7 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpo}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
@@ -149,7 +149,7 @@ export default {
         this.eventos_abertos = res.data;
       });
 
-   this.$axios
+    this.$axios
       .get("noticias-atuais/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
@@ -160,7 +160,6 @@ export default {
           this.isLoading = false;
         }
       });
-    
   },
   filters: {
     moment: function (date) {
@@ -170,16 +169,6 @@ export default {
       return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
     }
   },
-  computed: {
-    resNoticias: function() {
-      return this.noticias.filter(item => {
-        return (
-          new Date(item.limite_exibicao).getTime() > Date.now() &&
-          new Date(item.inicio_exibicao).getTime() < Date.now()
-        );
-      });
-    }
-  }
 };
 </script>
 

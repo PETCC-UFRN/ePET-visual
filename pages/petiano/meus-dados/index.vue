@@ -27,19 +27,19 @@
         </div>
         <div class="row justify-content-center d-flex  align-items-center mb-3">
           <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
-          <b-avatar v-else src="/teste_imagens/2020_07_30-19_47_33-index.png" class="mb-3" size="10em"></b-avatar>
+          <b-avatar v-else :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
         </div> 
 
         <b-form-file
           v-model="file"
           @change="previewImage" accept="image/*"
           placeholder="Nenhuma foto selecionada" browse-text="Selecionar foto" id="anexo"></b-form-file>
-        <b-form-text class="mb-3"> Recomenda-se que a foto tenha com dimensões de 300x300. </b-form-text>
+        <b-form-text class="mb-3"> Recomenda-se que a foto tenha dimensões de 300x300. </b-form-text>
             
         <b-form-group for="nome" label="Nome completo">
           <b-form-input id="nome" v-model="form.pessoa.nome" required></b-form-input>
           <b-form-text id="password-help-block"
-          >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
+            >Este nome estará presente nas declarações providas pelo sistema.</b-form-text>
         </b-form-group>
         
         <b-form-group label="Email">
@@ -78,6 +78,7 @@ export default {
     return {
       file:[],
       imageData: "",
+      fotoPessoa: "",
       progressValue: 0,
       isLoading: true,
       form: {
@@ -100,6 +101,9 @@ export default {
     this.getInfo();
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     previewImage: function(event) {
       let input = event.target;
       if (input.files && input.files[0]) {
@@ -151,6 +155,7 @@ export default {
         .get(`/petianos-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.form = res.data;
+          this.fotoPessoa = this.filterNameFile(this.form.foto)
           this.isLoading = false;
         })
         .catch(err => {

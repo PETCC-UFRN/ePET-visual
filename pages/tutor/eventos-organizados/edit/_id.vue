@@ -25,7 +25,9 @@
               <strong>Imagem de capa</strong>
             </label>
             <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
-       
+            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
+
+
             <b-form-file
               v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
               placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
@@ -243,10 +245,11 @@ export default {
   },
   data() {
     return {
-			mainProps: { width: 425, height: 200},
+			mainProps: { width: 600, height: 600},
       selected: [],
       file:[],
       imageData: "",
+      foto: "",
       form: {
         periodo_evento: [],
         d_inscricao: "",
@@ -277,6 +280,7 @@ export default {
       .get('eventos/'+ this.$route.params.id)
       .then((res) => {
         this.form = res.data;
+        this.foto = this.filterNameFile(res.data.imagem);
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
@@ -305,6 +309,9 @@ export default {
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     previewImage: function(event) {
       let input = event.target;
       if (input.files && input.files[0]) {

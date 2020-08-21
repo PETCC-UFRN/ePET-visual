@@ -22,6 +22,8 @@
         </div>
         <div v-else>
           <h5>{{form.evento.titulo}}</h5>
+          <b-img v-if="form.evento.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
@@ -84,7 +86,6 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -96,13 +97,15 @@ export default {
       eventoTerminou: true,
       anexos: [],
       quantidadeAnexos: 0,
+      imageData: "",
+			mainProps: { width: 600, height: 600},
       form: {  
         evento: { 
           titulo: "", 
           descricao: "", 
           local: "", 
           periodo_evento: [],
-          imagem: null, 
+          imagem: "", 
           d_inscricao: "", 
           d_inscricao_fim: "",
           inicio_rolagem: "", 
@@ -129,6 +132,9 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
+
+        if (this.form.evento.imagem != null)
+          this.imageData = this.filterNameFile(this.form.evento.imagem);
 
         this.$axios
           .get(`anexos-evento/${this.form.evento.idEvento}`)
@@ -173,6 +179,9 @@ export default {
     },
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

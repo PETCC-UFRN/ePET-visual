@@ -116,8 +116,7 @@
       async login() {
         Swal.fire({
           title: 'Carregando...',
-          text: 'Aguarde alguns instantes. Logo mais você' +
-            ' será redirecionado para dentro do sistema.',
+          text: 'Aguarde alguns instantes.',
           showCancelButton: false,
           showConfirmButton: false,
           onOpen: () => {
@@ -136,7 +135,9 @@
           })
           .catch(err => {
             let text;
-            if (err.response.status === 403) {
+            if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
+              text = "O email e a senha não conferem.";
+            } else if (err.response.status === 403) {
               text = "Email ou senha não encontrados";
             } else if (err.response.status === 500 && err.response.data.message === "Usuario nao validado") {
               text = "Seu cadastro ainda não foi confirmado. Verifique seu email e tente novamente.";

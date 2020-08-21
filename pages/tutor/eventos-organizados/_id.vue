@@ -15,15 +15,17 @@
         </div>
         <div v-else>
           <h5>{{form.evento.titulo}}</h5>
+          <b-img v-if="form.evento.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
-            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
-            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.d_inscricao_fim | moment}}</span>
+            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
+            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.evento.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
+            <span v-if="form.evento.d_evento_inicio !== ''">{{ this.form.evento.d_evento_inicio | moment }}</span> -
+            <span v-if="form.evento.d_evento_inicio !== ''">{{ this.form.evento.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
@@ -87,8 +89,8 @@
         <div v-else>    
           <p class="mt-0 mb-1">
             <strong>Perído de rolagem:</strong>
-            <span v-if="this.form.inicio_rolagem !== ''">{{ this.form.inicio_rolagem | moment }}</span> -
-            <span v-if="this.form.fim_rolagem !== ''">{{ this.form.fim_rolagem | moment}}</span>
+            <span v-if="this.form.evento.inicio_rolagem !== ''">{{ this.form.evento.inicio_rolagem | moment }}</span> -
+            <span v-if="this.form.evento.fim_rolagem !== ''">{{ this.form.evento.fim_rolagem | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de compensação:</strong>
@@ -126,6 +128,8 @@ export default {
       eventoTerminou: true,
       anexos: [],
       quantidadeAnexos: 0,
+      imageData: "",
+			mainProps: { width: 600, height: 600},
       form: {  
         evento: { 
           titulo: "", 
@@ -163,6 +167,9 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
+
+        if (this.form.evento.imagem != null)
+          this.imageData = this.filterNameFile(this.form.evento.imagem);
 
         this.$axios
           .get(`anexos-evento/${this.form.evento.idEvento}`)
@@ -208,6 +215,9 @@ export default {
     },
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

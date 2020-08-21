@@ -23,8 +23,8 @@
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ this.form.d_evento_fim | moment}}</span>
+            <span v-if="form.evento.d_evento_inicio !== ''">{{ this.form.evento.d_evento_inicio | moment }}</span> -
+            <span v-if="form.evento.d_evento_inicio !== ''">{{ this.form.evento.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
@@ -88,8 +88,8 @@
         <div v-else>    
           <p class="mt-0 mb-1">
             <strong>Perído de rolagem:</strong>
-            <span v-if="this.form.inicio_rolagem !== ''">{{ this.form.inicio_rolagem | moment }}</span> -
-            <span v-if="this.form.fim_rolagem !== ''">{{ this.form.fim_rolagem | moment}}</span>
+            <span v-if="this.form.evento.inicio_rolagem !== ''">{{ this.form.evento.inicio_rolagem | moment }}</span> -
+            <span v-if="this.form.evento.fim_rolagem !== ''">{{ this.form.evento.fim_rolagem | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de compensação:</strong>

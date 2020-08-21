@@ -18,7 +18,7 @@
           <span class="mt-0 mb-2">
             <h5>{{form.titulo}}</h5> 
           </span>
-          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${form.imagem}`" fluid alt="Responsive image"></b-img>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
@@ -94,7 +94,8 @@ export default {
 				titulo: "",
 				valor: "", 
       },
-			mainProps: { width: 425, height: 200},
+      imageData: "",
+			mainProps: { width: 600, height: 600},
     };
   },
   mounted() {
@@ -103,7 +104,10 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
         this.isLoading = false;
-
+        
+        if (this.form.imagem != null)
+          this.imageData = this.filterNameFile(this.form.imagem);
+        
         this.$axios
           .get(`anexos-evento/${this.form.idEvento}`)
           .then(res => {
@@ -111,12 +115,7 @@ export default {
             this.anexos = res.data; 
           })
           .catch(err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: 'Evento não possui anexos',
-                icon: 'info',
-              });
-            }
+            if (err.response.status === 404) { }
             else {
               Swal.fire({
                 title: "Houve um problema...",
@@ -142,6 +141,9 @@ export default {
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

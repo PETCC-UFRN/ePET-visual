@@ -23,7 +23,7 @@
           </template>
           <b-dropdown-item class="drop" to="/login">Entrar</b-dropdown-item>
           <b-dropdown-item to="/register">Cadastrar</b-dropdown-item>
-          <b-dropdown-item to="/validacao">Validar certificado</b-dropdown-item>
+          <b-dropdown-item to="/validacao">Validar declaração</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>

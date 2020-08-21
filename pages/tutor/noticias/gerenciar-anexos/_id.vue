@@ -195,7 +195,7 @@ export default {
     },
     fazerDowloadAnexo(nomeAnexo) {
       nomeAnexo = nomeAnexo.split('/').slice(2)[0]
-
+    
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
         .then(res => {
@@ -211,12 +211,7 @@ export default {
 
         })
         .catch(err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: 'Anexo não encontrado',
-              icon: 'info',
-            });
-          }
+          if (err.response.status === 404) { }
           else {
             Swal.fire({
               title: "Houve um problema...",
@@ -226,6 +221,7 @@ export default {
             })
           }
         });
+
     },
     removeAnexo(idAnexo) {
       this.$axios
