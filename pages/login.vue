@@ -7,7 +7,7 @@
             <b-card-body>
               <form @submit.prevent="login">
                 <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
-                <h1>Login</h1>
+                <h1>Acessar</h1>
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
@@ -56,7 +56,7 @@
                 <b-row class="mt-3">
                   <b-col>
                     <b-button type="submit" block variant="success" class="px-4">
-                      <i class="fa fa-user"></i> Login
+                      Entrar
                     </b-button>
                   </b-col>
                 </b-row>

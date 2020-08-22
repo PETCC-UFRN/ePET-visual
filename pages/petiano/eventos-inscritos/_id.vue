@@ -9,9 +9,9 @@
           <b-col v-if="form.evento.valor > 0">
             <b-button
               variant="teal"
-              class="btn btn-sm float-right mt-4"
               @click="realizarPagamento"
-            ><i class="fa fa-info-circle px-2" aria-hidden="true"></i> Realizar pagamento</b-button>
+              class="btn btn-sm float-right mt-4"
+            ><i class="fa fa-check fa-fw"></i>  Realizar pagamento</b-button>
           </b-col>
         </b-row>
       </template>
@@ -21,7 +21,9 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-          <h5>Título:</h5> <h6> {{form.evento.titulo}}</h6>
+          <h5>{{form.evento.titulo}}</h5>
+          <b-img v-if="form.evento.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
@@ -58,7 +60,7 @@
             <strong>Descrição:</strong>
             {{form.evento.descricao}}
           </p>
-          
+
           <span v-for="anexo in anexos" :key="anexo.id" >
             <b-button class="btn btn-indigo mt-2 float-right mr-2"
               @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
@@ -84,7 +86,6 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -96,16 +97,17 @@ export default {
       eventoTerminou: true,
       anexos: [],
       quantidadeAnexos: 0,
+      imageData: "",
+			mainProps: { width: 600, height: 600},
       form: {  
         evento: { 
           titulo: "", 
           descricao: "", 
           local: "", 
-          imagem: null, 
+          periodo_evento: [],
+          imagem: "", 
           d_inscricao: "", 
-          d_inscricao_fim: "", 
-          d_evento_inicio: "", 
-          d_evento_fim: "", 
+          d_inscricao_fim: "",
           inicio_rolagem: "", 
           fim_rolagem: "", 
           dias_compensacao: 0, 
@@ -114,7 +116,6 @@ export default {
           participante_anexos: false, 
           qtdVagas: 5, 
           qtdCargaHoraria: 2, 
-          qtdDias: 5, 
           valor: 0, 
           textoDeclaracaoEvento: "" 
         }, 
@@ -132,6 +133,9 @@ export default {
         this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
         this.isLoading = false;
 
+        if (this.form.evento.imagem != null)
+          this.imageData = this.filterNameFile(this.form.evento.imagem);
+
         this.$axios
           .get(`anexos-evento/${this.form.evento.idEvento}`)
           .then(res => {
@@ -139,12 +143,7 @@ export default {
             this.anexos = res.data; 
           })
           .catch(err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: 'Evento não possui anexos',
-                icon: 'info',
-              });
-            }
+            if (err.response.status === 404) {}
             else {
               Swal.fire({
                 title: "Houve um problema...",
@@ -175,6 +174,9 @@ export default {
     },
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
@@ -209,26 +211,26 @@ export default {
     },
     realizarPagamento() {
       this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
-        .then(res => {
-          Swal.fire({
-            title: "Pagamento via PagSeguro",
-            html: "Será aberta uma nova página relacionado ao PagSeguro" +
-            " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
-            icon: "info"
-          })
-          .then (() => {
-            window.open(res.data, '_blank');
-          });
-          
+      .then(res => {
+        Swal.fire({
+          title: "Pagamento via PagSeguro",
+          html: "Será aberta uma nova página relacionado ao PagSeguro" +
+           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
+          icon: "info"
         })
-        .catch(err => {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: "error"
-          })
+        .then (() => {
+          window.open(res.data, '_blank');
         });
+        
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
+      });
     },
     gerarCertificado() {
       if (this.form.percentual >= 75) {
@@ -256,11 +258,10 @@ p {
 strong {
   font-size: 16px;
 }
-h3, h4 {
+h3, h4, h5 {
   font-weight: 300;
 }
-h5, h6 {
-  display: inline;
-  font-size: 18px;
+h5 {
+  font-size: 22px;
 }
-</style>
+</style>  

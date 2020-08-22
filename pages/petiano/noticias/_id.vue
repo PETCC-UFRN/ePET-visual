@@ -23,7 +23,7 @@
             <h5>Título:</h5>
             <h6>{{form.titulo}}</h6>
           </span>
-          <b-img v-if="form.imagem !== null && form.imagem !== ''" center class="mt-3 mb-5" v-bind="mainProps" :src="`${form.imagem}`" fluid alt="Responsive image"></b-img>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
           
           <p class="mt-3 mb-2">
             <strong>Corpo:</strong>
@@ -36,6 +36,7 @@
           
           <span v-for="anexo in anexos" :key="anexo.id" >
             <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              v-if="anexo.anexos != null"
               @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
               style="color: white"> <i class="fa fa-download fa-fw"></i> 
               {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
@@ -87,7 +88,8 @@ export default {
       isLoading: true,
       anexos: [],
       quantidadeAnexos: 0,
-      mainProps: { width: 425, height: 200},
+      mainProps: { width: 600, height: 600},
+      imageData: "",
 			form: {
         titulo: "",
         corpo: "",
@@ -112,6 +114,10 @@ export default {
       .get(`noticia/${this.$route.params.id}`)
       .then(res => {
         this.form = res.data;
+
+        if (this.form.imagem != null)
+          this.imageData = this.filterNameFile(this.form.imagem);
+        
         this.isLoading = false;
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       });
@@ -123,12 +129,7 @@ export default {
         this.anexos = res.data; 
       })
       .catch(err => {
-        if (err.response.status === 404) {
-          Swal.fire({
-            title: 'Notícia não possui anexos',
-            icon: 'info',
-          });
-        }
+        if (err.response.status === 404) {}
         else {
           Swal.fire({
             title: "Houve um problema...",
@@ -140,6 +141,9 @@ export default {
       });
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

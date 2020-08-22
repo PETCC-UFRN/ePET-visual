@@ -87,10 +87,10 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>    
-          <p class="mt-0 mb-1">
+          <p class="mt-0 mb-1" v-if="this.form.evento.inicio_rolagem !== null && this.form.evento.inicio_rolagem !== ''">
             <strong>Perído de rolagem:</strong>
-            <span v-if="this.form.evento.inicio_rolagem !== ''">{{ this.form.evento.inicio_rolagem | moment }}</span> -
-            <span v-if="this.form.evento.fim_rolagem !== ''">{{ this.form.evento.fim_rolagem | moment}}</span>
+            <span>{{ this.form.evento.inicio_rolagem | moment }}</span> -
+            <span v-if="this.form.evento.fim_rolagem !== null && this.form.evento.fim_rolagem !== ''">{{ this.form.evento.fim_rolagem | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de compensação:</strong>
@@ -178,12 +178,7 @@ export default {
             this.anexos = res.data; 
           })
           .catch(err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: 'Evento não possui anexos',
-                icon: 'info',
-              });
-            }
+            if (err.response.status === 404) {}
             else {
               Swal.fire({
                 title: "Houve um problema...",

@@ -18,7 +18,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>

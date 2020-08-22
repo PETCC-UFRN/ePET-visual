@@ -15,9 +15,10 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-          <div class="mt-0 mb-2">
-            <h5>{{form.titulo}}</h5>
-          </div>
+          <span class="mt-0 mb-2">
+            <h5>{{form.titulo}}</h5> 
+          </span>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
             <span v-if="form.d_inscricao !== ''">{{ this.form.d_inscricao | moment }}</span> -
@@ -45,7 +46,7 @@
           <p class="mt-0 mb-1">
             <strong>Valor da inscrição:</strong>
             {{new Intl
-                .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                .NumberFormat([], { style: 'currency', currency: 'BRL'})
                 .format(form.valor) }}
           </p>
           <p class="mt-2 mb-1">
@@ -56,15 +57,15 @@
             <strong>Descrição:</strong>
             {{form.descricao}}
           </p>
-          
           <span v-for="anexo in anexos" :key="anexo.id" >
             <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              v-if="anexos != null"
               @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
               style="color: white"> <i class="fa fa-download fa-fw"></i> 
               {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
             </b-button>
           </span>
-        </div>  
+        </div>
       </b-card-body>
     </b-card>
   </div>
@@ -93,7 +94,9 @@ export default {
 				qtdVagas: "",
 				titulo: "",
 				valor: "", 
-      }
+      },
+      imageData: "",
+			mainProps: { width: 600, height: 600},
     };
   },
   mounted() {
@@ -102,7 +105,10 @@ export default {
         this.form = res.data;
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
         this.isLoading = false;
-
+        
+        if (this.form.imagem != null)
+          this.imageData = this.filterNameFile(this.form.imagem);
+        
         this.$axios
           .get(`anexos-evento/${this.form.idEvento}`)
           .then(res => {
@@ -110,12 +116,7 @@ export default {
             this.anexos = res.data; 
           })
           .catch(err => {
-            if (err.response.status === 404) {
-              Swal.fire({
-                title: 'Evento não possui anexos',
-                icon: 'info',
-              });
-            }
+            if (err.response.status === 404) { }
             else {
               Swal.fire({
                 title: "Houve um problema...",
@@ -129,7 +130,7 @@ export default {
       .catch(err => {
         Swal.fire({
           title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          text: "Por favor, tente recarregar a página. Caso não dê certo," +
           " tente novamente mais tarde.",
           icon: "error"
         })
@@ -141,6 +142,9 @@ export default {
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
@@ -192,7 +196,6 @@ h3, h4, h5 {
   font-weight: 300;
 }
 h5{
-  display: inline;
-  font-size: 22px;
+  font-size: 18px;
 }
 </style>

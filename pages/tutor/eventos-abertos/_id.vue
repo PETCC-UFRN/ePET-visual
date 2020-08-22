@@ -59,6 +59,7 @@
           </p>
           <span v-for="anexo in anexos" :key="anexo.id" >
             <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              v-if="anexos != null"
               @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
               style="color: white"> <i class="fa fa-download fa-fw"></i> 
               {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
