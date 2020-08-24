@@ -7,7 +7,7 @@
       <div class="mt-3 mb-5 ml-2 mr-2">
         <b-row>
           <b-col sm="3">
-            <b-avatar aligner="center" size="200px" :src="`${petiano.foto}`" ></b-avatar>
+            <b-avatar aligner="center" size="200px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoMembro}`" ></b-avatar>
           </b-col>
           <b-col>
             <b-row class="mt-2">
@@ -29,7 +29,7 @@
                 <span><strong>Lattes:</strong> <a target="_blank" :href="`${petiano.lattes}`"> {{petiano.lattes}}</a></span>
               </b-col>
               <b-col class="mt-2 mb-2">
-                <span><strong>Áreas de interesse:</strong> {{petiano.area_interesse}}</span>
+                <span><strong>Áreas de interesse:</strong> <p>{{petiano.area_interesse}}</p></span>
               </b-col>  
             </b-row>
           </b-col>
@@ -52,6 +52,7 @@ export default {
 	},
   data() {
     return {
+        fotoMembro:"",
         petiano: {
           idPetiano:"",
           data_ingresso: "",
@@ -82,11 +83,15 @@ export default {
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     getPetiano() {
       this.$axios
         .get("petianos-atuais")
         .then(res => {
           this.petiano = res.data.content.filter(petiano => petiano.idPetiano == this.idPetiano)[0];
+          this.fotoMembro =  this.filterNameFile(this.petiano.foto)
         })
         .catch( err => {
           Swal.fire({

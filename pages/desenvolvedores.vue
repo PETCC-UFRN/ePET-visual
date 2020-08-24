@@ -78,14 +78,8 @@ p {
 h1 {
   text-align: center;
   font-weight: 300;
-  font-size: 50px;
+  font-size: 40px;
 }
-
-@media(max-width: 500px){
-  h1 {
-    font-size: 40px;
-  }
-} 
 
 h3 {
   font-size: 25px;

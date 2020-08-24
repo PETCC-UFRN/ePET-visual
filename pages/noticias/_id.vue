@@ -9,7 +9,7 @@
         <b-col>
   				<p class="mt-3 mb-1"> {{noticia.inicio_exibicao | moment}}</p>
           <h3>{{noticia.titulo}}</h3>
-          <b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+          <b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
           <p class="mt-3 mb-3">{{noticia.corpo}}</p>
 
           <span v-for="anexo in anexos" :key="anexo.id" >
@@ -51,7 +51,7 @@ export default {
 					}
 				}
 			},
-			mainProps: { width: 425, height: 200},
+			mainProps: { width: 600, height: 600},
     }
   },
   mounted(){
@@ -59,15 +59,7 @@ export default {
       .get('noticia/'+ this.$route.params.id)
       .then(res => {
         this.noticia = res.data;
-
-        if (res.data.imagem !== "" && res.data.imagem !== null) {
-          const reader = new FileReader();
-         
-          reader.onload = (e) => {
-              this.imageData = e.target.result;
-          }
-          reader.readAsDataURL("teste_imagens/a.png");
-        }
+        this.imageData = this.filterNameFile(res.data.imagem); 
       })
       .catch( err => {
         Swal.fire({
@@ -91,6 +83,9 @@ export default {
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

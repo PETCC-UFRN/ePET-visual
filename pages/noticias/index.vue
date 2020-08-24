@@ -2,7 +2,7 @@
   <div>
     <div class="container pt-5">
       <div class="mx-auto mt-5">
-        <h1 class="mt-5 mb-3 text-center">
+        <h1 class="mt-5 mb-4 text-center">
           <i class="fa fa-newspaper-o"></i> Notícias
         </h1>
         <div v-if="noticias.length > 0">
@@ -11,13 +11,13 @@
               <nuxt-link :to="'/noticias/' + noticia.idNoticia">
                 <b-card class="pr-4">
                   <b-card-text class="small text-muted">
-                    {{noticia.inicio_exibicao.substring(8,10)}}
-                    {{mes(noticia.inicio_exibicao.substring(5,7))}} {{noticia.inicio_exibicao.substring(0,4)}}
+                    {{noticia.inicio_exibicao | moment }}
                   </b-card-text>
                   <hr />
                   <b-card-title>
                     <h5>{{noticia.titulo}}</h5>
                   </b-card-title>
+                  
                   <b-card-text>{{noticia.corpo | cortarCorpo }}</b-card-text>
                 </b-card>
               </nuxt-link>
@@ -34,6 +34,7 @@
 
 <script>
 import Swal from "sweetalert2";
+import moment from "moment";
 
 export default {
   layout: "index",
@@ -44,21 +45,8 @@ export default {
   },
   data() {
     return {
+			mainProps: { width: 425, height: 200},
       noticias: [],
-      mesNomes: [
-        "JANEIRO",
-        "FEVEREIRO",
-        "MARÇO",
-        "ABRIL",
-        "MAIO",
-        "JUNHO",
-        "JULHO",
-        "AGOSTO",
-        "SETEMBRO",
-        "OUTUBRO",
-        "NOVEMBRO",
-        "DEZEMBRO"
-      ]
     };
   },
   mounted() {
@@ -81,13 +69,11 @@ export default {
       return mensagem.length > 120
         ? `${mensagem.substring(0, 120)}...`
         : mensagem;
+    },
+    moment: function(date) {
+      return moment(date).format("LL").toUpperCase();
     }
   },
-  methods: {
-    mes(value) {
-      if (value != null) return this.mesNomes[parseInt(value, 10)];
-    }
-  }
 };
 </script>
 
@@ -99,7 +85,7 @@ a {
 
 h1 {
   font-weight: 300;
-  font-size: 50px;
+  font-size: 40px;
 }
 h5 {
   font-size: 20px;
@@ -109,10 +95,6 @@ p.card-text {
   font-size: 17px;
 }
 @media(max-width: 500px){
-  h1 {
-    font-size: 40px;
-  }
-
   h5 {
     font-size: 17.5px;
   }

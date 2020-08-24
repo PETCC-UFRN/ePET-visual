@@ -26,7 +26,7 @@
           <b-form-input id="nomeCompleto" v-model="profile.nome" required></b-form-input>
           <b-form-text
             id="password-help-block"
-          >Este nome estará presente nos certificados e declarações providos pelo sistema.</b-form-text>
+          >Este nome estará presente nas declarações providas pelo sistema.</b-form-text>
         </b-form-group>
 
         <b-form-group  for="email" label="Email" label-class="text-muted font-weight-bold pt-0">

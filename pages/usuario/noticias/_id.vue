@@ -22,15 +22,20 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
+        <b-img v-if="noticia.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+          
         <span class="noticiaCorpo" v-html="noticia.corpo"></span>
         
-        <span v-for="anexo in anexos" :key="anexo.id" >
-          <b-button class="btn btn-indigo mt-2 float-right mr-2"
-            @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
-            style="color: white"> <i class="fa fa-download fa-fw"></i> 
-            {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
-          </b-button>
+        <span v-if="anexos != null" >
+          <span v-for="anexo in anexos" :key="anexo.id" >
+            <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+              style="color: white"> <i class="fa fa-download fa-fw"></i> 
+              {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+            </b-button>
+          </span>
         </span>
+        
       </div>
       </b-card-body>
     </b-card>
@@ -48,6 +53,8 @@ export default {
     return { 
       anexos: [],
       quantidadeAnexos: 0,
+      mainProps: { width: 600, height: 600},
+      imageData: "",
       noticia: {
 				titulo: "",
 				corpo: "",
@@ -69,6 +76,9 @@ export default {
         this.noticia = res.data;
         this.loaded = true;
 
+        if (this.noticia.imagem != null)
+          this.imageData = this.filterNameFile(this.noticia.imagem);
+        
         this.$nuxt.$emit("changeCrumbs", this.noticia.titulo);
       })
       .catch( err => {
@@ -112,6 +122,9 @@ export default {
         });
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})

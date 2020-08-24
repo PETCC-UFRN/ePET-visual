@@ -11,10 +11,9 @@
     <div v-else>
       <div class="row">
         <div class="col-md-6">
-          <!-- <b-row>
+          <b-row>
             <b-col>
               <b-card 
-                v-show="tutorias.length > 0"
                 header-tag="header" 
                 footer-tag="footer"
               >
@@ -22,7 +21,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-check fa-fw"></i> Minhas tutorias
+                        <i class="fa fa-graduation-cap fa-fw"></i> Minhas tutorias
                       </h3>
                     </b-col>
                   </b-row>
@@ -39,7 +38,7 @@
                 </b-list-group>
               </b-card>
             </b-col>
-          </b-row> -->
+          </b-row>
           <b-row>
             <b-col>
               <b-card header-tag="header" footer-tag="footer">
@@ -70,7 +69,7 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpoEvento}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
@@ -131,6 +130,7 @@ export default {
       isLoading: true,
       noticias: [], 
       tutorias: [],
+      numItemsTutoria: 0,
       eventos: [],
       eventos_abertos:[],
       currentPage: 1,
@@ -149,7 +149,7 @@ export default {
         this.eventos_abertos = res.data;
       });
 
-   this.$axios
+    this.$axios
       .get("noticias-atuais/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
@@ -160,7 +160,31 @@ export default {
           this.isLoading = false;
         }
       });
-    
+
+      this.consumindoTutoriasMinistradasApi();
+  },
+  methods : {
+    consumindoTutoriasMinistradasApi() {
+      this.$axios
+        .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          this.tutorias = res.data.content;
+          this.isLoading = false;
+          this.numItemsTutoria = res.data.totalElements;
+
+        })
+        .catch( err => {
+          if (err.response.status === 404) {}
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            })
+          }
+        });
+    },
   },
   filters: {
     moment: function (date) {
@@ -168,18 +192,11 @@ export default {
     },
     cortarCorpo(mensagem) {
       return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    },
+    cortarCorpoEvento(mensagem) {
+      return mensagem.length > 200 ? `${mensagem.substring(0,200)}...`  : mensagem;
     }
   },
-  computed: {
-    resNoticias: function() {
-      return this.noticias.filter(item => {
-        return (
-          new Date(item.limite_exibicao).getTime() > Date.now() &&
-          new Date(item.inicio_exibicao).getTime() < Date.now()
-        );
-      });
-    }
-  }
 };
 </script>
 

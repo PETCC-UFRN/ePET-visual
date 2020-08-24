@@ -25,8 +25,11 @@
                 <div v-for="petiano in tutor" :key="petiano.id">
                   <b-col class="mt-2 mb-4 ml-2 mr-2">
                     <nuxt-link :to="`/membro/${petiano.idPetiano}`">
-                      <b-avatar size="190px" :src="`${petiano.foto}`">
+                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${petiano.foto}`">
                       </b-avatar>
+                      <b-avatar v-else size="190px">
+                      </b-avatar>
+                    
                       <b-row class="mt-2" align-h="center">
                         <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
                       </b-row>
@@ -41,9 +44,11 @@
                 <div v-for="petiano in membrosAtivos" :key="petiano.id">
                   <b-col class="mt-2 mb-2 ml-2 mr-2">
                     <nuxt-link :to="`/membro/${petiano.idPetiano}`">
-                      <b-avatar size="190px" :src="`${petiano.foto}`">
+                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${petiano.foto}`">
                       </b-avatar>
-                      <b-row class="mt-2" align-h="center">
+                      <b-avatar v-else size="190px">
+                      </b-avatar>
+                    <b-row class="mt-2" align-h="center">
                         <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
                       </b-row>
                     </nuxt-link>
@@ -117,11 +122,26 @@ export default {
     this.getInformacoes();  
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     getPetianosAtuais() {
       this.$axios
         .get("petianos-atuais")
         .then(res => {
           this.petianosAtuais = res.data.content;
+          this.petianosAtuais.forEach(petiano => {
+            if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto); 
+          });
+          
+          console.log("Actual petiano arrays {}", this.petianosAtuais);
+          // console.log("Testing show the photo " + this.petianosAtuais[3].foto.split('/').slice(2)[0] ); 
+          
+          
+          // = Object.entries(this.petianosAtuais).map(foto => {
+          //     if ( foto != null)
+          //       return (foto = foto.split('/').slice(2)[0]);
+          //   }); 
         })
     },
     getInformacoes() {

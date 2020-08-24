@@ -79,7 +79,7 @@ export default {
   }
 h1 {
   font-weight: 300;
-  font-size: 50px;
+  font-size: 40px;
 }
 
 h5 {
@@ -90,9 +90,6 @@ p.card-text {
   font-size: 17px;
 }
 @media(max-width: 500px){
-  h1 {
-    font-size: 40px;
-  }
 
   h5 {
     font-size: 17.5px;

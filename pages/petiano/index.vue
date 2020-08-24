@@ -78,7 +78,7 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpoEvento}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
@@ -135,7 +135,7 @@ export default {
   data: function() {
     return {
       isLoading: true,
-      noticias: [], // requisicao de noticias
+      noticias: [],
       eventos: [],
       petianosTutoriasMinistradas: [],
       currentPage: 1,
@@ -168,6 +168,9 @@ export default {
   filters: {
     cortarCorpo(mensagem) {
       return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    },
+    cortarCorpoEvento(mensagem) {
+      return mensagem.length > 200 ? `${mensagem.substring(0,200)}...`  : mensagem;
     },
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
