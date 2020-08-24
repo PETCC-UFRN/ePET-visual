@@ -10,6 +10,7 @@
       </div>
       <div v-else>
         <div v-if="pessoas.length > 0">
+          
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input
               v-model="keyword"
