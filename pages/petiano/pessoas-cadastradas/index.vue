@@ -87,32 +87,6 @@
         <div v-else><h5>Nenhuma pessoa cadastrada</h5></div>
       </div>
     </b-card>
-
-    <b-modal ref="modal-create" title="Informações adicionais" hide-footer no-close-on-backdrop>
-      <label for="data-ingresso">Data ingresso</label>
-      <b-form-datepicker
-        id="data-ingresso"
-        v-model="modal.data_ingresso"
-        type="date"
-        required
-        locale="pt-br"
-        label-no-date-selected="Nenhuma data selecionada"
-      ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="w-100 mt-2">OK</b-button>
-    </b-modal>
-
-    <b-modal ref="modal-update" title="Informações adicionais" hide-footer no-close-on-backdrop>
-      <label for="data-egresso">Data egresso</label>
-      <b-form-datepicker
-        id="data-egresso"
-        v-model="modal.data_egresso"
-        type="date"
-        required
-        locale="pt-br"
-        label-no-date-selected="Nenhuma data selecionada"
-      ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="w-100 mt-2">OK</b-button>
-    </b-modal>
   </div>
 </template>
 
@@ -123,7 +97,7 @@ import Cookies from "js-cookie";
 
 export default {
   name: "dashboard",
-  layout: "menu/tutor",
+  layout: "menu/petiano",
   data() {
     return {
       isLoading: true,
@@ -133,14 +107,6 @@ export default {
       novoEmail:"",
       fields: [
         { key: "nome", sortable: true },
-        {
-          key: "tipo_usuario",
-          sortable: true,
-          label: "Tipo de usuário",
-          formatter: value => {
-            return value.nome;
-          }
-        },
         { key: "cpf", sortable: false, label: "CPF",
           formatter: value => {
             if (value != null)
@@ -184,64 +150,6 @@ export default {
     async mudarEmail(e) {
 
 
-    },
-    async changePermission(row, event) {
-      let id_usuario = row.item.usuario.idUsuario;
-      let id_tipo = event.target.value;
-      await this.$axios
-        .post(
-          "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
-          this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
-        )
-        .then(res => {
-          if (id_tipo == 2) {
-            this.$set(this.modal, "item", row.item);
-            this.showModal("modal-create");
-          } else if (id_tipo != 2) {
-            this.$set(this.modal, "item", row.item);
-            this.showModal("modal-update");
-          }
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: "error"
-          });
-        });
-    },
-    showModal(name) {
-      this.$refs[name].show();
-    },
-    hideModal(name) {
-      this.$refs[name].hide();
-    },
-    createOrUpdatePetiano(type) {
-      let pessoaSelected = this.pessoas.filter(
-        item => item.idPessoa === this.modal.item.idPessoa
-      )[0];
-      if (type === "create") {
-        pessoaSelected["data_ingresso"] = this.modal.data_ingresso;
-        pessoaSelected["data_egresso"] = null;
-      } else {
-        pessoaSelected["data_egresso"] = this.modal.data_egresso;
-      }
-
-      this.$axios
-        .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
-        .then(res => {
-          this.hideModal("modal-create");
-          this.hideModal("modal-update");
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: 'error'
-          });
-        });
     },
     cancelSearch() {
       this.keyword = "";

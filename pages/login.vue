@@ -62,7 +62,7 @@
                 </b-row>
                 <b-row>
                   <b-col>
-                    <p class="mt-3 mb-3 text-center text-muted">
+                    <p class="mt-3 mb-3 text-center">
               
               Ainda não tem conta? 
               <nuxt-link
@@ -147,7 +147,7 @@
           .catch(err => {
             let text;
             if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
-              text = "O email e a senha não conferem.";
+              text = "O email e/ou a senha não conferem.";
             } else if (err.response.status === 403) {
               text = "Email ou senha não encontrados";
             } else if (err.response.status === 500 && err.response.data.message === "Usuario nao validado") {

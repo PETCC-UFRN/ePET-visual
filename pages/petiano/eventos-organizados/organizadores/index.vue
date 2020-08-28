@@ -57,7 +57,7 @@
           <b-table
             id="f"
             responsive="sm"
-            :items="organizadores"
+            :items="organizadoresFiltrados"
             :current-page="currentPage"
             :bordered="false"
             striped   
@@ -75,7 +75,7 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="organizadores.length"
+              :total-rows="organizadoresFiltrados.length"
               :per-page="10"
               pills
               v-model="currentPage"
@@ -131,22 +131,18 @@ export default {
       ]
     };
   },
-  computed: {
-    items() {
-      return this.keyword
-        ? this.eventos.filter(
-            item =>
-              item.pessoa.nome.includes(this.keyword) ||
-              item.evento.titulo.includes(this.keyword)
-          )
-        : this.eventos;
-    }
-  },
   mounted(){
     this.consumirOrganizadoresApi();
   },
   async fetch() {
     this.consumirOrganizadoresApi();
+  },
+  computed: {
+    organizadoresFiltrados () {
+      return this.keyword
+          ? this.organizadores.filter(item => item.pessoa.nome.includes(this.keyword) || item.pessoa.cpf.includes(this.keyword))
+          : this.organizadores
+    }
   },
   methods: {
     consumirOrganizadoresApi() {

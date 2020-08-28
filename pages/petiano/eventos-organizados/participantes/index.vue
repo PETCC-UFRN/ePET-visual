@@ -55,7 +55,7 @@
 
           <b-table
             responsive="sm"
-            :items="participantes"
+            :items="participantesFiltrados"
             :current-page="currentPage"
             :bordered="false"
             striped
@@ -112,7 +112,7 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="participantes.length"
+              :total-rows="participantesFiltrados.length"
               :per-page="10"
               v-model="currentPage"
               prev-text="Anterior"
@@ -176,6 +176,13 @@
       this.getEventoPeriodos();
       this.getFrequenciasCadastradas();
       // console.log(this.$el.getElementsByClassName('freq-' + 52))
+    },
+    computed: {
+      participantesFiltrados () {
+        return this.keyword
+            ? this.participantes.filter(item => item.pessoa.nome.includes(this.keyword) || item.pessoa.cpf.includes(this.keyword))
+            : this.participantes
+      }
     },
     methods: {
       consumirParticipantesApi() {
