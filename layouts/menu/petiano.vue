@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: 'PET-CC UFRN | ePET - Permissão de petiano'
+      title: 'PET-CC UFRN | Petiano'
     }
   },
   computed: {

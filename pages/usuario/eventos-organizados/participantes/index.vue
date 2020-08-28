@@ -37,6 +37,16 @@
             pills
             :fields="fields"
           >
+
+            <template v-slot:cell(actions)="row">
+              <nuxt-link
+                :to="`/usuario/eventos-organizados/participantes/anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Anexos
+              </nuxt-link>
+            
+            </template>
           </b-table>
           <nav>
             <b-pagination
@@ -88,6 +98,7 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
+        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },

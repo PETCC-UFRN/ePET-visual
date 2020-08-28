@@ -9,8 +9,8 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
+        <em class="text-center"><b>Obs.:</b> Para tornar um petiano em um ex-petiano, modifique seu tipo de usuário de <b>petiano</b> para <u> <b>comum</b></u>.</em>
         <div v-if="pessoas.length > 0">
-          
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input
               v-model="keyword"
@@ -44,6 +44,33 @@
                 >{{ tipo.nome }}</option>
               </select>
             </template>
+            <template v-slot:cell(actions)="row">
+             <b-button  @click="row.toggleDetails" class="btn btn-sm btn-info">
+                {{ row.detailsShowing ? 'Não modificar' : 'Modificar'}} email
+              </b-button>              
+            </template>
+            <template v-slot:row-details="row">
+              <b-card>
+                <form @submit.prevent="mudarEmail">
+                  <div class="form-group  mr-2 mr-2">
+                    <b-row class="mb-3">
+                      <b-col sm="2" class="text-sm-right pt-2">
+                        <label  for="email"><b>Novo email</b></label>
+                      </b-col>
+                      <b-col>
+                        <b-form-input require v-model="row.item.usuario.email" id="email" placeholder="Digite o novo email"></b-form-input>
+                      </b-col>
+                    </b-row>
+                    <b-row>
+                      <b-col>
+                        <b-button class="text-xs-left" block variant="success">Confirmar mudança</b-button>
+                      </b-col>
+                    </b-row>
+                  </div>
+                </form>
+              </b-card>
+            </template>
+
           </b-table>
           <nav>
             <b-pagination
@@ -103,6 +130,7 @@ export default {
       pessoas: {},
       tipos_usuario: {},
       currentPage: 1,
+      novoEmail:"",
       fields: [
         { key: "nome", sortable: true },
         {
@@ -130,6 +158,7 @@ export default {
             return value.email;
           }
         },
+        { key: "actions", label: "Ações disponíveis"  }
       ],
       modal: {},
       keyword: "",
@@ -152,6 +181,10 @@ export default {
     }
   },
   methods: {
+    async mudarEmail(e) {
+
+
+    },
     async changePermission(row, event) {
       let id_usuario = row.item.usuario.idUsuario;
       let id_tipo = event.target.value;

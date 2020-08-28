@@ -53,11 +53,22 @@
                     <b-button to="/esqueciSenha" variant="link">Esqueceu sua senha?</b-button>
                   </b-col>
                 </b-row>
-                <b-row class="mt-3">
+                <b-row class="mt-3 mb-3">
                   <b-col>
                     <b-button type="submit" block variant="success" class="px-4">
                       Entrar
                     </b-button>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <p class="mt-3 mb-3 text-center text-muted">
+              
+              Ainda não tem conta? 
+              <nuxt-link
+                  :to="`/register`"
+                > Cadastrar-se</nuxt-link>
+              </p>  
                   </b-col>
                 </b-row>
               </form>
@@ -193,11 +204,14 @@
 
 
 <style scoped>
-  img {
-    max-width: 200px;
-  }
+img {
+  max-width: 200px;
+}
 
-  text {
-    color: gray;
-  }
+a {
+  text-decoration: none;
+}
+text {
+  color: gray;
+}
 </style>

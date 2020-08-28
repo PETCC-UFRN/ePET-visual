@@ -43,10 +43,10 @@
 					<strong>Local do curso:</strong>
 					{{evento.local}}
 				</p><p class="mt-3 mb-2">{{evento.descricao}}</p>
-				<p class="mt-3 mb-2"><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
-				a plataforma de gerenciamento de eventos e tutorias do PET-CC, o ePET. Caso não possua ainda cadastro,
+				<p class="mt-3 mb-2"><em><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
+				a plataforma de gerenciamento de eventos e tutorias do PET-CC UFRN. Caso não possua ainda cadastro,
 				é possível realizar o cadastro nessa <nuxt-link to="/register">página web</nuxt-link>. Porém, caso já tenha, 
-				faça login através dessa outra <nuxt-link to="/login">página web</nuxt-link>.</p>
+				faça login através dessa <nuxt-link to="/login">página web</nuxt-link>.</em></p>
           
         <span class="mb-5" v-for="anexo in anexos" :key="anexo.id" >
           <b-button class="btn btn-indigo mt-2 mb-2 float-right mr-2"

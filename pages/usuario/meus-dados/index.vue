@@ -22,14 +22,14 @@
     <div v-else>
       <b-form @submit.prevent="onSubmit">
 
-        <b-form-group for="nomeCompleto" label="Nome completo" label-class="text-muted font-weight-bold pt-0">
+        <b-form-group for="nomeCompleto" label="Nome completo" label-class="text-muted pt-0">
           <b-form-input id="nomeCompleto" v-model="profile.nome" required></b-form-input>
           <b-form-text
             id="password-help-block"
           >Este nome estará presente nas declarações providas pelo sistema.</b-form-text>
         </b-form-group>
 
-        <b-form-group  for="email" label="Email" label-class="text-muted font-weight-bold pt-0">
+        <b-form-group  for="email" label="Email" label-class="text-muted pt-0">
           <b-form-input id="email" :value="profile.usuario.email" type="email"></b-form-input>
         </b-form-group>
 
