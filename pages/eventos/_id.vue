@@ -6,7 +6,7 @@
       <hr>
     <b-row>
 			<b-col>
-				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`${this.evento.imagem}`" fluid alt="Imagem do evento"></b-img>
+				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Imagem do evento"></b-img>
 				<h3>{{evento.titulo}}</h3>
 				<p class="mt-4 mb-1">
 					<strong>Perído de inscrições:</strong>
@@ -43,18 +43,18 @@
 					<strong>Local do curso:</strong>
 					{{evento.local}}
 				</p><p class="mt-3 mb-2">{{evento.descricao}}</p>
-				<p class="mt-3 mb-2"><em><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
+				<p class="mt-3 mb-4"><em><strong>Observação:</strong> Para se inscrever no evento, é necessário acessar 
 				a plataforma de gerenciamento de eventos e tutorias do PET-CC UFRN. Caso não possua ainda cadastro,
 				é possível realizar o cadastro nessa <nuxt-link to="/register">página web</nuxt-link>. Porém, caso já tenha, 
 				faça login através dessa <nuxt-link to="/login">página web</nuxt-link>.</em></p>
           
-        <span class="mb-5" v-for="anexo in anexos" :key="anexo.id" >
-          <b-button class="btn btn-indigo mt-2 mb-2 float-right mr-2"
+        <div v-for="anexo in anexos" :key="anexo.id" >
+          <b-button class="btn btn-indigo mt-1 mb-3 float-right mr-2"
             @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
             style="color: white"> <i class="fa fa-download fa-fw"></i> 
             {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
           </b-button>
-        </span>
+        </div>
 			</b-col>
 		</b-row>
   </div>
@@ -75,6 +75,7 @@ export default {
 		return {
       anexos: [],
       quantidadeAnexos: 0,
+      imageData: "",
       evento: {
 				idEvento: 0,
 				d_inscricao: "",
@@ -95,6 +96,9 @@ export default {
 			.get('eventos-abertos/'+ this.$route.params.id)
 			.then((res) => {
         this.evento = res.data;
+
+        if (this.evento.imagem != null)
+          this.imageData = this.filterNameFile(this.evento.imagem); 
         
         this.$axios
           .get(`anexos-evento/${this.evento.idEvento}`)
@@ -130,6 +134,9 @@ export default {
     }
   },
 	methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
         .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
