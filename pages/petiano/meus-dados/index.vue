@@ -21,10 +21,6 @@
     </div>
     <div v-else>
       <b-form @submit.prevent="onSubmit"> 
-        <div class="mb-1" v-if="form.data_ingresso != null">
-          Período de participação: <br> 
-          <b>{{form.data_ingresso | moment}}</b> - <b v-if="form.data_egresso != null">{{form.data_egresso | moment}}</b> 
-        </div>
         <div class="row justify-content-center d-flex  align-items-center mb-3">
           <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
           <b-avatar v-else :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
@@ -46,8 +42,14 @@
           <b-form-input :value="form.pessoa.usuario.email" type="email" required></b-form-input>
         </b-form-group>
 
-        <b-form-group label="Área de interesse">
-          <b-form-input v-model="form.area_interesse"></b-form-input>
+        <b-form-group for="area_interesse" label="Área de interesse">
+          <b-form-textarea
+              required id="area_interesse"
+              v-model="form.area_interesse"
+              placeholder="Digite a descrição"
+              rows="3"
+              max-rows="3"
+            ></b-form-textarea>
         </b-form-group>
 
         <b-form-group label="Lattes">

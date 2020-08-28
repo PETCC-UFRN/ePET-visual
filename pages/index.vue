@@ -6,7 +6,7 @@
           <div class="col-xs-12 pt-5 pb-5">
             <b-img center src="/img/logo.svg" alt="Center image"></b-img>
             <h1 class="text-white text-center petcc">Programa de Educação Tutorial</h1>
-            <h2 class="text-center mb-2">Ciência da Computação</h2>            
+            <h2 class="text-center mb-2">do Curso de Ciência da Computação</h2>            
           </div>
         </div>
       </div>
@@ -15,7 +15,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xs-12 pt-2">
-            <h1 id="sobre" class="text-center pt-5">Sobre o PET-CC</h1>
+            <h1 id="sobre" class="text-center pt-5">Sobre o PET-CC UFRN</h1>
             <p class="text-center pt-4 pr-2 pl-2"> 
               {{informacoes.sobre}}
             </p>
@@ -133,15 +133,6 @@ export default {
           this.petianosAtuais.forEach(petiano => {
             if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto); 
           });
-          
-          console.log("Actual petiano arrays {}", this.petianosAtuais);
-          // console.log("Testing show the photo " + this.petianosAtuais[3].foto.split('/').slice(2)[0] ); 
-          
-          
-          // = Object.entries(this.petianosAtuais).map(foto => {
-          //     if ( foto != null)
-          //       return (foto = foto.split('/').slice(2)[0]);
-          //   }); 
         })
     },
     getInformacoes() {

@@ -55,7 +55,7 @@
 
           <b-table
             responsive="sm"
-            :items="participantes"
+            :items="participantesFiltrados"
             :current-page="currentPage"
             :bordered="false"
             striped
@@ -77,17 +77,24 @@
             <template v-slot:cell(actions)="row">
               <b-button
                 @click="confirmar(row.item.idParticipantes)"
-                class="btn btn-sm btn-success"
+                class="btn btn-sm btn-success mt-2"
                 v-if="row.item.confirmado === false"
               >
                 <i class="fa fa-check" aria-hidden="true"></i> Confirmar
               </b-button>
               <b-button
                 @click="del(row.item.idParticipantes, row.index)"
-                class="btn btn-sm btn-danger"
+                class="btn btn-sm btn-danger mt-1"
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
               </b-button>
+              <nuxt-link
+                :to="`/petiano/eventos-organizados/participantes/anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Anexos
+              </nuxt-link>
+            
             </template>
             <template v-slot:cell(frequencias)="row" v-if="frequenciasCadastradas !== []">
               <b-row>
@@ -105,7 +112,7 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="participantes.length"
+              :total-rows="participantesFiltrados.length"
               :per-page="10"
               v-model="currentPage"
               prev-text="Anterior"
@@ -129,7 +136,7 @@
 
   export default {
     name: "dashboard",
-    layout: "menu/tutor",
+    layout: "menu/petiano",
     components: {
       "v-pessoas": PessoasSelect
     },
@@ -168,7 +175,14 @@
       this.consumirParticipantesApi();
       this.getEventoPeriodos();
       this.getFrequenciasCadastradas();
-      console.log(this.$el.getElementsByClassName('freq-' + 52))
+      // console.log(this.$el.getElementsByClassName('freq-' + 52))
+    },
+    computed: {
+      participantesFiltrados () {
+        return this.keyword
+            ? this.participantes.filter(item => item.pessoa.nome.includes(this.keyword) || item.pessoa.cpf.includes(this.keyword))
+            : this.participantes
+      }
     },
     methods: {
       consumirParticipantesApi() {
@@ -240,7 +254,37 @@
             });
           });
       },
-      confirmar(id) {
+      fazerDowloadAnexo(idParticipante) {
+        this.$axios
+          .get(`anexos-participantes/${idParticipante}`, {responseType: 'arraybuffer'})
+          .then(res => {
+            let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+            let fileLink = document.createElement('a');
+
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `Participante-${idParticipanteCorrigido}`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+
+          })
+          .catch(err => {
+            if (err.response.status === 404) {
+              Swal.fire({
+                title: 'Anexo não encontrado',
+                icon: 'info',
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
+    },
+    confirmar(id) {
         this.$axios.post(`participantes-confirmar/${id}`).then(() => {
           Swal.fire({
             title: "Participante confirmado",

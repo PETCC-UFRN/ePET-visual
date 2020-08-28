@@ -62,6 +62,11 @@ export default {
             ]
         },
         {
+            name: 'Pessoas cadastradas',
+            url: '/petiano/pessoas-cadastradas',
+            icon: 'icon-people'
+        },
+        {
             name: 'Configurações',
             url: '/petiano/configuracoes',
             icon: 'icon-settings'

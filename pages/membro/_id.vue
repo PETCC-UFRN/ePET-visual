@@ -7,7 +7,8 @@
       <div class="mt-3 mb-5 ml-2 mr-2">
         <b-row>
           <b-col sm="3">
-            <b-avatar aligner="center" size="200px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoMembro}`" ></b-avatar>
+            <b-avatar v-if="fotoMembro !== ''" aligner="center" size="200px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoMembro}`" ></b-avatar>
+            <b-avatar v-else aligner="center" size="200px" ></b-avatar>
           </b-col>
           <b-col>
             <b-row class="mt-2">
@@ -91,7 +92,9 @@ export default {
         .get("petianos-atuais")
         .then(res => {
           this.petiano = res.data.content.filter(petiano => petiano.idPetiano == this.idPetiano)[0];
-          this.fotoMembro =  this.filterNameFile(this.petiano.foto)
+          
+          if (this.petiano.foto !== null && this.petiano.foto !== '') 
+            this.fotoMembro =  this.filterNameFile(this.petiano.foto)
         })
         .catch( err => {
           Swal.fire({

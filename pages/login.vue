@@ -53,11 +53,22 @@
                     <b-button to="/esqueciSenha" variant="link">Esqueceu sua senha?</b-button>
                   </b-col>
                 </b-row>
-                <b-row class="mt-3">
+                <b-row class="mt-3 mb-3">
                   <b-col>
                     <b-button type="submit" block variant="success" class="px-4">
                       Entrar
                     </b-button>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <p class="mt-3 mb-3 text-center">
+              
+              Ainda não tem conta? 
+              <nuxt-link
+                  :to="`/register`"
+                > Cadastrar-se</nuxt-link>
+              </p>  
                   </b-col>
                 </b-row>
               </form>
@@ -136,7 +147,7 @@
           .catch(err => {
             let text;
             if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
-              text = "O email e a senha não conferem.";
+              text = "O email e/ou a senha não conferem.";
             } else if (err.response.status === 403) {
               text = "Email ou senha não encontrados";
             } else if (err.response.status === 500 && err.response.data.message === "Usuario nao validado") {
@@ -193,11 +204,14 @@
 
 
 <style scoped>
-  img {
-    max-width: 200px;
-  }
+img {
+  max-width: 200px;
+}
 
-  text {
-    color: gray;
-  }
+a {
+  text-decoration: none;
+}
+text {
+  color: gray;
+}
 </style>
