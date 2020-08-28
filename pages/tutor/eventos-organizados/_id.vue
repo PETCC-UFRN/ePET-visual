@@ -174,7 +174,6 @@
     },
     methods: {
       gerarCertificado() {
-        console.log('hue');
         let idPessoa = this.form.pessoa.idPessoa;
         let idEvento = this.form.evento.idEvento;
         this.$axios.get(
