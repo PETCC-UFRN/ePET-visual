@@ -1,13 +1,14 @@
 <template>
   <div >
     <div class="container pt-5">
-      <h1 class="mt-4 mb-2"><nuxt-link to="/#"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
- Voltar ao início</nuxt-link></h1>
+      <h1 class="mt-4 mb-2"><nuxt-link to="/membros-emeritos#"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar aos membros eméritos</nuxt-link></h1>
       <hr>
       <div class="mt-3 mb-5 ml-2 mr-2">
         <b-row>
           <b-col sm="3">
-            <b-avatar aligner="center" size="200px" :src="`${petiano.foto}`" ></b-avatar>
+            <b-avatar v-if="fotoMembro !== ''" aligner="center" size="200px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoMembro}`" ></b-avatar>
+            <b-avatar v-else aligner="center" size="200px" ></b-avatar>
           </b-col>
           <b-col>
             <b-row class="mt-2">
@@ -17,7 +18,7 @@
             </b-row>
             <b-row>
               <b-col class="mt-1 mb-1" cols="12">
-                <span><strong>Data de ingresso:</strong> {{data_ingresso | moment}} </span>
+                <span><strong>Período: </strong> {{petiano.data_ingresso | moment}} - {{petiano.data_egresso | moment}} </span>
               </b-col>
               <b-col class="mt-0 mb-1" cols="12">
                 <span><strong>Email:</strong> <a :href="`mailto:${petiano.pessoa.usuario.email}`">  {{petiano.pessoa.usuario.email}}</a> </span>
@@ -52,6 +53,7 @@ export default {
 	},
   data() {
     return {
+        fotoMembro:"",
         petiano: {
           idPetiano:"",
           data_ingresso: "",
@@ -78,15 +80,25 @@ export default {
   },
   filters: {
     moment: function(date) {
-      return moment(date).format("DD/MM/YYYY");
+      if ( date != null)
+        return moment(date).format("MM/YYYY");
+      else
+        return "DESCONHECIDO";
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     getPetiano() {
       this.$axios
-        .get("petianos-atuais")
+        .get("petianos-antigos")
         .then(res => {
           this.petiano = res.data.content.filter(petiano => petiano.idPetiano == this.idPetiano)[0];
+
+
+          if (this.petiano.foto !== null && this.petiano.foto !== '') 
+            this.fotoMembro =  this.filterNameFile(this.petiano.foto)
         })
         .catch( err => {
           Swal.fire({

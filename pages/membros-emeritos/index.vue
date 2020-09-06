@@ -6,11 +6,17 @@
         <b-row class="mx-auto" align-h="center">
           <div v-for="petiano in membrosEmeritos" :key="petiano.id">
             <b-col class="mt-2 mb-4 ml-2 mr-2">
-              <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
-              </b-avatar>
-              <b-row class="mt-2" align-h="center">
-                <p class="pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
-              </b-row>
+              <nuxt-link :to="`/membros-emeritos/${petiano.idPetiano}`">
+
+                <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${petiano.foto}`">
+                </b-avatar>
+                <b-avatar v-else size="190px">
+                </b-avatar>
+                
+                <b-row class="mt-2" align-h="center">
+                  <p class="pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
+                </b-row>
+              </nuxt-link>  
             </b-col>
           </div>
         </b-row>
@@ -43,11 +49,17 @@ export default {
     this.getPetianosAntigos();
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     getPetianosAntigos() {
       this.$axios
         .get("petianos-antigos")
         .then(res => {
           this.membrosEmeritos = res.data.content;
+          this.membrosEmeritos.forEach(petiano => {
+            if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto);
+          });
         })
         .catch( err => {
           Swal.fire({
