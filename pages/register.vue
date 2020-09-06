@@ -5,8 +5,8 @@
         <b-col md="6" sm="8">
           <b-card no-body class="mx-auto">
             <b-card-body class="p-4">
-              <form @submit.prevent="register">        
-                <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
+              <form @submit.prevent="register">
+                <b-img class="mb-2" center fluid src="~/static/img/pet-logo.png"></b-img>
                 <h1>Cadastro</h1>
                 <p class="text-muted">Preencha todos os campos abaixo para criação da conta.</p>
                 <b-input-group class="mt-4 mb-3">
@@ -44,10 +44,10 @@
                   </b-input-group-prepend>
                   <b-form-input aria-describedby="input-live-feedback" :state="confirmandoSenha" type="password" class="form-control" placeholder="Repetir senha" v-model="senhaNovamente" required></b-form-input>
                   <b-form-invalid-feedback id="input-live-feedback">
-                    As senhas não conferem 
+                    As senhas não conferem
                   </b-form-invalid-feedback>
 
-                </b-input-group>                
+                </b-input-group>
                 <b-button type="submit" class="btn btn-success" block> <i class="fa fa-user-plus"></i> Criar conta</b-button>
               </form>
             </b-card-body>
@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    register(){        
+    register(){
       this.$axios
         .post('sign-up/',{
           email: this.usuario.email,
@@ -102,7 +102,7 @@ export default {
           Swal.fire({
             icon: "info",
             title: "Falta pouco...",
-            text: "Foi enviado para o seu email um link para que sua conta " + 
+            text: "Foi enviado para o seu email um link para que sua conta " +
             "seja validada."
           })
           .then ( () => {

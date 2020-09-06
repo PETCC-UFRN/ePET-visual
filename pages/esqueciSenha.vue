@@ -5,7 +5,7 @@
         <b-col md="5" sm="8">
           <b-card no-body class="mx-4">
             <b-card-body class="p-4">
-              <b-img center class="mb-4" fluid src="~/static/img/logo.svg"></b-img>
+              <b-img center class="mb-4" fluid src="~/static/img/pet-logo.png"></b-img>
               <h1>Esqueci a senha</h1>
               <p class="text-muted">Digite o endereço de e-mail da sua conta de usuário e enviaremos um email contendo
                 um link de redefinição de senha.</p>

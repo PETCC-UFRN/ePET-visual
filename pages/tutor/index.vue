@@ -139,7 +139,8 @@ export default {
       petianosAtuais: [],
       currentPage: 1,
       fields: [
-        { key: "pessoa.nome", label: "Nome" },  
+        { key: "pessoa.nome", label: "Nome" },
+        { key: "pessoa.usuario.email", label: "Email" },  
       ]
     };
   },
