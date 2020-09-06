@@ -4,9 +4,9 @@
       <div class="container pt-5">
         <div class="row justify-content-center d-flex  align-items-center">
           <div class="col-xs-12 pt-5 pb-5">
-            <b-img center src="/img/logo.svg" alt="Center image"></b-img>
+            <b-img center src="/img/pet-logo.png" alt="Center image"></b-img>
             <h1 class="text-white text-center petcc">Programa de Educação Tutorial</h1>
-            <h2 class="text-center mb-2">do Curso de Ciência da Computação</h2>            
+            <h2 class="text-center mb-2">do Curso de Ciência da Computação</h2>
           </div>
         </div>
       </div>
@@ -16,7 +16,7 @@
         <div class="row justify-content-center">
           <div class="col-xs-12 pt-2">
             <h1 id="sobre" class="text-center pt-5">Sobre o PET-CC UFRN</h1>
-            <p class="text-center pt-4 pr-2 pl-2"> 
+            <p class="text-center pt-4 pr-2 pl-2">
               {{informacoes.sobre}}
             </p>
             <h1 class="mt-5 mb-2 text-center"><i class="fa fa-user"></i> Tutor</h1>
@@ -29,7 +29,7 @@
                       </b-avatar>
                       <b-avatar v-else size="190px">
                       </b-avatar>
-                    
+
                       <b-row class="mt-2" align-h="center">
                         <p class="nome pt-2 pb-2 pr-2 pl-2" style="text-align: justify">{{petiano.pessoa.nome }}</p>
                       </b-row>
@@ -64,7 +64,7 @@
       <b-row class="mx-auto pt-5" align-h="center">
         <b-col class="contact-dados" cols="5">
             <h1 class="pb-1" >Contato</h1>
-            
+
             <p><strong>Email:</strong>
               <a :href="`mailto:${informacoes.email}`">{{informacoes.email}}</a>
             </p>
@@ -116,10 +116,10 @@ export default {
       petianosAtuais: []
     };
   },
-    
+
   mounted() {
     this.getPetianosAtuais();
-    this.getInformacoes();  
+    this.getInformacoes();
   },
   methods: {
     filterNameFile(file) {
@@ -131,7 +131,7 @@ export default {
         .then(res => {
           this.petianosAtuais = res.data.content;
           this.petianosAtuais.forEach(petiano => {
-            if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto); 
+            if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto);
           });
         })
     },
@@ -190,8 +190,8 @@ a i {
   background-attachment: fixed;
 }
 
-.container-site {  
-  padding-bottom: 50px; 
+.container-site {
+  padding-bottom: 50px;
 }
 h1 {
   font-weight: 300;
@@ -211,7 +211,7 @@ h2 {
   img {
     max-width: 240px;
   }
-} 
+}
 p {
   font-size: 19px;
 }
@@ -224,7 +224,7 @@ p {
 
 .contact {
   background: white;
-  padding-bottom: 70px; 
+  padding-bottom: 70px;
 }
 
 @media(min-width: 500px){
@@ -236,12 +236,12 @@ p {
   .contact-dados {
     padding-left: 50px;
     padding-top: 30px;
-    
+
   }
   .contact-imagem {
     padding-right: 50px;
   }
-} 
+}
 
 @media(max-width: 500px){
   .contact-dados p {

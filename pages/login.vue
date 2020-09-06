@@ -6,7 +6,7 @@
           <b-card no-body class="p-4 mx-auto">
             <b-card-body>
               <form @submit.prevent="login">
-                <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
+                <b-img class="mb-2" center fluid src="~/static/img/pet-logo.png"></b-img>
                 <h1>Acessar</h1>
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
@@ -63,12 +63,12 @@
                 <b-row>
                   <b-col>
                     <p class="mt-3 mb-3 text-center">
-              
-              Ainda não tem conta? 
+
+              Ainda não tem conta?
               <nuxt-link
                   :to="`/register`"
                 > Cadastrar-se</nuxt-link>
-              </p>  
+              </p>
                   </b-col>
                 </b-row>
               </form>

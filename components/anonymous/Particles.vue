@@ -6,7 +6,7 @@
         class="col-md-4 h-100 d-flex justify-content-center align-items-center"
         style="max-width:none; flex:none;"
       >
-        <img src="/img/logo.svg" class="img-fluid">
+        <img src="/img/pet-logo.png" class="img-fluid">
         <canvas class="background"></canvas>
       </div>
     </div>

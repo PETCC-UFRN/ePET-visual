@@ -4,7 +4,7 @@
       <h1 class="mt-5 mb-5 text-center"><i class="fa fa-users"></i> Membros eméritos</h1>
       <div class="mt-5 mb-2 ml-5 mr-5" v-if="membrosEmeritos.length > 0">
         <b-row class="mx-auto" align-h="center">
-          <div v-for="petiano in Emeritos" :key="petiano.id">
+          <div v-for="petiano in membrosEmeritos" :key="petiano.id">
             <b-col class="mt-2 mb-4 ml-2 mr-2">
               <b-avatar size="200px" src="https://avatars3.githubusercontent.com/u/26605942?s=460&v=4">
               </b-avatar>
@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script>  
+<script>
 import Swal from "sweetalert2";
 
 export default {
@@ -52,7 +52,7 @@ export default {
         .catch( err => {
           Swal.fire({
             title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            text: "Por favor, tente recarregar a página. Caso não dê certo," +
             " tente novamente mais tarde.",
             icon: 'error',
           })
@@ -94,7 +94,7 @@ p.card-text {
   h5 {
     font-size: 17.5px;
   }
-} 
+}
 
   .about {
     text-align: center;
