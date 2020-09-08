@@ -20,13 +20,26 @@
               placeholder="Digite o título"
               v-model="form.titulo" />
           </div>
+          <b-form-group>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
+
+
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text> 
+          </b-form-group>
           <div class="form-group">
             <label for="descricao"><strong>Descrição</strong></label>
             <b-form-textarea
               required id="descricao"
               v-model="form.descricao" 
               placeholder="Digite a descrição"
-              rows="3" 
+              rows="10" 
               max-rows="10"
             ></b-form-textarea>
           </div>
@@ -193,7 +206,7 @@
               id="textoDeclaracao" 
               v-model="form.textoDeclaracaoEvento"
               placeholder="Digite o texto de declaração de participante do evento"
-              rows="3"  
+              rows="6"  
               max-rows="6" 
             ></b-form-textarea>
           </div>          
@@ -203,7 +216,7 @@
               id="textoDeclaracao" 
               v-model="form.textoDeclaracaoEventoOrganizador"
               placeholder="Digite o texto de declaração de organizador do evento"
-              rows="3"  
+              rows="6"  
               max-rows="6" 
             ></b-form-textarea>
           </div>
@@ -232,9 +245,15 @@ export default {
   },
   data() {
     return {
+			mainProps: { width: 600, height: 600},
+      selected: [],
+      file:[],
+      imageData: "",
+      foto: "",
       form: {
         periodo_evento: [],
         d_inscricao: "",
+        imagem: "",
         d_inscricao_fim: "",
         descricao: "",
         dias_compensacao: 0,
@@ -261,6 +280,7 @@ export default {
       .get('eventos/'+ this.$route.params.id)
       .then((res) => {
         this.form = res.data;
+        this.foto = this.filterNameFile(res.data.imagem);
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
@@ -272,18 +292,70 @@ export default {
   
   },
   computed: {
+    disabledDataRolagemInicio() {
+      return this.form.d_inscricao_fim === ''
+    },
+    disabledDataEventoInicio(){
+      return this.form.fim_rolagem === '';
+    },
     disabledDataRolagem() {
-      return this.form.inicio_rolagem === ''; 
+      return this.form.inicio_rolagem === '';
     },
     disabledDataInscricao(){
-      return this.form.d_inscricao === ''; 
+      return this.form.d_inscricao === '';
     },
     disabledDataEvento(){
-      return this.form.d_evento_inicio === ''; 
+      return this.form.d_evento_inicio === '';
     }
   },
   methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
     submitForm(e) {
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.imagem = res.data;
+            this.progressValue = 0
+            this.file = []
+            this.atualizar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto não carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.atualizar();
+      }      
+    },
+    atualizar() {
       this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           Swal.fire({

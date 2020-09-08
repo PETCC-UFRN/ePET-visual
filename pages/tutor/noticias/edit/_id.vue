@@ -25,6 +25,18 @@
               required
             />
           </div>
+          <b-form-group>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
+            
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text> 
+          </b-form-group>
           <div class="form-group">
             <label for="descricao">
               <strong>Descrição</strong>
@@ -33,17 +45,11 @@
               id="descricao"
               v-model="form.corpo"
               placeholder="Digite a descrição"
-              rows="3"
-              max-rows="6"
+              rows="10"
+              max-rows="10"
               required
             ></b-form-textarea>
           </div>
-          <b-form-group>
-            <label for="anexo">
-              <strong>Anexo</strong>
-            </label>
-            <b-form-file placeholder="Nenhum arquivo" browse-text="Fazer upload" id="anexo"></b-form-file>
-          </b-form-group>
           <b-row>
             <b-col>
               <div class="form-group">
@@ -78,12 +84,11 @@
               </div>
             </b-col>
           </b-row>
-
           <div class="form-group">
             <b-button type="submit" variant="primary">
               <i class="fa fa-dot-circle-o"></i> Salvar
             </b-button>
-            <b-button href="/tutor/noticias/" variant="danger">
+            <b-button to="/tutor/noticias/" variant="danger">
               <i class="fa fa-ban"></i> Cancelar
             </b-button>
           </div>
@@ -92,6 +97,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
@@ -100,9 +106,16 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+			mainProps: { width: 425, height: 200},
+      selected: [],
+      file:[],
+      imageData: "",
+      foto: "",
+      progressValue: 0,
       form: {
         titulo: "",
         corpo: "",
+        imagem: "",
         inicio_exibicao: null,
         limite_exibicao: null,
         ativo: false
@@ -118,6 +131,7 @@ export default {
       .get("noticia/" + this.$route.params.id)
       .then(res => {
         this.form = res.data;
+        this.foto = this.filterNameFile(res.data.imagem);
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
@@ -136,7 +150,54 @@ export default {
     }
   },
   methods: {
-    async submitForm() {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    submitForm() {
+
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.imagem = res.data;
+            this.progressValue = 0
+            this.file = []
+            this.atualizar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto não carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.atualizar();
+      }      
+    },
+    async atualizar(){
       if (this.checkForm()) {
         let idPetiano = 1;
         await this.$axios
@@ -196,7 +257,7 @@ export default {
 
 
 <style scoped>
-h2 {
+h2, h3 {
   font-weight: 300;
 }
 

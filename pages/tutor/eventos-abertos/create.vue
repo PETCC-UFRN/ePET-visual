@@ -27,13 +27,24 @@
               placeholder="Digite o título"
               v-model="form.titulo" />
           </div>
+          <b-form-group>
+            <label for="imagem">
+              <strong>Imagem de capa</strong>
+            </label>
+            <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
+       
+            <b-form-file
+              v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
+              placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
+            <b-form-text class="mb-1"> O tamanho máximo da imagem é de 10 megabytes. </b-form-text> 
+          </b-form-group>
           <div class="form-group">
             <label for="descricao"><strong>Descrição</strong></label>
             <b-form-textarea
               required id="descricao"
               v-model="form.descricao"
               placeholder="Digite a descrição"
-              rows="3"
+              rows="10"
               max-rows="10"
             ></b-form-textarea>
           </div>
@@ -211,7 +222,7 @@
               id="textoDeclaracao"
               v-model="form.textoDeclaracaoEvento"
               placeholder="Digite o texto de declaração de participante do evento"
-              rows="3"
+              rows="6"
               max-rows="6"
             ></b-form-textarea>
           </div>
@@ -221,7 +232,7 @@
               id="textoDeclaracao"
               v-model="form.textoDeclaracaoEventoOrganizador"
               placeholder="Digite o texto de declaração de organizador do evento"
-              rows="3"
+              rows="6"
               max-rows="6"
             ></b-form-textarea>
           </div>
@@ -242,7 +253,6 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -250,14 +260,21 @@ export default {
   layout: "menu/tutor",
   data() {
     return {
+      mainProps: { width: 425, height: 200},
+      selected: [],
+      file:[],
+      imageData: "",
+      progressValue: 0,
       form: {
         periodo_evento: [],
         d_inscricao: "",
         d_inscricao_fim: "",
+        imagem: "",
         descricao: "",
         dias_compensacao: 0,
         fim_rolagem: "",
         inicio_rolagem: "",
+        imagem: "",
         local: "",
         participante_anexos: false,
         percentual: 0,
@@ -293,7 +310,50 @@ export default {
     }
   },
   methods: {
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
     submitForm(e) {
+      if (this.file !== null && this.file.length !== 0) {
+        const formData = new FormData()
+        formData.append("file", this.file)
+        this.$axios
+          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+            onUploadProgress: uploadEvent => {
+              this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
+            }
+          })
+          .then(res => {
+            this.form.imagem = res.data;
+            this.progressValue = 0
+            this.file = []
+            this.criar();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Foto não carregada",
+              text: "Tente novamente em outro momento.",
+              icon: "error"
+            })
+            .then( () => {
+              this.progressValue = 0
+              this.file = []
+            });
+          });
+      }
+      else {
+        this.criar();
+      }
+    },
+    criar() {
       this.$axios.post("eventos-cadastrar", this.form)
         .then(res => {
           Swal.fire({
@@ -342,11 +402,9 @@ export default {
 h2 {
   font-weight: 300;
 }
-
 strong {
   color: gray;
 }
-
 em {
   color: gray;
   font-weight: 500;

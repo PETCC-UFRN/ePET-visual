@@ -60,33 +60,29 @@
             </p>
           </b-col>
         </b-row>
-        <b-row class="mt-4">
+        </b-card-body> 
+    </b-card>
+    <b-card header-tag="header">
+      <template v-slot:header>
+        <b-row>
           <b-col>
-            <b-card header-tag="header">
-              <template v-slot:header>
-                <b-row>
-                  <b-col>
-                    <h4>Modificar PDF template dos certificados</h4>
-                  </b-col>
-                </b-row>
-              </template>
-              <b-form-file
-                v-model="file"
-                placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
-              <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>
-              
-              <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
-              <template v-slot:footer>
-                <b-button block @click="fazerUploadPDFTemplate"
-                  class="btn btn-sm btn-success mt-2">
-                  Atualizar arquivo
-                </b-button>
-              </template>
-            </b-card>      
+            <h4>Modificar template de declaração</h4>
           </b-col>
         </b-row>
-			</b-card-body> 
-    </b-card>
+      </template>
+      <b-form-file
+        v-model="file"
+        placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
+      <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>
+      
+      <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
+      <template v-slot:footer>
+        <b-button block @click="fazerUploadPDFTemplate"
+          class="btn btn-sm btn-success mt-2">
+          Atualizar arquivo template da declaração
+        </b-button>
+      </template>
+    </b-card>      
   </div>
 </template>
 

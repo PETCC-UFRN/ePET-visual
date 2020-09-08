@@ -6,8 +6,8 @@
           <b-card no-body class="p-4 mx-auto">
             <b-card-body>
               <form @submit.prevent="login">
-                <b-img class="mb-2" center fluid src="~/static/img/logo.svg"></b-img>
-                <h1>Login</h1>
+                <b-img class="mb-2" center fluid src="~/static/img/pet-logo.png"></b-img>
+                <h1>Acessar</h1>
                 <p class="text-muted">Preencha os campos abaixo para efetuar acesso.</p>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
@@ -53,11 +53,22 @@
                     <b-button to="/esqueciSenha" variant="link">Esqueceu sua senha?</b-button>
                   </b-col>
                 </b-row>
-                <b-row class="mt-3">
+                <b-row class="mt-3 mb-3">
                   <b-col>
                     <b-button type="submit" block variant="success" class="px-4">
-                      <i class="fa fa-user"></i> Login
+                      Entrar
                     </b-button>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <p class="mt-3 mb-3 text-center">
+
+              Ainda não tem conta?
+              <nuxt-link
+                  :to="`/register`"
+                > Cadastrar-se</nuxt-link>
+              </p>
                   </b-col>
                 </b-row>
               </form>
@@ -116,8 +127,7 @@
       async login() {
         Swal.fire({
           title: 'Carregando...',
-          text: 'Aguarde alguns instantes. Logo mais você' +
-            ' será redirecionado para dentro do sistema.',
+          text: 'Aguarde alguns instantes.',
           showCancelButton: false,
           showConfirmButton: false,
           onOpen: () => {
@@ -136,7 +146,9 @@
           })
           .catch(err => {
             let text;
-            if (err.response.status === 403) {
+            if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
+              text = "O email e/ou a senha não conferem.";
+            } else if (err.response.status === 403) {
               text = "Email ou senha não encontrados";
             } else if (err.response.status === 500 && err.response.data.message === "Usuario nao validado") {
               text = "Seu cadastro ainda não foi confirmado. Verifique seu email e tente novamente.";
@@ -192,11 +204,14 @@
 
 
 <style scoped>
-  img {
-    max-width: 200px;
-  }
+img {
+  max-width: 200px;
+}
 
-  text {
-    color: gray;
-  }
+a {
+  text-decoration: none;
+}
+text {
+  color: gray;
+}
 </style>

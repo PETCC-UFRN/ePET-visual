@@ -19,7 +19,7 @@
               <div slot="header">
                 <b-row>
                   <b-col>
-                    <h3><i class="fa fa-group fa-fw"></i> Minhas tutorias</h3> 
+                    <h3><i class="fa fa-graduation-cap fa-fw"></i> Minhas tutorias</h3> 
                   </b-col>
                 </b-row>
               </div>
@@ -30,17 +30,18 @@
                   :bordered="false"
                   striped   
                   responsive="sm"
-                  :per-page="2"
+                  :per-page="4"
                   :fields="fieldsPetianoTutorias"
                 >
                 </b-table>
                 <nav>
                   <b-pagination
                     :total-rows="petianosTutoriasMinistradas.length"
-                    :per-page="2"
+                    :per-page="4"
                     v-model="currentPage"
                     prev-text="Anterior"
                     next-text="Próximo"
+                    pills
                     hide-goto-end-buttons
                   />
                 </nav>
@@ -54,7 +55,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>
@@ -66,7 +67,7 @@
                         block
                         href="#"
                         v-b-toggle="'accordion' + evento.idEvento"
-                        variant="primary"
+                        variant="teal"
                       >{{evento.titulo}}</b-btn>
                     </b-card-header>
                     <b-collapse
@@ -77,12 +78,12 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpoEvento}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
                           :to="`petiano/eventos-abertos/${evento.idEvento}`"
-                          >Ver mais informações</nuxt-link>      
+                          >Ver detalhes</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>
@@ -107,7 +108,7 @@
                 <b-list-group-item :to="`/petiano/noticias/${noticia.idNoticia}`" class="flex-column align-items-start mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
-                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
+                    <small class="text-muted">{{noticia.inicio_exibicao | moment}}</small>
                   </div>
                   <p class="mb-1">
                     {{noticia.corpo | cortarCorpo}}
@@ -125,7 +126,6 @@
 </template>
 
 <script>
-
 import style from "~/assets/css/loading.css";
 import moment from "moment";
 
@@ -135,7 +135,7 @@ export default {
   data: function() {
     return {
       isLoading: true,
-      noticias: [], // requisicao de noticias
+      noticias: [],
       eventos: [],
       petianosTutoriasMinistradas: [],
       currentPage: 1,
@@ -144,7 +144,7 @@ export default {
         { key: "pessoa.usuario.email", sortable: true, label: "Email" },
       ],
       fieldsPetianoTutorias: [
-        { key: "pessoa.nome", sortable: true, label: "Nome" },
+        { key: "pessoa.nome", sortable: true, label: "Solicitante" },
         { key: "tutoria.disciplina.nome", sortable: true, label: "Disciplina"},    
         { key: "data", sortable: true, label: "Data", formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },  
         { key: "pessoa.usuario.email", sortable: true, label: "Email" },
@@ -168,6 +168,12 @@ export default {
   filters: {
     cortarCorpo(mensagem) {
       return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    },
+    cortarCorpoEvento(mensagem) {
+      return mensagem.length > 200 ? `${mensagem.substring(0,200)}...`  : mensagem;
+    },
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
     }
   },
   computed: {
@@ -178,5 +184,10 @@ export default {
     }
   }
 };
-
 </script>
+
+<style scoped>
+h3 {
+  font-weight: 300;
+}
+</style>

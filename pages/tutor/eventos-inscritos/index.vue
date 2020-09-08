@@ -28,9 +28,16 @@
             <template v-slot:cell(actions)="row">
               <nuxt-link
                   :to="`/tutor/eventos-inscritos/${row.item.idParticipantes}`"
-                  class="btn btn-sm btn-info"
-                ><i class="fa fa-eye" aria-hidden="true"></i>
-                Informações</nuxt-link>
+                  class="btn btn-sm btn-info mt-1"
+                ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                Detalhes</nuxt-link>
+                <nuxt-link
+                :to="`/tutor/eventos-inscritos/meus-anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+                  v-if="row.item.evento.participante_anexos == true"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Meus anexos
+              </nuxt-link>
             </template>
           </b-table>
           <nav>

@@ -29,7 +29,7 @@
 
           <b-table
             responsive="sm"
-            :items="participantes"
+            :items="participantesFiltrados"
             :current-page="currentPage"
             :bordered="false"
             striped   
@@ -37,10 +37,20 @@
             pills
             :fields="fields"
           >
+
+            <template v-slot:cell(actions)="row">
+              <nuxt-link
+                :to="`/usuario/eventos-organizados/participantes/anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Anexos
+              </nuxt-link>
+            
+            </template>
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="participantes.length"
+              :total-rows="participantesFiltrados.length"
               :per-page="10"
               v-model="currentPage"
               prev-text="Anterior"
@@ -88,17 +98,15 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
+        { key: "actions", label: "Ações disponíveis" }
       ]
     };
   },
   computed: {
-    items() {
+    participantesFiltrados () {
       return this.keyword
-        ? this.eventos.filter(item => {
-            item.evento.titulo.includes(this.keyword) ||
-              item.pessoa.nome.includes(this.keyword);
-          })
-        : this.eventos;
+          ? this.participantes.filter(item => item.pessoa.nome.includes(this.keyword) || item.pessoa.cpf.includes(this.keyword))
+          : this.participantes
     }
   },
   mounted() {

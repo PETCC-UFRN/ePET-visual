@@ -11,10 +11,9 @@
     <div v-else>
       <div class="row">
         <div class="col-md-6">
-          <!-- <b-row>
+          <b-row>
             <b-col>
               <b-card 
-                v-show="tutorias.length > 0"
                 header-tag="header" 
                 footer-tag="footer"
               >
@@ -22,7 +21,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-check fa-fw"></i> Minhas tutorias
+                        <i class="fa fa-graduation-cap fa-fw"></i> Minhas tutorias
                       </h3>
                     </b-col>
                   </b-row>
@@ -39,7 +38,7 @@
                 </b-list-group>
               </b-card>
             </b-col>
-          </b-row> -->
+          </b-row>
           <b-row>
             <b-col>
               <b-card header-tag="header" footer-tag="footer">
@@ -47,7 +46,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>
@@ -59,7 +58,7 @@
                         block
                         href="#"
                         v-b-toggle="'accordion' + evento.idEvento"
-                        variant="primary"
+                        variant="teal"
                       >{{evento.titulo}}</b-btn>
                     </b-card-header>
                     <b-collapse
@@ -70,12 +69,12 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpoEvento}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
                           :to="`usuario/eventos-abertos/${evento.idEvento}`"
-                          >Ver mais informações</nuxt-link>      
+                          >Ver detalhes</nuxt-link>      
                       </b-card-body>
                     </b-collapse>
                   </b-card>
@@ -129,8 +128,9 @@ export default {
   data: function() {
     return {
       isLoading: true,
-      noticias: [], // requisicao de noticias
+      noticias: [], 
       tutorias: [],
+      numItemsTutoria: 0,
       eventos: [],
       eventos_abertos:[],
       currentPage: 1,
@@ -149,7 +149,7 @@ export default {
         this.eventos_abertos = res.data;
       });
 
-   this.$axios
+    this.$axios
       .get("noticias-atuais/?page=0")
       .then(res => {
         this.noticias = res.data.content.slice(0, 3);
@@ -160,7 +160,31 @@ export default {
           this.isLoading = false;
         }
       });
-    
+
+      this.consumindoTutoriasMinistradasApi();
+  },
+  methods : {
+    consumindoTutoriasMinistradasApi() {
+      this.$axios
+        .get(`/pesquisar-pessoa-tutorias-ministradas/${this.$store.state.profile.idPessoa}`)
+        .then(res => {
+          this.tutorias = res.data.content;
+          this.isLoading = false;
+          this.numItemsTutoria = res.data.totalElements;
+
+        })
+        .catch( err => {
+          if (err.response.status === 404) {}
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error',
+            })
+          }
+        });
+    },
   },
   filters: {
     moment: function (date) {
@@ -168,18 +192,11 @@ export default {
     },
     cortarCorpo(mensagem) {
       return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    },
+    cortarCorpoEvento(mensagem) {
+      return mensagem.length > 200 ? `${mensagem.substring(0,200)}...`  : mensagem;
     }
   },
-  computed: {
-    resNoticias: function() {
-      return this.noticias.filter(item => {
-        return (
-          new Date(item.limite_exibicao).getTime() > Date.now() &&
-          new Date(item.inicio_exibicao).getTime() < Date.now()
-        );
-      });
-    }
-  }
 };
 </script>
 

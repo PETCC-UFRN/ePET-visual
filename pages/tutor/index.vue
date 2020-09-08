@@ -18,7 +18,7 @@
                   <b-row>
                     <b-col>
                       <h3>
-                        <i class="fa fa-calendar-minus-o fa-fw"></i> Eventos abertos 
+                        <i class="fa fa-calendar-check-o fa-fw"></i> Eventos abertos 
                       </h3>
                     </b-col>
                   </b-row>
@@ -41,7 +41,7 @@
                       <b-card-body>
                         <p class="card-text">
                           <strong>Descrição:</strong>
-                          {{evento.descricao}}
+                          {{evento.descricao | cortarCorpoEvento}}
                         </p>
                         <nuxt-link
                             class="btn btn-sm btn-info w-100 mt-2"
@@ -62,7 +62,7 @@
               <div slot="header">
                 <b-row>
                   <b-col>
-                    <h3><i class="fa fa-group mt-2"></i> Petianos atuais</h3> 
+                    <h3><i class="fa fa-group mt-2"></i> Membros ativos</h3> 
                   </b-col>
                 </b-row>
               </div>
@@ -107,12 +107,11 @@
                 <b-list-group-item :to = "`/tutor/noticias/${noticia.idNoticia}`"  class="flex-column align-items-start mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{noticia.titulo}}</h5>
-                    <small class="text-muted">{{noticia.inicio_exibicao}}</small>
+                    <small class="text-muted">{{noticia.inicio_exibicao | moment}}</small>
                   </div>
                   <p class="mb-1">
-                    {{noticia.corpo}}
+                    {{noticia.corpo | cortarCorpo}}
                   </p>
-                  <small class="text-muted"><em>Postado por {{noticia.petiano.pessoa.nome}}</em></small>
                 </b-list-group-item>
                 
               </div>  
@@ -140,8 +139,8 @@ export default {
       petianosAtuais: [],
       currentPage: 1,
       fields: [
-        { key: "pessoa.nome", sortable: true, label: "Nome" },  
-        { key: "pessoa.usuario.email", sortable: true, label: "Email" },
+        { key: "pessoa.nome", label: "Nome" },
+        { key: "pessoa.usuario.email", label: "Email" },  
       ]
     };
   },
@@ -162,15 +161,15 @@ export default {
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
+    },
+    cortarCorpo(mensagem) {
+      return mensagem.length > 120 ? `${mensagem.substring(0,120)}...`  : mensagem;
+    },
+    cortarCorpoEvento(mensagem) {
+      return mensagem.length > 200 ? `${mensagem.substring(0,200)}...`  : mensagem;
     }
   },
-  computed: {
-    resNoticias: function() {
-      return this.noticias.filter(item => {
-        return new Date(item.limite_exibicao).getTime() > Date.now() && new Date(item.inicio_exibicao).getTime() < Date.now();
-      });
-    }
-  },
+
 };
 
 </script>

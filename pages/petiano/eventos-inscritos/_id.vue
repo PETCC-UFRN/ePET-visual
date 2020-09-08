@@ -9,7 +9,6 @@
           <b-col v-if="form.evento.valor > 0">
             <b-button
               variant="teal"
-              class="btn btn-sm float-right mt-4"
               @click="realizarPagamento"
             ><i class="fa fa-info-circle px-2" aria-hidden="true"></i> Realizar pagamento
             </b-button>
@@ -22,16 +21,18 @@
           <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
         </div>
         <div v-else>
-          <h5>Título:</h5> <h6> {{form.evento.titulo}}</h6>
+          <h5>{{form.evento.titulo}}</h5>
+          <b-img v-if="form.evento.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+
           <p class="mt-3 mb-1">
             <strong>Perído de inscrições:</strong>
-            <span v-if="form.evento.d_inscricao !== ''">{{ form.evento.d_inscricao | moment }}</span> -
-            <span v-if="form.evento.d_inscricao_fim !== ''">{{ form.evento.d_inscricao_fim | moment}}</span>
+            <span v-if="form.evento.d_inscricao !== ''">{{ this.form.evento.d_inscricao | moment }}</span> -
+            <span v-if="form.evento.d_inscricao_fim !== ''">{{ this.form.evento.d_inscricao_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Perído de realização do evento:</strong>
-            <span v-if="form.d_evento_inicio !== ''">{{ form.evento.d_evento_inicio | moment }}</span> -
-            <span v-if="form.d_evento_inicio !== ''">{{ form.evento.d_evento_fim | moment}}</span>
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_inicio | moment }}</span> -
+            <span v-if="form.d_evento_inicio !== ''">{{ this.form.evento.d_evento_fim | moment}}</span>
           </p>
           <p class="mt-0 mb-1">
             <strong>Quantidade de dias de evento:</strong>
@@ -60,7 +61,14 @@
             {{form.evento.descricao}}
           </p>
 
-        </div>
+          <span v-for="anexo in anexos" :key="anexo.id" >
+            <b-button class="btn btn-indigo mt-2 float-right mr-2"
+              @click="fazerDowloadAnexo(anexo.anexos.split('/').slice(2)[0])"
+              style="color: white"> <i class="fa fa-download fa-fw"></i> 
+              {{anexo.anexos.split('/').slice(2)[0].split('-').slice(2)[0]}}
+            </b-button>
+          </span>
+        </div>  
       </b-card-body>
       <template v-slot:footer>
         <b-button id="tooltip-target-1"
@@ -78,100 +86,160 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+import moment from "moment";
 
-  import Swal from "sweetalert2";
-  import moment from "moment";
+export default {
+  layout: "menu/petiano",
+  data() {
+    return {
+      isLoading: true,
+      eventoTerminou: true,
+      anexos: [],
+      quantidadeAnexos: 0,
+      imageData: "",
+			mainProps: { width: 600, height: 600},
+      form: {  
+        evento: { 
+          titulo: "", 
+          descricao: "", 
+          local: "", 
+          periodo_evento: [],
+          imagem: "", 
+          d_inscricao: "", 
+          d_inscricao_fim: "",
+          inicio_rolagem: "", 
+          fim_rolagem: "", 
+          dias_compensacao: 0, 
+          percentual: 0, 
+          ativo: true, 
+          participante_anexos: false, 
+          qtdVagas: 5, 
+          qtdCargaHoraria: 2, 
+          valor: 0, 
+          textoDeclaracaoEvento: "" 
+        }, 
+        data_maxima: "", 
+        confirmado: true, 
+        espera: false, 
+        idParticipantes: 26 
+      } 
+    };
+  },
+  mounted() {
+   this.$axios.get(`participantes/${this.$route.params.id}`)
+      .then(res => {
+        this.form = res.data;
+        this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
+        this.isLoading = false;
 
-  export default {
-    layout: "menu/petiano",
-    data() {
-      return {
-        isLoading: true,
-        eventoTerminou: true,
-        form: {
-          evento: {
-            titulo: "",
-            descricao: "",
-            local: "",
-            imagem: null,
-            d_inscricao: "",
-            d_inscricao_fim: "",
-            d_evento_inicio: "",
-            d_evento_fim: "",
-            inicio_rolagem: "",
-            fim_rolagem: "",
-            dias_compensacao: 0,
-            percentual: 0,
-            ativo: true,
-            participante_anexos: false,
-            qtdVagas: 5,
-            qtdCargaHoraria: 2,
-            qtdDias: 5,
-            valor: 0,
-            textoDeclaracaoEvento: ""
-          },
-          data_maxima: "",
-          confirmado: true,
-          espera: false,
-          idParticipantes: 26
-        }
-      };
-    },
-    mounted() {
-      this.$axios.get(`participantes/${this.$route.params.id}`)
-        .then(res => {
-          this.form = res.data;
-          this.$nuxt.$emit("changeCrumbs", this.form.evento.titulo);
-          this.isLoading = false;
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," +
-              " tente novamente mais tarde.",
-            icon: "error"
-          })
-        });
-    },
-    filters: {
-      moment: function (date) {
-        return moment(date).format('DD/MM/YYYY');
-      }
-    },
-    computed: {
-      disabledBotaoCertificado() {
-        return (moment().isAfter(moment(this.d_inscricao_fim)));
-      },
-    },
-    methods: {
-      realizarPagamento() {
-        this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
+        if (this.form.evento.imagem != null)
+          this.imageData = this.filterNameFile(this.form.evento.imagem);
+
+        this.$axios
+          .get(`anexos-evento/${this.form.evento.idEvento}`)
           .then(res => {
-            Swal.fire({
-              title: "Pagamento via PagSeguro",
-              html: "Será aberta uma nova página relacionado ao PagSeguro" +
-                " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
-              icon: "info"
-            }).then(() => {
-              window.open(res.data, '_blank');
-            });
+            this.quantidadeAnexos = res.data.length;
+            this.anexos = res.data; 
           })
           .catch(err => {
+            if (err.response.status === 404) {}
+            else {
+              Swal.fire({
+                title: "Houve um problema...",
+                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+                " tente novamente mais tarde.",
+                icon: 'error'
+              })
+            }
+          });
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
+      });
+  },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
+  computed: {
+    disabledBotaoCertificado() {
+      return (moment().isAfter(moment(this.d_inscricao_fim)));
+    },
+  },
+  methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
+    fazerDowloadAnexo(nomeAnexo) {
+      this.$axios
+        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .then(res => {
+          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
+          let fileLink = document.createElement('a');
+
+          let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute('download', nomeAnexoCorrigido);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            Swal.fire({
+              title: 'Anexo não encontrado',
+              icon: 'info',
+            });
+          }
+          else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," +
-                " tente novamente mais tarde.",
-              icon: "error"
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
             })
-          });
-      },
-      gerarCertificado() {
+          }
+        });
+    },
+    realizarPagamento() {
+      this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
+      .then(res => {
+        Swal.fire({
+          title: "Pagamento via PagSeguro",
+          html: "Será aberta uma nova página relacionado ao PagSeguro" +
+           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
+          icon: "info"
+        })
+        .then (() => {
+          window.open(res.data, '_blank');
+        });
+        
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
+      });
+    },
+     gerarCertificado() {
         let idPessoa = this.form.pessoa.idPessoa;
         let idEvento = this.form.evento.idEvento;
         this.$axios.get(
           `certificado/gerar/${idPessoa}/${idEvento}`,
           {responseType: 'arraybuffer'}
-        ).then(res => {
+        )
+        .then(res => {
           let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
           let fileLink = document.createElement('a');
           let nomeAnexoCorrigido = 'certificado';
@@ -179,7 +247,8 @@
           fileLink.setAttribute('download', nomeAnexoCorrigido);
           document.body.appendChild(fileLink);
           fileLink.click();
-        }).catch(err => {
+        })
+        .catch(err => {
           Swal.fire({
             title: "Certificado não gerado",
             icon: "error",
@@ -192,25 +261,20 @@
 </script>
 
 <style scoped>
-  ul {
-    list-style: none;
-    padding-left: 10px;
-  }
-
-  p {
-    font-size: 15px;
-  }
-
-  strong {
-    font-size: 16px;
-  }
-
-  h3, h4 {
-    font-weight: 300;
-  }
-
-  h5, h6 {
-    display: inline;
-    font-size: 18px;
-  }
-</style>
+ul {
+  list-style: none;
+  padding-left: 10px;
+}
+p {
+  font-size: 15px;
+}
+strong {
+  font-size: 16px;
+}
+h3, h4, h5 {
+  font-weight: 300;
+}
+h5 {
+  font-size: 22px;
+}
+</style>  

@@ -27,10 +27,18 @@
           >
             <template v-slot:cell(actions)="row">
               <nuxt-link
-                  :to="`/petiano/eventos-inscritos/${row.item.idParticipantes}`"
-                  class="btn btn-sm btn-info"
-                ><i class="fa fa-eye" aria-hidden="true"></i>
-                Informações</nuxt-link>
+                :to="`/petiano/eventos-inscritos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-info"
+              ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                Detalhes</nuxt-link>
+              <nuxt-link
+                :to="`/petiano/eventos-inscritos/gerenciar-anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+                v-if="row.item.evento.participante_anexos == true"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Gerenciar anexos
+              </nuxt-link>
+          
             </template>
           </b-table>
           <nav>

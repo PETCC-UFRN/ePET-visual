@@ -32,15 +32,12 @@
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
-              <b-button
-                disabled
-                class="btn btn-sm btn-success mt-1" ><i class="fa fa-check fa-fw"></i>
-              Lançar presenças</b-button>
-            
-              <b-button  @click="row.toggleDetails" class="btn btn-sm btn-indigo mt-1">
-                {{ row.detailsShowing ? 'Não anexar' : 'Anexar'}} arquivo
-              </b-button>   
-
+              <nuxt-link
+                :to="`/usuario/eventos-organizados/gerenciar-anexos/${row.item.evento.idEvento}`"
+                class="btn btn-sm btn-indigo mt-1"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Gerenciar anexos
+              </nuxt-link>
               <nuxt-link
                 :to="`/usuario/eventos-organizados/organizadores/?idEvento=${row.item.evento.idEvento}`"
                 class="btn btn-sm btn-teal mt-1"
@@ -59,23 +56,6 @@
                 class="btn btn-sm btn-warning mt-1"
                 :to="`/usuario/eventos-organizados/edit/${row.item.evento.idEvento}`"              
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
-            </template>
-            <template v-slot:row-details="row">
-              <b-card>
-                <b-form-file 
-                  v-model="file"
-                  placeholder="Nenhum arquivo" browse-text="Selecionar arquivo" id="anexo"></b-form-file>
-                <b-form-text> O tamanho máximo de arquivo é de 10 megabytes. </b-form-text>          
-
-                <b-progress :value="progressValue" :max="100" show-progress animated></b-progress>
-                <template v-slot:footer>
-                  <b-button block
-                    @click="fazerUploadAnexo(row.item.evento)"
-                    class="btn btn-sm btn-success mt-2">
-                    Anexar arquivo
-                  </b-button>
-                </template>
-              </b-card>
             </template>
           </b-table>
           <div>

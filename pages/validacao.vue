@@ -2,7 +2,7 @@
   <div>
     <div class="container-fluid pt-5">
       <br />
-      <div class="col-8 mx-auto mt-5">
+      <div class="col-md-6 mx-auto mt-5">
         <h1 class="text-center">Validar declaração</h1>
         <b-form @submit.prevent="submitForm">
           <b-form-group
@@ -84,23 +84,12 @@ export default {
 };
 </script>
 
-
 <style scoped>
 h1 {
   font-weight: 300;
-  font-size: 50px;  
+  font-size: 40px;  
 }
-
-@media(max-width: 500px){
-  h1 {
-    font-size: 40px;
-  }
-} 
-
 p {
   margin: 0px 0px 0px;
 }
-
 </style>
-
- 

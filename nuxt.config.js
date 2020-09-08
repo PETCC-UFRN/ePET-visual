@@ -19,10 +19,10 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Plataforma do PET-CC UFRN' }
+      { hid: 'description', name: 'description', content: 'Plataforma do Programa de Educação Tutorial do curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (UFRN)' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/svg/favicon.png' },
+      { rel: 'icon', type: 'image/x-icon', href: '/img/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },

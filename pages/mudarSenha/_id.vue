@@ -5,7 +5,7 @@
         <b-col md="5" sm="8">
           <b-card no-body class="mx-4">
             <b-card-body class="p-4">
-              <b-img center class="mb-4" fluid src="~/static/img/logo.svg"></b-img>
+              <b-img center class="mb-4" fluid src="~/static/img/pet-logo.png"></b-img>
               <h4>Redefinição de senha</h4>
               <p class="text-muted">Digite a nova senha da sua conta de usuário para redefinição de senha.</p>
 
