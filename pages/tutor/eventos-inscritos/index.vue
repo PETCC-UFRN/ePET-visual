@@ -26,10 +26,18 @@
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
+
+              <b-button :disabled="disabledBotaoCertificado(row.item.evento)"
+                  @click.prevent="gerarCertificado(row.item)"
+                class="btn btn-sm btn-success mt-1"
+              >
+                <i class="fa fa-certificate fa-fw"></i> Declaração de conclusão
+              </b-button>
+
               <nuxt-link
                   :to="`/tutor/eventos-inscritos/${row.item.idParticipantes}`"
                   class="btn btn-sm btn-info mt-1"
-                ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                ><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
                 Detalhes</nuxt-link>
                 <nuxt-link
                 :to="`/tutor/eventos-inscritos/meus-anexos/${row.item.idParticipantes}`"
@@ -81,7 +89,18 @@ export default {
   mounted() {
     this.consumindoEventosParticipandoApi();
   },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
   methods: {
+    disabledBotaoCertificado(evento) {
+      if (evento.d_evento_fim == null)
+        return true;  
+
+      return !(moment().isAfter(moment(evento.d_evento_fim)));
+    },
     cancelSearch() {
       this.keyword = ''
       this.consumindoEventosParticipandoApi()
@@ -107,6 +126,30 @@ export default {
               })
             }  
         });
+    },
+    gerarCertificado(item) {
+      let idPessoa = item.pessoa.idPessoa;
+      let idEvento = item.evento.idEvento;
+      this.$axios.get(
+        `certificado/gerar/${idPessoa}/${idEvento}`,
+        {responseType: 'arraybuffer'}
+      )
+      .then(res => {
+        let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
+        let fileLink = document.createElement('a');
+        let nomeAnexoCorrigido = 'certificado';
+      })
+      .catch(err => {
+        this.$axios
+          .get(`certificado/gerar/${idPessoa}/${idEvento}`)
+          .catch(err => {
+            Swal.fire({
+              title: "Certificado não gerado",
+              icon: "error",
+              text: err.response.data.detalhes
+            });
+          });
+      });
     },
     consumindoEventosParticipandoApi() {
       this.$axios

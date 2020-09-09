@@ -70,17 +70,6 @@
           </span>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1" 
-          :disabled="disabledBotaoCertificado"
-          @click.prevent="gerarCertificado()" 
-          block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          {{form.evento.percentual}}% concluído
-        </b-tooltip>
-      </template>
     </b-card>
   </div>
 </template>
@@ -168,11 +157,6 @@ export default {
       return moment(date).format('DD/MM/YYYY');
     }
   },
-  computed: {
-    disabledBotaoCertificado() {
-      return (moment().isAfter(moment(this.d_inscricao_fim)));
-    },
-  },
   methods: {
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
@@ -232,40 +216,6 @@ export default {
         })
       });
     },
-    gerarCertificado() {
-      let idPessoa = this.form.pessoa.idPessoa;
-      let idEvento = this.form.evento.idEvento;
-      this.$axios.get(
-        `certificado/gerar/${idPessoa}/${idEvento}`,
-        {responseType: 'arraybuffer'}
-      )
-      .then(res => {
-        let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
-        let fileLink = document.createElement('a');
-        let nomeAnexoCorrigido = 'certificado';
-        fileLink.href = fileURL;
-        fileLink.setAttribute('download', nomeAnexoCorrigido);
-        document.body.appendChild(fileLink);
-        fileLink.click();
-      })
-      .catch(err => {
-        if (err.response.status === 404) {
-          Swal.fire({
-            title: "Certificado não gerado",
-            icon: "error",
-            text: "Usuário não concluiu a carga horária mínima para obter o certificado do evento!"
-          });
-        }
-        else { 
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            text: "o evento!"
-          });
-        }
-      });
-    }
   }
 };
 </script>

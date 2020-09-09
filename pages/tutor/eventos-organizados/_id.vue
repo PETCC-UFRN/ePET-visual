@@ -63,12 +63,6 @@
           </span>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
-                  @click.prevent="gerarCertificado()" block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de organização
-        </b-button>
-      </template>
     </b-card>
     <b-card header-tag="header">
       <template v-slot:header>
@@ -208,24 +202,7 @@ export default {
       return moment(date).format('DD/MM/YYYY');
     }
   },
-  computed: {
-    disabledBotaoCertificado() {
-      return (moment().isAfter(moment(this.d_inscricao_fim)));
-    },
-  },
   methods: {
-    gerarCertificado() {
-      let idPessoa = this.form.pessoa.idPessoa;
-      let idEvento = this.form.evento.idEvento;
-      this.$axios.get(
-        `certificado/gerarOrganizador/${idPessoa}/${idEvento}`,
-        {responseType: 'arraybuffer'}
-      ).then(res => {
-        let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
-        let fileLink = document.createElement('a');
-        let nomeAnexoCorrigido = 'certificado';
-      });
-    },
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
     },
