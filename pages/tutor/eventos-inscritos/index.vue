@@ -37,8 +37,16 @@
               <nuxt-link
                   :to="`/tutor/eventos-inscritos/${row.item.idParticipantes}`"
                   class="btn btn-sm btn-info mt-1"
-                ><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+                ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                 Detalhes</nuxt-link>
+
+                <b-button
+                  v-if="row.item.evento.valor > 0"
+                  variant="warning"
+                  @click="realizarPagamento(row.item.idParticipantes)"
+                  class="btn btn-sm mt-1"
+                ><i class="fa fa-check fa-fw"></i>  Realizar pagamento</b-button>
+
                 <nuxt-link
                 :to="`/tutor/eventos-inscritos/meus-anexos/${row.item.idParticipantes}`"
                 class="btn btn-sm btn-indigo mt-1"
@@ -138,17 +146,45 @@ export default {
         let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
         let fileLink = document.createElement('a');
         let nomeAnexoCorrigido = 'certificado';
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', nomeAnexoCorrigido);
+        document.body.appendChild(fileLink);
+        fileLink.click();
       })
       .catch(err => {
         this.$axios
           .get(`certificado/gerar/${idPessoa}/${idEvento}`)
           .catch(err => {
             Swal.fire({
-              title: "Certificado não gerado",
+              title: "Declaração não gerada",
               icon: "error",
               text: err.response.data.detalhes
             });
           });
+      });
+    },
+    realizarPagamento(idParticipante) {
+      this.$axios.get(`criar-pagamento/${idParticipante}`)
+      .then(res => {
+        Swal.fire({
+          title: "Pagamento via PagSeguro",
+          html: "Será aberta uma nova página relacionado ao PagSeguro" +
+           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
+          icon: "info"
+        })
+        .then (() => {
+          window.open(res.data, '_blank');
+        });
+        
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
       });
     },
     consumindoEventosParticipandoApi() {

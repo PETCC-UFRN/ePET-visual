@@ -26,19 +26,36 @@
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
-              <nuxt-link
-                :to="`/petiano/eventos-inscritos/${row.item.idParticipantes}`"
-                class="btn btn-sm btn-info"
-              ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                Detalhes</nuxt-link>
-              <nuxt-link
-                :to="`/petiano/eventos-inscritos/gerenciar-anexos/${row.item.idParticipantes}`"
-                class="btn btn-sm btn-indigo mt-1"
-                v-if="row.item.evento.participante_anexos == true"
+
+              <b-button :disabled="disabledBotaoCertificado(row.item.evento)"
+                  @click.prevent="gerarCertificado(row.item)"
+                class="btn btn-sm btn-success mt-1"
               >
-                <i class="fa fa-files-o fa-fw" ></i> Gerenciar anexos
+                <i class="fa fa-certificate fa-fw"></i> Declaração de conclusão
+              </b-button>
+
+              <nuxt-link
+                  :to="`/petiano/eventos-inscritos/${row.item.idParticipantes}`"
+                  class="btn btn-sm btn-info mt-1"
+                ><i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                Detalhes</nuxt-link>
+
+
+                <b-button
+                  v-if="row.item.evento.valor > 0"
+                  variant="warning"
+                  @click="realizarPagamento(row.item.idParticipantes)"
+                  class="btn btn-sm mt-1"
+                ><i class="fa fa-check fa-fw"></i>  Realizar pagamento</b-button>
+
+
+                <nuxt-link
+                :to="`/petiano/eventos-inscritos/meus-anexos/${row.item.idParticipantes}`"
+                class="btn btn-sm btn-indigo mt-1"
+                  v-if="row.item.evento.participante_anexos == true"
+              >
+                <i class="fa fa-files-o fa-fw" ></i> Meus anexos
               </nuxt-link>
-          
             </template>
           </b-table>
           <nav>
@@ -82,7 +99,18 @@ export default {
   mounted() {
     this.consumindoEventosParticipandoApi();
   },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
   methods: {
+    disabledBotaoCertificado(evento) {
+      if (evento.d_evento_fim == null)
+        return true;  
+
+      return !(moment().isAfter(moment(evento.d_evento_fim)));
+    },
     cancelSearch() {
       this.keyword = ''
       this.consumindoEventosParticipandoApi()
@@ -108,6 +136,58 @@ export default {
               })
             }  
         });
+    },
+    gerarCertificado(item) {
+      let idPessoa = item.pessoa.idPessoa;
+      let idEvento = item.evento.idEvento;
+      this.$axios.get(
+        `certificado/gerar/${idPessoa}/${idEvento}`,
+        {responseType: 'arraybuffer'}
+      )
+      .then(res => {
+        let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
+        let fileLink = document.createElement('a');
+        let nomeAnexoCorrigido = 'certificado';
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', nomeAnexoCorrigido);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
+      .catch(err => {
+        this.$axios
+          .get(`certificado/gerar/${idPessoa}/${idEvento}`)
+          .catch(err => {
+            Swal.fire({
+              title: "Declaração não gerada",
+              icon: "error",
+              text: err.response.data.detalhes
+            });
+          });
+      });
+    },
+    realizarPagamento(idParticipante) {
+      this.$axios.get(`criar-pagamento/${idParticipante}`)
+      .then(res => {
+        Swal.fire({
+          title: "Pagamento via PagSeguro",
+          html: "Será aberta uma nova página relacionado ao PagSeguro" +
+           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
+          icon: "info"
+        })
+        .then (() => {
+          window.open(res.data, '_blank');
+        });
+        
+      })
+      .catch(err => {
+        Swal.fire({
+          title: "Houve um problema...",
+          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+          " tente novamente mais tarde.",
+          icon: "error"
+        })
+      });
     },
     consumindoEventosParticipandoApi() {
       this.$axios

@@ -53,7 +53,7 @@
               ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
               <nuxt-link
                   :to="`/tutor/eventos-organizados/${row.item.idOrganizadores}`"
-                  class="btn btn-sm btn-info mt-2"><i class="fa fa-info-circle fa-fw"></i>
+                  class="btn btn-sm btn-info mt-2"><i class="fa fa-eye fa-fw"></i>
                 Detalhes</nuxt-link>
               <nuxt-link
                 class="btn btn-sm btn-warning mt-2"
@@ -152,6 +152,22 @@ export default {
         let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
         let fileLink = document.createElement('a');
         let nomeAnexoCorrigido = 'certificado';
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', nomeAnexoCorrigido);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
+      .catch(err => {
+        this.$axios
+          .get(`certificado/gerarOrganizador/${idPessoa}/${idEvento}`)
+          .catch(err => {
+            Swal.fire({
+              title: "Declaração não gerada",
+              icon: "error",
+              text: err.response.data.detalhes
+            });
+          });
       });
     },
     cadastrar() {

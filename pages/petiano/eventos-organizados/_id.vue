@@ -63,15 +63,6 @@
           </span>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
-         @click.prevent="gerarCertificado()" block variant="success">           
-         <i class="fa fa-certificate mr-1"></i>Emitir certificado de organização
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          <strong>{{form.evento.percentual}}%</strong> concluído
-        </b-tooltip>
-      </template>
     </b-card>
     <b-card header-tag="header">
       <template v-slot:header>
@@ -245,17 +236,6 @@ export default {
           }
         });
     },
-    gerarCertificado() {
-      if (this.form.percentual >= 75) {
-
-      } else {
-        Swal.fire({
-          title: "Certificado não gerado",
-          icon: "error",
-          text: "É necessário que se obtenha no mínimo 75% de participação para geração do certificado"
-        });
-      }
-    }
   }
 };
 </script>

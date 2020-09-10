@@ -6,13 +6,6 @@
           <b-col>
             <h3>Informações</h3>
           </b-col>
-          <b-col v-if="form.evento.valor > 0">
-            <b-button
-              variant="teal"
-              @click="realizarPagamento"
-              class="btn btn-sm float-right mt-4"
-            ><i class="fa fa-check fa-fw"></i>  Realizar pagamento</b-button>
-          </b-col>
         </b-row>
       </template>
       <b-card-body>
@@ -193,29 +186,7 @@ export default {
           }
         });
     },
-    realizarPagamento() {
-      this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
-      .then(res => {
-        Swal.fire({
-          title: "Pagamento via PagSeguro",
-          html: "Será aberta uma nova página relacionado ao PagSeguro" +
-           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
-          icon: "info"
-        })
-        .then (() => {
-          window.open(res.data, '_blank');
-        });
-        
-      })
-      .catch(err => {
-        Swal.fire({
-          title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-          " tente novamente mais tarde.",
-          icon: "error"
-        })
-      });
-    },
+    
   }
 };
 </script>

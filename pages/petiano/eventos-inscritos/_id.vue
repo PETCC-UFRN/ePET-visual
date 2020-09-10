@@ -6,13 +6,6 @@
           <b-col>
             <h3>Informações</h3>
           </b-col>
-          <b-col v-if="form.evento.valor > 0">
-            <b-button
-              variant="teal"
-              @click="realizarPagamento"
-            ><i class="fa fa-info-circle px-2" aria-hidden="true"></i> Realizar pagamento
-            </b-button>
-          </b-col>
         </b-row>
       </template>
       <b-card-body>
@@ -70,17 +63,6 @@
           </span>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1"
-                  :disabled="disabledBotaoCertificado"
-                  @click.prevent="gerarCertificado()"
-                  block variant="success">
-          <i class="fa fa-certificate mr-1"></i>Emitir certificado de participação
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          {{form.evento.percentual}}% concluído
-        </b-tooltip>
-      </template>
     </b-card>
   </div>
 </template>
@@ -168,11 +150,6 @@ export default {
       return moment(date).format('DD/MM/YYYY');
     }
   },
-  computed: {
-    disabledBotaoCertificado() {
-      return (moment().isAfter(moment(this.d_inscricao_fim)));
-    },
-  },
   methods: {
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
@@ -209,55 +186,8 @@ export default {
           }
         });
     },
-    realizarPagamento() {
-      this.$axios.get(`criar-pagamento/${this.$route.params.id}`)
-      .then(res => {
-        Swal.fire({
-          title: "Pagamento via PagSeguro",
-          html: "Será aberta uma nova página relacionado ao PagSeguro" +
-           " para realização do pagamento da inscrição. Ao finalizar o pagamento, feche a janela do PagSeguro.",
-          icon: "info"
-        })
-        .then (() => {
-          window.open(res.data, '_blank');
-        });
-        
-      })
-      .catch(err => {
-        Swal.fire({
-          title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-          " tente novamente mais tarde.",
-          icon: "error"
-        })
-      });
-    },
-     gerarCertificado() {
-        let idPessoa = this.form.pessoa.idPessoa;
-        let idEvento = this.form.evento.idEvento;
-        this.$axios.get(
-          `certificado/gerar/${idPessoa}/${idEvento}`,
-          {responseType: 'arraybuffer'}
-        )
-        .then(res => {
-          let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
-          let fileLink = document.createElement('a');
-          let nomeAnexoCorrigido = 'certificado';
-          fileLink.href = fileURL;
-          fileLink.setAttribute('download', nomeAnexoCorrigido);
-          document.body.appendChild(fileLink);
-          fileLink.click();
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Certificado não gerado",
-            icon: "error",
-            text: "Aconteceu algum problema com a geração do certificado. Tente novamente mais tarde."
-          });
-        });
-      }
-    }
-  };
+  }
+};
 </script>
 
 <style scoped>

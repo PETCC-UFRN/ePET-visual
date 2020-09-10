@@ -49,9 +49,9 @@
                 {{ row.detailsShowing ? 'Não modificar' : 'Modificar'}} email
               </b-button>              
             </template>
-            <template v-slot:row-details>
+            <template v-slot:row-details="row">
               <b-card>
-                <form @submit.prevent="mudarEmail">
+                <form @submit.prevent="mudarEmail(novoEmail, row.item.usuario.idUsuario)">
                   <div class="form-group  mr-2 mr-2">
                     <b-row class="mb-3">
                       <b-col sm="2" class="text-sm-right pt-2">
@@ -63,7 +63,7 @@
                     </b-row>
                     <b-row>
                       <b-col>
-                        <b-button class="text-xs-left" block variant="success">Confirmar mudança</b-button>
+                        <b-button class="text-xs-left" type="submit" block variant="success">Confirmar mudança</b-button>
                       </b-col>
                     </b-row>
                   </div>
@@ -147,8 +147,26 @@ export default {
     }
   },
   methods: {
-    async mudarEmail(e) {
-
+    mudarEmail(email, id) {
+      this.$axios
+        .post("usuarios-atualizar-email", {
+            email: email,
+            id: id
+          })
+        .then(res => {
+          Swal.fire({
+            title: 'Email modificado',
+            icon: 'success'
+          })
+        })
+        .catch( err => {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: 'error',
+          })
+        });
 
     },
     cancelSearch() {
