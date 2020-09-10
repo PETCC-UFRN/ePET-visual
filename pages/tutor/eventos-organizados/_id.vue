@@ -42,8 +42,8 @@
           <p class="mt-0 mb-1">
             <strong>Valor da inscrição:</strong>
             {{new Intl
-                .NumberFormat([], { style: 'currency', currency: 'BRL'})           
-                .format(form.evento.valor) }}
+            .NumberFormat([], { style: 'currency', currency: 'BRL'})
+            .format(form.evento.valor) }}
           </p>
           <p class="mt-0 mb-1">
             <strong>Local do curso:</strong>
@@ -63,15 +63,6 @@
           </span>
         </div>  
       </b-card-body>
-      <template v-slot:footer>
-        <b-button id="tooltip-target-1" :disabled="disabledBotaoCertificado"
-         @click.prevent="gerarCertificado()" block variant="success">           
-         <i class="fa fa-certificate mr-1"></i>Emitir certificado de organização
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          <strong>{{form.evento.percentual}}%</strong> concluído
-        </b-tooltip>
-      </template>
     </b-card>
     <b-card header-tag="header">
       <template v-slot:header>
@@ -116,7 +107,6 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -196,18 +186,21 @@ export default {
           " tente novamente mais tarde.",
           icon: "error"
         })
-        .then(() => this.isLoading = false);
-      });
+        .catch(err => {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," +
+              " tente novamente mais tarde.",
+            icon: "error"
+          })
+          .then(() => this.isLoading = false);
+        });
+      })  
   },
   filters: {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
     }
-  },
-  computed: {
-    disabledBotaoCertificado() {
-      return !(moment(new Date().getDay()) > moment(this.d_inscricao_fim)); 
-    },
   },
   methods: {
     filterNameFile(file) {
@@ -220,44 +213,23 @@ export default {
           let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
           let fileLink = document.createElement('a');
 
+
           let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
 
           fileLink.href = fileURL;
           fileLink.setAttribute('download', nomeAnexoCorrigido);
           document.body.appendChild(fileLink);
           fileLink.click();
-
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: 'Anexo não encontrado',
-              icon: 'info',
-            });
-          }
-          else {
-            Swal.fire({
-              title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-              " tente novamente mais tarde.",
-              icon: 'error'
-            })
-          }
-        });
-    },
-    gerarCertificado() {
-      if (this.form.percentual >= 75) {
-
-      } else {
-        Swal.fire({
-          title: "Certificado não gerado",
-          icon: "error",
-          text: "É necessário que se obtenha no mínimo 75% de participação para geração do certificado"
+        }).catch(err => {
+          Swal.fire({
+            title: "Certificado não gerado",
+            icon: "error",
+            text: "Aconteceu algum problema com a geração do certificado. Tente novamente mais tarde."
+          });
         });
       }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>

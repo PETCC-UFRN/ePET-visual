@@ -1,7 +1,7 @@
 {
   "name": "epet-frontend",
   "version": "1.0.0",
-  "description": "Plataforma do PET-CC UFRN",
+  "description": "Plataforma do Programa de Educação Tutorial do curso de Ciência da Computação da Universidade Federal do Rio Grande do Norte (UFRN)",
   "author": "Italo, Samuel, Henrique e Jhonattan",
   "private": true,
   "scripts": {

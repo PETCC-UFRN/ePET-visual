@@ -32,6 +32,12 @@
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
+              <b-button :disabled="disabledBotaoCertificado"
+                  @click.prevent="gerarCertificado(row.item)"
+                class="btn btn-sm btn-success mt-2"
+              >
+                <i class="fa fa-certificate fa-fw"></i> Declaração de conclusão
+              </b-button>
               <nuxt-link
                 :to="`/usuario/eventos-organizados/gerenciar-anexos/${row.item.evento.idEvento}`"
                 class="btn btn-sm btn-indigo mt-1"
@@ -73,6 +79,8 @@
 <script>
 import Swal from "sweetalert2";
 import Pagination from "~/components/Pagination";
+import moment from "moment";
+
 export default {
   name: "dashboard",
   layout: "menu/usuario",
@@ -98,6 +106,16 @@ export default {
   mounted() {
     this.consumindoEventosOrganizandoApi();
   },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('DD/MM/YYYY');
+    }
+  },
+  computed: {
+    disabledBotaoCertificado() {
+      return (moment().isAfter(moment(this.d_inscricao_fim)));
+    },
+  },
   watch: {
     currentPage: function(val) {
       this.$axios.get("eventos?page=" + val).then(res => {
@@ -107,6 +125,34 @@ export default {
     }
   },
   methods: {
+    gerarCertificado(item) {
+      let idPessoa = item.pessoa.idPessoa;
+      let idEvento = item.evento.idEvento;
+      this.$axios.get(
+        `certificado/gerarOrganizador/${idPessoa}/${idEvento}`,
+        {responseType: 'arraybuffer'}
+      ).then(res => {
+        let fileURL = window.URL.createObjectURL(new Blob([res.data], {type: 'application/*'}));
+        let fileLink = document.createElement('a');
+        let nomeAnexoCorrigido = 'certificado';
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', nomeAnexoCorrigido);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
+      .catch(err => {
+        this.$axios
+          .get(`certificado/gerarOrganizador/${idPessoa}/${idEvento}`)
+          .catch(err => {
+            Swal.fire({
+              title: "Declaração não gerada",
+              icon: "error",
+              text: err.response.data.detalhes
+            });
+          });
+      });
+    },
     fazerUploadAnexo(evento) {
       const formData = new FormData()
       formData.append("file", this.file)
