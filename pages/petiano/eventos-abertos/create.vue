@@ -222,6 +222,7 @@
               id="textoDeclaracao"
               v-model="form.textoDeclaracaoEvento"
               placeholder="Declaro que {nome_participante}, CPF {cpf}, participou do evento {titulo_evento}, de carga horária {carga_horaria}, realizado no perído de  de {data_inicio} a {data_fim} em {local} na modalidade PARTICIPANTE."
+
               rows="6"
               max-rows="6"
             ></b-form-textarea>
@@ -232,6 +233,7 @@
               id="textoDeclaracao"
               v-model="form.textoDeclaracaoEventoOrganizador"
               placeholder="Declaro que {nome_participante}, CPF {cpf}, participou do evento {titulo_evento}, de carga horária {carga_horaria}, realizado no perído de  de {data_inicio} a {data_fim} em {local} na modalidade ORGANIZADOR."
+
               rows="6"
               max-rows="6"
             ></b-form-textarea>

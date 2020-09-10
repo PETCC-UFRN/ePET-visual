@@ -56,6 +56,7 @@
               >
                 <i class="fa fa-files-o fa-fw" ></i> Meus anexos
               </nuxt-link>
+
             </template>
           </b-table>
           <nav>

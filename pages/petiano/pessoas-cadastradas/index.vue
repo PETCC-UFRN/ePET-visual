@@ -52,6 +52,7 @@
             <template v-slot:row-details="row">
               <b-card>
                 <form @submit.prevent="mudarEmail(novoEmail, row.item.usuario.idUsuario)">
+
                   <div class="form-group  mr-2 mr-2">
                     <b-row class="mb-3">
                       <b-col sm="2" class="text-sm-right pt-2">
@@ -64,6 +65,7 @@
                     <b-row>
                       <b-col>
                         <b-button class="text-xs-left" type="submit" block variant="success">Confirmar mudança</b-button>
+
                       </b-col>
                     </b-row>
                   </div>

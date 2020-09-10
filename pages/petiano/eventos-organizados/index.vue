@@ -142,6 +142,7 @@ export default {
       return (moment().isAfter(moment(this.d_inscricao_fim)));
     },
   },
+
   methods: {
     cadastrar() {
       this.$axios

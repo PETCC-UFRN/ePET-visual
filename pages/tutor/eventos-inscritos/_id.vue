@@ -168,6 +168,7 @@ export default {
           document.body.appendChild(fileLink);
           fileLink.click();
 
+
         })
         .catch(err => {
           if (err.response.status === 404) {
