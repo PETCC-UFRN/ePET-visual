@@ -23,34 +23,18 @@
                     </b-col>
                   </b-row>
                 </div>
-                <div role="tablist" v-for="evento in eventos" :key="evento.idEvento">
-                  <b-card no-body class="mb-1">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-btn
-                        block
-                        href="#"
-                        v-b-toggle="'accordion' + evento.idEvento"
-                        variant="primary"
-                      >{{evento.titulo}}</b-btn>
-                    </b-card-header>
-                    <b-collapse
-                      :id="'accordion' + evento.idEvento"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                    >
-                      <b-card-body>
-                        <p class="card-text">
-                          <strong>Descrição:</strong>
-                          {{evento.descricao | cortarCorpoEvento}}
-                        </p>
-                        <nuxt-link
-                            class="btn btn-sm btn-info w-100 mt-2"
-                          :to="`tutor/eventos-abertos/${evento.idEvento}`"
-                          >Ver mais informações</nuxt-link>      
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
-                </div>
+                <b-list-group>
+                  <div v-for="evento in eventos" :key="evento.idEvento">
+                    <b-list-group-item :to="`/usuario/eventos-abertos/${evento.idEvento}`" class="flex-column align-items-start mb-2">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{evento.titulo}}</h5>
+                      </div>
+                      <p class="mb-0">Carga horária: {{evento.qtdCargaHoraria}} h(s)</p>
+                      <p class="mb-0">Valor da inscrição: {{new Intl.NumberFormat([], { style: 'currency', currency: 'BRL'}).format(evento.valor) }}</p>
+                      <p class="mb-0">Quantidade de vagas: {{evento.qtdVagas}}</p>
+                    </b-list-group-item>
+                  </div>
+                </b-list-group>   
               </b-card>
             </div>
           </div>
