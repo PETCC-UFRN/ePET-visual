@@ -18,15 +18,13 @@
                 <label for="codigo">
                   <strong>Código</strong>
                 </label>
-                <the-mask
+                <input
                   id="codigo"
-                  :mask="['AAA####']"
+                  type="text"
                   class="form-control"
                   placeholder="Digite o código"
                   v-model="form.codigo"
-                  required
                 />
-                <b-form-text>Código no formato AAA#### (três letras e 4 números)</b-form-text>
               </div>
             </b-col>
             <b-col>
@@ -130,15 +128,13 @@
 
 <script>
 import Pagination from "~/components/Pagination";
-import { TheMask } from "vue-the-mask";
 import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
   components: {
-    Pagination,
-    TheMask
+    Pagination
   },
   data() {
     return {
@@ -262,24 +258,36 @@ export default {
       this.form.nome = "";
     },
     submitForm(e) {
-      e.preventDefault();
-      this.$axios
-        .post("disciplinas", this.form)
-        .then(res => {
-          Swal.fire({
-            title: "Disciplina cadastrada",
-            icon: "success"
-          }).then(() => {
-            this.reset();
-            this.getDisciplinas();
-          });
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Disciplina não cadastrada",
-            icon: "error"
-          });
-        });
+      Swal.fire({
+        title: 'Confirmação de criação',
+        showCancelButton: true,
+        confirmButtonText: `Confirmar`,
+        cancelButtonText: `Cancelar`,
+        html: `Confirmo a crição da disciplina <strong>${this.form.nome}</strong> de código <strong>${this.form.codigo}</strong>. Não será possível apagá-la após isso, apenas realizar edição.`
+      }).then((result) => {
+        console.log(result.value);
+        if (result.value != null) {
+          e.preventDefault();
+          this.$axios
+            .post("disciplinas", this.form)
+            .then(res => {
+              Swal.fire({
+                title: "Disciplina cadastrada",
+                icon: "success"
+              }).then(() => {
+                this.reset();
+                this.getDisciplinas();
+              });
+            })
+            .catch(err => {
+              Swal.fire({
+                title: "Disciplina não cadastrada",
+                icon: "error"
+              });
+            });
+        } 
+      });
+
     }
   }
 };

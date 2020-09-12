@@ -25,7 +25,7 @@
                 </div>
                 <b-list-group>
                   <div v-for="evento in eventos" :key="evento.idEvento">
-                    <b-list-group-item :to="`/usuario/eventos-abertos/${evento.idEvento}`" class="flex-column align-items-start mb-2">
+                    <b-list-group-item :to="`/tutor/eventos-abertos/${evento.idEvento}`" class="flex-column align-items-start mb-2">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{evento.titulo}}</h5>
                       </div>
