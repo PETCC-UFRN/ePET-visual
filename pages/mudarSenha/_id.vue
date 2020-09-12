@@ -20,7 +20,7 @@
                 />
               </b-input-group>
 
-              <b-button :disabled="usuario.email == ''" variant="success" @click.prevent="redefinirSenha()" block><i
+              <b-button :disabled="usuario.senha == ''" variant="success" @click.prevent="redefinirSenha()" block><i
                 class="fa fa-check-circle  mr-1"></i> Confirmar redefinição
               </b-button>
             </b-card-body>

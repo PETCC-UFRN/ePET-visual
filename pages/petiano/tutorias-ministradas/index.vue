@@ -52,7 +52,7 @@
         <h5 class="text-center tam">Confirmação de data de tutoria</h5>
       </template>
       <div class="d-block text-center tamanho">
-        <p>Informe a data em que a tutoria será realizada ou que foi realizada. Assim, aparecerá um botão de confirmação. Porém, antes de confirmar, verifique a data pois <strong>NÃO SERÁ POSSÍVEL ALTERÁ-LA</strong> caso haja algum erro.</p>
+        <p>Informe a data em que a tutoria será realizada ou que foi realizada. Assim, aparecerá um botão de confirmação. Caso deseje modificar a data, basta clicar novamente em <strong>ATIVAR</strong>.</p>
       </div>
       <b-form-datepicker
         id="data-ingresso"
