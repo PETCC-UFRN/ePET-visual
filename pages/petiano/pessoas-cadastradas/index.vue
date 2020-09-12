@@ -9,7 +9,6 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <em class="text-center"><b>Obs.:</b> Para tornar um petiano em um ex-petiano, modifique seu tipo de usuário de <b>petiano</b> para <u> <b>comum</b></u>.</em>
         <div v-if="pessoas.length > 0">
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input

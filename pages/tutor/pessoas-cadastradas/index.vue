@@ -9,7 +9,6 @@
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
       <div v-else>
-        <em class="text-center"><b>Obs.:</b> Para tornar um petiano em um ex-petiano, modifique seu tipo de usuário de <b>petiano</b> para <u> <b>comum</b></u>.</em>
         <div v-if="pessoas.length > 0">
           <b-input-group  class="mt-3 mb-3" >
             <b-form-input
@@ -88,8 +87,14 @@
       </div>
     </b-card>
 
-    <b-modal ref="modal-create" title="Informações adicionais" hide-footer no-close-on-backdrop>
-      <label for="data-ingresso">Data ingresso</label>
+    <b-modal ref="modal-create" hide-footer no-close-on-backdrop>
+      <template v-slot:modal-title>
+        <h5 class="text-center tam">Ingresso de petiano</h5>
+      </template>
+      <div class="d-block text-center tamanho">
+        <p>Informe a data em que o usuário ingressou no PET-CC UFRN, em seguida confirme. Dessa forma, o usuário ganhará permissão de <strong>PETIANO</strong>
+        podendo criar e editar eventos, notícias, tutorias, entre outros. Quando o usuário se tornar um petiano egresso, modifique a permissão para <strong>COMUM</strong> novamente.</p>
+      </div>
       <b-form-datepicker
         id="data-ingresso"
         v-model="modal.data_ingresso"
@@ -98,11 +103,18 @@
         locale="pt-br"
         label-no-date-selected="Nenhuma data selecionada"
       ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="w-100 mt-2">OK</b-button>
+      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="w-100 mt-2">Confirmar</b-button>
     </b-modal>
 
-    <b-modal ref="modal-update" title="Informações adicionais" hide-footer no-close-on-backdrop>
-      <label for="data-egresso">Data egresso</label>
+    <b-modal ref="modal-update" hide-footer no-close-on-backdrop>
+      <template v-slot:modal-title>
+        <h5 class="text-center tam">Egresso de petiano</h5>
+      </template>
+      <div class="d-block text-center tamanho">
+        <p>Informe a data em que o usuário egressou o PET-CC UFRN, em seguida confirme. Dessa forma, o usuário perderá a permissão de  <strong>PETIANO</strong>. Suas informações públicas estão disponíveis na 
+        página <code>/eventos-egressos</code> juntamente com a dos demais usuários que fizeram parte do PET-CC UFRN.</p>
+      </div>
+      
       <b-form-datepicker
         id="data-egresso"
         v-model="modal.data_egresso"
@@ -111,7 +123,7 @@
         locale="pt-br"
         label-no-date-selected="Nenhuma data selecionada"
       ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="w-100 mt-2">OK</b-button>
+      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="w-100 mt-2">Confirmar</b-button>
     </b-modal>
   </div>
 </template>
@@ -304,6 +316,13 @@ export default {
   border-radius: 0px !important;
 }
 
+.tamanho {
+  font-size: 18px;
+}
+
+.tam {
+  font-size: 22px;
+}
 
 h2, h4 {
   font-weight: 300;
