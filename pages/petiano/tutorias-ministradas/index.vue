@@ -25,11 +25,11 @@
             :per-page="10"
             :fields="fields"
           >
-            <template v-slot:cell(actions)="">
+            <template v-slot:cell(actions)="row">
 
               <b-button
                 class="btn btn-sm btn-success"
-                @click.prevent="ativar()"
+                @click.prevent="mostrar(row)"
               >
                 <i class="fa fa-check fa-fw"></i> Ativar
               </b-button>
@@ -46,6 +46,24 @@
         </div>
       </div>
     </b-card>
+
+    <b-modal ref="modal-create"  hide-footer no-close-on-backdrop>
+      <template v-slot:modal-title>
+        <h5 class="text-center tam">Confirmação de data de tutoria</h5>
+      </template>
+      <div class="d-block text-center tamanho">
+        <p>Informe a data em que a tutoria será realizada ou que foi realizada. Assim, aparecerá um botão de confirmação. Porém, antes de confirmar, verifique a data pois <strong>NÃO SERÁ POSSÍVEL ALTERÁ-LA</strong> caso haja algum erro.</p>
+      </div>
+      <b-form-datepicker
+        id="data-ingresso"
+        v-model="modal.dataTutoria"
+        type="date"
+        required
+        locale="pt-br"
+        label-no-date-selected="Nenhuma data selecionada"
+      ></b-form-datepicker>
+      <b-button v-if="modal.dataTutoria != ''" variant="primary" @click="ativar('create')" class="w-100 mt-2">Confirmar</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -63,7 +81,9 @@
     },
     data() {
       return {
+        modal: {dataTutoria: ""},
         isLoading: true,
+        idTutoriaMinistrada: "",
         tutorias_ministradas: [],
         currentPage: 0,
         numItems: 0,
@@ -91,6 +111,43 @@
       this.getTutoriasMinistradas();
     },
     methods: {
+      showModal(name) {
+        this.$refs[name].show();
+      },
+      hideModal(name) {
+        this.$refs[name].hide();
+      },
+      mostrar(row) {
+        this.idTutoriaMinistrada = row.item.idTutoria_ministrada;
+       
+        this.$set(this.modal, "item", row.item);
+        this.showModal("modal-create");
+
+
+      },
+      ativar(type) {
+        this.$axios
+          .post(`tutorias-ministradas-ativar/${this.idTutoriaMinistrada}/${this.modal.dataTutoria} `)
+          .then(res => {
+            this.hideModal("modal-create");
+            this.modal.dataTutoria = "";
+
+            Swal.fire({
+              title: "Tutoria ministrada ativada",
+              text: "Preste atenção a data registrada. Mesmo que a data da tutoria seja alterada, o sistema contabilizará como a primeira data escolhida.",
+              icon: "success"
+            })
+            .then( () => this.getTutoriasMinistradas());
+          })
+          .catch(err => {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: 'error'
+            });
+          });
+      },
       del(id, rowId) {
         this.$axios.delete("tutoria-desativa/" + id).then(() => {
           this.tutorias_ministradas.splice(rowId, 1);
@@ -142,5 +199,12 @@
 <style scoped>
 h2, h4 {
   font-weight: 300;
+}
+.tamanho {
+  font-size: 18px;
+}
+
+.tam {
+  font-size: 22px;
 }
 </style>
