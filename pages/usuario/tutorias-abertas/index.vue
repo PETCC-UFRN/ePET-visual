@@ -47,7 +47,7 @@
           >
             <template v-slot:cell(actions)="row">
               <b-button
-                  @click="solicitarTutoria(row.item.idTutoria)"
+                  @click="solicitarTutoria(row.item)"
                   class="btn btn-sm btn-success"
                 ><i class="fa fa-check fa-fw"></i>
                 Solicitar tutoria</b-button>
@@ -190,24 +190,51 @@ export default {
           }
         });
     },
-    solicitarTutoria(idTutoria) {
-      this.$axios
-        .get(`tutorias-ministradas-cadastro/${this.$store.state.profile.idPessoa}/${idTutoria}`)
-        .then(res => {
-          Swal.fire({
-            title: "Tutoria solicitada",
-            text: "Sua solicitação foi enviada para o email do responsável. Aguarde a confirmação" + 
-            " de data e horário a ser enviada para o seu email que está cadastrado no sistema.",
-            icon: "success"
-          })
-        })
-        .catch(err => {
-          Swal.fire({
-            title: "Tutoria não solicitada",
-            icon: "error"
-          })
-        });
-    }
+
+    solicitarTutoria(tutoria) {
+      const idTutoria = tutoria.idTutoria;
+
+      Swal.mixin({
+        showCancelButton: true,
+        confirmButtonText: 'Confirmo',
+        cancelButtonText: 'Não confirmo',
+        progressSteps: ['1', '2']
+      })
+      .queue([
+        {
+          title: 'Informações da tutoria',
+          html: `<p><strong>Nome da disciplina:</strong> ${tutoria.disciplina.nome}</p> 
+                  <p><strong>Código da disciplina:</strong> ${tutoria.disciplina.codigo}</p> 
+                  <p><strong>Petiano responsável: </strong> ${tutoria.petiano.pessoa.nome}</p> 
+                `
+        },
+        {
+          title: 'Confirmação da tutoria',
+          html: `Confirmo minha solicitação de tutoria na disciplina <strong> ${tutoria.disciplina.nome} </strong> pelo petiano <strong>${tutoria.petiano.pessoa.nome}</strong>.`
+        }
+      ])
+      .then((result) => {
+        if ( result.value != null) {
+
+          this.$axios
+            .get(`tutorias-ministradas-cadastro/${this.$store.state.profile.idPessoa}/${idTutoria}`)
+            .then(res => {
+              Swal.fire({
+                title: "Tutoria solicitada",
+                html: "Sua solicitação foi enviada para o email do responsável. Aguarde a confirmação" + 
+                " de <strong>data e horário a ser enviada para o seu email</strong> que está cadastrado no sistema. Não esqueça de garantir que se trata de um email que você usa.",
+                icon: "success"
+              })
+            })
+            .catch(err => {
+              Swal.fire({
+                title: "Tutoria não solicitada",
+                icon: "error"
+              })
+            });
+        }
+      });
+    },
   }
 };
 </script>

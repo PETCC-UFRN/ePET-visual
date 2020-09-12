@@ -49,10 +49,9 @@
                 {{ row.detailsShowing ? 'Não modificar' : 'Modificar'}} email
               </b-button>              
             </template>
-            <template v-slot:row-details="row">
+            <template v-slot:row-details>
               <b-card>
-                <form @submit.prevent="mudarEmail(novoEmail, row.item.usuario.idUsuario)">
-
+                <form @submit.prevent="mudarEmail(novoEmail)">
                   <div class="form-group  mr-2 mr-2">
                     <b-row class="mb-3">
                       <b-col sm="2" class="text-sm-right pt-2">
@@ -104,7 +103,6 @@ export default {
     return {
       isLoading: true,
       pessoas: {},
-      tipos_usuario: {},
       currentPage: 1,
       novoEmail:"",
       fields: [
@@ -136,9 +134,6 @@ export default {
   mounted() {
     this.getPessoas();
 
-    this.$axios.get("tipo-usuario").then(res => {
-      this.tipos_usuario = res.data;
-    });
   },
   watch: {
     currentPage: function(val){
@@ -149,11 +144,10 @@ export default {
     }
   },
   methods: {
-    mudarEmail(email, id) {
+    mudarEmail(email) {
       this.$axios
         .post("usuarios-atualizar-email", {
-            email: email,
-            id: id
+            email: email
           })
         .then(res => {
           Swal.fire({

@@ -59,7 +59,7 @@ export default {
           Swal.fire({
             icon: "success",
             title: "Resultado da verificação:",
-            html:"<h4>Declaração validada com sucesso!</h4><br>", 
+            html:"<h4>Declaração validada com sucesso!</h4>", 
             confirmButtonColor: "#4DBD74"
           });
         })
