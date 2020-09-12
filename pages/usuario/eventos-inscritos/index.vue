@@ -60,6 +60,7 @@
                 class="btn btn-sm btn-indigo mt-1"
                 v-if="row.item.evento.participante_anexos == true"
               >
+
                 <i class="fa fa-files-o fa-fw" ></i> Meus anexos
               </nuxt-link>
             </template>

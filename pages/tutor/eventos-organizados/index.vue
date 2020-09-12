@@ -26,7 +26,6 @@
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
-
               <b-button :disabled="disabledBotaoCertificado"
                   @click.prevent="gerarCertificado(row.item)"
                 class="btn btn-sm btn-success mt-2"

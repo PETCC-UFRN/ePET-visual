@@ -64,6 +64,7 @@
                     <b-row>
                       <b-col>
                         <b-button class="text-xs-left" type="submit" block variant="success">Confirmar mudança</b-button>
+
                       </b-col>
                     </b-row>
                   </div>

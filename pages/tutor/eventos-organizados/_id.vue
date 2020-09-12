@@ -213,6 +213,7 @@ export default {
           let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
           let fileLink = document.createElement('a');
 
+
           let nomeAnexoCorrigido = nomeAnexo.split('-').slice(2)[0];
 
           fileLink.href = fileURL;
