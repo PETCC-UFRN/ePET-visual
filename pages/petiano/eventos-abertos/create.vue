@@ -98,8 +98,7 @@
                     id="inicioRolagem"
                     v-model="form.inicio_rolagem"
                     class="mb-2"
-                    :max="form.d_inscricao_fim"
-                    :min="form.d_inscricao"
+                    :min="next_DataFimInscricoes(form.d_inscricao_fim)"
                     :disabled="disabledDataRolagemInicio"
                     locale="pt-br"
                     placeholder="Escolha uma data" required
@@ -114,7 +113,6 @@
                     id="fimRolagem"
                     v-model="form.fim_rolagem"
                     :min="form.inicio_rolagem"
-                    :max="form.d_inscricao_fim"
                     class="mb-2"
                     locale="pt-br"
                     placeholder="Escolha uma data"  required
@@ -124,12 +122,14 @@
             </b-row>
             <b-row>
               <b-col>
-                <div class="form-group">
+                <div class="form-group"
+                    v-if="form.fim_rolagem != ''">
                   <label for="inicioEvento"><strong>Datas das sessões</strong></label>
                   <v-date-picker
                     mode='multiple'
+                    :min-date="next_DataRolagemFim(form.fim_rolagem)" 
                     v-model='form.periodo_evento'
-                     :input-props='{
+                    :input-props='{
                       placeholder: "Selecione as datas",
                     }'
                   />
@@ -199,7 +199,7 @@
                     type="number"
                     class="form-control"
                     v-model="form.percentual" required/>
-                  <small class="text-muted">Percentual mínimo para o participante ganhar certificado</small>
+                  <small class="text-muted">Percentual mínimo para o participante ganhar declaração</small>
                 </div>
               </b-col>
             </b-row>
@@ -306,6 +306,21 @@ export default {
     }
   },
   methods: {
+    dataFimRolagem: function(dats) {
+      if (dats === "")
+        return moment().format("YYYY-MM-DD");
+      return dats;
+    },
+    next_DataRolagemFim: function(dats){
+      if (dats === '')
+        return moment().format("YYYY-MM-DD");
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
+    next_DataFimInscricoes(dats) {
+      if (dats === '')
+        return moment().format("YYYY-MM-DD")
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
     previewImage: function(event) {
       let input = event.target;
       if (input.files && input.files[0]) {

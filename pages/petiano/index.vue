@@ -23,6 +23,7 @@
                   </b-col>
                 </b-row>
               </div>
+              <div v-if="petianosTutoriasMinistradas.length > 0">
                 <b-table
                   :items="petianosTutoriasMinistradas"
                   :current-page="currentPage"
@@ -45,6 +46,7 @@
                     hide-goto-end-buttons
                   />
                 </nav>
+                </div>
               </b-card>
             </div>
           </div>
