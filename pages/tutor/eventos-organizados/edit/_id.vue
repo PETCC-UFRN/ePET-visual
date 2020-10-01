@@ -93,8 +93,7 @@
                     id="inicioRolagem" 
                     v-model="form.inicio_rolagem"
                     class="mb-2" 
-                    :max="form.d_inscricao_fim"
-                    :min="form.d_inscricao"
+                    :min="next_DataFimInscricoes(form.d_inscricao_fim)"
                     :disabled="disabledDataRolagemInicio"
                     locale="pt-br" 
                     placeholder="Escolha uma data" required
@@ -109,7 +108,6 @@
                     id="fimRolagem" 
                     v-model="form.fim_rolagem"
                     :min="form.inicio_rolagem" 
-                    :max="form.d_inscricao_fim"
                     class="mb-2" 
                     locale="pt-br"
                     placeholder="Escolha uma data"  required
@@ -119,12 +117,14 @@
             </b-row>           
             <b-row>
               <b-col>
-                <div class="form-group">
+                <div class="form-group" 
+                    v-if="form.fim_rolagem != ''">
                   <label for="inicioEvento"><strong>Datas das sessões</strong></label>
                   <v-date-picker
                     mode='multiple'
+                    :min-date="next_DataRolagemFim(form.fim_rolagem)" 
                     v-model='form.periodo_evento'
-                     :input-props='{
+                    :input-props='{
                       placeholder: "Selecione as datas",
                     }'
                   />
@@ -270,7 +270,7 @@ export default {
         valor: 0,
         ativo: false
       },
-      minDate: null
+      minDate: ""
     };
   },
   mounted(){
@@ -279,6 +279,8 @@ export default {
     this.$axios
       .get('eventos/'+ this.$route.params.id)
       .then((res) => {
+        res.data.periodo_evento =  res.data.periodo_evento.map(diaEvento => new Date(`${diaEvento}T03:00:00.000Z`));
+
         this.form = res.data;
         this.foto = this.filterNameFile(res.data.imagem);
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
@@ -309,6 +311,12 @@ export default {
     }
   },
   methods: {
+    next_DataRolagemFim: function(dats){
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
+    next_DataFimInscricoes(dats) {
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
     },

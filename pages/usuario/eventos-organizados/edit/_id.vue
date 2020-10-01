@@ -25,7 +25,8 @@
               <strong>Imagem de capa</strong>
             </label>
             <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
-       
+            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
+
             <b-form-file
               v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
               placeholder="Nenhuma imagem selecionada" browse-text="Selecionar imagem" id="anexo"></b-form-file>
@@ -92,7 +93,7 @@
                     v-model="form.inicio_rolagem"
                     class="mb-2" 
                     :max="form.d_inscricao_fim"
-                    :min="form.d_inscricao"
+                    :min="next_DataFimInscricoes(form.d_inscricao_fim)"
                     :disabled="disabledDataRolagemInicio"
                     locale="pt-br" 
                     placeholder="Escolha uma data" required
@@ -117,10 +118,12 @@
             </b-row>           
             <b-row>
               <b-col>
-                <div class="form-group">
+                <div class="form-group" 
+                    v-if="form.fim_rolagem != ''">
                   <label for="inicioEvento"><strong>Datas das sessões</strong></label>
                   <v-date-picker
                     mode='multiple'
+                    :min-date="next_DataRolagemFim(form.fim_rolagem)" 
                     v-model='form.periodo_evento'
                      :input-props='{
                       placeholder: "Selecione as datas",
@@ -203,7 +206,7 @@
             <b-form-textarea
               id="textoDeclaracao" 
               v-model="form.textoDeclaracaoEvento"
-              placeholder="Declaro que {nome_participante}, CPF {cpf}, participou do evento {titulo_evento}, de carga horária {carga_horaria}, realizado no perído de  de {data_inicio} a {data_fim} em {local} na modalidade PARTICIPANTE."
+              placeholder="Digite o texto de declaração de participante do evento"
               rows="6"  
               max-rows="6" 
             ></b-form-textarea>
@@ -213,7 +216,7 @@
             <b-form-textarea
               id="textoDeclaracao" 
               v-model="form.textoDeclaracaoEventoOrganizador"
-              placeholder="Declaro que {nome_participante}, CPF {cpf}, participou do evento {titulo_evento}, de carga horária {carga_horaria}, realizado no perído de  de {data_inicio} a {data_fim} em {local} na modalidade ORGANIZADOR."
+              placeholder="Digite o texto de declaração de organizador do evento"
               rows="6"  
               max-rows="6" 
             ></b-form-textarea>
@@ -243,10 +246,11 @@ export default {
   },
   data() {
     return {
-			mainProps: { width: 425, height: 200},
+			mainProps: { width: 600, height: 600},
       selected: [],
       file:[],
       imageData: "",
+      foto: "",
       form: {
         periodo_evento: [],
         d_inscricao: "",
@@ -276,7 +280,10 @@ export default {
     this.$axios
       .get('eventos/'+ this.$route.params.id)
       .then((res) => {
+        res.data.periodo_evento =  res.data.periodo_evento.map(diaEvento => new Date(`${diaEvento}T03:00:00.000Z`));
+      
         this.form = res.data;
+        this.foto = this.filterNameFile(res.data.imagem);
         this.$nuxt.$emit("changeCrumbs", this.form.titulo);
       })
       .catch(err => {
@@ -305,6 +312,15 @@ export default {
     }
   },
   methods: {
+    next_DataRolagemFim: function(dats){
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
+    next_DataFimInscricoes(dats) {
+      return new Date(new Date(dats).getTime() + (48 * 60 * 60 * 1000));
+    },
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
     previewImage: function(event) {
       let input = event.target;
       if (input.files && input.files[0]) {
