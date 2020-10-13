@@ -69,6 +69,15 @@ Em estágio de produção, aconselha-se a usar o programa no modo de produção.
 $ npm run build
 $ npm start
 ```
+#### Usando o Docker
+
+Para fazer uso do Docker pode-se fazer uso do arquivo `Dockerfile` disponibilizado no repositório e executar os seguintes comandos:
+
+```
+docker build -t nuxt-docker .    ## Gerando imagem
+docker run --network host -d nuxt-docker ## Criando e executando container
+``` 
+
 ## Referências
 - [Nuxt.js - Documentação (Inglês)](https://nuxtjs.org/guide)
 - [Nuxt.js - Overview (Português) ](https://www.youtube.com/watch?v=6hDsWDKZ9oE)
