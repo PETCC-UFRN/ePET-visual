@@ -48,7 +48,7 @@
                 {{ row.detailsShowing ? 'Não modificar' : 'Modificar'}} email
               </b-button>              
             </template>
-            <template v-slot:row-details>
+            <template v-slot:row-details="row">
               <b-card>
                 <form @submit.prevent="mudarEmail">
                   <div class="form-group  mr-2 mr-2">
@@ -62,7 +62,7 @@
                     </b-row>
                     <b-row>
                       <b-col>
-                        <b-button class="text-xs-left" block variant="success">Confirmar mudança</b-button>
+                        <b-button class="text-xs-left" @click="mudarEmail(row.item)" block variant="success">Confirmar mudança</b-button>
                       </b-col>
                     </b-row>
                   </div>
@@ -194,8 +194,25 @@ export default {
   },
   methods: {
     async mudarEmail(e) {
-
-
+      this.$axios
+        .post("usuarios-atualizar-email/", 
+          {
+            "email":this.novoEmail,
+            "id": e.usuario.idUsuario
+          }
+        )
+        .then(res => {
+          Swal.fire({
+            title: "Email atualizado",
+            icon: "success"
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Email não atualizado",
+            icon: "error"
+          })
+        }); 
     },
     async changePermission(row, event) {
       let id_usuario = row.item.usuario.idUsuario;

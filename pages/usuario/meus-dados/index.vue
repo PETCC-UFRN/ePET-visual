@@ -8,6 +8,13 @@
             <i class="fa fa-user px-2"></i> Meus dados
           </h2>
         </b-col>
+        <b-col>
+          <b-row>
+            <b-col>
+              <b-button variant="warning" v-b-modal="'my-modal'" class="float-right mt-2">Modificar senha</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
       </b-row>
     </template>
     <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
@@ -38,6 +45,32 @@
       </b-form>
     </div>
   </b-card>
+  <b-modal id="my-modal" hide-footer no-close-on-backdrop>
+    <template v-slot:modal-title>
+      <h5 class="text-center">Atualizar senha</h5>
+    </template>
+    <div class="d-block text-center tamanho">
+      <p>Recomendações para a nova senha:</p>
+      <ul class="text-left">
+        <li>tamanho maior ou igual a 12;</li>
+        <li>Letra maiúscula;</li>
+        <li>Letra minúscula;</li>
+        <li>Caractere especial;</li>
+        
+      </ul>
+    </div>
+    
+    <b-form-input id="password" v-model="form.senha" type="password" class="mb-2" placeholder="Nova senha"></b-form-input>
+    <b-input-group v-if="form.senha !== ''" class="mb-4">
+      <b-form-input id="copassword" aria-describedby="input-live-feedback"  
+        v-model="form.cosenha" type="password" class="mb-2" :state="confirmandoSenha" placeholder="Confirmar senha"></b-form-input>
+      <b-form-invalid-feedback id="input-live-feedback" class="tamanho">
+        As senhas não conferem
+      </b-form-invalid-feedback>   
+    </b-input-group>
+    <b-button v-if="form.senha !== '' && form.senha === form.cosenha" @click="mudarSenha" variant="primary" class="w-100">Confirmar</b-button>
+  </b-modal>
+
 </div>  
 </template>
 
@@ -56,13 +89,19 @@ export default {
         nome: "",
         usuario: {
           email: ""
-        }
+        },
+        senha:"",
+        cosenha:""
       }
     };
   },
-
   mounted() {
     this.getInfo();
+  },
+  computed: {
+    confirmandoSenha() {
+      return (this.form.cosenha == this.form.senha) ? true : false
+    }
   },
   methods: {
     getInfo() {
@@ -98,6 +137,27 @@ export default {
           })
         });
     },
+    mudarSenha() {
+      this.$axios
+        .post("usuarios-atualizar/", 
+          {
+            "email":this.profile.usuario.email,
+            "senha": this.form.senha
+          }
+        )
+        .then(res => {
+          Swal.fire({
+            title: "Senha atualizada",
+            icon: "success"
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Senha não atualizada",
+            icon: "error"
+          })
+        });
+    }
   }
 };
 </script>
@@ -111,5 +171,9 @@ h4 {
 .textcolor {
   font-weight: bold;
   color: gray !important;
+}
+
+.tamanho {
+  font-size: 18px;
 }
 </style>

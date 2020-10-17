@@ -9,6 +9,13 @@
                 <i class="fa fa-user px-2"></i> Meus dados
               </h2>
             </b-col>
+            <b-col>
+              <b-row>
+                <b-col>
+                  <b-button variant="warning" v-b-modal="'my-modal'" class="float-right mt-2">Modificar senha</b-button>
+                </b-col>
+              </b-row>
+            </b-col>
           </b-row>
         </template>
         <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
@@ -62,9 +69,35 @@
             <b-button class="float-left  w-25" type="submit" variant="primary">Atualizar</b-button>
             <b-button class="float-right w-25" type="reset" variant="danger">Limpar</b-button>
           </b-form>
+        </div>        
+      </b-card>
+
+      <b-modal id="my-modal" hide-footer no-close-on-backdrop>
+        <template v-slot:modal-title>
+          <h5 class="text-center">Atualizar senha</h5>
+        </template>
+        <div class="d-block text-center tamanho">
+          <p>Recomendações para uma senha segura:</p>
+          <ul class="text-left">
+            <li>Tamanho maior ou igual a 12;</li>
+            <li>Letra maiúscula;</li>
+            <li>Letra minúscula;</li>
+            <li>Caractere especial;</li>
+            
+          </ul>
         </div>
         
-      </b-card>
+        <b-form-input id="password" v-model="senha" type="password" class="mb-2" placeholder="Nova senha"></b-form-input>
+        <b-input-group v-if="senha !== ''" class="mb-4">
+          <b-form-input id="copassword" aria-describedby="input-live-feedback"  
+            v-model="cosenha" type="password" class="mb-2" :state="confirmandoSenha" placeholder="Confirmar senha"></b-form-input>
+          <b-form-invalid-feedback id="input-live-feedback" class="tamanho">
+            As senhas não conferem
+          </b-form-invalid-feedback>   
+        </b-input-group>
+        <b-button v-if="senha !== '' && senha === cosenha" @click="mudarSenha" variant="primary" class="w-100">Confirmar</b-button>
+      </b-modal>
+
     </div>
   </div>    
 </template>
@@ -91,9 +124,16 @@ export default {
           usuario: {
             email: ""
           }
-        }
-      }
+        },
+      },
+      senha: "",
+      cosenha:""
     };
+  },
+  computed: {
+    confirmandoSenha() {
+      return (this.cosenha == this.senha) ? true : false
+    }
   },
   filters: {
     moment: function(date) {
@@ -104,6 +144,27 @@ export default {
     this.getInfo();
   },
   methods: {
+    mudarSenha() {
+      this.$axios
+        .post("usuarios-atualizar/", 
+          {
+            "email":this.form.pessoa.usuario.email,
+            "senha": this.senha
+          }
+        )
+        .then(res => {
+          Swal.fire({
+            title: "Senha atualizada",
+            icon: "success"
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Senha não atualizada",
+            icon: "error"
+          })
+        });
+    },
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
     },
@@ -123,7 +184,9 @@ export default {
         .get(`/petianos-pessoa/${this.$store.state.profile.idPessoa}`)
         .then(res => {
           this.form = res.data;
-          this.fotoPessoa = this.filterNameFile(this.form.foto)
+          
+          if (this.form.foto != null)
+            this.fotoPessoa = this.filterNameFile(this.form.foto)
           this.isLoading = false;
         })
         .catch(err => {
@@ -187,6 +250,7 @@ export default {
           this.submitAlert(true);
         });
     },
+
     submitAlert(withError) {
       let icon_ = "success";
       let title_ = "Perfil atualizado";
@@ -214,5 +278,8 @@ export default {
 h2,
 h4 {
   font-weight: 300;
+}
+.tamanho {
+  font-size: 18px;
 }
 </style>
