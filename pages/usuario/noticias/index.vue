@@ -95,10 +95,7 @@ export default {
         })
         .catch(err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma notícia cadastrada",
-              icon: "info"
-            }).then(() => (this.isLoading = false));
+            this.isLoading = false;
           } else {
             Swal.fire({
               title: "Houve um problema...",

@@ -95,7 +95,8 @@ export default {
   },
   mounted() {
     this.$axios.get("informacoes").then(res => {
-      this.informacoes = res.data;
+      if (res.data !== '')
+        this.informacoes = res.data;
     });
   },
   methods: {

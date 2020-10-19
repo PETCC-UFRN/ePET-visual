@@ -46,7 +46,7 @@
           >
             <template  v-slot:cell(actions)="row">
               <nuxt-link
-                class="btn btn-sm btn-cyan mt-2"
+                class="btn btn-sm btn-cyan mt-1"
                 :to="`/petiano/eventos-abertos/${row.item.idEvento}`"
               ><i class="fa fa-eye fa-fw"></i> Detalhes</nuxt-link>
               
@@ -168,6 +168,8 @@ export default {
               icon: 'error',
             })
           }
+
+          this.eventosLoading = false;
         });
     },
     inscrever(evento) {

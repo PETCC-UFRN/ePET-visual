@@ -214,11 +214,7 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum evento organizando",
-              icon: 'info',
-            })
-            .then(() => this.isLoading = false );
+            this.isLoading = false;
           }
           else {
             Swal.fire({
