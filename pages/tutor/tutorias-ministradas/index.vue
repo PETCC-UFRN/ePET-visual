@@ -89,7 +89,9 @@ export default {
                 " tente novamente mais tarde.",
                 icon: 'error',
               });
-            }  
+            } 
+            this.isLoading = false;
+
         });
       }
 };

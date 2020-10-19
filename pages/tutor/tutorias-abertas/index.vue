@@ -188,10 +188,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria cadastrada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
@@ -201,6 +197,7 @@ export default {
               icon: 'error',
             })
           }
+          this.isLoading = false;
         });
     },
     desativar(id, rowId){

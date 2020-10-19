@@ -75,10 +75,6 @@ export default {
       })
       .catch( err => {
         if (err.response.status === 404) {
-          Swal.fire({
-            title: "Nenhum evento aberto",
-            icon: 'info',
-          });
         }
         else {
           Swal.fire({

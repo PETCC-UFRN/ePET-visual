@@ -46,7 +46,7 @@
         </b-form-group>
         
         <b-form-group label="Email">
-          <b-form-input :value="form.pessoa.usuario.email" type="email" required></b-form-input>
+          <b-form-input disabled  :value="form.pessoa.usuario.email" type="email" required></b-form-input>
         </b-form-group>
 
         <b-form-group for="area_interesse" label="Área de interesse">
@@ -67,8 +67,7 @@
           <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
         </b-form-group>
 
-        <b-button class="float-left  w-25" type="submit" variant="primary">Atualizar</b-button>
-        <b-button class="float-right w-25" type="reset" variant="danger">Limpar</b-button>
+        <b-button block type="submit" variant="primary">Atualizar</b-button>
       </b-form>
     </div>
   </b-card>

@@ -22,23 +22,23 @@
         <h4>Carregando...</h4>
         <b-spinner style="width: 3rem; height: 3rem;" type="grow" variant="primary" label="Large Spinner"></b-spinner>
       </div>
-      <div v-else>  
-        <b-input-group class="mt-1 mb-3">
-          <b-form-input
-            v-model="keyword"
-            placeholder="Busca por título"
-            type="text"
-            v-on:keyup.enter="search"
-          ></b-form-input>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
-          </b-input-group-text>
-          <b-input-group-text slot="append">
-            <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
-          </b-input-group-text>
-        </b-input-group>
-
+      <div v-else>          
         <div v-if="noticias.length > 0">
+          <b-input-group class="mt-1 mb-3">
+            <b-form-input
+              v-model="keyword"
+              placeholder="Busca por título"
+              type="text"
+              v-on:keyup.enter="search"
+            ></b-form-input>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="search"><i class="fa fa-search"></i></b-btn>
+            </b-input-group-text>
+            <b-input-group-text slot="append">
+              <b-btn class="p-0" :disabled="!keyword" variant="link" size="sm" @click="cancelSearch"><i class="fa fa-remove"></i></b-btn>
+            </b-input-group-text>
+          </b-input-group>
+
           <b-table 
             responsive="sm" 
             :items="noticias" 

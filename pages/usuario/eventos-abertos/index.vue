@@ -106,11 +106,7 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 500) {
-            Swal.fire({
-              title: "Nenhum evento aberto",
-              icon: 'info',
-            })
-            .then(() => this.isLoading = false );
+            this.isLoading = false;
           }
           else {
             Swal.fire({

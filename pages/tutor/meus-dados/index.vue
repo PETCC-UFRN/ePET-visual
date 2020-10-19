@@ -51,7 +51,7 @@
             </b-form-group>
             
             <b-form-group label="Email">
-              <b-form-input :value="form.pessoa.usuario.email" type="email" required></b-form-input>
+              <b-form-input disabled :value="form.pessoa.usuario.email" type="email" required></b-form-input>
             </b-form-group>
 
             <b-form-group label="Área de interesse">
@@ -66,8 +66,7 @@
               <b-form-input v-model="form.site_pessoal" type="url"></b-form-input>
             </b-form-group>
 
-            <b-button class="float-left  w-25" type="submit" variant="primary">Atualizar</b-button>
-            <b-button class="float-right w-25" type="reset" variant="danger">Limpar</b-button>
+            <b-button class="float-left  w-100" type="submit" variant="primary">Atualizar</b-button>
           </b-form>
         </div>        
       </b-card>
@@ -80,9 +79,9 @@
           <p>Recomendações para uma senha segura:</p>
           <ul class="text-left">
             <li>Tamanho maior ou igual a 12;</li>
-            <li>Letra maiúscula;</li>
-            <li>Letra minúscula;</li>
-            <li>Caractere especial;</li>
+            <li>Ao menos uma letra maiúscula;</li>
+            <li>Ao menos uma letra minúscula;</li>
+            <li>Ao menos um caractere especial;</li>
             
           </ul>
         </div>
@@ -196,6 +195,8 @@ export default {
             " tente novamente mais tarde.",
             icon: "error"
           })
+          this.isLoading = false;
+
         });
     },
     onSubmit() {

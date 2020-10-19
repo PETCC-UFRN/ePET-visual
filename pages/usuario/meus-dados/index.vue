@@ -37,11 +37,10 @@
         </b-form-group>
 
         <b-form-group  for="email" label="Email" label-class="text-muted pt-0">
-          <b-form-input id="email" :value="profile.usuario.email" type="email"></b-form-input>
+          <b-form-input disabled id="email" :value="profile.usuario.email" type="email"></b-form-input>
         </b-form-group>
 
-        <b-button class="float-left w-25 mt-2" type="submit" variant="primary"> Atualizar</b-button>
-        <b-button class="float-right w-25 mt-2" type="reset" variant="danger">Limpar</b-button>
+        <b-button block type="submit" variant="primary"> Atualizar</b-button>
       </b-form>
     </div>
   </b-card>

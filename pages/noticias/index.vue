@@ -56,12 +56,17 @@ export default {
         this.noticias = res.data.content;
       })
       .catch( err => {
-        Swal.fire({
-          title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-          " tente novamente mais tarde.",
-          icon: 'error',
-        })
+
+        if (err.response.status === 404) {
+        }
+        else {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: 'error',
+          })
+        }
       });
   },
   filters: {

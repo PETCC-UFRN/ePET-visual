@@ -44,33 +44,10 @@
               </select>
             </template>
             <template v-slot:cell(actions)="row">
-             <b-button  @click="row.toggleDetails" class="btn btn-sm btn-info">
-                {{ row.detailsShowing ? 'Não modificar' : 'Modificar'}} email
-              </b-button>              
+             <b-button v-if="row.item.tipo_usuario.nome == 'comum'"  v-b-modal="'my-modal'"  @click="idUsuario = row.item.usuario.idUsuario " class="btn btn-sm btn-info">
+                Modificar email
+             </b-button>  
             </template>
-            <template v-slot:row-details>
-              <b-card>
-                <form @submit.prevent="mudarEmail(novoEmail)">
-                  <div class="form-group  mr-2 mr-2">
-                    <b-row class="mb-3">
-                      <b-col sm="2" class="text-sm-right pt-2">
-                        <label  for="email"><b>Novo email</b></label>
-                      </b-col>
-                      <b-col>
-                        <b-form-input require v-model="novoEmail" id="email" placeholder="Digite o novo email"></b-form-input>
-                      </b-col>
-                    </b-row>
-                    <b-row>
-                      <b-col>
-                        <b-button class="text-xs-left" type="submit" block variant="success">Confirmar mudança</b-button>
-
-                      </b-col>
-                    </b-row>
-                  </div>
-                </form>
-              </b-card>
-            </template>
-
           </b-table>
           <nav>
             <b-pagination
@@ -87,6 +64,24 @@
         <div v-else><h5>Nenhuma pessoa cadastrada</h5></div>
       </div>
     </b-card>
+    <b-modal id="my-modal" hide-footer no-close-on-backdrop>
+      <template v-slot:modal-title>
+        <h5 class="text-center">Atualizar email</h5>
+      </template>
+        <div class="d-block text-center tamanho">
+          <p>Insira o novo email e em seguida confirme o email escrevendo novamente. Por fim, aperte no botão de confirmar.</p>
+        </div>
+      <b-form-input id="email" v-model="email" type="email" class="mb-2 mt-2" placeholder="Nova email"></b-form-input>
+      <b-input-group v-if="email !== ''" class="mb-4">
+        <b-form-input id="coemail" aria-describedby="input-live-feedback"  
+          v-model="coemail" type="email" class="mb-2 mt-2" :state="confirmandoEmail" placeholder="Confirmar email"></b-form-input>
+        <b-form-invalid-feedback id="input-live-feedback" class="tamanho">
+          Os emails não conferem
+        </b-form-invalid-feedback>   
+      </b-input-group>
+      <b-button v-if="email !== '' && email === coemail" @click="mudarEmail" variant="primary" class="w-100">Confirmar</b-button>
+    </b-modal>
+    
   </div>
 </template>
 
@@ -103,7 +98,9 @@ export default {
       isLoading: true,
       pessoas: {},
       currentPage: 1,
-      novoEmail:"",
+      email:"",
+      coemail:"",
+      idUsuario:"",
       fields: [
         { key: "nome", sortable: true },
         { key: "cpf", sortable: false, label: "CPF",
@@ -130,6 +127,11 @@ export default {
       numPages: 1,
     };
   },
+  computed: {
+    confirmandoEmail() {
+      return (this.coemail == this.email) ? true : false
+    }
+  },
   mounted() {
     this.getPessoas();
 
@@ -143,26 +145,31 @@ export default {
     }
   },
   methods: {
-    mudarEmail(email) {
+    mudarEmail() {
       this.$axios
-        .post("usuarios-atualizar-email", {
-            email: email
-          })
+        .post("usuarios-atualizar-email/", 
+          {
+            "email":this.email,
+            "id": this.idUsuario
+          }
+        )
         .then(res => {
           Swal.fire({
-            title: 'Email modificado',
-            icon: 'success'
-          })
-        })
-        .catch( err => {
-          Swal.fire({
-            title: "Houve um problema...",
-            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-            " tente novamente mais tarde.",
-            icon: 'error',
-          })
-        });
+            title: "Email atualizado",
+            icon: "success"
+          });
 
+          this.email = '';
+          this.idUsuario = '';
+
+          this.getPessoas();
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Email não atualizado",
+            icon: "error"
+          })
+        }); 
     },
     cancelSearch() {
       this.keyword = "";

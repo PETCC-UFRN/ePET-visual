@@ -162,10 +162,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum evento cadastrado",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
@@ -174,7 +170,9 @@ export default {
               " tente novamente mais tarde.",
               icon: 'error',
             })
-          }  
+          }
+          
+          this.eventosLoading = false;  
         });
     },
     del(id, rowId) {

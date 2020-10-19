@@ -228,10 +228,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria confirmada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
@@ -241,6 +237,8 @@ export default {
               icon: 'error',
             })
           }
+          this.isLoading = false;
+
         });
     },
     consumindoTutoriasMinistradasApi() {
@@ -254,10 +252,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria confirmada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
@@ -267,6 +261,8 @@ export default {
               icon: 'error',
             })
           }
+          this.isLoading = false;
+
         });
     },
     consumindoTutoriasMinistradasInativasApi() {
@@ -278,11 +274,7 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria solicitada",
-              icon: 'info',
-            })
-            .then( () => this.isLoadingInativas = false );
+            this.isLoadingInativas = false;
           }
           else {
             Swal.fire({
