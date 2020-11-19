@@ -13,13 +13,11 @@ Neste repositório está contida a implementação do frontend utilizando-se do 
 
 ## Pré-requisitos
 
-Faz-se necessário os seguintes programas para executar o projeto com suas respectivas versões recomendadas:
+Faz-se necessário os seguintes programas para executar o projeto:
 
-
-| Nome: | Versão:  |    
-| :---------- | :------------- |
-|`NPM` 	| 6.13.4 |  
-|`Node` 	| 12.16.1 |  
+    
+- `NPM`  
+- `Node` 	  
 
 Alguns artigos que podem ajudar a realizar a instalação:  
 - [How to Install Node.js and npm on Ubuntu 18.04](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/)
