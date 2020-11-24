@@ -1,40 +1,36 @@
 <template>
   <div>
-    <Comum/>
-    <div class="container">
+    <div class="container  pt-5">
       <div class="row">
         <div class="col-md-8 mb-5"><h2>Email confirmado com sucesso!</h2>
           <hr>
-          <p style="text-align: justify">
-            Bem vindx ao <strong>EPET</strong> o sistema de gerenciamento do Programa de Educação Tutorial.
-            Seu email foi confirmado e você já pode fazer login. Increva-se em eventos, emita seus certificados
-            e gerencie suas atividades do sistema, qualquer dúvida:
-            <a href="mailto:#">petcc@dimap.ufrn.br</a>
+          <p>
+            Seu email foi devidamente confirmado e agora é possível acessar ao sistema 
+            fazendo uso de seu email e sua senha. Está disponível a você a possibilidade
+            de inscrição em eventos, emissão de seus certificados, entre outras coisas. Caso haja 
+            qualquer dúvida, enviar email para: <a href="mailto:petcc@dimap.ufrn.br">petcc@dimap.ufrn.br</a>
           </p>
         </div>
         <img src="~/static/svg/mail-confirmed.svg" class="col-md-4 pull-right">
       </div>
     </div>
-    <BottomBar/>
-    <nuxt/>
   </div>
 </template>
 
 <script>
-  import Comum from "~/components/Comum";
-  import BottomBar from "~/components/anonymous/BottomBar";
-
   export default {
     layout: 'index',
-    components: {
-      Comum,
-      BottomBar,
-    }
   }
 </script>
 
 <style scoped>
-  .container {
-    margin-top: 45px;
-  }
+.container {
+margin-top: 45px;
+}
+
+
+p {
+font-size: 19px;
+text-align: justify;
+}
 </style>
