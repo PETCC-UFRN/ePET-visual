@@ -5,7 +5,7 @@ RUN mkdir -p /opt/nuxt-app
 WORKDIR /opt/nuxt-app
 
 # update and install dependency
-RUN apk update && apk upgrade
+RUN apk update && apk upgrade && apk add python make g++
 RUN apk add git
 
 # copy the app, note .dockerignore
