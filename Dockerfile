@@ -1,16 +1,16 @@
-FROM node:alpine
+FROM node:13.12.0-alpine
 
-# create destination directory
 RUN mkdir -p /opt/nuxt-app
 WORKDIR /opt/nuxt-app
 
 # update and install dependency
-RUN apk update && apk upgrade && apk add python make g++
+RUN apk update && apk upgrade 
 RUN apk add git
 
 # copy the app, note .dockerignore
 COPY . /opt/nuxt-app/
 RUN npm install
+RUN npm rebuild node-sass
 
 # build necessary, even if no static files are needed,
 # since it builds the server as well
