@@ -23,7 +23,7 @@ Alguns artigos que podem ajudar a realizar a instalação:
 - [How to Install Node.js and npm on Ubuntu 18.04](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/)
 - [How to Install Latest Node.js and NPM on Ubuntu with PPA](https://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/)
 
-## Como executar
+## Como instalar e executar
 
 Em seu computador execute os seguintes comandos para clonagem do repositório localmente e instalação das dependências do projeto:
 
