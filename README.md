@@ -29,7 +29,7 @@ Em seu computador execute os seguintes comandos para clonagem do repositório lo
 
 ``` bash
 $ git clone https://github.com/PETCC-UFRN/ePET-visual.git  
-$ cd ePET-frontend
+$ cd ePET-visual
 
 $ npm install
 ```
