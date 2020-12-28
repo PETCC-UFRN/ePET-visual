@@ -6,7 +6,8 @@
 Neste repositório está contida a implementação do frontend utilizando-se do framework progressivo Nuxt.Js - baseado em Vue.JS - e do template de dashboard CoreUI da plataforma do PET-CC UFRN, Programa de Educação Tutorial da Universidade do Rio Grande do Norte.
 
 - [Pré-requisitos](#pré-requisitos) - Requisitos para executar o projeto.
-- [Como executar](#como-executar) - Instruções sobre como executar o projeto.
+- [Como instalar e executar](#como-instalar-e-executar) - Instruções sobre como executar o projeto.
+- [Dasboard do usuário](#dasboard-do-usuário) - Explicação sobre organização adotada no dasboard do usuário.
 - [Referências](#referências) - Link contendo material de referência.
 - [Contribuidores](#contribuidores) - Pessoas que ajudaram no desenvolvimento do projeto.
 
@@ -72,9 +73,17 @@ $ npm start
 Para fazer uso do Docker pode-se fazer uso do arquivo `Dockerfile` disponibilizado no repositório e executar os seguintes comandos:
 
 ```
-docker build -t nuxt-docker .    ## Gerando imagem
-docker run --network host -d nuxt-docker ## Criando e executando container
+$ docker build -t nuxt-docker .    ## Gerando imagem
+$ docker run --network host -d nuxt-docker ## Criando e executando container
 ``` 
+
+## Dasboard do usuário
+
+O frontend possui páginas sem com necessidade de autenticação e também tem páginas com necessidade de autenticação, o _dasboard do usuário_. Nesse contexto, o _dasboard do usuário_ irá variar de acordo com o nível de permissão dele. Ao ser criada uma nova conta, o usuário adquirirá permissão de **Usuário Comum**. 
+
+- Permissão de **Usuário Comum** pode ver notícias, ver e solicitar tutorias e evento relacionados
+- Permissão de **Petiano** possui mesmo privilégios de _Usuário Comum_ porém acrescido de gerenciamento de notícias, tutorias e evento relacionados
+- Permissão de **Tutor** possui mesmo privilégios de _Petiano_ porém acrescido de gerenciar usuários e permissões
 
 ## Referências
 - [Nuxt.js - Documentação (Inglês)](https://nuxtjs.org/guide)
