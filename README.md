@@ -1,6 +1,3 @@
-
-# ePET-frontend  
-
 ## Introdução 
 
 Neste repositório está contida a implementação do frontend utilizando-se do framework progressivo Nuxt.Js - baseado em Vue.JS - e do template de dashboard CoreUI da plataforma do PET-CC UFRN, Programa de Educação Tutorial da Universidade do Rio Grande do Norte.
