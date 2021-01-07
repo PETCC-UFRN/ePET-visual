@@ -79,7 +79,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: "http://localhost:8080/api"
+    baseURL: "http://177.20.148.190:8080/api/"
   },
 
   auth: {
