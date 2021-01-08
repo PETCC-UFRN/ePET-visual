@@ -50,11 +50,11 @@ O consumo da API do back-end pelo front-end é feito por meio do plugin **Axios*
 ...
 axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: "https://epet.imd.ufrn.br:8443/api"
+    baseURL: "http://177.20.148.190:8080/api"
   },
 ...
  ```
-Atualmente, a API do backend consumida está em [https://epet.imd.ufrn.br:8443/api](https://epet.imd.ufrn.br:8443/api).
+Atualmente, a API do backend consumida está em [http://177.20.148.190:8080/api](http://177.20.148.190:8080/api).
 
 
 ### Produção

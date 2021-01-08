@@ -208,7 +208,7 @@ export default {
       nomeAnexo = nomeAnexo.split('/').slice(2)[0]
 
       this.$axios
-        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .get(`http://177.20.148.190:8080/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
         .then(res => {
           let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
           let fileLink = document.createElement('a');

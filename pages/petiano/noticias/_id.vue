@@ -23,7 +23,7 @@
             <h5>Título:</h5>
             <h6>{{form.titulo}}</h6>
           </span>
-          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
+          <b-img v-if="form.imagem !== null" center class="mt-3 mb-5" v-bind="mainProps" :src="`http://177.20.148.190:8080/downloadfile/${imageData}`" fluid alt="Responsive image"></b-img>
           
           <p class="mt-3 mb-2">
             <strong>Corpo:</strong>
@@ -146,7 +146,7 @@ export default {
     },
     fazerDowloadAnexo(nomeAnexo) {
       this.$axios
-        .get(`https://epet.imd.ufrn.br:8443/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
+        .get(`http://177.20.148.190:8080/downloadfile/${nomeAnexo}`, {responseType: 'arraybuffer'})
         .then(res => {
           let fileURL = window.URL.createObjectURL(new Blob([res.data], {type:'application/*'}));
           let fileLink = document.createElement('a');

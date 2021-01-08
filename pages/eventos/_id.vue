@@ -6,7 +6,7 @@
       <hr>
     <b-row>
 			<b-col>
-				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${imageData}`" fluid alt="Imagem do evento"></b-img>
+				<b-img v-if="this.evento.imagem !== null" rounded center class="mt-3 mb-5" v-bind="mainProps" :src="`http://177.20.148.190:8080/downloadfile/${imageData}`" fluid alt="Imagem do evento"></b-img>
 				<h3>{{evento.titulo}}</h3>
 				<p class="mt-4 mb-1">
 					<strong>Perído de inscrições:</strong>
