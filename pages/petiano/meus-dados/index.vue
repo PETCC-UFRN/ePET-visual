@@ -30,7 +30,7 @@
       <b-form @submit.prevent="onSubmit"> 
         <div class="row justify-content-center d-flex  align-items-center mb-3">
           <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
-          <b-avatar v-else :src="`http://177.20.148.190:8080/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
+          <b-avatar v-else :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
         </div> 
 
         <b-form-file
@@ -182,7 +182,7 @@ export default {
         const formData = new FormData()
         formData.append("file", this.file)
         this.$axios
-          .post("http://177.20.148.190:8080/uploadfile",formData, {
+          .post("https://petcc.dimap.ufrn.br:8443/uploadfile",formData, {
             onUploadProgress: uploadEvent => {
               this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
             }

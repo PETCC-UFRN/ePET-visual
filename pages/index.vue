@@ -25,7 +25,7 @@
                 <div v-for="petiano in tutor" :key="petiano.id">
                   <b-col class="mt-2 mb-4 ml-2 mr-2">
                     <nuxt-link :to="`/membro/${petiano.idPetiano}`">
-                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`http://177.20.148.190:8080/downloadfile/${petiano.foto}`">
+                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${petiano.foto}`">
                       </b-avatar>
                       <b-avatar v-else size="190px">
                       </b-avatar>
@@ -44,7 +44,7 @@
                 <div v-for="petiano in membrosAtivos" :key="petiano.id">
                   <b-col class="mt-2 mb-2 ml-2 mr-2">
                     <nuxt-link :to="`/membro/${petiano.idPetiano}`">
-                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`http://177.20.148.190:8080/downloadfile/${petiano.foto}`">
+                      <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${petiano.foto}`">
                       </b-avatar>
                       <b-avatar v-else size="190px">
                       </b-avatar>

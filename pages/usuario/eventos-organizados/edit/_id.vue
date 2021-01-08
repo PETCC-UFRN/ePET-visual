@@ -25,7 +25,7 @@
               <strong>Imagem de capa</strong>
             </label>
             <b-img v-if="imageData !== ''" center class="mt-2 mb-4" v-bind="mainProps" :src="`${imageData}`" fluid alt="Responsive image"></b-img>
-            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`http://177.20.148.190:8080/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
+            <b-img v-else center class="mt-2 mb-4" v-bind="mainProps" :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${foto}`" fluid alt="Responsive image"></b-img>
 
             <b-form-file
               v-model="file" accept=".jpg, .png, .gif" @change="previewImage"
@@ -337,7 +337,7 @@ export default {
         const formData = new FormData()
         formData.append("file", this.file)
         this.$axios
-          .post("http://177.20.148.190:8080/uploadfile",formData, {
+          .post("https://petcc.dimap.ufrn.br:8443/uploadfile",formData, {
             onUploadProgress: uploadEvent => {
               this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
             }
