@@ -145,7 +145,7 @@ export default {
         const formData = new FormData()
         formData.append("file", this.file)
         this.$axios
-          .post("https://epet.imd.ufrn.br:8443/uploadfile",formData, {
+          .post("http://177.20.148.190:8080/uploadfile",formData, {
             onUploadProgress: uploadEvent => {
               this.progressValue = `${Math.round(uploadEvent.loaded/ uploadEvent.total * 100)}%`
             }

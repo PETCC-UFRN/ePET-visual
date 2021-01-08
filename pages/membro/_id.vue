@@ -7,7 +7,7 @@
       <div class="mt-3 mb-5 ml-2 mr-2">
         <b-row>
           <b-col sm="3">
-            <b-avatar v-if="fotoMembro !== ''" aligner="center" size="200px" :src="`https://epet.imd.ufrn.br:8443/downloadfile/${fotoMembro}`" ></b-avatar>
+            <b-avatar v-if="fotoMembro !== ''" aligner="center" size="200px" :src="`http://177.20.148.190:8080/downloadfile/${fotoMembro}`" ></b-avatar>
             <b-avatar v-else aligner="center" size="200px" ></b-avatar>
           </b-col>
           <b-col>
