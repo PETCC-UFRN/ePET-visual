@@ -59,7 +59,7 @@
                 :to="`/tutor/eventos-organizados/edit/${row.item.evento.idEvento}`"
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
-                @click.prevent="del(row.item.idEvento, row.index)"
+                @click.prevent="del(row.item.evento.idEvento, row.index)"
                 class="btn btn-sm btn-danger mt-2"
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
@@ -203,6 +203,23 @@ export default {
         .catch(() =>  {
           this.periodoDefinido = false;
         })
+    },
+    del(id, rowId) {
+      this.$axios
+        .delete("eventos-remove/" + id)
+        .then(() => {
+          this.eventos.splice(rowId, 1);
+          Swal.fire({
+            title: "Evento removido",
+            icon: "success"
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Evento não removido",
+            icon: "error"
+          });
+        });
     },
     consumindoEventosOrganizandoApi() {
       this.$axios
