@@ -108,23 +108,10 @@ export default {
           })
           .catch(err => {
             if (err.response.status === 404) {}
-            else {
-              Swal.fire({
-                title: "Houve um problema...",
-                text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-                " tente novamente mais tarde.",
-                icon: 'error'
-              })
-            }
+            
           });
       })
       .catch( err => {
-        Swal.fire({
-          title: "Houve um problema...",
-          text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-          " tente novamente mais tarde.",
-          icon: 'error',
-        })
       
       });
 	},
@@ -153,20 +140,6 @@ export default {
 
         })
         .catch(err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: 'Anexo não encontrado',
-              icon: 'info',
-            });
-          }
-          else {
-            Swal.fire({
-              title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
-              " tente novamente mais tarde.",
-              icon: 'error'
-            })
-          }
         });
     }
 	}
