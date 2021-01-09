@@ -2,27 +2,29 @@
   <div >
     <div class="container pt-5">
       <div class="mx-auto mt-5">
-        <h1 class="mt-5 mb-3 text-center"><i class="fa fa-calendar-check-o"></i> Eventos</h1>
+        <h1 class="mt-5 mb-5 text-center"><i class="fa fa-calendar-check-o"></i> Eventos</h1>
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">
             <nuxt-link :to="'/eventos/' + evento.idEvento">
-              <b-card>
-                <b-card-title><h5>{{evento.titulo}} </h5></b-card-title>
-                <hr>
+              <b-card      
+                :img-src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${filterNameFile(evento.imagem)}`"
+                img-alt="Image"
+                img-top
+              >
                 <b-card-text>
-                <p class="mt-0 mb-0"><b>Período de inscrição:</b> 	
-                  <span v-if="evento.d_inscricao !== ''">{{ evento.d_inscricao | moment }}</span> -
-                  <span v-if="evento.d_inscricao_fim !== ''">{{ evento.d_inscricao_fim | moment}}</span>
-                </p>
-                <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
-                <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}</p>
-                <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h</p>
-                <p class="mt-0 mb-0"><b>Valor da inscrição:</b> 
-                  {{new Intl
-                    .NumberFormat([], { style: 'currency', currency: 'BRL'})           
-                    .format(evento.valor) }}
-                </p>
+                  <p class="mt-0 mb-0"><b>Período de inscrição:</b> 	
+                    <span v-if="evento.d_inscricao !== ''">{{ evento.d_inscricao | moment }}</span> -
+                    <span v-if="evento.d_inscricao_fim !== ''">{{ evento.d_inscricao_fim | moment}}</span>
+                  </p>
+                  <p class="mt-0 mb-0"><b>Número de vagas:</b> {{evento.qtdVagas}}</p>
+                  <p class="mt-0 mb-0"><b>Local:</b> {{evento.local}}</p>
+                  <p class="mt-0 mb-0"><b>Carga horária:</b> {{evento.qtdCargaHoraria}}h</p>
+                  <p class="mt-0 mb-0"><b>Valor da inscrição:</b> 
+                    {{new Intl
+                      .NumberFormat([], { style: 'currency', currency: 'BRL'})           
+                      .format(evento.valor) }}
+                  </p>
                 </b-card-text>
               </b-card>
             </nuxt-link>
@@ -51,6 +53,8 @@ export default {
 	},
     data() {
       return {
+
+      imageData: "",
 		eventos: [],
         mesNomes: [
           "JANEIRO",
@@ -90,6 +94,11 @@ export default {
     moment: function (date) {
       return moment(date).format('DD/MM/YYYY');
     }
+  },
+	methods: {
+    filterNameFile(file) {
+      return file.split('/').slice(2)[0];
+    },
   },
   computed: {
     filterEventos() {
