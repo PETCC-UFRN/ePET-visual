@@ -52,7 +52,7 @@
       register() {
         let url = this.$axios.defaults.baseURL;
 
-        axios.get(`${url}/forgot?email=${this.usuario.email}`)
+        axios.get(`${url}forgot?email=${this.usuario.email}`)
         .then(() => {
           Swal.fire({
             icon: "success",

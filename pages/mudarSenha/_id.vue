@@ -66,11 +66,12 @@
             .then( () => this.$router.push("/login") );
           })
           .catch(err => {
-            Swal.fire({
-              icon: "error",
-              title: "Erro na redefinição...",
-              text: err.message
-            });
+            this.$router.push("/login")
+            // Swal.fire({
+            //   icon: "error",
+            //   title: "Erro na redefinição...",
+            //   text: err.message
+            // });
           });
       }
     }

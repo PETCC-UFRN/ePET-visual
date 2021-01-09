@@ -106,11 +106,7 @@ export default {
             "seja validada."
           })
           .then ( () => {
-            this.usuario.email = "";
-            this.usuario.senha = "";
-            this.usuario.cpf = "";
-            this.usuario.nome = "";
-            this.senhaNovamente = "";
+            this.$router.push("/login") 
           });
         })
         .catch(err =>{
