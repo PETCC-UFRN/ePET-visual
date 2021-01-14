@@ -27,10 +27,9 @@
           <b-table
             responsive="sm"
             :items="pessoas"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="20"
+            per-page="20"
             :fields="fields"
           >
             <template v-slot:cell(tipo_usuario)="row">
@@ -51,8 +50,8 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="numPages"
-              :per-page="20"
+              :total-rows="numElements"
+              per-page="20"
               pills
               v-model="currentPage"
               prev-text="Anterior"
@@ -88,7 +87,8 @@
       </template>
       <div class="d-block text-center tamanho">
         <p>Informe a data em que o usuário ingressou no PET-CC UFRN, em seguida confirme. Dessa forma, o usuário ganhará permissão de <strong>PETIANO</strong>
-        podendo criar e editar eventos, notícias, tutorias, entre outros. Quando o usuário se tornar um petiano egresso, modifique a permissão para <strong>COMUM</strong> novamente.</p>
+        podendo criar e editar eventos, notícias, tutorias, entre outros. Será necessário que esse petiano 
+        atualize seus dados indo na página Meus Dados. Quando o usuário se tornar um petiano egresso, modifique a permissão para <strong>COMUM</strong> novamente.</p>
       </div>
       <b-form-datepicker
         id="data-ingresso"
@@ -134,7 +134,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      pessoas: {},
+      pessoas: [],
       tipos_usuario: {},
       currentPage: 1,
       email:"",
@@ -171,7 +171,7 @@ export default {
       ],
       modal: {},
       keyword: "",
-      numPages: 1,
+      numElements: 1,
     };
   },
   computed: {
@@ -188,9 +188,12 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      this.$axios.get("pessoas?page=" + val).then(res => {
+      this.$axios.get("pessoas?page=" + (val-1)).then(res => {
         this.pessoas = res.data.content;
-        this.numPages = res.data.totalPages;
+        this.numElements = res.data.totalElements;
+
+        this.$forceUpdate()
+
       });
     }
   },
@@ -308,10 +311,13 @@ export default {
     },
     getPessoas(){
       this.$axios
-        .get("pessoas")
+        .get("pessoas?page=0")
         .then(res => {
           this.pessoas = res.data.content;
-          this.numPages = res.data.totalPages;
+          this.numElements = res.data.totalElements;
+          console.log(this.numElements)
+
+          this.currentPage = res.data.number + 1;
           this.isLoading = false;
         })
         .catch( err => {
