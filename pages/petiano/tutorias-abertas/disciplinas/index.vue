@@ -224,10 +224,6 @@ export default {
         })
         .catch(err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma disciplina cadastrada",
-              icon: "info"
-            });
           } else {
             Swal.fire({
               title: "Houve um problema...",

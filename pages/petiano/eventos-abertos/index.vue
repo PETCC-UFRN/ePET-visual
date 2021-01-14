@@ -154,12 +154,7 @@ export default {
           this.numItems = res.data.totalElements;
         })
         .catch( err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum evento cadastrado",
-              icon: 'info',
-            });
-          }
+          if (err.response.status === 404) { }
           else {
             Swal.fire({
               title: "Houve um problema...",

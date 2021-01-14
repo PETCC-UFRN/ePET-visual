@@ -112,12 +112,8 @@ export default {
           this.organizadores = res.data;
         })
         .catch(err => {
-          if (err.response && err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum organizador cadastrado",
-              icon: "info"
-            });
-          } else {
+          if (err.response && err.response.status === 404) { } 
+          else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 

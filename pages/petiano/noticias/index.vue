@@ -170,10 +170,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma notícia cadastrada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({

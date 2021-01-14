@@ -120,12 +120,8 @@ export default {
           this.participantes = res.data.content;
         })
         .catch(err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum pessoa cadastrada",
-              icon: "info"
-            });
-          } else {
+          if (err.response.status === 404) {} 
+          else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 

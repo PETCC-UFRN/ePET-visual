@@ -128,10 +128,6 @@ export default {
       })
       .catch(err => {
         if (err.response.status === 404) {
-          Swal.fire({
-            title: 'Notícia não possui anexos',
-            icon: 'info',
-          });
         }
         else {
           Swal.fire({

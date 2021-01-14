@@ -141,10 +141,6 @@ export default {
         })
         .catch( err => {
             if (err.response.status === 404) {
-              Swal.fire({
-                title: "Nenhuma tutoria encontrada",
-                icon: 'info',
-              });
             }
             else {
               Swal.fire({

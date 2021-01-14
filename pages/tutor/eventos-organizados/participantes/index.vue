@@ -193,10 +193,6 @@
           })
           .catch(err => {
             if (err.response.status === 404) {
-              Swal.fire({
-                title: "Nenhum pessoa cadastrada",
-                icon: "info"
-              });
             } else {
               Swal.fire({
                 title: "Houve um problema...",

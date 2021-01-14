@@ -142,12 +142,7 @@ export default {
           this.anexos = res.data; 
         })
         .catch(err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: 'Notícia não possui anexos',
-              icon: 'info',
-            });
-          }
+          if (err.response.status === 404) {}
           else {
             Swal.fire({
               title: "Houve um problema...",

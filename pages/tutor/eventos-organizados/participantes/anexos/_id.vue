@@ -116,10 +116,6 @@ export default {
         })
         .catch(err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: 'Usuário não adicionou anexos',
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({

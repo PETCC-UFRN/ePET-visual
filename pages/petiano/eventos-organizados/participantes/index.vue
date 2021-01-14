@@ -56,11 +56,9 @@
           <b-table
             responsive="sm"
             :items="participantesFiltrados"
-            :current-page="currentPage"
             :bordered="false"
             striped
-            :per-page="20"
-            pills
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(confirmado)="row">
@@ -112,11 +110,11 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="participantesFiltrados.length"
-              :per-page="20"
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
               v-model="currentPage"
               prev-text="Anterior"
-              pills
               next-text="Próximo"
               hide-goto-end-buttons
             />
@@ -144,13 +142,15 @@
       return {
         form: {
           pessoa: 0
-        },
-        pessoas: {},
+        },  
+        pessoas: [],
         eventoPeriodos: {},
         frequenciasCadastradas: [],
         participantes: [],
         keyword: "",
         currentPage: 1,
+        numElements: 1,
+        pageSize: 20,
         evento: {},
         fields: [
           {key: "pessoa.nome", label: "Nome", sortable: true},
@@ -175,7 +175,18 @@
       this.consumirParticipantesApi();
       this.getEventoPeriodos();
       this.getFrequenciasCadastradas();
-      // console.log(this.$el.getElementsByClassName('freq-' + 52))
+    },
+    watch: {
+      currentPage: function(val){
+        this.$axios
+          .get(`participantes-evento/${this.$route.query.idEvento}?page=${(val-1)}`)
+          .then(res => {
+            this.participantes = res.data.content;
+            this.numElements = res.data.totalElements;
+            this.currentPage = res.data.number + 1;          
+            this.pageSize = res.data.pageable.pageSize;
+          });
+      }
     },
     computed: {
       participantesFiltrados () {
@@ -187,17 +198,16 @@
     methods: {
       consumirParticipantesApi() {
         this.$axios
-          .get(`participantes-evento/${this.$route.query.idEvento}`)
+          .get(`participantes-evento/${this.$route.query.idEvento}?page=0`)
           .then(res => {
             this.evento = res.data.content.length > 0 ? res.data.content[0].evento : {};
             this.participantes = res.data.content;
+            this.numElements = res.data.totalElements;
+            this.currentPage = res.data.number + 1;          
+            this.pageSize = res.data.pageable.pageSize;
           })
           .catch(err => {
             if (err.response.status === 404) {
-              Swal.fire({
-                title: "Nenhum pessoa cadastrada",
-                icon: "info"
-              });
             } else {
               Swal.fire({
                 title: "Houve um problema...",

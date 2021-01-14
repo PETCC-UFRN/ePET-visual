@@ -153,10 +153,6 @@ export default {
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum organizador cadastrado",
-              icon: "info"
-            });
           } else {
             Swal.fire({
               title: "Houve um problema...",

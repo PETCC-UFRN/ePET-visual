@@ -199,13 +199,7 @@ export default {
           this.isLoading = false;
         })
         .catch( err => {
-          if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhum evento participando",
-              icon: 'info',
-            })
-            .then(() => this.isLoading = false );
-          }
+          if (err.response.status === 404) { this.isLoading = false }
           else {
             Swal.fire({
               title: "Houve um problema...",

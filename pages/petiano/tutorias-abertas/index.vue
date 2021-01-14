@@ -199,10 +199,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria cadastrada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
