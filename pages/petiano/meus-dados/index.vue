@@ -28,10 +28,12 @@
     </div>
     <div v-else>
       <b-form @submit.prevent="onSubmit"> 
-        <div class="row justify-content-center d-flex  align-items-center mb-3">
+        <div class="row justify-content-center d-flex  align-items-center">
           <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
           <b-avatar v-else :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
         </div> 
+
+        <h2 class="row justify-content-center d-flex  align-items-center mb-3"><b-badge>PETIANO</b-badge></h2>
 
         <b-form-file
           v-model="file"

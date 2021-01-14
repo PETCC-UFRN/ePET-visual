@@ -32,10 +32,12 @@
             <div v-if="form.data_ingresso != null">
               Período de participação: <b>{{form.data_ingresso | moment}}</b> - <b v-if="form.data_egresso != null">{{form.data_egresso | moment}}</b> 
             </div>
-            <div class="row justify-content-center d-flex  align-items-center mb-3">
-                <b-avatar v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
-                <b-avatar v-else :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
+            <div class="row justify-content-center d-flex  align-items-center">
+                <b-avatar badge-top v-if="imageData !== ''" :src="`${imageData}`" class="mb-3" size="10em"></b-avatar>
+                <b-avatar badge-top v-else :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${fotoPessoa}`" class="mb-3" size="10em"></b-avatar>
             </div> 
+
+            <h2 class="row justify-content-center d-flex  align-items-center mb-3"><b-badge>TUTOR</b-badge></h2>
 
             <b-form-file
               v-model="file"

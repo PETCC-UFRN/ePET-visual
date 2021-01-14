@@ -19,10 +19,9 @@
           <b-table
             responsive="sm"
             :items="eventos"
-            :current-page="currentPage"
             :bordered="false"
             striped
-            :per-page="10"
+            :per-page="20"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -70,7 +69,8 @@
           <nav>
             <b-pagination
               :total-rows="eventos.length"
-              :per-page="10"
+              :per-page="20"
+              pills
               v-model="currentPage"
               prev-text="Anterior"
               next-text="Próximo"

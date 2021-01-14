@@ -59,7 +59,7 @@
             :current-page="currentPage"
             :bordered="false"
             striped
-            :per-page="10"
+            :per-page="20"
             pills
             :fields="fields"
           >
@@ -113,7 +113,7 @@
           <nav>
             <b-pagination
               :total-rows="participantesFiltrados.length"
-              :per-page="10"
+              :per-page="20"
               v-model="currentPage"
               prev-text="Anterior"
               pills
