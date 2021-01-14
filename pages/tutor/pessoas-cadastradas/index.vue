@@ -29,7 +29,7 @@
             :items="pessoas"
             :bordered="false"
             striped   
-            per-page="20"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(tipo_usuario)="row">
@@ -51,7 +51,7 @@
           <nav>
             <b-pagination
               :total-rows="numElements"
-              per-page="20"
+              :per-page="pageSize"
               pills
               v-model="currentPage"
               prev-text="Anterior"
@@ -172,6 +172,7 @@ export default {
       modal: {},
       keyword: "",
       numElements: 1,
+      pageSize: 20
     };
   },
   computed: {
@@ -191,9 +192,7 @@ export default {
       this.$axios.get("pessoas?page=" + (val-1)).then(res => {
         this.pessoas = res.data.content;
         this.numElements = res.data.totalElements;
-
-        this.$forceUpdate()
-
+        this.pageSize = res.data.pageable.pageSize;
       });
     }
   },
@@ -315,9 +314,8 @@ export default {
         .then(res => {
           this.pessoas = res.data.content;
           this.numElements = res.data.totalElements;
-          console.log(this.numElements)
-
-          this.currentPage = res.data.number + 1;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
           this.isLoading = false;
         })
         .catch( err => {
