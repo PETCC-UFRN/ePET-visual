@@ -225,10 +225,19 @@ export default {
           this.numItems = res.data.totalElements;
           this.disciplinas = res.data.content;
           this.isLoading = false;
-        })
+        })        
         .catch(err => {
-          if (err.response.status === 404) {
-          } else {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
+          else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
@@ -236,6 +245,7 @@ export default {
               icon: "error"
             })
           }
+          this.isLoading = false
         });
     },
     cancelSearch() {
