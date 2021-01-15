@@ -27,10 +27,9 @@
           <b-table
             responsive="sm"
             :items="pessoas"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="20"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(tipo_usuario)="row">
@@ -51,8 +50,8 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="numPages"
-              :per-page="20"
+              :total-rows="numElements"
+              :per-page="pageSize"
               pills
               v-model="currentPage"
               prev-text="Anterior"
@@ -96,7 +95,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      pessoas: {},
+      pessoas: [],
       currentPage: 1,
       email:"",
       coemail:"",
@@ -124,7 +123,8 @@ export default {
       ],
       modal: {},
       keyword: "",
-      numPages: 1,
+      numElements: 1,
+      pageSize: 20
     };
   },
   computed: {
@@ -138,10 +138,13 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      this.$axios.get("pessoas?page=" + val).then(res => {
-        this.pessoas = res.data.content;
-        this.numPages = res.data.totalPages;
-      });
+      this.$axios
+        .get("pessoas?page=" + (val-1))
+        .then(res => {
+          this.pessoas = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
+        });
     }
   },
   methods: {
@@ -200,25 +203,31 @@ export default {
     },
     getPessoas(){
       this.$axios
-        .get("pessoas")
+        .get("pessoas?page=0")
         .then(res => {
           this.pessoas = res.data.content;
-          this.numPages = res.data.totalPages;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
           this.isLoading = false;
         })
-        .catch( err => {
-          if (err.response.status === 404) {
+        .catch(err => {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: "Nenhuma pessoa cadastrada",
-              icon: 'info',
-            });
-          }
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
           else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
-              icon: 'error',
+              icon: "error"
             })
           }
         });

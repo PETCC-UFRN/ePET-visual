@@ -30,11 +30,9 @@
           <b-table
             responsive="sm"
             :items="participantesFiltrados"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="10"
-            pills
+            :per-page="pageSize"
             :fields="fields"
           >
 
@@ -50,11 +48,11 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="participantesFiltrados.length"
-              :per-page="10"
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
               v-model="currentPage"
               prev-text="Anterior"
-              pills
               next-text="Próximo"
               hide-goto-end-buttons
             />
@@ -83,7 +81,9 @@ export default {
       participantes: [],
       keyword: "",
       eventos: [],
-      currentPage: 1,
+        currentPage: 1,
+        numElements: 1,
+        pageSize: 20,
       fields: [
         { key: "pessoa.nome", label: "Nome", sortable: true },
         {
@@ -102,6 +102,18 @@ export default {
       ]
     };
   },
+  watch: {
+    currentPage: function(val){
+      this.$axios
+        .get(`participantes-evento/${this.$route.query.idEvento}?page=${(val-1)}`)
+        .then(res => {
+          this.participantes = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+        });
+    }
+  },
   computed: {
     participantesFiltrados () {
       return this.keyword
@@ -115,17 +127,25 @@ export default {
   methods: {
     consumirParticipantesApi() {
       this.$axios
-        .get(`participantes-evento/${this.$route.query.idEvento}`)
+        .get(`participantes-evento/${this.$route.query.idEvento}?page=0`)
         .then(res => {
           this.participantes = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch(err => {
-          if (err.response.status === 404) {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: "Nenhum pessoa cadastrada",
-              icon: "info"
-            });
-          } else {
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
+          else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 

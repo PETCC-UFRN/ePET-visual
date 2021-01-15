@@ -142,11 +142,15 @@ export default {
           this.anexos = res.data; 
         })
         .catch(err => {
-          if (err.response.status === 404) {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: 'Usuário não adicionou anexos',
-              icon: 'info',
-            });
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
           }
           else {
             Swal.fire({

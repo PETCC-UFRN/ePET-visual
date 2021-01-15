@@ -38,10 +38,9 @@
           <b-table
             responsive="sm"
             :items="eventos"
-            :current-page="currentPage"
             :bordered="false"
-            striped   
-            :per-page="20"
+            striped    
+            :per-page="pageSize"
             :fields="fields"
           >
             <template  v-slot:cell(actions)="row">
@@ -56,13 +55,17 @@
                 ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination
-              :totalRows="numItems"
-              :perPage="perPage"
-              v-on:currentPage="setCurrentPage"
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
             />
-          </div>
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhum evento cadastrado</h5>
@@ -74,17 +77,12 @@
 
 <script>
 
-
 import Swal from "sweetalert2";
 import moment from "moment";
-import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components: {
-    Pagination
-  },
   data() {
     return {
       eventosLoading: true,
@@ -92,9 +90,11 @@ export default {
       eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      currentPage: 0,
+      currentPage: 1,
       numItems: 0,
       perPage: 20,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -107,13 +107,16 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
-  },
+  },  
   watch: {
-    currentPage: function(val) {
-      this.$axios.get("eventos?page=" + val).then(res => {
-        this.eventos = res.data.content;
-        this.numPages = res.data.totalElements;
-      });
+    currentPage: function(val){
+      this.$axios
+        .get("pessoas?page=" + (val-1))
+        .then(res => {
+          this.eventos = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
+        });
     }
   },
   methods: {
@@ -147,29 +150,34 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos-abertos-nao-organizo-ativos")
+      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=0")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
-          this.numItems = res.data.totalElements;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
         })
-        .catch( err => {
-          if (err.response.status === 404) {
+        .catch(err => {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: "Nenhum evento cadastrado",
-              icon: 'info',
-            });
-          }
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
           else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
-              icon: 'error',
+              icon: "error"
             })
           }
 
-          this.eventosLoading = false;
+          this.eventosLoading = false
         });
     },
     inscrever(evento) {

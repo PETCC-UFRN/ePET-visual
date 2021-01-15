@@ -147,9 +147,26 @@ export default {
       this.eventos = res.data;
     });
 
-    this.$axios.get("pesquisar-petiano-tutoria-ministradas").then(res => {
-      this.petianosTutoriasMinistradas = res.data.content;
-    });
+    this.$axios
+      .get("pesquisar-petiano-tutoria-ministradas")
+      .then(res => {
+        this.petianosTutoriasMinistradas = res.data.content;
+      })      
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+        } 
+        else if (err.response && err.response.status === 403) {
+          this.$router.push('/login');
+        }
+        else {
+          Swal.fire({
+            title: "Houve um problema...",
+            text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+            " tente novamente mais tarde.",
+            icon: "error"
+          });
+        }
+      });
   },
   filters: {
     cortarCorpo(mensagem) {

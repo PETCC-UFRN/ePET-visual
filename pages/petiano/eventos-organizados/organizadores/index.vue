@@ -152,18 +152,23 @@ export default {
           this.organizadores = res.data;
         })
         .catch(err => {
-          if (err.response && err.response.status === 404) {
+          if (err.response && err.response.status === 404) {}
+          else if (err.response && err.response.status === 403) {
             Swal.fire({
-              title: "Nenhum organizador cadastrado",
-              icon: "info"
-            });
-          } else {
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
+          else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
               icon: "error"
-            });
+            })
           }
         });
     },

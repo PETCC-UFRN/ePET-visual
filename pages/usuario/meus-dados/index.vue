@@ -111,12 +111,26 @@ export default {
         this.isLoading = false;
       })
       .catch(err => {
-          Swal.fire({
-            title: "Houve um problema...",
+          if (err.response.status === 404) { this.isLoading = false }
+          else if (err.response.status === 403) {
+            this.isLoading = false
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
+          else {
+            this.isLoading = false
+            Swal.fire({
+              title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
               icon: "error"
-          })
+            })
+          }
         });
     },
 

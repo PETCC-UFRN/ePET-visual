@@ -59,7 +59,7 @@
                 :to="`/tutor/eventos-organizados/edit/${row.item.evento.idEvento}`"
               ><i class="fa fa-pencil fa-fw"></i> Editar</nuxt-link>
               <b-button
-                @click.prevent="del(row.item.idEvento, row.index)"
+                @click.prevent="del(row.item.evento.idEvento, row.index)"
                 class="btn btn-sm btn-danger mt-2"
               >
                 <i class="fa fa-trash-o fa-fw"></i> Remover
@@ -204,6 +204,23 @@ export default {
           this.periodoDefinido = false;
         })
     },
+    del(id, rowId) {
+      this.$axios
+        .delete("eventos-remove/" + id)
+        .then(() => {
+          this.eventos.splice(rowId, 1);
+          Swal.fire({
+            title: "Evento removido",
+            icon: "success"
+          });
+        })
+        .catch(err => {
+          Swal.fire({
+            title: "Evento não removido",
+            icon: "error"
+          });
+        });
+    },
     consumindoEventosOrganizandoApi() {
       this.$axios
         .get(`organizadores-pessoa/${this.$store.state.profile.idPessoa}`)
@@ -211,21 +228,28 @@ export default {
           this.eventos = res.data;
           this.isLoading = false;
           this.eventoPeriodos = res
-        })
-        .catch( err => {
-          if (err.response.status === 404) {
-            this.isLoading = false;
-          }
+        })        
+        .catch(err => {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
           else {
             Swal.fire({
               title: "Houve um problema...",
-              text: "Por favor, tente recarregar a página. Caso não dê certo," +
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
-              icon: 'error',
+              icon: "error"
             })
-            .then(() => this.isLoading = false );
           }
-      });
+          this.isLoading = false
+        });
 
     }
   }

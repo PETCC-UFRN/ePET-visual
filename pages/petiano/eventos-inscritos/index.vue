@@ -62,7 +62,8 @@
           <nav>
             <b-pagination
               :total-rows="eventos.length"
-              :per-page="10"
+              :per-page="20"
+              pills
               v-model="currentPage"
               prev-text="Anterior"
               next-text="Próximo"
@@ -197,25 +198,27 @@ export default {
           this.eventos = res.data.content;
           this.isLoading = false;
         })
-        .catch( err => {
-          if (err.response.status === 404) {
+        .catch(err => {
+          if (err.response.status === 404) { }
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: "Nenhum evento participando",
-              icon: 'info',
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
             })
-            .then(() => this.isLoading = false );
-          }
+            .then( () => this.$route.push('/login'));
+          } 
           else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
-              icon: 'error',
+              icon: "error"
             })
-            .then(() => this.isLoading = false );
-          }  
-      });
-
+          }
+          this.isLoading = false
+        });
     }
   }
 };

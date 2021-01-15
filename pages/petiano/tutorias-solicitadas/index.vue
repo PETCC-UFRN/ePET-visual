@@ -226,19 +226,23 @@ export default {
           this.isLoadingConluidas = false;
           this.numItemsTutoriaConcluidas = res.data.totalElements;
         })
-        .catch( err => {
-          if (err.response.status === 404) {
+        .catch(err => {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
             Swal.fire({
-              title: "Nenhuma tutoria confirmada",
-              icon: 'info',
-            });
-          }
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
           else {
             Swal.fire({
               title: "Houve um problema...",
               text: "Por favor, tente recarregar a página. Caso não dê certo," + 
               " tente novamente mais tarde.",
-              icon: 'error',
+              icon: "error"
             })
           }
         });
@@ -254,10 +258,6 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria confirmada",
-              icon: 'info',
-            });
           }
           else {
             Swal.fire({
@@ -278,11 +278,7 @@ export default {
         })
         .catch( err => {
           if (err.response.status === 404) {
-            Swal.fire({
-              title: "Nenhuma tutoria solicitada",
-              icon: 'info',
-            })
-            .then( () => this.isLoadingInativas = false );
+            this.isLoadingInativas = false;
           }
           else {
             Swal.fire({
