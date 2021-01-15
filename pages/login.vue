@@ -141,23 +141,28 @@
             senha: this.senha
           })
           .then(auth => {
-            // guarda token
             Cookies.set("auth", auth.data);
           })
           .catch(err => {
             let text;
-            if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
-              text = "O email e/ou a senha não conferem.";
-            } else if (err.response.status === 403) {
+            let icon = "error";
+            if (err.response.status === 403) {
               text = "Email ou senha não encontrados";
-            } else if (err.response.status === 500 && err.response.data.message === "Usuario nao validado") {
+            }
+            else if (err.response.status === 500 && err.response.data.message === "Usuário nao validado, foi reenviado o email de confirmação") {
+              icons = "info";
               text = "Seu cadastro ainda não foi confirmado. Verifique seu email e tente novamente.";
-            } else {
-              text = "Aconteceu algum problema com seu login, tente novamente mais tarde!";
+            }
+            else if (err.response.status === 500 && err.response.data.message === "Invalid username/password supplied") {
+              text = "O email e/ou a senha não conferem.";
+            } 
+            else {
+              text = "Aconteceu algum problema com seu login, tente novamente. "
+              + "Caso o erro persista, envie email para petcc@dimap.ufrn.br explicando o ocorrido.";
             }
 
             Swal.fire({
-              icon: "error",
+              icon: icon,
               title: "Oops...",
               text: text,
             });

@@ -8,7 +8,9 @@
               <form @submit.prevent="register">
                 <b-img class="mb-2" center fluid src="~/static/img/pet-logo.png"></b-img>
                 <h1>Cadastro</h1>
-                <p class="text-muted">Preencha todos os campos abaixo para criação da conta.</p>
+                <p class="text-muted">Preencha todos os campos abaixo para criação da conta. Em seguida, 
+                  verifique sua caixa de email em busca de um email enviado pelo <em>petcc@dimap.ufrn.br</em> 
+                  contendo um link de ativação.</p>
                 <b-input-group class="mt-4 mb-3">
                   <b-input-group-prepend>
                     <b-input-group-text><i class="icon-user"></i></b-input-group-text>
@@ -102,19 +104,32 @@ export default {
           Swal.fire({
             icon: "info",
             title: "Falta pouco...",
-            text: "Foi enviado para o seu email um link para que sua conta " +
-            "seja validada."
+            text: "A primeira etapa de registro foi realizada. Foi enviado para o seu email um link para que sua conta " +
+            "seja validada. Enquanto esse link não for utilizado, sua conta permanecerá inativa. " + 
+            "Caso não encontre, envie email para petcc@dimap.ufrn.br explicando o ocorrido."
           })
           .then ( () => {
             this.$router.push("/login") 
           });
         })
         .catch(err =>{
-          Swal.fire({
-            icon: "error",
-            title: "Erro no cadastro",
-            text: "Tente novamente."
-          });
+
+          if (err.response.data.message === "Já existe uma pessoa cadastrada com esses dados!" 
+          || err.response.data.message === "Já existe um usuário cadastrado com esses dados!") {  
+            Swal.fire({
+              icon: "info",
+              title: "Usuário já cadastrado",
+              text: "Atualmente já existe um usuário cadastrado com esses dados. "
+                + "Caso o erro persista, envie email para petcc@dimap.ufrn.br explicando o ocorrido."
+            });
+          }
+          else {  
+            Swal.fire({
+              icon: "error",
+              title: "Erro no cadastro",
+              text: "Tente novamente. Caso o erro persista, envie email para petcc@dimap.ufrn.br explicando o ocorrido."
+            });
+          }
         })
     }
   }
