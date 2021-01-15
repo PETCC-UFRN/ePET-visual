@@ -38,10 +38,9 @@
           <b-table
             responsive="sm"
             :items="eventos"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="20"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template  v-slot:cell(actions)="row">
@@ -63,13 +62,17 @@
                 ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination
-              :totalRows="numItems"
-              :perPage="perPage"
-              v-on:currentPage="setCurrentPage"
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
             />
-          </div>
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhum evento cadastrado</h5>
@@ -84,14 +87,10 @@
 
 import Swal from "sweetalert2";
 import moment from "moment";
-import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/tutor",
-  components: {
-    Pagination
-  },
   data() {
     return {
       eventosLoading: true,
@@ -114,13 +113,16 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
-  },
+  },    
   watch: {
-    currentPage: function(val) {
-      this.$axios.get("eventos?page=" + val).then(res => {
-        this.eventos = res.data.content;
-        this.numPages = res.data.totalElements;
-      });
+    currentPage: function(val){
+      this.$axios
+        .get("pessoas?page=" + (val-1))
+        .then(res => {
+          this.eventos = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
+        });
     }
   },
   methods: {
@@ -154,11 +156,12 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos-abertos-nao-organizo-inativos")
+      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=0")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
-          this.numItems = res.data.totalElements;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch(err => {
           if (err.response.status === 404) {}
