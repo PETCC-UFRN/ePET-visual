@@ -88,6 +88,7 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
+        { key: "pessoa.usuario.email", label: "Email", sortable: true },
       ]
     };
   },

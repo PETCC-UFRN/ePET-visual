@@ -98,7 +98,7 @@
               <b-row>
                 <div v-if="row.item.confirmado === true">
                   <input type="number" v-for="(idPeriodo, index) in (eventoPeriodos)" :key="index"
-                         :class="'m-2 form-control freq-' + row.item.idParticipantes" min="0"
+                         :class="' form-control freq-' + row.item.idParticipantes" min="0"
                          @input="criaFrequencia(idPeriodo, row.item.idParticipantes, $event)"
                          :value="acharAssiduidade(row.item.idParticipantes, idPeriodo) || 0">
                 </div>
@@ -166,6 +166,7 @@
                 )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
             }
           },
+          { key: "pessoa.usuario.email", label: "Email", sortable: true },
           {key: "actions", label: "Ações disponíveis"},
           {key: "frequencias", label: "Frequência em dias"},
         ]
