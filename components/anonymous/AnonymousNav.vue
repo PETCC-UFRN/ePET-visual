@@ -14,8 +14,21 @@
           <b-dropdown-item id="drop" to="/membros-emeritos">Membros eméritos</b-dropdown-item>
           <b-dropdown-item id="drop" to="/desenvolvedores">Desenvolvedores</b-dropdown-item>
          </b-nav-item-dropdown>
-        <b-nav-item id="subtopic" to="/eventos" >Eventos</b-nav-item>
-        <b-nav-item id="subtopic" to="/noticias" >Notícias</b-nav-item>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Eventos</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/eventos/abertos">Abertos</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/eventos/encerrados">Encerrados</b-dropdown-item>
+         </b-nav-item-dropdown>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Notícias</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/noticias/novas">Novas</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/noticias/antigas">Antigas</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item id="subtopic" to="/tutorias" >Tutorias</b-nav-item>
         <b-nav-item-dropdown id="subtopic" right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>

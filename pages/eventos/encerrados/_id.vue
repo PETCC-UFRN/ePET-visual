@@ -1,8 +1,8 @@
 <template>
   <div class="container pt-5">
     <br>
-    <h1 class="mt-3 mb-0"><nuxt-link to="/eventos"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
- Voltar aos eventos</nuxt-link></h1>
+    <h1 class="mt-3 mb-0"><nuxt-link to="/eventos/encerrados"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar aos eventos encerrados</nuxt-link></h1>
       <hr>
     <b-row>
 			<b-col>

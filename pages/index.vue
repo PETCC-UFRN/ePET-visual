@@ -5,8 +5,8 @@
         <div class="row justify-content-center d-flex  align-items-center">
           <div class="col-xs-12 pt-5 pb-5">
             <b-img center src="/img/pet-logo.png" alt="Center image"></b-img>
-            <h1 class="text-white text-center petcc">Programa de Educação Tutorial</h1>
-            <h2 class="text-center mb-2">do Curso de Ciência da Computação</h2>
+            <h1 class="text-white text-center petcc">Programa de Educação Tutorial do</h1>
+            <h1 class="text-white text-center petcc mb-2">curso de Ciência da Computação da UFRN</h1>
           </div>
         </div>
       </div>

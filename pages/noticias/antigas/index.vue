@@ -3,7 +3,7 @@
     <div class="container pt-5">
       <div class="mx-auto mt-5">
         <h1 class="mt-5 mb-5 text-center">
-          <i class="fa fa-newspaper-o"></i> Notícias
+          <i class="fa fa-newspaper-o"></i> Notícias antigas
         </h1>
         <div v-if="noticias.length > 0">
           <b-card-group columns class="cards">
@@ -25,7 +25,7 @@
           </b-card-group>
         </div>
         <div v-else>
-          <h5 class="text-center">Não há nova notícia disponível.</h5>
+          <h5 class="text-center">Não há nenhuma notícia antiga disponível.</h5>
         </div>
       </div>        
     </div>

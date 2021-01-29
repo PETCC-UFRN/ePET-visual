@@ -2,7 +2,7 @@
   <div >
     <div class="container pt-5">
       <div class="mx-auto mt-5">
-        <h1 class="mt-5 mb-5 text-center"><i class="fa fa-calendar-check-o"></i> Eventos</h1>
+        <h1 class="mt-5 mb-5 text-center"><i class="fa fa-calendar-check-o"></i> Eventos encerrados</h1>
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">
@@ -32,7 +32,7 @@
           </b-card-group>
               </div>
         <div v-else>
-          <h5 class="text-center">Não há evento aberto disponível.</h5>
+          <h5 class="text-center">Não há evento encerrado disponível.</h5>
           <br>
         </div>
       </div>
