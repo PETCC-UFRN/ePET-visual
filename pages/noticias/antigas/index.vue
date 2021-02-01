@@ -8,7 +8,7 @@
         <div v-if="noticias.length > 0">
           <b-card-group columns class="cards">
             <div v-for="noticia in noticias" :key="noticia.id">
-              <nuxt-link :to="'/noticias/' + noticia.idNoticia">
+              <nuxt-link :to="'/noticias/antigas/' + noticia.idNoticia">
                 <b-card class="pr-4">
                   <b-card-text class="small text-muted">
                     {{noticia.inicio_exibicao | moment }}

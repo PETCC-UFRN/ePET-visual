@@ -6,21 +6,7 @@
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item id="subtopic" to="/#" >Início</b-nav-item>
-        <b-nav-item-dropdown id="subtopic" right>
-          <template v-slot:button-content>
-           <span>Sobre</span> 
-          </template>
-          <b-dropdown-item id="drop" to="/membros-emeritos">Membros eméritos</b-dropdown-item>
-          <b-dropdown-item id="drop" to="/desenvolvedores">Desenvolvedores</b-dropdown-item>
-         </b-nav-item-dropdown>
-        <b-nav-item-dropdown id="subtopic" right>
-          <template v-slot:button-content>
-           <span>Eventos</span> 
-          </template>
-          <b-dropdown-item id="drop" to="/eventos/abertos">Abertos</b-dropdown-item>
-          <b-dropdown-item id="drop" to="/eventos/encerrados">Encerrados</b-dropdown-item>
-         </b-nav-item-dropdown>
+        <b-nav-item id="subtopic" to="/" >Início</b-nav-item>
         <b-nav-item-dropdown id="subtopic" right>
           <template v-slot:button-content>
            <span>Notícias</span> 
@@ -28,7 +14,30 @@
           <b-dropdown-item id="drop" to="/noticias/novas">Novas</b-dropdown-item>
           <b-dropdown-item id="drop" to="/noticias/antigas">Antigas</b-dropdown-item>
         </b-nav-item-dropdown>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Eventos</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/eventos/abertos">Abertos</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/eventos/encerrados">Encerrados</b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-nav-item id="subtopic" to="/tutorias" >Tutorias</b-nav-item>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Outras atividades</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/eventos/abertos">Boas vindas aos ingressantes</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/eventos/encerrados">Competição de programação</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item-dropdown id="subtopic" right>
+          <template v-slot:button-content>
+           <span>Sobre</span> 
+          </template>
+          <b-dropdown-item id="drop" to="/membros-emeritos">O PET-CC UFRN</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/desenvolvedores">Petianos</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/membros-emeritos">Ex-petianos</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/desenvolvedores">Desenvolvedores</b-dropdown-item>
+         </b-nav-item-dropdown>
         <b-nav-item-dropdown id="subtopic" right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>

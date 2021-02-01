@@ -6,7 +6,7 @@
         <div v-if="eventos.length > 0">
           <b-card-group columns class="cards">
           <div v-for="evento in eventos" :key="evento.id">
-            <nuxt-link :to="'/eventos/' + evento.idEvento">
+            <nuxt-link :to="'/eventos/abertos/' + evento.idEvento">
               <b-card      
                 :img-src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${filterNameFile(evento.imagem)}`"
                 img-alt="Image"

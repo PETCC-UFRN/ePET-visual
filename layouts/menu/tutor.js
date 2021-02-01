@@ -24,17 +24,17 @@ export default {
             icon: 'icon-notebook',
             children: [
                 {
-                    name: 'Tutorias abertas',
+                    name: 'Abertas',
                     url: '/tutor/tutorias-abertas',
                     icon: 'icon-book-open'
                 },
                 {
-                    name: 'Tutorias solicitadas',
+                    name: 'Solicitadas',
                     url: '/tutor/tutorias-solicitadas',
                     icon: 'icon-check'
                 },
                 {
-                    name: 'Tutorias ministradas',
+                    name: 'Ministradas',
                     url: '/tutor/tutorias-ministradas',
                     icon: 'icon-check'
                 }
@@ -45,24 +45,24 @@ export default {
             icon: 'icon-event',
             children: [
                 {
-                    name: 'Eventos abertos',
+                    name: 'Abertos',
                     url: '/tutor/eventos-abertos',
                     icon: 'icon-calendar'
                 },
                 {
-                    name: 'Eventos inscritos',
+                    name: 'Inscritos',
                     url: '/tutor/eventos-inscritos',
                     icon: 'icon-user-following'
                 },
                 {
-                    name: 'Eventos organizados',
+                    name: 'Organizados',
                     url: '/tutor/eventos-organizados',
                     icon: 'icon-user-following'
                 }
             ]
         },
         {
-            name: 'Pessoas cadastradas',
+            name: 'Pessoas',
             url: '/tutor/pessoas-cadastradas',
             icon: 'icon-people'
         },

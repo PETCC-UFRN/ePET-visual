@@ -14,8 +14,7 @@
     <section class="container-site">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-xs-12 pt-2">
-            <h1 id="sobre" class="text-center pt-5">Sobre o PET-CC UFRN</h1>
+          <div class="col-xs-12 pt-4">
             <p class="text-center pt-4 pr-2 pl-2">
               {{informacoes.sobre}}
             </p>

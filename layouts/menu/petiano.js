@@ -24,17 +24,17 @@ export default {
             icon: 'icon-notebook',
             children: [
                 {
-                    name: 'Tutorias abertas',
+                    name: 'Abertas',
                     url: '/petiano/tutorias-abertas',
                     icon: 'icon-book-open'
                 },
                 {
-                    name: 'Tutorias solicitadas',
+                    name: 'Solicitadas',
                     url: '/petiano/tutorias-solicitadas',
                     icon: 'icon-check'
                 },
                 {
-                    name: 'Tutorias ministradas',
+                    name: 'Ministradas',
                     url: '/petiano/tutorias-ministradas',
                     icon: 'icon-check'
                 }
@@ -45,24 +45,24 @@ export default {
             icon: 'icon-event',
             children: [
                 {
-                    name: 'Eventos abertos',
+                    name: 'Abertos',
                     url: '/petiano/eventos-abertos',
                     icon: 'icon-calendar'
                 },
                 {
-                    name: 'Eventos inscritos',
+                    name: 'Inscritos',
                     url: '/petiano/eventos-inscritos',
                     icon: 'icon-user-following'
                 },
                 {
-                    name: 'Eventos organizados',
+                    name: 'Organizados',
                     url: '/petiano/eventos-organizados',
                     icon: 'icon-user-following'
                 }
             ]
         },
         {
-            name: 'Pessoas cadastradas',
+            name: 'Pessoas',
             url: '/petiano/pessoas-cadastradas',
             icon: 'icon-people'
         },
