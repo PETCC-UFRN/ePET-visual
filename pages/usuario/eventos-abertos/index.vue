@@ -18,10 +18,9 @@
           <b-table
             responsive="sm"
             :items="eventos"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="perPage"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -35,13 +34,17 @@
                 ><i class="fa fa-check-circle fa-fw"></i> Inscrever</b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination
-              :totalRows="numItems"
-              :perPage="perPage"
-              v-on:currentPage="setCurrentPage"
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
             />
-          </div>
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhum evento aberto</h5>
@@ -54,22 +57,17 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
-import Pagination from "~/components/Pagination";
-
 export default {
   name: "dashboard",
   layout: "menu/usuario",
-  components:{
-    Pagination
-  },
   data() {
     return {
       isLoading: true,
       keyword: '',
       eventos: [],
-      currentPage: 0,
-      numItems: 0,
-      perPage: 20,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -85,10 +83,11 @@ export default {
     this.consumindoEventosApi();
   },
   watch: {
-    currentPage: function(val) {
-      this.$axios.get("eventos?page=" + val).then(res => {
+    currentPage: function(val){
+      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=" + (val-1)).then(res => {
         this.eventos = res.data.content;
-        this.numPages = res.data.totalElements;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
       });
     }
   },
@@ -98,11 +97,14 @@ export default {
     },
     consumindoEventosApi() {
       this.$axios
-        .get("eventos-abertos-nao-organizo-ativos")
+        .get("eventos-abertos-nao-organizo-ativos?page=0")
         .then(res => {
           this.eventos = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+        
           this.isLoading = false;
-          this.numItems = res.data.content.length;
         })
         .catch( err => {
           if (err.response.status === 500) {

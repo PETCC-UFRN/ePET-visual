@@ -2,7 +2,7 @@
   <div>
     <b-card>
       <template v-slot:header>
-        <h2><i class="fa fa-group px-2"></i>Pessoas cadastradas</h2>
+        <h2><i class="fa fa-group px-2"></i>Pessoas</h2>
       </template>
       <div v-if="isLoading === true" class="d-flex justify-content-center mb-3">
         <h4>Carregando...</h4>

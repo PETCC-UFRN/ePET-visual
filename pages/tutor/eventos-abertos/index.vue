@@ -98,9 +98,9 @@ export default {
       eventosRemoverLoading: false,
       keyword: '',
       eventos: [],
-      currentPage: 0,
-      numItems: 0,
-      perPage: 20,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título"  },
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
@@ -113,16 +113,14 @@ export default {
   },
   mounted () {
     this.consumindoEventosApi();
-  },    
+  },  
   watch: {
     currentPage: function(val){
-      this.$axios
-        .get("pessoas?page=" + (val-1))
-        .then(res => {
-          this.eventos = res.data.content;
-          this.numElements = res.data.totalElements;
-          this.pageSize = res.data.pageable.pageSize;
-        });
+      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=" + (val-1)).then(res => {
+        this.eventos = res.data.content;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
+      });
     }
   },
   methods: {

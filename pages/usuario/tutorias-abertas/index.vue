@@ -39,10 +39,9 @@
           <b-table
             responsive="sm"
             :items="tutorias"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="10"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -53,9 +52,17 @@
                 Solicitar tutoria</b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
-          </div>
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhuma tutoria cadastrada ou ativa</h5> 
@@ -67,20 +74,15 @@
 
 <script>
 import Swal from "sweetalert2";
-import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
-    components: {
-    Pagination
-  },
-
   data() {
     return {
-      currentPage: 0,
-      numItems: 0,
-      perPage: 10,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       isLoading: true,
       selected: 'nomeCodigoDisciplina',
       options: [
@@ -98,6 +100,15 @@ export default {
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };
+  },
+  watch: {
+    currentPage: function(val){
+      this.$axios.get("tutorias?page=" + (val-1)).then(res => {
+        this.tutorias = res.data.content;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
+      });
+    }
   },
   mounted() {
     this.consumindoTutoriasApi();
@@ -172,11 +183,14 @@ export default {
     },
     consumindoTutoriasApi() {
       this.$axios
-        .get("tutorias")
+        .get("tutorias?page=0")
         .then(res => {
           this.tutorias = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+          
           this.isLoading = false;
-          this.numItems = res.data.totalElements;
         })
         .catch( err => {
           if (err.response.status === 404) {

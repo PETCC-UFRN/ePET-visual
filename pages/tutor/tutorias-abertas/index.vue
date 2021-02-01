@@ -55,10 +55,9 @@
           <b-table
             responsive="sm"
             :items="tutorias"
-            :current-page="currentPage"
             :bordered="false"
             striped   
-            :per-page="10"
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -71,12 +70,12 @@
           </b-table>
           <nav>
             <b-pagination
-              :total-rows="tutorias.length"
-              :per-page="10"
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
               v-model="currentPage"
               prev-text="Anterior"
               next-text="Próximo"
-              pills
               hide-goto-end-buttons
             />
           </nav>
@@ -109,6 +108,8 @@ export default {
       nomemCpfResponsavel: false,
       tutorias: [],
       currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "disciplina.codigo", label:"Código", sortable: true },
         { key: "disciplina.nome", label:"Disciplina", sortable: true },
@@ -119,6 +120,15 @@ export default {
   },
   mounted() {
     this.consumindoTutoriasApi();
+  },
+  watch: {
+    currentPage: function(val){
+      this.$axios.get("tutorias?page=" + (val-1)).then(res => {
+        this.tutorias = res.data.content;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
+      });
+    }
   },
   methods: {
     cancelSearch() {
@@ -177,9 +187,13 @@ export default {
     },
     consumindoTutoriasApi() {
       this.$axios
-        .get("tutorias")
+        .get("tutorias?page=0")
         .then(res => {
           this.tutorias = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+        
           this.isLoading = false;
         })
         .catch(err => {

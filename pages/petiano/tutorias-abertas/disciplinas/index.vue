@@ -86,9 +86,9 @@
           <b-table
             responsive="sm"
             :items="disciplinas"
-            :current-page="currentPage"
             :bordered="false"
             striped   
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -114,9 +114,17 @@
               </b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
-          </div>
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhuma disciplina cadastrada</h5>
@@ -127,15 +135,11 @@
 </template>
 
 <script>
-import Pagination from "~/components/Pagination";
 import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components: {
-    Pagination
-  },
   data() {
     return {
       keyword: "",
@@ -146,9 +150,9 @@ export default {
         nome: ""
       },
       disciplinas: [],
-      currentPage: 0,
-      numItems: 0,
-      perPage: 20,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "codigo", sortable: true, label: "Código" },
         { key: "nome", sortable: true },
@@ -158,13 +162,15 @@ export default {
   },
   mounted() {
     this.getDisciplinas();
-    this.$on("currentPage");
+    // this.$on("currentPage");
   },
   watch: {
-    currentPage: function(val) {
-      this.$axios.get("disciplinas?page=" + val).then(res => {
+    currentPage: function(val){
+      this.$axios.get("disciplinas?page=" + (val-1))
+      .then(res => {
         this.disciplinas = res.data.content;
-        this.numPages = res.data.totalElements;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
       });
     }
   },
@@ -216,12 +222,13 @@ export default {
     },
     getDisciplinas() {
       this.$axios
-        .get("disciplinas")
+        .get("disciplinas?page=0")
         .then(res => {
-          this.numItems = res.data.totalElements;
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
           this.disciplinas = res.data.content;
           this.isLoading = false;
-        })
+        })        
         .catch(err => {
           if (err.response.status === 404) {}
           else if (err.response.status === 403) {

@@ -23,12 +23,12 @@ export default {
             icon: 'icon-notebook',
             children: [
                 {
-                    name: 'Tutorias abertas',
+                    name: 'Abertas',
                     url: '/usuario/tutorias-abertas',
                     icon: 'icon-book-open'
                 },
                 {
-                    name: 'Tutorias solicitadas',
+                    name: 'Solicitadas',
                     url: '/usuario/tutorias-solicitadas',
                     icon: 'icon-check'
                 }
@@ -40,17 +40,17 @@ export default {
             icon: 'icon-event',
             children: [
                 {
-                    name: 'Eventos abertos',
+                    name: 'Abertos',
                     url: '/usuario/eventos-abertos',
                     icon: 'icon-calendar'
                 },
                 {
-                    name: 'Eventos inscritos',
+                    name: 'Inscritos',
                     url: '/usuario/eventos-inscritos',
                     icon: 'icon-user-following'
                 },
                 {
-                    name: 'Eventos organizados',
+                    name: 'Organizados',
                     url: '/usuario/eventos-organizados',
                     icon: 'icon-user-following'
                 }
