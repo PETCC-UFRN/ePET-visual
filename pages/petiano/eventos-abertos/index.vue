@@ -100,7 +100,7 @@ export default {
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_fim", sortable: true, label: "Fim do evento" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };
@@ -128,6 +128,9 @@ export default {
       this.$axios.get(`pesquisar-evento/${this.keyword}`)
         .then( res => {
           this.eventos = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch( err => {
             if (err.response.status === 404) {
@@ -155,6 +158,7 @@ export default {
           this.eventos = res.data.content;
           this.eventosLoading = false;
           this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
           this.pageSize = res.data.pageable.pageSize;
         })
         .catch(err => {

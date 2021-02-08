@@ -183,6 +183,10 @@ export default {
         .get(`pesquisar-pessoa/${this.keyword}`)
         .then(res => {
           this.pessoas = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+          this.isLoading = false;
         })
         .catch( err => {
           if (err.response.status === 404) {

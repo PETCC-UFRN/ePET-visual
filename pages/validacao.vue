@@ -8,7 +8,7 @@
           <b-form-group
             class="mt-5"
             id="input-group-1"
-            label="Código de validação"
+            label="Insira o código de validação:"
             label-for="input-1"
             label-class="text-black"
             label-size="lg"

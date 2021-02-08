@@ -1,8 +1,8 @@
 <template>
   <div >
     <div class="container pt-5">
-      <h1 class="mt-4 mb-2"><nuxt-link to="/sobre/ex-petianos#"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
- Voltar aos ex-petianos</nuxt-link></h1>
+      <h1 class="mt-4 mb-2"><nuxt-link to="/sobre/petianos#"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+ Voltar aos petianos</nuxt-link></h1>
       <hr>
       <div class="mt-3 mb-5 ml-2 mr-2">
         <b-row>
@@ -18,7 +18,7 @@
             </b-row>
             <b-row>
               <b-col class="mt-1 mb-1" cols="12">
-                <span><strong>Período: </strong> {{petiano.data_ingresso | moment}} - {{petiano.data_egresso | moment}} </span>
+                <span v-if="petiano.data_ingresso !== null"><strong>Data de ingresso:</strong> {{petiano.data_ingresso | moment}} </span>
               </b-col>
               <b-col class="mt-0 mb-1" cols="12">
                 <span><strong>Email:</strong> <a :href="`mailto:${petiano.pessoa.usuario.email}`">  {{petiano.pessoa.usuario.email}}</a> </span>
@@ -30,7 +30,7 @@
                 <span><strong>Lattes:</strong> <a target="_blank" :href="`${petiano.lattes}`"> {{petiano.lattes}}</a></span>
               </b-col>
               <b-col class="mt-2 mb-2">
-                <span><strong>Áreas de interesse:</strong> {{petiano.area_interesse}}</span>
+                <span><strong>Áreas de interesse:</strong> <p>{{petiano.area_interesse}}</p></span>
               </b-col>  
             </b-row>
           </b-col>
@@ -48,7 +48,7 @@ export default {
   layout: 'index',
   head () {
 		return {
-			title: 'PET-CC UFRN | Membros eméritos'
+			title: 'PET-CC UFRN | Petianos'
 		}
 	},
   data() {
@@ -80,10 +80,7 @@ export default {
   },
   filters: {
     moment: function(date) {
-      if ( date != null)
-        return moment(date).format("MM/YYYY");
-      else
-        return "DESCONHECIDO";
+      return moment(date).format("DD/MM/YYYY");
     }
   },
   methods: {
@@ -92,11 +89,10 @@ export default {
     },
     getPetiano() {
       this.$axios
-        .get("petianos-antigos")
+        .get("petianos-atuais")
         .then(res => {
           this.petiano = res.data.content.filter(petiano => petiano.idPetiano == this.idPetiano)[0];
-
-
+          
           if (this.petiano.foto !== null && this.petiano.foto !== '') 
             this.fotoMembro =  this.filterNameFile(this.petiano.foto)
         })

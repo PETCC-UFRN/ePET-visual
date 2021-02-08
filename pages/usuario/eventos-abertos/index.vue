@@ -73,7 +73,7 @@ export default {
         { key: "d_inscricao", sortable: true, label: "Início das inscrições" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
         { key: "d_inscricao_fim", sortable: true, label: "Fim das inscrições" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "d_evento_inicio", sortable: true, label: "Início do evento" , formatter: (date) => { if (date != null) return moment(date).format('DD/MM/YYYY') } },
-        { key: "d_evento_fim", sortable: true, label: "Fim do eventos" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
+        { key: "d_evento_fim", sortable: true, label: "Fim do evento" , formatter: (date) => { if (date != null) return  moment(date).format('DD/MM/YYYY') } },
         { key: "actions", label: "Ações disponíveis"  }
       ]
     };

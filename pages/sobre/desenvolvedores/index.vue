@@ -2,8 +2,12 @@
   <div > 
     <div class="container pt-5">
       <br>
-      <h1 class="mt-4 mb-2 text-center"><i class="fa fa-users"></i> Desenvolvedores</h1>
-      <p class="text-center pt-2 pb-2">*Programadores que participaram no desenvolvimento do website. </p>
+      <h1 class="mt-4 mb-4 text-center"><i class="fa fa-users"></i> Desenvolvedores</h1>
+      
+      <b-card class="text-center mr-5 ml-5 pt-2 pb-2">
+
+      <p>Desenvolvedores que contribuíram na criação do novo website.</p>
+      </b-card>
       <div>
         <b-row class="mx-auto" align-h="center">
           <div class="pt-1" v-if="devs.length > 0">
@@ -72,13 +76,13 @@ a {
 }
 
 p {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 h1 {
   text-align: center;
   font-weight: 300;
-  font-size: 40px;
+  font-size: 36px;
 }
 
 h3 {

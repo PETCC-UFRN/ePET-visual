@@ -39,12 +39,15 @@
             </b-input-group-text>
           </b-input-group>
 
-          <b-table 
-            responsive="sm" 
-            :items="noticias" 
+          <b-table             
+            responsive="sm"
+            :items="noticias"
             :bordered="false"
             striped   
-            :fields="fields">
+            :per-page="pageSize"
+            :fields="fields"
+            
+            >
             <template v-slot:cell(actions)="row">
             
               <nuxt-link
@@ -73,9 +76,17 @@
               </b-button>
             </template>
           </b-table>
-          <div>
-            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
-          </div>
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhuma notícia cadastrada</h5>
@@ -88,14 +99,11 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment";
-import Pagination from "~/components/Pagination";
+
 
 export default {
   name: "dashboard",
   layout: "menu/petiano",
-  components: {
-    Pagination
-  },
   data() {
     return {
       file:[],
@@ -103,9 +111,9 @@ export default {
       isLoading: true,
       keyword: "",
       noticias: [],
-      currentPage: 0,
-      numItems: 0,
-      perPage: 20,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
         {
@@ -135,7 +143,8 @@ export default {
     currentPage: function(val) {
       this.$axios.get("noticia?page=" + val).then(res => {
         this.noticias = res.data.content;
-        this.numPages = res.data.totalElements;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
       });
     }
   },
@@ -165,7 +174,9 @@ export default {
         .get("noticia")
         .then(res => {
           this.noticias = res.data.content;
-          this.numItems = res.data.totalElements;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
           this.isLoading = false;
         })        
         .catch(err => {
@@ -199,7 +210,9 @@ export default {
         .get(`pesquisar-noticia/${this.keyword}`)
         .then(res => {
           this.noticias = res.data.content;
-          this.numItems = res.data.totalElements;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch( err => {
           if (err.response.status === 404) {
