@@ -43,7 +43,9 @@
               </select>
             </template>
             <template v-slot:cell(actions)="row">
-             <b-button  v-b-modal="'my-modal'"  @click="idUsuario = row.item.usuario.idUsuario " class="btn btn-sm btn-info">
+             <b-button  v-b-modal="'my-modal'"  
+              @click="idUsuario = row.item.usuario.idUsuario" 
+              class="btn btn-sm btn-info">
                 Modificar email
              </b-button>              
             </template>
@@ -81,14 +83,17 @@
       </b-input-group>
       <b-button v-if="email !== '' && email === coemail" @click="mudarEmail" variant="primary" class="w-100">Confirmar</b-button>
     </b-modal>
+
+
     <b-modal ref="modal-create" hide-footer no-close-on-backdrop>
       <template v-slot:modal-title>
         <h5 class="text-center tam">Ingresso de petiano</h5>
       </template>
       <div class="d-block text-center tamanho">
         <p>Informe a data em que o usuário ingressou no PET-CC UFRN, em seguida confirme. Dessa forma, o usuário ganhará permissão de <strong>PETIANO</strong>
-        podendo criar e editar eventos, notícias, tutorias, entre outros. Será necessário que esse petiano 
-        atualize seus dados indo na página Meus Dados. Quando o usuário se tornar um petiano egresso, modifique a permissão para <strong>COMUM</strong> novamente.</p>
+        podendo criar e editar eventos, notícias, tutorias, entre outros. <b>Será necessário que esse petiano 
+        atualize seus dados</b> indo na página <em>Meus Dados</em>. Quando o usuário se tornar um petiano egresso, 
+        modifique a permissão para <strong>COMUM</strong> novamente.</p>
       </div>
       <b-form-datepicker
         id="data-ingresso"
@@ -98,27 +103,7 @@
         locale="pt-br"
         label-no-date-selected="Nenhuma data selecionada"
       ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('create')" class="w-100 mt-2">Confirmar</b-button>
-    </b-modal>
-
-    <b-modal ref="modal-update" hide-footer no-close-on-backdrop>
-      <template v-slot:modal-title>
-        <h5 class="text-center tam">Egresso de petiano</h5>
-      </template>
-      <div class="d-block text-center tamanho">
-        <p>Informe a data em que o usuário egressou o PET-CC UFRN, em seguida confirme. Dessa forma, o usuário perderá a permissão de  <strong>PETIANO</strong>. Suas informações públicas estão disponíveis na 
-        página <code>/eventos-egressos</code> juntamente com a dos demais usuários que fizeram parte do PET-CC UFRN.</p>
-      </div>
-      
-      <b-form-datepicker
-        id="data-egresso"
-        v-model="modal.data_egresso"
-        type="date"
-        required
-        locale="pt-br"
-        label-no-date-selected="Nenhuma data selecionada"
-      ></b-form-datepicker>
-      <b-button variant="primary" @click="createOrUpdatePetiano('update')" class="w-100 mt-2">Confirmar</b-button>
+      <b-button variant="primary" @click="createPetiano('create')" class="w-100 mt-2">Confirmar</b-button>
     </b-modal>
   </div>
 </template>
@@ -140,16 +125,32 @@ export default {
       email:"",
       coemail:"",
       idUsuario:"",
-      fields: [
-        { key: "nome", sortable: true },
-        {
-          key: "tipo_usuario",
-          sortable: true,
-          label: "Tipo de usuário",
-          formatter: value => {
-            return value.nome;
+      novoPetiano: {
+        "area_interesse": "",
+        "data_egresso": "",
+        "data_ingresso": "",
+        "foto": "string",
+        "idPetiano": 0,
+        "lattes": "",
+        "pessoa":  {
+          "idPessoa": 0,
+          "nome": "",
+          "cpf": "",
+          "tipo_usuario": {
+            "idTipo_usuario": 2,
+            "nome": "petiano"
+          },
+          "usuario": {
+            "idUsuario": 0,
+            "email": ""
           }
         },
+        "site_pessoal": ""
+      },
+
+      fields: [
+        { key: "nome", sortable: true },
+        { key: "tipo_usuario", sortable: true, label: "Tipo de usuário", formatter: value => value.nome },
         { key: "cpf", sortable: false, label: "CPF",
           formatter: value => {
             if (value != null)
@@ -159,15 +160,8 @@ export default {
               )}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
           }
         },
-        {
-          key: "usuario",
-          sortable: true,
-          label: "Email",
-          formatter: value => {
-            return value.email;
-          }
-        },
-        { key: "actions", label: "Ações disponíveis"  }
+        { key: "usuario", sortable: true, label: "Email", formatter: value => value.email },
+        { key: "actions", label: "Ações disponíveis" }
       ],
       modal: {},
       keyword: "",
@@ -224,21 +218,41 @@ export default {
         }); 
     },
     async changePermission(row, event) {
-      let id_usuario = row.item.usuario.idUsuario;
-      let id_tipo = event.target.value;
+      const id_usuario = row.item.usuario.idUsuario;
+      const id_tipo = event.target.value;
+
+      const pessoa = this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
+          
+      if (id_tipo == 2) {  // petiano 
+        this.$set(this.modal, "item", row.item);
+        this.showModal("modal-create");
+      }
+      else if (id_tipo == 1) { // comum
+        let idPetiano
+        this.$axios
+          .get(`petianos-pessoa/${id_usuario}`)
+          .then(res => {
+            idPetiano = res.data.idPetiano;
+            this.$axios
+              .delete(`petianos-remove/${idPetiano}`)
+              .then(res => {
+                Swal.fire({
+                  title: "Ex-petiano cadastrado",
+                  text: "O usuário foi cadastrado como ex-petiano com sucesso",
+                  icon: "success"
+                });
+              })              
+          })
+      }
+      else {
+        this.$set(this.modal, "item", row.item);
+        this.createPetiano('create');
+      } 
+
       await this.$axios
-        .post(
-          "pessoas-cadastro-atualizar/" + id_tipo + "/" + id_usuario,
-          this.pessoas.filter(item => item.idPessoa === row.item.idPessoa)[0]
-        )
+        .post(`pessoas-cadastro-atualizar/${id_tipo}/${id_usuario}`, pessoa)
         .then(res => {
-          if (id_tipo == 2) {
-            this.$set(this.modal, "item", row.item);
-            this.showModal("modal-create");
-          } else if (id_tipo != 2) {
-            this.$set(this.modal, "item", row.item);
-            this.showModal("modal-update");
-          }
+          
         })
         .catch(err => {
           Swal.fire({
@@ -248,6 +262,7 @@ export default {
             icon: "error"
           });
         });
+      
     },
     showModal(name) {
       this.$refs[name].show();
@@ -255,22 +270,29 @@ export default {
     hideModal(name) {
       this.$refs[name].hide();
     },
-    createOrUpdatePetiano(type) {
+    async createPetiano() {
       let pessoaSelected = this.pessoas.filter(
         item => item.idPessoa === this.modal.item.idPessoa
       )[0];
-      if (type === "create") {
-        pessoaSelected["data_ingresso"] = this.modal.data_ingresso;
-        pessoaSelected["data_egresso"] = null;
-      } else {
-        pessoaSelected["data_egresso"] = this.modal.data_egresso;
-      }
+      
+      this.novoPetiano["pessoa"] = pessoaSelected
+      
+      if (this.modal.data_ingresso != null)
+        this.novoPetiano["data_ingresso"] = this.modal.data_ingresso;
 
-      this.$axios
-        .post("petianos-cadastro/" + this.modal.item.idPessoa, pessoaSelected)
+      await this.$axios
+        .post("petianos-cadastro/" + this.modal.item.idPessoa, this.novoPetiano)
         .then(res => {
           this.hideModal("modal-create");
-          this.hideModal("modal-update");
+
+            Swal.fire({
+              title: "Permissão alterada",
+              text: "A permissão do usuário foi alterada com sucesso. Caso deseje tornar esse usuário em" + 
+              "ex-petiano, é necessário torná-lo usuário com permissão comum novamente",
+              icon: "success"
+            });
+
+
         })
         .catch(err => {
           Swal.fire({
@@ -280,6 +302,8 @@ export default {
             icon: 'error'
           });
         });
+    
+
     },
     cancelSearch() {
       this.keyword = "";
@@ -290,6 +314,10 @@ export default {
         .get(`pesquisar-pessoa/${this.keyword}`)
         .then(res => {
           this.pessoas = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+          this.isLoading = false;
         })
         .catch( err => {
           if (err.response.status === 404) {

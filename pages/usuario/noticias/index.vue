@@ -26,10 +26,9 @@
           <b-table
             responsive="sm"
             :items="noticias"
-            :current-page="currentPage"
             :bordered="false"
-            striped
-            :per-page="10"
+            striped   
+            :per-page="pageSize"
             :fields="fields"
           >
             <template v-slot:cell(actions)="row">
@@ -41,9 +40,17 @@
               </nuxt-link>
             </template>
           </b-table>
-          <div>
-            <Pagination :totalRows="numItems" :perPage="perPage" v-on:currentPage="setCurrentPage" />
-          </div>
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
         </div>
         <div v-else>
           <h5>Nenhuma notícia cadastrada</h5>
@@ -55,23 +62,18 @@
 
 <script>
 import Swal from "sweetalert2";
-import Pagination from "~/components/Pagination";
 
 export default {
   name: "dashboard",
   layout: "menu/usuario",
-  components: {
-    Pagination
-  },
-
   data() {
     return {
       isLoading: true,
       noticias: [],
       keyword: "",
-      currentPage: 0,
-      numItems: 0,
-      perPage: 10,
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       fields: [
         { key: "titulo", sortable: true, label: "Título" },
         { key: "actions", label: "Ações disponíveis" }
@@ -80,6 +82,15 @@ export default {
   },
   mounted() {
     this.getNoticias();
+  },
+  watch: {
+    currentPage: function(val) {
+      this.$axios.get("noticia?page=" + (val-1)).then(res => {
+        this.noticias = res.data.content;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
+      });
+    }
   },
   methods: {
     setCurrentPage(val) {
@@ -90,8 +101,10 @@ export default {
         .get("noticias-atuais")
         .then(res => {
           this.noticias = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
           this.isLoading = false;
-          this.numItems = res.data.totalElements;
         })
         .catch(err => {
           if (err.response.status === 404) {

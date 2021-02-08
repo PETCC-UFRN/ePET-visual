@@ -3,10 +3,10 @@
     <div class="container pt-5">
       <h1 class="mt-5 mb-5 text-center"><i class="fa fa-users"></i> Ex-petianos</h1>
       <div class="mt-5 mb-2 ml-5 mr-5" v-if="membrosEmeritos.length > 0">
-        <b-row class="mx-auto" align-h="center">
+        <b-row class="mx-auto mb-5" align-h="center">
           <div v-for="petiano in membrosEmeritos" :key="petiano.id">
             <b-col class="mt-2 mb-4 ml-2 mr-2">
-              <nuxt-link :to="`/membros-emeritos/${petiano.idPetiano}`">
+              <nuxt-link :to="`/sobre/ex-petianos/${petiano.idPetiano}`">
 
                 <b-avatar v-if="petiano.foto != null" size="190px" :src="`https://petcc.dimap.ufrn.br:8443/downloadfile/${petiano.foto}`">
                 </b-avatar>
@@ -20,6 +20,19 @@
             </b-col>
           </div>
         </b-row>
+        <b-row class="mx-auto mt-5" align-h="center">
+          <nav>
+            <b-pagination
+              :total-rows="numElements"
+              :per-page="pageSize"
+              pills
+              v-model="currentPage"
+              prev-text="Anterior"
+              next-text="Próximo"
+              hide-goto-end-buttons
+            />
+          </nav>
+        </b-row>      
       </div>
       <div v-else>
         <h5 class="text-center">Nenhum ex-petiano cadastrado.</h5>
@@ -35,11 +48,16 @@ export default {
   layout: 'index',
   head () {
     return {
-      title: 'PET-CC UFRN | Membros eméritos'
+      title: 'PET-CC UFRN | Ex-petianos'
     }
   },
   data() {
     return {
+      isLoading: true,
+      tutorias: [],
+      currentPage: 1,
+      numElements: 1,
+      pageSize: 20,
       mainProps: {width: 100, height: 100},
       mainPropsTutor: {width: 100, height: 100},
       membrosEmeritos: []
@@ -48,18 +66,44 @@ export default {
   mounted() {
     this.getPetianosAntigos();
   },
+  watch: {
+    currentPage: function(val){
+      let aux
+      this.$axios
+        .get("petianos-antigos?page=" + (val-1))
+        .then(res => {
+          this.membrosEmeritos = res.data.content;
+          this.membrosEmeritos.forEach(petiano => {
+            if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto)
+            aux = petiano.pessoa.nome.split(' ')
+            petiano.pessoa.nome = `${aux[0]} ${aux[1]}`;
+          });
+
+          this.numElements = res.data.totalElements;
+          this.pageSize = res.data.pageable.pageSize;
+        });
+    }
+  },
   methods: {
     filterNameFile(file) {
       return file.split('/').slice(2)[0];
     },
     getPetianosAntigos() {
+      let aux
       this.$axios
-        .get("petianos-antigos")
+        .get("petianos-antigos?page=0")
         .then(res => {
           this.membrosEmeritos = res.data.content;
           this.membrosEmeritos.forEach(petiano => {
             if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto);
+
+            aux = petiano.pessoa.nome.split(' ')
+            petiano.pessoa.nome = `${aux[0]} ${aux[1]}`;
           });
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
+        
         })
         .catch( err => {
           Swal.fire({
@@ -78,6 +122,7 @@ export default {
 <style scoped>
   a {
     color: #000000;
+  text-decoration: none;
   }
 
   i.fab {

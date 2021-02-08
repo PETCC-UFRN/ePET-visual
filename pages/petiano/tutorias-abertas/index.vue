@@ -159,6 +159,9 @@ export default {
         .get(`pesquisar-disciplina-tutoria/${this.keyword}`)
         .then( res => {
           this.tutorias = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch( err => {
             if (err.response.status === 404) {
@@ -166,6 +169,7 @@ export default {
                 title: "Nenhuma tutoria encontrada",
                 icon: 'info',
               });
+              this.keyword= '';
             }
             else {
               Swal.fire({
@@ -182,6 +186,9 @@ export default {
         .get(`pesquisar-petiano-tutoria/${this.keyword}`)
         .then( res => {
           this.tutorias = res.data.content;
+          this.numElements = res.data.totalElements;
+          this.currentPage = res.data.number + 1;          
+          this.pageSize = res.data.pageable.pageSize;
         })
         .catch( err => {
             if (err.response.status === 404) {
@@ -189,6 +196,7 @@ export default {
                 title: "Nenhuma tutoria encontrada",
                 icon: 'info',
               });
+              this.keyword= '';
             }
             else {
               Swal.fire({

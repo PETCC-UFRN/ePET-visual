@@ -125,12 +125,17 @@ export default {
       return file.split('/').slice(2)[0];
     },
     getPetianosAtuais() {
+       let aux
+
       this.$axios
         .get("petianos-atuais")
         .then(res => {
           this.petianosAtuais = res.data.content;
           this.petianosAtuais.forEach(petiano => {
             if( petiano.foto != null) petiano.foto = this.filterNameFile(petiano.foto);
+
+            aux = petiano.pessoa.nome.split(' ')
+            petiano.pessoa.nome = `${aux[0]} ${aux[1]}`;
           });
         })
         .catch(err => {
