@@ -116,7 +116,7 @@ export default {
   },  
   watch: {
     currentPage: function(val){
-      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=" + (val-1)).then(res => {
+      this.$axios.get("eventos" + (val-1)).then(res => {
         this.eventos = res.data.content;
         this.numElements = res.data.totalElements;
         this.pageSize = res.data.pageable.pageSize;
@@ -154,7 +154,7 @@ export default {
       this.currentPage = val;
     },
     consumindoEventosApi() {
-      this.$axios.get("eventos-abertos-nao-organizo-ativos?page=0")
+      this.$axios.get("eventos?page=0")
         .then(res => {
           this.eventos = res.data.content;
           this.eventosLoading = false;
