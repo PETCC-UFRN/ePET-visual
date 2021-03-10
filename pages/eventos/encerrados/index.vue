@@ -73,7 +73,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("eventos-abertos")
+      .get("eventos-abertos-finalizados")
       .then(res => {
         this.eventos = res.data;
       })

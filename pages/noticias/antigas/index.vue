@@ -51,7 +51,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("noticias-atuais")
+      .get("noticias-antigas")
       .then(res => {
         this.noticias = res.data.content;
       })

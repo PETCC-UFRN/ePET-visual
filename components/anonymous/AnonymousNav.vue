@@ -12,14 +12,14 @@
            <span>Notícias</span> 
           </template>
           <b-dropdown-item id="drop" to="/noticias/novas">Novas</b-dropdown-item>
-          <b-dropdown-item id="drop">Antigas</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/noticias/antigas">Antigas</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown id="subtopic" right>
           <template v-slot:button-content>
            <span>Eventos</span> 
           </template>
           <b-dropdown-item id="drop" to="/eventos/abertos">Abertos</b-dropdown-item>
-          <b-dropdown-item id="drop">Encerrados</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/eventos/encerrados">Encerrados</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item id="subtopic" to="/tutorias" >Tutorias</b-nav-item>
         <b-nav-item-dropdown id="subtopic" right>
@@ -52,7 +52,8 @@
           </template>
           <b-dropdown-item class="drop" to="/login">Entrar</b-dropdown-item>
           <b-dropdown-item to="/register">Cadastrar</b-dropdown-item>
-          <b-dropdown-item to="/validacao">Validar declaração</b-dropdown-item>
+          <b-dropdown-item to="/validacao">Validar declaração de Participantes</b-dropdown-item>
+          <b-dropdown-item to="/validacaoOrganizador">Validar declaração de Organizadores</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
