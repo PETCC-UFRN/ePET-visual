@@ -2,7 +2,7 @@
   <div>
     <div class="container pt-5">
      	<br>
-      <h1 class="mt-3 mb-0"><nuxt-link to="/noticias"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+      <h1 class="mt-3 mb-0"><nuxt-link to="/noticias/antigas"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
  Voltar às notícias</nuxt-link></h1>
       <hr>
       <b-row class="mb-5">
