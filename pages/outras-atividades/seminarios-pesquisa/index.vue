@@ -6,7 +6,7 @@
 
         
         <b-card>
-            <p>{{seminarios.corpo}}
+            <p>{{seminarios.conteudo}}
             </p>
         </b-card>
         
@@ -29,19 +29,18 @@ export default {
   data() {
     return {
       seminarios: {
-        titulo: "Seminários de Pesquisa",
-        corpo: "Esta atividade consiste na elaboração, apresentação e participação dos Petianos em seminários de pesquisa, oferecidos de forma presencial e/ou remota. Os seminários são ministrados por Petianos deste grupo e, eventualmente, por convidados, abordando temas de pesquisa de interesse ou em desenvolvimento pelos mesmos, seja em função de projetos de iniciação científica, projetos de final de curso ou realizadas no âmbito do PET. Estes seminários buscam disseminar conhecimentos de temas de pesquisa variadas, apresentar avanços de pesquisa obtidos e favorecer o surgimento de sinergias entre iniciativas de pesquisa. Os seminários são planejados para ocorrer quinzenalmente, em média, de forma a permitir a participação de cada Petiano do grupo a cada período letivo."
+        titulo: "",
+        conteudo: ""
       }
     };
   },
   /*mounted() {
-    ;
     //this.getSeminarios();
   },*/
   methods: {
     getSeminarios() {
       this.$axios
-        .get("seminarios")
+        .get("atividades/Seminários de pesquisa.")
         .then(res => {
           this.seminarios = res.data.content;
         })
