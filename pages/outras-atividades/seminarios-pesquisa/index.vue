@@ -34,9 +34,9 @@ export default {
       }
     };
   },
-  /*mounted() {
+  mounted() {
     //this.getSeminarios();
-  },*/
+  },
   methods: {
     getSeminarios() {
       this.$axios
