@@ -26,14 +26,15 @@
           <template v-slot:button-content>
            <span>Outras atividades</span> 
           </template>
-          <b-dropdown-item id="drop" to="/outras-atividades/seminarios-pesquisa">Seminários de Pesquisa</b-dropdown-item>
+          <!--<b-dropdown-item id="drop" to="/outras-atividades/seminarios-pesquisa">Seminários de Pesquisa</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/reunioes-conversacao-ingles">Reuniões Conversação em Inglês</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/petplay">PetPlay: prática com jogos em inglês</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/competicoes-programacao">Treinamento para Competições de Programação</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/cientec">Participação na CIENTEC</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/mostra-profissoes">Participação na Mostra de Profissões da UFRN</b-dropdown-item>
           <b-dropdown-item id="drop" to="/outras-atividades/mesa-redonda-ingressantes">Mesa redonda com ingressantes</b-dropdown-item>
-          <b-dropdown-item id="drop" to="/outras-atividades/encontros-grupos-pet">Encontros dos Grupos PET</b-dropdown-item>
+          <b-dropdown-item id="drop" to="/outras-atividades/encontros-grupos-pet">Encontros dos Grupos PET</b-dropdown-item>-->
+          <b-dropdown-item v-for="atividade in atividades" :key="atividade.id" id="drop" :to="`/outras-atividades/${atividade.titulo}`">{{atividade.titulo}}</b-dropdown-item>
           
         </b-nav-item-dropdown>
         <b-nav-item-dropdown id="subtopic" right>
@@ -60,6 +61,49 @@
   </b-navbar>
 </div>
 </template>
+
+<script>
+
+export default {
+  data() {
+    return {
+      atividades: []
+    };
+  },
+  mounted() {
+    this.getAtividades();
+  },
+  methods: {
+    getAtividades() {
+      this.$axios
+        .get("atividades")
+        .then(res => {
+          this.atividades = res.data;
+        })
+        .catch(err => {
+          if (err.response.status === 404) {}
+          else if (err.response.status === 403) {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Verifique se possui a permissão necessária ou se a sessão foi expirada. "
+              + "Caso a sessão tenha sido expirado, tente novamente.",
+              icon: "error"
+            })
+            .then( () => this.$route.push('/login'));
+          } 
+          else {
+            Swal.fire({
+              title: "Houve um problema...",
+              text: "Por favor, tente recarregar a página. Caso não dê certo," + 
+              " tente novamente mais tarde.",
+              icon: "error"
+            })
+          }
+        });
+    },
+  }
+}
+</script>
 
 <style scoped>
 span {
