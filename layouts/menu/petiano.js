@@ -62,6 +62,11 @@ export default {
             ]
         },
         {
+            name: 'Outras atividades',
+            url: '/petiano/outras-atividades',
+            icon: 'icon-badge'
+        },
+        {
             name: 'Pessoas',
             url: '/petiano/pessoas-cadastradas',
             icon: 'icon-people'

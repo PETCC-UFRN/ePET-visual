@@ -62,6 +62,11 @@ export default {
             ]
         },
         {
+            name: 'Outras atividades',
+            url: '/tutor/outras-atividades',
+            icon: 'icon-badge'
+        },
+        {
             name: 'Pessoas',
             url: '/tutor/pessoas-cadastradas',
             icon: 'icon-people'
