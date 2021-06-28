@@ -43,6 +43,10 @@
             striped   
             :per-page="pageSize"
             :fields="fields"
+            no-local-sorting
+            :sort-by.sync="ordenado"
+            :sort-desc.sync="ordem"
+            @sort-changed="ordenarLista"
           >
             <template v-slot:cell(actions)="row">
               <b-button
@@ -93,6 +97,8 @@ export default {
       nomeCodigoDisciplina: false,
       nomemCpfResponsavel: false,
       tutorias: [],
+      ordem: false,
+      ordenado: "disciplina.codigo",
       fields: [
         { key: "disciplina.codigo", sortable: true, label: "Código da disciplina" },
         { key: "disciplina.nome", sortable: true, label: "Disciplina" },
@@ -103,7 +109,14 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      this.$axios.get("tutorias?page=" + (val-1)).then(res => {
+      let ordemaux = ""
+      if(this.ordem == true){
+        ordemaux = "desc"
+      }
+      else{
+        ordemaux = "asc"
+      }
+      this.$axios.get("tutorias?sort="+this.ordenado+","+ordemaux+"&page=" + (val-1)).then(res => {
         this.tutorias = res.data.content;
         this.numElements = res.data.totalElements;
         this.pageSize = res.data.pageable.pageSize;
@@ -114,7 +127,7 @@ export default {
     this.consumindoTutoriasApi();
   },
   methods: {
-        setCurrentPage(val) {
+    setCurrentPage(val) {
       this.currentPage = val;
     },
 
@@ -181,9 +194,23 @@ export default {
             }  
         });
     },
+    ordenarLista(ctx) {
+      let ordemaux = ""
+      if(ctx.sortDesc == true){
+        ordemaux = "desc"
+      }
+      else{
+        ordemaux = "asc"
+      }
+      this.$axios.get("tutorias?sort="+ctx.sortBy+","+ordemaux+"&page=" + (this.currentPage-1)).then(res => {
+        this.tutorias = res.data.content;
+        this.numElements = res.data.totalElements;
+        this.pageSize = res.data.pageable.pageSize;
+      });
+    },
     consumindoTutoriasApi() {
       this.$axios
-        .get("tutorias?page=0")
+        .get("tutorias?sort=disciplina.codigo,asc&page=0")
         .then(res => {
           this.tutorias = res.data.content;
           this.numElements = res.data.totalElements;

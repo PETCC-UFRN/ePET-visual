@@ -44,6 +44,10 @@
               striped
               :per-page="pageSize"
               :fields="fields"
+              no-local-sorting
+              :sort-by.sync="ordenado"
+              :sort-desc.sync="ordem"
+              @sort-changed="ordenarLista"
             >
             </b-table>
             <nav>
@@ -83,10 +87,12 @@ export default {
       tutorias: [],
       currentPage: 1,
       numElements: 1,
+      ordem: false,
+      ordenado: "disciplina.nome",
       pageSize: 20,
       fields: [
         { key: "disciplina.nome", label:"Disciplina", sortable: true, thStyle:"font-size:17px" },
-        { key: "petiano.pessoa.nome", label:"Responsável", thStyle:"font-size:17px" },
+        { key: "petiano.pessoa.nome", label:"Responsável", sortable: true, thStyle:"font-size:17px" },
       ]
     }
   },
@@ -95,7 +101,14 @@ export default {
   },
   watch: {
     currentPage: function(val){
-      this.$axios.get("tutorias?page=" + (val-1)).then(res => {
+      let ordemaux = ""
+      if(this.ordem == true){
+        ordemaux = "desc"
+      }
+      else{
+        ordemaux = "asc"
+      }
+      this.$axios.get("tutorias?sort="+this.ordenado+","+ordemaux+"&page=" + (val-1)).then(res => {
         this.tutorias = res.data.content;
         this.numElements = res.data.totalElements;
         this.pageSize = res.data.pageable.pageSize;
@@ -103,9 +116,23 @@ export default {
     }
   },
   methods: {
+  ordenarLista(ctx) {
+    let ordemaux = ""
+    if(ctx.sortDesc == true){
+      ordemaux = "desc"
+    }
+    else{
+      ordemaux = "asc"
+    }
+    this.$axios.get("tutorias?sort="+ctx.sortBy+","+ordemaux+"&page=" + (this.currentPage-1)).then(res => {
+      this.tutorias = res.data.content;
+      this.numElements = res.data.totalElements;
+      this.pageSize = res.data.pageable.pageSize;
+    });
+  },
   consumindoTutoriasApi() {
       this.$axios
-        .get("tutorias?page=0")
+        .get("tutorias?sort=disciplina.nome,asc&page=0")
         .then(res => {
           this.tutorias = res.data.content;
           this.numElements = res.data.totalElements;
