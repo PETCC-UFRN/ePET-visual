@@ -50,6 +50,11 @@
                 class="btn btn-sm mt-1"
                 variant="secondary"
               ><i class="fa fa-group fa-fw"></i> Participantes</b-button>
+              <b-button
+                :to="`/petiano/eventos-organizados/email/${row.item.evento.idEvento}`"
+                class="btn btn-sm mt-1"
+                variant="primary"
+              ><i class="fa fa-envelope fa-fw"></i> Enviar email</b-button>
               <nuxt-link
                   :to="`/petiano/eventos-organizados/${row.item.idOrganizadores}`"
                   class="btn btn-sm btn-info mt-1"><i class="fa fa-eye fa-fw"></i>
